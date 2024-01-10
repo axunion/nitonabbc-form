@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
-// import InputRadioComponent from "@/components/InputRadioComponent.vue";
+import InputRadioComponent from "@/components/InputRadioComponent.vue";
 import InputTextComponent from "@/components/InputTextComponent.vue";
 import { definition } from "@/data/202502";
 
-const { heading, date, form } = definition;
+const { heading, date, formItems } = definition;
 const postData = ref<{ [key: string]: string }>({});
 const submit = () => {
   console.log(postData.value);
@@ -18,16 +18,23 @@ const submit = () => {
     <div class="date"><span>開催日</span>{{ date }}</div>
 
     <form @submit.prevent="submit">
-      <template v-for="item in form" :key="item.name">
+      <template v-for="formItem in formItems" :key="formItem.name">
         <InputTextComponent
-          v-if="item.type === 'text'"
-          :name="item.name"
-          :label="item.label"
-          :maxlength="item.maxlength"
-          :title="item.title"
-          :pattern="item.pattern"
-          :required="item.required"
-          v-model="postData[item.name]"
+          v-if="formItem.type === 'text'"
+          :label="formItem.label || ''"
+          :name="formItem.name || ''"
+          :maxlength="formItem.maxlength || ''"
+          :title="formItem.title || ''"
+          :pattern="formItem.pattern || ''"
+          :required="formItem.required || false"
+          v-model="postData[formItem.name]"
+        />
+
+        <InputRadioComponent
+          v-else-if="formItem.type === 'radio'"
+          :name="formItem.name || ''"
+          :items="formItem.items || []"
+          v-model="postData[formItem.name]"
         />
       </template>
 
