@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { defineModel } from "vue";
+import { defineModel } from 'vue'
 
 interface Props {
-  items: { label: string; value: string }[];
+  items: { label: string; value: string }[]
 }
 
 withDefaults(defineProps<Props>(), {
-  items: () => [],
-});
+  items: () => []
+})
 
-const model = defineModel();
+const model = defineModel()
 </script>
 
 <template>

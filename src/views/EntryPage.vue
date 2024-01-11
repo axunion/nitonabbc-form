@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import InputRadioComponent from "@/components/InputRadioComponent.vue";
-import InputTextComponent from "@/components/InputTextComponent.vue";
-import { definition, defaultPostData } from "@/data/202502";
+import { ref } from 'vue'
+import InputRadioComponent from '@/components/InputRadioComponent.vue'
+import InputTextComponent from '@/components/InputTextComponent.vue'
+import { definition, defaultPostData } from '@/assets/structure/202502'
 
-const { heading, date, items } = definition;
-const postData = ref<typeof defaultPostData>(defaultPostData);
+const { heading, date, items } = definition
+const postData = ref<typeof defaultPostData>(defaultPostData)
 const submit = () => {
-  console.log(postData.value);
-  return false;
-};
+  console.log(postData.value)
+  return false
+}
 </script>
 
 <template>
@@ -71,7 +71,7 @@ h1 {
 }
 
 .date span::after {
-  content: ":";
+  content: ':';
   margin: 0 0.5em;
 }
 
@@ -84,3 +84,4 @@ form {
   max-width: 400px;
 }
 </style>
+@/assets/data/202502

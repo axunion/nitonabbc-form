@@ -1,19 +1,19 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: "/entry",
-    component: () => import("@/views/EntryPage.vue"),
-  },
-  {
-    path: "/request",
-    component: () => import("@/views/RequestPage.vue"),
-  },
-];
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes,
-});
+  history: createWebHashHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/entry',
+      name: 'entry',
+      component: () => import('@/views/EntryPage.vue')
+    },
+    {
+      path: '/request',
+      name: 'request',
+      component: () => import('@/views/RequestPage.vue')
+    }
+  ]
+})
 
-export default router;
+export default router

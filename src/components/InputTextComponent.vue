@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { defineModel } from "vue";
+import { defineModel } from 'vue'
 
 interface Props {
-  label: string;
-  maxlength?: string;
-  title?: string;
-  pattern?: string;
-  required: boolean;
+  label: string
+  maxlength?: string
+  title?: string
+  pattern?: string
+  required: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  label: "",
-  required: false,
-});
+  label: '',
+  required: false
+})
 
-const model = defineModel();
+const model = defineModel()
 </script>
 
 <template>
