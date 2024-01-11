@@ -38,3 +38,20 @@ a {
   color: inherit;
   text-decoration: inherit;
 }
+
+input,
+optgroup,
+select,
+textarea {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  text-align: inherit;
+}

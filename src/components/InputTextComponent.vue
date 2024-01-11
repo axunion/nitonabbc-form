@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { defineModel } from "vue";
-import { InputTextProps } from "@/types";
+
+interface Props {
+  label: string;
+  maxlength?: string;
+  title?: string;
+  pattern?: string;
+  required: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  label: "",
+  required: false,
+});
 
 const model = defineModel();
-
-defineProps<InputTextProps>();
 </script>
 
 <template>
@@ -12,31 +22,16 @@ defineProps<InputTextProps>();
     <span>{{ label }}</span>
     <input
       type="text"
-      v-model.trim="model"
-      :name="name"
       :maxlength="maxlength"
       :title="title"
       :pattern="pattern"
       :required="required"
+      v-model.trim="model"
     />
   </label>
 </template>
 
 <style scoped>
-input {
-  appearance: none;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  border: 0;
-  color: inherit;
-  font: inherit;
-  margin: 0;
-  outline: 0;
-  padding: 0;
-  text-align: inherit;
-}
-
 label {
   align-items: end;
   border-bottom: var(--color-subtext) solid 1px;

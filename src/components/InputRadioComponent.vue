@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { defineModel } from "vue";
-import { InputRadioProps } from "@/types";
+
+interface Props {
+  items: { label: string; value: string }[];
+}
+
+withDefaults(defineProps<Props>(), {
+  items: () => [],
+});
 
 const model = defineModel();
-
-defineProps<InputRadioProps>();
 </script>
 
 <template>
   <div>
-    <label v-for="(item, index) in items" :key="item.value">
-      <input
-        type="radio"
-        v-model="model"
-        :value="item.value"
-        :checked="index === 0"
-      />
+    <label v-for="item in items" :key="item.value">
+      <input type="radio" :value="item.value" v-model="model" />
       <span>{{ item.label }}</span>
     </label>
   </div>
@@ -40,9 +40,11 @@ label + label {
   border-left: var(--color-subtext) solid 1px;
 }
 
-label > input[type="radio"] {
+label > input {
   opacity: 0;
+  height: 0;
   position: absolute;
+  width: 0;
 }
 
 label > span {

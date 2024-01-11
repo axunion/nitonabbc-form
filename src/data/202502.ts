@@ -1,7 +1,7 @@
 export const definition = {
   heading: "京葉地区青年交わり会参加申込",
   date: "2024年2月25日",
-  formItems: [
+  items: [
     {
       type: "text",
       label: "教会名",
@@ -43,4 +43,12 @@ export const definition = {
       ],
     },
   ],
+};
+
+export const defaultPostData = {
+  church: "",
+  name: "",
+  age: "",
+  gender: "1",
+  status: "1",
 };
