@@ -1,12 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import ButtonComponent from '@/components/ButtonComponent.vue'
 import InputRadioComponent from '@/components/InputRadioComponent.vue'
 import InputTextComponent from '@/components/InputTextComponent.vue'
+import SubmitOverlayComponent from '@/components/SubmitOverlayComponent.vue'
 import { definition, defaultPostData } from '@/assets/structure/202502'
 
 const { heading, date, items } = definition
 const postData = ref<typeof defaultPostData>(defaultPostData)
+const status = ref<'' | 'submitting' | 'submitted' | 'failed'>('')
+
+const isSbmitting = computed(() => status.value === 'submitting')
+const isSubmitDisabled = computed(
+  () => status.value === 'submitting' || status.value === 'submitted'
+)
+
 const submit = () => {
+  status.value = 'submitting'
   console.log(postData.value)
   return false
 }
@@ -36,21 +46,25 @@ const submit = () => {
         />
       </template>
 
-      <button type="submit">送信</button>
+      <div class="submit">
+        <ButtonComponent label="送信" type="filled" :disabled="isSubmitDisabled" />
+      </div>
     </form>
   </main>
+
+  <SubmitOverlayComponent :isActive="isSbmitting" />
 </template>
 
 <style scoped>
 main {
   background: var(--color-background);
-  color: var(--color-text);
   box-sizing: border-box;
+  color: var(--color-text);
   margin: auto;
   max-width: 480px;
   min-height: 100vh;
   min-width: 320px;
-  padding: 2em;
+  padding: 40px;
   position: relative;
   z-index: 0;
 }
@@ -79,9 +93,11 @@ form {
   display: flex;
   flex-direction: column;
   gap: 2em;
-  justify-content: flex-start;
   margin: 3em auto;
   max-width: 400px;
 }
+
+.submit {
+  padding: 1em 0 0;
+}
 </style>
-@/assets/data/202502
