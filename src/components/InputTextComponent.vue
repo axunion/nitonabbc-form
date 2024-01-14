@@ -3,18 +3,24 @@ import { defineModel } from 'vue'
 
 interface Props {
   label: string
+  datalist?: string[]
   maxlength?: string
   title?: string
   pattern?: string
   required: boolean
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   label: '',
   required: false
 })
 
 const model = defineModel()
+let listId: string | undefined
+
+if (props.datalist) {
+  listId = 'id' + Math.random().toString(36).slice(-8)
+}
 </script>
 
 <template>
@@ -26,9 +32,14 @@ const model = defineModel()
       :title="title"
       :pattern="pattern"
       :required="required"
+      :list="listId"
       v-model.trim="model"
     />
   </label>
+
+  <datalist v-if="listId" :id="listId">
+    <option v-for="item in datalist" :key="item" :value="item" />
+  </datalist>
 </template>
 
 <style scoped>

@@ -6,6 +6,7 @@ import InputRadioComponent from '@/components/InputRadioComponent.vue'
 import InputTextComponent from '@/components/InputTextComponent.vue'
 import SubmitOverlayComponent from '@/components/SubmitOverlayComponent.vue'
 import { definition, defaultPostData } from '@/assets/structure/202502'
+import json from '@/assets/datalist/keiyo.json'
 
 const { heading, date, items } = definition
 const postData = ref<typeof defaultPostData>(defaultPostData)
@@ -33,6 +34,7 @@ const submit = () => {
         <InputTextComponent
           v-if="item.type === 'text'"
           :label="item.label"
+          :datalist="json"
           :maxlength="item.maxlength"
           :title="item.title"
           :pattern="item.pattern"
@@ -101,7 +103,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 2em;
-  margin: 3em auto;
+  margin: 2em auto;
   max-width: 400px;
 }
 

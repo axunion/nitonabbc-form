@@ -31,11 +31,12 @@ const model = defineModel()
 <style scoped>
 label {
   align-items: center;
-  border-bottom: var(--color-subtext) solid 1px;
+  border: var(--color-subtext) solid 1px;
+  border-radius: 0.5em;
   cursor: pointer;
   display: flex;
   gap: 1em;
-  padding: 0 0 0.5em;
+  padding: 1em;
 }
 
 input {
@@ -49,13 +50,14 @@ span {
   border: var(--color-subtext) solid 1px;
   border-radius: 4px;
   display: inline-block;
-  height: 2em;
-  width: 2em;
+  height: 1.5em;
+  width: 1.5em;
 }
 
 svg {
   opacity: 0;
   fill: var(--color-primary);
+  height: 100%;
 }
 
 :checked + span > svg {
