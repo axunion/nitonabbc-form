@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
+import InputCheckboxComponent from '@/components/InputCheckboxComponent.vue'
 import InputRadioComponent from '@/components/InputRadioComponent.vue'
 import InputTextComponent from '@/components/InputTextComponent.vue'
 import SubmitOverlayComponent from '@/components/SubmitOverlayComponent.vue'
@@ -42,6 +43,13 @@ const submit = () => {
         <InputRadioComponent
           v-else-if="item.type === 'radio'"
           :items="item.items"
+          v-model="postData[item.name as keyof typeof defaultPostData]"
+        />
+
+        <InputCheckboxComponent
+          v-else-if="item.type === 'checkbox'"
+          :label="item.label"
+          :required="item.required"
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
       </template>

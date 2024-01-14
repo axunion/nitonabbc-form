@@ -39,18 +39,18 @@ label {
   padding: 0.5em 1em;
 }
 
-label > span {
+span {
   color: var(--color-subtext);
   flex: 0 0 25%;
   font-size: 75%;
 }
 
-label > input {
+input {
   font-size: 125%;
   width: 100%;
 }
 
-label > input:disabled {
+input:disabled {
   background: var(--color-subtext);
   color: var(--color-text);
   cursor: default;

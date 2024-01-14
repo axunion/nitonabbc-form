@@ -40,14 +40,14 @@ label + label {
   border-left: var(--color-subtext) solid 1px;
 }
 
-label > input {
-  opacity: 0;
+input {
   height: 0;
+  opacity: 0;
   position: absolute;
   width: 0;
 }
 
-label > span {
+span {
   color: var(--color-subtext);
   display: block;
   padding: 1em;
@@ -55,7 +55,7 @@ label > span {
   text-align: center;
 }
 
-label > :checked + span {
+:checked + span {
   background: var(--color-background);
   color: var(--color-text);
 }
