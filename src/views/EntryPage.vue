@@ -6,7 +6,6 @@ import InputRadioComponent from '@/components/InputRadioComponent.vue'
 import InputTextComponent from '@/components/InputTextComponent.vue'
 import SubmitOverlayComponent from '@/components/SubmitOverlayComponent.vue'
 import { definition, defaultPostData } from '@/assets/structure/202502'
-import json from '@/assets/datalist/keiyo.json'
 
 const { heading, date, items } = definition
 const postData = ref<typeof defaultPostData>(defaultPostData)
@@ -34,7 +33,7 @@ const submit = () => {
         <InputTextComponent
           v-if="item.type === 'text'"
           :label="item.label"
-          :datalist="json"
+          :datalist="item.datalist"
           :maxlength="item.maxlength"
           :title="item.title"
           :pattern="item.pattern"
@@ -44,16 +43,21 @@ const submit = () => {
 
         <InputRadioComponent
           v-else-if="item.type === 'radio'"
-          :items="item.items"
+          :items="item.radioItems"
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
 
-        <InputCheckboxComponent
-          v-else-if="item.type === 'checkbox'"
-          :label="item.label"
-          :required="item.required"
-          v-model="postData[item.name as keyof typeof defaultPostData]"
-        />
+        <template v-else-if="item.type === 'checkbox'">
+          <div class="checkbox">
+            <InputCheckboxComponent
+              v-for="checkboxItem in item.checkboxItems"
+              :key="checkboxItem.name"
+              :label="checkboxItem.label"
+              :required="checkboxItem.required"
+              v-model="postData[checkboxItem.name as keyof typeof defaultPostData]"
+            />
+          </div>
+        </template>
       </template>
 
       <div class="submit">
@@ -105,6 +109,15 @@ form {
   gap: 2em;
   margin: 2em auto;
   max-width: 400px;
+}
+
+.checkbox {
+  border: var(--color-subtext) solid 1px;
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
 }
 
 .submit {

@@ -31,12 +31,9 @@ const model = defineModel()
 <style scoped>
 label {
   align-items: center;
-  border: var(--color-subtext) solid 1px;
-  border-radius: 0.5em;
   cursor: pointer;
   display: flex;
-  gap: 1em;
-  padding: 1em;
+  gap: 0.5em;
 }
 
 input {

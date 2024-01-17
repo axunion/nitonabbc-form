@@ -1,3 +1,5 @@
+import list from '@/assets/datalist/keiyo.json'
+
 export const definition = {
   heading: '京葉地区青年交わり会参加申込',
   date: '2024年2月25日',
@@ -7,6 +9,7 @@ export const definition = {
       name: 'church',
       label: '教会名',
       maxlength: '128',
+      datalist: list,
       required: true
     },
     {
@@ -28,7 +31,7 @@ export const definition = {
     {
       type: 'radio',
       name: 'gender',
-      items: [
+      radioItems: [
         { label: '男性', value: '1' },
         { label: '女性', value: '2' }
       ]
@@ -36,7 +39,7 @@ export const definition = {
     {
       type: 'radio',
       name: 'status',
-      items: [
+      radioItems: [
         { label: '教会員', value: '1' },
         { label: '非教会員', value: '2' },
         { label: '指導者', value: '3' }
@@ -44,8 +47,7 @@ export const definition = {
     },
     {
       type: 'checkbox',
-      name: 'dinner',
-      label: '食事会参加希望'
+      checkboxItems: [{ name: 'dinner', label: '食事会参加希望', required: false }]
     }
   ]
 }

@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const model = defineModel()
-let listId: string | undefined
+let listId: string = ''
 
 if (props.datalist) {
   listId = 'id' + Math.random().toString(36).slice(-8)
