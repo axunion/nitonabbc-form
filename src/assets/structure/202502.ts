@@ -21,7 +21,7 @@ export const definition = {
     },
     {
       type: 'text',
-      name: 'age',
+      name: 'generation',
       label: '年齢',
       maxlength: '2',
       title: '数字2桁を入力してください',
@@ -47,7 +47,8 @@ export const definition = {
     },
     {
       type: 'checkbox',
-      checkboxItems: [{ name: 'dinner', label: '食事会参加希望', required: false }]
+      name: 'dinner',
+      checkboxItems: [{ label: '食事会参加', value: '1', required: false }]
     }
   ]
 }
@@ -55,8 +56,8 @@ export const definition = {
 export const defaultPostData = {
   church: '',
   name: '',
-  age: '',
-  gender: '1',
-  status: '1',
-  dinner: false
+  generation: '',
+  gender: '',
+  status: '',
+  dinner: []
 }

@@ -2,10 +2,12 @@
 import { defineModel } from 'vue'
 
 interface Props {
+  name: string
   items: { label: string; value: string }[]
 }
 
 withDefaults(defineProps<Props>(), {
+  name: '',
   items: () => []
 })
 
@@ -15,7 +17,7 @@ const model = defineModel()
 <template>
   <div>
     <label v-for="item in items" :key="item.value">
-      <input type="radio" :value="item.value" v-model="model" />
+      <input type="radio" :name="name" :value="item.value" required v-model="model" />
       <span>{{ item.label }}</span>
     </label>
   </div>

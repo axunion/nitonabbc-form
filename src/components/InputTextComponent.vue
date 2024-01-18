@@ -2,6 +2,7 @@
 import { defineModel } from 'vue'
 
 interface Props {
+  name: string
   label: string
   datalist?: string[]
   maxlength?: string
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  naem: '',
   label: '',
   required: false
 })
@@ -28,6 +30,7 @@ if (props.datalist) {
     <span>{{ label }}</span>
     <input
       type="text"
+      :name="name"
       :maxlength="maxlength"
       :title="title"
       :pattern="pattern"

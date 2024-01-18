@@ -32,6 +32,7 @@ const submit = () => {
       <template v-for="item in items" :key="item.name">
         <InputTextComponent
           v-if="item.type === 'text'"
+          :name="item.name"
           :label="item.label"
           :datalist="item.datalist"
           :maxlength="item.maxlength"
@@ -43,21 +44,17 @@ const submit = () => {
 
         <InputRadioComponent
           v-else-if="item.type === 'radio'"
+          :name="item.name"
           :items="item.radioItems"
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
 
-        <template v-else-if="item.type === 'checkbox'">
-          <div class="checkbox">
-            <InputCheckboxComponent
-              v-for="checkboxItem in item.checkboxItems"
-              :key="checkboxItem.name"
-              :label="checkboxItem.label"
-              :required="checkboxItem.required"
-              v-model="postData[checkboxItem.name as keyof typeof defaultPostData]"
-            />
-          </div>
-        </template>
+        <InputCheckboxComponent
+          v-else-if="item.type === 'checkbox'"
+          :name="item.name"
+          :items="item.checkboxItems"
+          v-model="postData[item.name as keyof typeof defaultPostData]"
+        />
       </template>
 
       <div class="submit">
@@ -109,15 +106,6 @@ form {
   gap: 2em;
   margin: 2em auto;
   max-width: 400px;
-}
-
-.checkbox {
-  border: var(--color-subtext) solid 1px;
-  border-radius: 0.5em;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  padding: 1em;
 }
 
 .submit {
