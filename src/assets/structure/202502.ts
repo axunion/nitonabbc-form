@@ -10,23 +10,39 @@ export const definition = {
       label: '教会名',
       maxlength: '128',
       datalist: list,
-      required: true
+      required: true,
+      disabled: false
     },
     {
       type: 'text',
       name: 'name',
       label: '氏名',
-      maxlength: '128',
-      required: true
+      maxlength: '64',
+      required: true,
+      disabled: false
     },
     {
       type: 'text',
+      name: 'kana',
+      label: 'ふりがな',
+      maxlength: '64',
+      required: true,
+      disabled: false
+    },
+    {
+      type: 'select',
       name: 'generation',
-      label: '年齢',
-      maxlength: '2',
-      title: '数字2桁を入力してください',
-      pattern: '^[1-9][0-9]?$',
-      required: true
+      label: '世代',
+      required: true,
+      disabled: false,
+      options: [
+        { label: '10代', value: '10' },
+        { label: '20代', value: '20' },
+        { label: '30代', value: '30' },
+        { label: '40代', value: '40' },
+        { label: '50代', value: '50' },
+        { label: '60代', value: '60' }
+      ]
     },
     {
       type: 'radio',
@@ -56,6 +72,7 @@ export const definition = {
 export const defaultPostData = {
   church: '',
   name: '',
+  kana: '',
   generation: '',
   gender: '',
   status: '',

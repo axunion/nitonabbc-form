@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
 import InputCheckboxComponent from '@/components/InputCheckboxComponent.vue'
 import InputRadioComponent from '@/components/InputRadioComponent.vue'
+import InputSelectComponent from '@/components/InputSelectComponent.vue'
 import InputTextComponent from '@/components/InputTextComponent.vue'
 import SubmitOverlayComponent from '@/components/SubmitOverlayComponent.vue'
 import { definition, defaultPostData } from '@/assets/structure/202502'
@@ -36,9 +37,8 @@ const submit = () => {
           :label="item.label"
           :datalist="item.datalist"
           :maxlength="item.maxlength"
-          :title="item.title"
-          :pattern="item.pattern"
           :required="item.required"
+          :disabled="item.disabled"
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
 
@@ -53,6 +53,16 @@ const submit = () => {
           v-else-if="item.type === 'checkbox'"
           :name="item.name"
           :items="item.checkboxItems"
+          v-model="postData[item.name as keyof typeof defaultPostData]"
+        />
+
+        <InputSelectComponent
+          v-else-if="item.type === 'select'"
+          :name="item.name"
+          :label="item.label"
+          :options="item.options"
+          :required="item.required"
+          :disabled="item.disabled"
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
       </template>
@@ -75,7 +85,7 @@ main {
   max-width: 480px;
   min-height: 100vh;
   min-width: 320px;
-  padding: 40px;
+  padding: 2em;
   position: relative;
   z-index: 0;
 }
@@ -109,6 +119,6 @@ form {
 }
 
 .submit {
-  padding: 1em 0 0;
+  padding: 2em 0 0;
 }
 </style>

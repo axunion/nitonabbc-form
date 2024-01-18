@@ -6,15 +6,15 @@ interface Props {
   label: string
   datalist?: string[]
   maxlength?: string
-  title?: string
-  pattern?: string
   required: boolean
+  disabled: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  naem: '',
+  name: '',
   label: '',
-  required: false
+  required: false,
+  disabled: false
 })
 
 const model = defineModel()
@@ -26,41 +26,42 @@ if (props.datalist) {
 </script>
 
 <template>
-  <label>
-    <span>{{ label }}</span>
-    <input
-      type="text"
-      :name="name"
-      :maxlength="maxlength"
-      :title="title"
-      :pattern="pattern"
-      :required="required"
-      :list="listId"
-      v-model.trim="model"
-    />
-  </label>
+  <div>
+    <label>
+      <span>{{ label }}</span>
+      <input
+        type="text"
+        :name="name"
+        :maxlength="maxlength"
+        :required="required"
+        :disabled="disabled"
+        :list="listId"
+        v-model.trim="model"
+      />
+    </label>
 
-  <datalist v-if="listId" :id="listId">
-    <option v-for="item in datalist" :key="item" :value="item" />
-  </datalist>
+    <datalist v-if="listId" :id="listId">
+      <option v-for="item in datalist" :key="item" :value="item" />
+    </datalist>
+  </div>
 </template>
 
 <style scoped>
 label {
-  align-items: end;
   border-bottom: var(--color-subtext) solid 1px;
-  display: flex;
-  padding: 0.5em 1em;
+  display: block;
+  padding: 0.5em;
+  position: relative;
 }
 
 span {
   color: var(--color-subtext);
-  flex: 0 0 25%;
+  display: inline-block;
   font-size: 75%;
+  margin: 0 0 0.5em;
 }
 
 input {
-  font-size: 125%;
   width: 100%;
 }
 
