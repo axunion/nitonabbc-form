@@ -21,22 +21,25 @@ const model = defineModel()
 </script>
 
 <template>
-  <label>
-    <span>{{ label }}</span>
-    <select :name="name" :disabled="disabled" v-model="model">
-      <option value=""></option>
-      <option v-for="item in options" :key="item.value" :value="item.value">
-        {{ item.label }}
-      </option>
-    </select>
-  </label>
+  <div class="container">
+    <div class="input-label">{{ label }}</div>
+
+    <label>
+      <select :name="name" :required="required" :disabled="disabled" v-model="model">
+        <option value=""></option>
+        <option v-for="item in options" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </option>
+      </select>
+    </label>
+  </div>
 </template>
 
 <style scoped>
 label {
   border-bottom: var(--color-subtext) solid 1px;
   display: block;
-  padding: 0.5em;
+  padding: 0 0.5em 0.5em;
   position: relative;
 }
 
@@ -51,13 +54,6 @@ label:after {
   position: absolute;
   right: 1em;
   width: 0;
-}
-
-span {
-  color: var(--color-subtext);
-  display: inline-block;
-  font-size: 75%;
-  margin: 0 0 0.5em;
 }
 
 select {

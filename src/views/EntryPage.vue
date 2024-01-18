@@ -25,10 +25,12 @@ const submit = () => {
 </script>
 
 <template>
-  <main>
+  <header>
     <h1>{{ heading }}</h1>
     <div class="date"><span>開催日</span>{{ date }}</div>
+  </header>
 
+  <main>
     <form @submit.prevent="submit">
       <template v-for="item in items" :key="item.name">
         <InputTextComponent
@@ -45,6 +47,7 @@ const submit = () => {
         <InputRadioComponent
           v-else-if="item.type === 'radio'"
           :name="item.name"
+          :label="item.label"
           :items="item.radioItems"
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
@@ -52,6 +55,7 @@ const submit = () => {
         <InputCheckboxComponent
           v-else-if="item.type === 'checkbox'"
           :name="item.name"
+          :label="item.label"
           :items="item.checkboxItems"
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
@@ -77,31 +81,24 @@ const submit = () => {
 </template>
 
 <style scoped>
-main {
-  background: var(--color-background);
-  box-sizing: border-box;
-  color: var(--color-text);
-  margin: auto;
-  max-width: 480px;
-  min-height: 100vh;
-  min-width: 320px;
-  padding: 2em;
-  position: relative;
-  z-index: 0;
+header {
+  background: var(--color-primary);
+  color: white;
+  padding: 1.5em 1em 1em;
 }
 
 h1 {
   font-size: 125%;
   font-weight: normal;
   letter-spacing: 1px;
-  margin: 1em 0;
+  margin: 0 0 1em;
   text-align: center;
 }
 
 .date {
-  color: var(--color-subtext);
   font-size: 90%;
-  margin: 1em 0;
+  margin: auto;
+  max-width: 480px;
   text-align: right;
 }
 
@@ -110,15 +107,23 @@ h1 {
   margin: 0 0.5em;
 }
 
+main {
+  margin: auto;
+  max-width: 480px;
+  min-height: 100vh;
+  min-width: 320px;
+  padding: 0.5em;
+  position: relative;
+  z-index: 0;
+}
+
 form {
   display: flex;
   flex-direction: column;
-  gap: 2em;
-  margin: 2em auto;
-  max-width: 400px;
+  gap: 0.5em;
 }
 
 .submit {
-  padding: 2em 0 0;
+  padding: 1em 0;
 }
 </style>

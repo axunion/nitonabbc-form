@@ -1,5 +1,5 @@
 :root {
-  --color-background: #e1e6e1;
+  --color-background: #d8dbf0;
   --color-primary: #566df0;
   --color-text: #282928;
   --color-subtext: #7d807d;
@@ -14,7 +14,8 @@
 }
 
 html {
-  background: var(--color-text);
+  background: var(--color-background);
+  color: var(--color-text);
   font:
     100%/1.5 -apple-system,
     BlinkMacSystemFont,

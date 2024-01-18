@@ -26,9 +26,10 @@ if (props.datalist) {
 </script>
 
 <template>
-  <div>
+  <div class="container">
+    <div class="input-label">{{ label }}</div>
+
     <label>
-      <span>{{ label }}</span>
       <input
         type="text"
         :name="name"
@@ -41,7 +42,7 @@ if (props.datalist) {
     </label>
 
     <datalist v-if="listId" :id="listId">
-      <option v-for="item in datalist" :key="item" :value="item" />
+      <option v-for="item in datalist" :key="item" :value="item"></option>
     </datalist>
   </div>
 </template>
@@ -50,15 +51,8 @@ if (props.datalist) {
 label {
   border-bottom: var(--color-subtext) solid 1px;
   display: block;
-  padding: 0.5em;
+  padding: 0 0.5em 0.5em;
   position: relative;
-}
-
-span {
-  color: var(--color-subtext);
-  display: inline-block;
-  font-size: 75%;
-  margin: 0 0 0.5em;
 }
 
 input {

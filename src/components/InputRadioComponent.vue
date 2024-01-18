@@ -3,11 +3,13 @@ import { defineModel } from 'vue'
 
 interface Props {
   name: string
+  label: string
   items: { label: string; value: string }[]
 }
 
 withDefaults(defineProps<Props>(), {
   name: '',
+  label: '',
   items: () => []
 })
 
@@ -15,31 +17,32 @@ const model = defineModel()
 </script>
 
 <template>
-  <div>
-    <label v-for="item in items" :key="item.value">
-      <input type="radio" :name="name" :value="item.value" required v-model="model" />
-      <span>{{ item.label }}</span>
-    </label>
+  <div class="container">
+    <div class="input-label">{{ label }}</div>
+
+    <div class="group">
+      <label v-for="item in items" :key="item.value">
+        <input type="radio" :name="name" :value="item.value" required v-model="model" />
+        <span></span>{{ item.label }}
+      </label>
+    </div>
   </div>
 </template>
 
 <style scoped>
-div {
-  background: #00000020;
-  border: var(--color-subtext) solid 1px;
-  border-radius: 0.5em;
+.group {
   display: flex;
-  overflow: hidden;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  padding: 0.5em 0;
 }
 
 label {
-  color: var(--color-subtext);
+  align-items: center;
   cursor: pointer;
-  flex: 0 1 100%;
-}
-
-label + label {
-  border-left: var(--color-subtext) solid 1px;
+  display: inline-flex;
+  gap: 0.5em;
+  padding: 0 1em 0 0;
 }
 
 input {
@@ -50,15 +53,15 @@ input {
 }
 
 span {
-  color: var(--color-subtext);
-  display: block;
-  padding: 1em;
-  position: relative;
-  text-align: center;
+  border: var(--color-subtext) solid 1px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px white;
+  display: inline-block;
+  height: 1em;
+  width: 1em;
 }
 
 :checked + span {
-  background: var(--color-background);
-  color: var(--color-text);
+  background: var(--color-primary);
 }
 </style>

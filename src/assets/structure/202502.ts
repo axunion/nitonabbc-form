@@ -47,6 +47,7 @@ export const definition = {
     {
       type: 'radio',
       name: 'gender',
+      label: '性別',
       radioItems: [
         { label: '男性', value: '1' },
         { label: '女性', value: '2' }
@@ -55,6 +56,7 @@ export const definition = {
     {
       type: 'radio',
       name: 'status',
+      label: '教会員など',
       radioItems: [
         { label: '教会員', value: '1' },
         { label: '非教会員', value: '2' },
@@ -64,7 +66,8 @@ export const definition = {
     {
       type: 'checkbox',
       name: 'dinner',
-      checkboxItems: [{ label: '食事会参加', value: '1', required: false }]
+      label: '食事会',
+      checkboxItems: [{ label: '参加希望', value: '1', required: false }]
     }
   ]
 }
