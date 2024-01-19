@@ -8,11 +8,10 @@ import ButtonComponent from '@/components/ButtonComponent.vue'
 import SubmitOverlayComponent from '@/components/SubmitOverlayComponent.vue'
 import { definition, defaultPostData } from '@/assets/structure/202502'
 
-const { heading, date, message, link, items } = definition
+const { heading, date, message, link, organizer, items } = definition
 const postData = ref<typeof defaultPostData>(defaultPostData)
 const status = ref<'' | 'submitting' | 'submitted' | 'failed'>('')
 
-const isSbmitting = computed(() => status.value === 'submitting')
 const isSubmitDisabled = computed(
   () => status.value === 'submitting' || status.value === 'submitted'
 )
@@ -20,6 +19,11 @@ const isSubmitDisabled = computed(
 const submit = () => {
   status.value = 'submitting'
   console.log(postData.value)
+
+  setTimeout(() => {
+    status.value = 'submitted'
+  }, 1000)
+
   return false
 }
 </script>
@@ -31,7 +35,7 @@ const submit = () => {
   </header>
 
   <main>
-    <form @submit.prevent="submit">
+    <form v-if="status === ''" @submit.prevent="submit">
       <template v-for="item in items" :key="item.name">
         <TextComponent
           v-if="item.type === 'text'"
@@ -69,18 +73,48 @@ const submit = () => {
         />
       </template>
 
+      <div v-if="message || link" class="message">
+        <p v-if="message" v-text="message"></p>
+        <p v-if="link">
+          詳細は
+          <a :href="link" target="_blank" rel="noopener noreferrer">お知らせ</a>
+          をご確認ください。
+        </p>
+      </div>
+
       <div class="submit">
         <ButtonComponent label="送信" type="filled" :disabled="isSubmitDisabled" />
       </div>
     </form>
+
+    <Transition>
+      <div v-if="status === 'submitted'" class="result">
+        <p>送信が完了しました。<br />ありがとうございました。</p>
+      </div>
+    </Transition>
+
+    <Transition>
+      <div v-if="status === 'failed'" class="result">
+        <p>送信に失敗しました。<br />恐れ入りますが再度お試しください。</p>
+      </div>
+    </Transition>
   </main>
 
-  <SubmitOverlayComponent :isActive="isSbmitting" />
+  <footer>
+    <small>{{ organizer }}</small>
+  </footer>
+
+  <SubmitOverlayComponent :isActive="status === 'submitting'" />
 </template>
 
 <style scoped>
 header {
   padding: 2em 1em 0;
+}
+
+footer {
+  padding: 25vh 0 1em;
+  text-align: center;
 }
 
 h1 {
@@ -100,7 +134,6 @@ h1 {
 main {
   margin: auto;
   max-width: var(--content-max-wieght);
-  min-height: 100vh;
   min-width: 320px;
   padding: 0.5em;
   position: relative;
@@ -113,7 +146,30 @@ form {
   gap: 0.5em;
 }
 
+.message {
+  border: var(--color-primary) solid 1px;
+  border-radius: 0.5em;
+  padding: 0 1.5em;
+}
+
+.result {
+  background: white;
+  border-radius: 0.5em;
+  box-shadow: 0 1px 3px var(--color-subtext);
+  margin: 10vh 1em;
+  padding: 10vh 1.5em;
+  text-align: center;
+}
+
 .submit {
   padding: 1em 0;
+}
+
+.v-enter-active {
+  animation: fade-up-in 0.5s;
+}
+
+.v-leave-active {
+  animation: fade-up-in 0.5s reverse;
 }
 </style>

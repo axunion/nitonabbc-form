@@ -3,6 +3,9 @@ import list from '@/assets/datalist/keiyo.json'
 export const definition = {
   heading: '京葉地区青年交わり会参加申込',
   date: '2024年2月25日',
+  message: '参加費は300円、懇親会に参加される方は別途1500円です。',
+  link: 'https://forms.com/202502',
+  organizer: '仁戸名聖書バプテスト教会',
   items: [
     {
       type: 'text',
@@ -65,9 +68,9 @@ export const definition = {
     },
     {
       type: 'checkbox',
-      name: 'dinner',
-      label: '食事会',
-      checkboxItems: [{ label: '参加希望', value: '1', required: false }]
+      name: 'party',
+      label: '懇親会',
+      checkboxItems: [{ label: '参加', value: '1', required: false }]
     }
   ]
 }
@@ -79,5 +82,5 @@ export const defaultPostData = {
   generation: '',
   gender: '',
   status: '',
-  dinner: []
+  party: []
 }
