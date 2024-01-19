@@ -5,6 +5,7 @@
   --color-subtext: #7d807d;
   --color-accent: #f0566e;
   --color-divider: #4b4d4b;
+  --content-max-wieght: 480px;
 }
 
 ::selection {
@@ -35,9 +36,16 @@ body {
   margin: 0;
 }
 
+p {
+  font-feature-settings: 'palt';
+  letter-spacing: 1px;
+  line-height: 1.6;
+  margin: 1em 0;
+}
+
 a {
-  color: inherit;
-  text-decoration: inherit;
+  color: var(--color-primary);
+  text-decoration: underline;
 }
 
 input,

@@ -58,10 +58,4 @@ label {
 input {
   width: 100%;
 }
-
-input:disabled {
-  background: var(--color-subtext);
-  color: var(--color-text);
-  cursor: default;
-}
 </style>

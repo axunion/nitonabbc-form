@@ -59,10 +59,4 @@ label:after {
 select {
   width: 100%;
 }
-
-select:disabled {
-  background: var(--color-subtext);
-  color: var(--color-text);
-  cursor: default;
-}
 </style>

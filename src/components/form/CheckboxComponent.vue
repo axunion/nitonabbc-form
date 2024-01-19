@@ -29,14 +29,17 @@ const model = defineModel()
           :required="item.required"
           v-model="model"
         />
-        <span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M9.9997 15.1709L19.1921 5.97852L20.6063 7.39273L9.9997 17.9993L3.63574 11.6354L5.04996 10.2212L9.9997 15.1709Z"
-            ></path>
-          </svg>
+
+        <span class="item">
+          <span class="s">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M9.9997 15.1709L19.1921 5.97852L20.6063 7.39273L9.9997 17.9993L3.63574 11.6354L5.04996 10.2212L9.9997 15.1709Z"
+              ></path>
+            </svg>
+          </span>
+          {{ item.label }}
         </span>
-        {{ item.label }}
       </label>
     </div>
   </div>
@@ -51,10 +54,7 @@ const model = defineModel()
 }
 
 label {
-  align-items: center;
   cursor: pointer;
-  display: inline-flex;
-  gap: 0.5em;
   padding: 0 1em 0 0;
 }
 
@@ -65,22 +65,33 @@ input {
   width: 0;
 }
 
-span {
-  border: var(--color-subtext) solid 1px;
+.item {
+  align-items: center;
+  display: flex;
+  gap: 0.25em;
+}
+
+.s {
+  border: var(--color-background) solid 1px;
   border-radius: 4px;
   display: inline-block;
-  height: 1em;
-  width: 1em;
+  height: 0.9em;
+  width: 0.9em;
 }
 
 svg {
+  height: 150%;
+  margin: -25% 0 0 -25%;
   opacity: 0;
-  height: 100%;
   stroke: var(--color-primary);
   vertical-align: top;
 }
 
-:checked + span > svg {
+:checked + .item .s {
+  border-color: transparent;
+}
+
+:checked + .item svg {
   opacity: 1;
 }
 </style>

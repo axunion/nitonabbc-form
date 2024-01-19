@@ -23,7 +23,7 @@ const model = defineModel()
     <div class="group">
       <label v-for="item in items" :key="item.value">
         <input type="radio" :name="name" :value="item.value" required v-model="model" />
-        <span></span>{{ item.label }}
+        <span class="item">{{ item.label }}</span>
       </label>
     </div>
   </div>
@@ -38,10 +38,7 @@ const model = defineModel()
 }
 
 label {
-  align-items: center;
   cursor: pointer;
-  display: inline-flex;
-  gap: 0.5em;
   padding: 0 1em 0 0;
 }
 
@@ -52,16 +49,28 @@ input {
   width: 0;
 }
 
-span {
-  border: var(--color-subtext) solid 1px;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 2px white;
-  display: inline-block;
-  height: 1em;
-  width: 1em;
+.item {
+  align-items: center;
+  color: var(--color-subtext);
+  display: flex;
+  gap: 0.25em;
 }
 
-:checked + span {
+:checked + .item {
+  color: var(--color-text);
+}
+
+.item::before {
+  border: var(--color-subtext) solid 1px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px white;
+  content: '';
+  display: inline-block;
+  height: 0.9em;
+  width: 0.9em;
+}
+
+:checked + .item::before {
   background: var(--color-primary);
 }
 </style>
