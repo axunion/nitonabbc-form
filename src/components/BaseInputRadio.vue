@@ -21,8 +21,16 @@ const model = defineModel()
     <div class="input-label">{{ label }}</div>
 
     <div class="group">
-      <label v-for="item in items" :key="item.value">
-        <input type="radio" :name="name" :value="item.value" required v-model="model" />
+      <label v-for="item in items" :key="item.value" class="label">
+        <input
+          type="radio"
+          class="input"
+          :name="name"
+          :value="item.value"
+          required
+          v-model="model"
+        />
+
         <span class="item">{{ item.label }}</span>
       </label>
     </div>
@@ -37,12 +45,12 @@ const model = defineModel()
   padding: 0.5em 0;
 }
 
-label {
+.label {
   cursor: pointer;
   padding: 0 1em 0 0;
 }
 
-input {
+.input {
   height: 0;
   opacity: 0;
   position: absolute;

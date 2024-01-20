@@ -21,9 +21,10 @@ const model = defineModel()
     <div class="input-label">{{ label }}</div>
 
     <div class="group">
-      <label v-for="item in items" :key="item.value">
+      <label v-for="item in items" :key="item.value" class="label">
         <input
           type="checkbox"
+          class="input"
           :name="name"
           :value="item.value"
           :required="item.required"
@@ -32,7 +33,7 @@ const model = defineModel()
 
         <span class="item">
           <span class="s">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
               <path
                 d="M9.9997 15.1709L19.1921 5.97852L20.6063 7.39273L9.9997 17.9993L3.63574 11.6354L5.04996 10.2212L9.9997 15.1709Z"
               ></path>
@@ -53,12 +54,12 @@ const model = defineModel()
   padding: 0.5em 0;
 }
 
-label {
+.label {
   cursor: pointer;
   padding: 0 1em 0 0;
 }
 
-input {
+.input {
   height: 0;
   opacity: 0;
   position: absolute;
@@ -67,8 +68,13 @@ input {
 
 .item {
   align-items: center;
+  color: var(--color-subtext);
   display: flex;
   gap: 0.25em;
+}
+
+:checked + .item {
+  color: var(--color-text);
 }
 
 .s {
@@ -79,7 +85,7 @@ input {
   width: 0.9em;
 }
 
-svg {
+.svg {
   height: 150%;
   margin: -25% 0 0 -25%;
   opacity: 0;
@@ -91,7 +97,7 @@ svg {
   border-color: transparent;
 }
 
-:checked + .item svg {
+:checked + .item .svg {
   opacity: 1;
 }
 </style>

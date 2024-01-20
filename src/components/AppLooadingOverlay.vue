@@ -9,13 +9,13 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div v-if="isActive">
-    <span>Loading</span>
+  <div v-if="isActive" class="overlay">
+    <span class="loading">Loading</span>
   </div>
 </template>
 
 <style scoped>
-div {
+.overlay {
   align-items: center;
   backdrop-filter: blur(2px);
   background: #ffffff80;
@@ -26,7 +26,7 @@ div {
   z-index: 1111;
 }
 
-span {
+.loading {
   animation: bounce 1s infinite;
   border-radius: 50%;
   font-size: 0;

@@ -24,8 +24,8 @@ const model = defineModel()
   <div class="container">
     <div class="input-label">{{ label }}</div>
 
-    <label>
-      <select :name="name" :required="required" :disabled="disabled" v-model="model">
+    <label class="label">
+      <select class="select" :name="name" :required="required" :disabled="disabled" v-model="model">
         <option value=""></option>
         <option v-for="item in options" :key="item.value" :value="item.value">
           {{ item.label }}
@@ -36,14 +36,14 @@ const model = defineModel()
 </template>
 
 <style scoped>
-label {
+.label {
   border-bottom: var(--color-subtext) solid 1px;
   display: block;
   padding: 0 0.5em 0.5em;
   position: relative;
 }
 
-label:after {
+.label:after {
   border-color: var(--color-subtext) transparent transparent;
   border-style: solid;
   border-width: 5px 5px;
@@ -56,7 +56,7 @@ label:after {
   width: 0;
 }
 
-select {
+.select {
   width: 100%;
 }
 </style>

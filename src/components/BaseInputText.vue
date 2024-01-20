@@ -29,9 +29,10 @@ if (props.datalist) {
   <div class="container">
     <div class="input-label">{{ label }}</div>
 
-    <label>
+    <label class="label">
       <input
         type="text"
+        class="input"
         :name="name"
         :maxlength="maxlength"
         :required="required"
@@ -48,14 +49,14 @@ if (props.datalist) {
 </template>
 
 <style scoped>
-label {
+.label {
   border-bottom: var(--color-subtext) solid 1px;
   display: block;
   padding: 0 0.5em 0.5em;
   position: relative;
 }
 
-input {
+.input {
   width: 100%;
 }
 </style>

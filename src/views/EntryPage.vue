@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import CheckboxComponent from '@/components/form/CheckboxComponent.vue'
-import RadioComponent from '@/components/form/RadioComponent.vue'
-import SelectComponent from '@/components/form/SelectComponent.vue'
-import TextComponent from '@/components/form/TextComponent.vue'
-import ButtonComponent from '@/components/ButtonComponent.vue'
-import SubmitOverlayComponent from '@/components/SubmitOverlayComponent.vue'
+import BaseInputCheckbox from '@/components/BaseInputCheckbox.vue'
+import BaseInputRadio from '@/components/BaseInputRadio.vue'
+import BaseInputSelect from '@/components/BaseInputSelect.vue'
+import BaseInputText from '@/components/BaseInputText.vue'
+import BaseButton from '@/components/BaseButton.vue'
+import AppSubmitOverlay from '@/components/AppSubmitOverlay.vue'
 import { definition, defaultPostData } from '@/assets/structure/202502'
 
 const { heading, date, message, link, organizer, items } = definition
@@ -15,6 +15,8 @@ const status = ref<'' | 'submitting' | 'submitted' | 'failed'>('')
 const isSubmitDisabled = computed(
   () => status.value === 'submitting' || status.value === 'submitted'
 )
+
+const isFinished = computed(() => status.value === 'submitted' || status.value === 'failed')
 
 const submit = () => {
   status.value = 'submitting'
@@ -29,25 +31,36 @@ const submit = () => {
 </script>
 
 <template>
-  <header>
-    <h1>{{ heading }}</h1>
+  <header class="header">
+    <h1 class="h1">{{ heading }}</h1>
     <div v-if="date" class="date">開催日：{{ date }}</div>
   </header>
 
-  <main>
-    <form v-if="status === ''" @submit.prevent="submit">
+  <main class="main">
+    <form v-if="!isFinished" class="form" @submit.prevent="submit">
       <template v-for="item in items" :key="item.name">
-        <TextComponent
+        <BaseInputText
           v-if="item.type === 'text'"
           :name="item.name"
           :label="item.label"
           :datalist="item.datalist"
           :maxlength="item.maxlength"
           :required="item.required"
+          :disabled="item.disabled"
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
 
-        <RadioComponent
+        <BaseInputSelect
+          v-else-if="item.type === 'select'"
+          :name="item.name"
+          :label="item.label"
+          :options="item.options"
+          :required="item.required"
+          :disabled="item.disabled"
+          v-model="postData[item.name as keyof typeof defaultPostData]"
+        />
+
+        <BaseInputRadio
           v-else-if="item.type === 'radio'"
           :name="item.name"
           :label="item.label"
@@ -55,20 +68,11 @@ const submit = () => {
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
 
-        <CheckboxComponent
+        <BaseInputCheckbox
           v-else-if="item.type === 'checkbox'"
           :name="item.name"
           :label="item.label"
           :items="item.checkboxItems"
-          v-model="postData[item.name as keyof typeof defaultPostData]"
-        />
-
-        <SelectComponent
-          v-else-if="item.type === 'select'"
-          :name="item.name"
-          :label="item.label"
-          :options="item.options"
-          :required="item.required"
           v-model="postData[item.name as keyof typeof defaultPostData]"
         />
       </template>
@@ -77,13 +81,13 @@ const submit = () => {
         <p v-if="message" v-text="message"></p>
         <p v-if="link">
           詳細は
-          <a :href="link" target="_blank" rel="noopener noreferrer">お知らせ</a>
+          <a :href="link" target="_blank" rel="noopener noreferrer">ご案内</a>
           をご確認ください。
         </p>
       </div>
 
-      <div class="submit">
-        <ButtonComponent label="送信" type="filled" :disabled="isSubmitDisabled" />
+      <div>
+        <BaseButton type="submit" label="送信" variant="filled" :disabled="isSubmitDisabled" />
       </div>
     </form>
 
@@ -100,24 +104,24 @@ const submit = () => {
     </Transition>
   </main>
 
-  <footer>
+  <footer class="footer">
     <small>{{ organizer }}</small>
   </footer>
 
-  <SubmitOverlayComponent :isActive="status === 'submitting'" />
+  <AppSubmitOverlay :isActive="status === 'submitting'" />
 </template>
 
 <style scoped>
-header {
+.header {
   padding: 2em 1em 0;
 }
 
-footer {
+.footer {
   padding: 25vh 0 1em;
   text-align: center;
 }
 
-h1 {
+.h1 {
   font-size: 125%;
   letter-spacing: 1px;
   margin: 0 0 1em;
@@ -131,25 +135,25 @@ h1 {
   text-align: right;
 }
 
-main {
+.main {
   margin: auto;
   max-width: var(--content-max-wieght);
   min-width: 320px;
-  padding: 0.5em;
+  padding: 1em;
   position: relative;
   z-index: 0;
 }
 
-form {
+.form {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
 }
 
 .message {
-  border: var(--color-primary) solid 1px;
+  border: var(--color-divider) solid 1px;
   border-radius: 0.5em;
-  padding: 0 1.5em;
+  padding: 1em 1.5em;
 }
 
 .result {
@@ -159,10 +163,6 @@ form {
   margin: 10vh 1em;
   padding: 10vh 1.5em;
   text-align: center;
-}
-
-.submit {
-  padding: 1em 0;
 }
 
 .v-enter-active {

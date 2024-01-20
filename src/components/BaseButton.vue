@@ -1,21 +1,23 @@
 <script setup lang="ts">
 interface Props {
+  type: 'submit' | 'reset' | 'button'
   label: string
-  type?: 'outlined' | 'filled'
+  variant?: 'outlined' | 'filled'
   disabled: boolean
 }
 
 withDefaults(defineProps<Props>(), {
+  type: 'button',
   disabled: false
 })
 </script>
 
 <template>
-  <button :class="type" :disabled="disabled">{{ label }}</button>
+  <button class="button" :class="variant" :disabled="disabled">{{ label }}</button>
 </template>
 
 <style scoped>
-button {
+.button {
   appearance: none;
   -webkit-appearance: none;
   background: transparent;
@@ -35,7 +37,7 @@ button {
   width: 100%;
 }
 
-button:disabled {
+.button:disabled {
   color: var(--color-text);
   cursor: not-allowed;
 }
@@ -47,7 +49,7 @@ button:disabled {
 .filled {
   background: var(--color-primary);
   border: var(--color-primary) solid 1px;
-  color: var(--color-background);
+  color: white;
 }
 
 .filled:disabled {
