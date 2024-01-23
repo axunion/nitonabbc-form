@@ -3,6 +3,7 @@ import list from '@/assets/datalist/keiyo.json'
 export const definition = {
   heading: '京葉地区青年交わり会参加申込',
   date: '2024年2月25日',
+  dueDate: '2024/02/18',
   message: '参加費300円、懇親会に参加される方は別途1500円です。',
   link: 'https://forms.com/202502',
   organizer: '仁戸名聖書バプテスト教会',
