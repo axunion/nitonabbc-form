@@ -1,27 +1,33 @@
-interface OptionItem {
+import structure202402 from '@/assets/structure/202402'
+
+const structureList: Record<string, Structure> = {
+  '202402': structure202402
+}
+
+export interface OptionItem {
   label: string
   value: string
 }
 
-interface RadioItem {
+export interface RadioItem {
   label: string
   value: string
 }
 
-interface CheckboxItem {
+export interface CheckboxItem {
   label: string
   value: string
   required: boolean
 }
 
-interface FormItem {
-  type: 'text' | 'select' | 'radio' | 'checkbox'
+export interface FormItem {
+  type: string
   name: string
   label: string
   maxlength?: string
   datalist?: string[]
-  required: boolean
-  disabled: boolean
+  required?: boolean
+  disabled?: boolean
   options?: OptionItem[]
   radioItems?: RadioItem[]
   checkboxItems?: CheckboxItem[]
@@ -46,6 +52,6 @@ export interface Structure {
   defaultPostData: PostData
 }
 
-export const importStructure = async (year: string, month: string): Promise<Structure> => {
-  return await import(`../assets/structure/${year}${month}`)
+export const getStructure = (target: string): Structure | undefined => {
+  return structureList[target]
 }

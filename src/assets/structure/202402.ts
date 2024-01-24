@@ -1,6 +1,6 @@
 import list from '@/assets/datalist/keiyo.json'
 
-export const definition = {
+const definition = {
   heading: '京葉地区青年交わり会参加申込',
   date: '2024年2月25日',
   dueDate: '2024/02/18',
@@ -76,7 +76,7 @@ export const definition = {
   ]
 }
 
-export const defaultPostData = {
+const defaultPostData = {
   church: '',
   name: '',
   kana: '',
@@ -84,4 +84,9 @@ export const defaultPostData = {
   gender: '',
   status: '',
   party: []
+}
+
+export default {
+  definition,
+  defaultPostData
 }

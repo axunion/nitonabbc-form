@@ -8,7 +8,7 @@ import AppSubmitOverlay from '@/components/AppSubmitOverlay.vue'
 
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { importStructure, type Definition, type PostData } from '@/utils/importStructure'
+import { getStructure, type Definition, type PostData } from '@/utils/structure'
 
 type Status = '' | 'submitting' | 'submitted' | 'failed' | 'expired'
 
@@ -35,18 +35,18 @@ const submit = () => {
 }
 
 watch(
-  () => ({ year: route.params.year, month: route.params.month }),
-  async ({ year, month }) => {
-    if (year && month) {
-      try {
-        const structure = await importStructure(year as string, month as string)
+  () => route.params.target,
+  (target) => {
+    if (target && typeof target === 'string') {
+      const structure = getStructure(target)
 
+      if (structure) {
         if (Date.now() > new Date(structure.definition.dueDate).getTime()) {
           status.value = 'expired'
         }
 
         definition.value = structure.definition
-      } catch (error) {
+      } else {
         definition.value = undefined
       }
     }
@@ -155,7 +155,7 @@ watch(
 .h1 {
   font-size: 125%;
   letter-spacing: 1px;
-  margin: 0.5em 0;
+  margin: 0 0 0.5em;
   text-align: center;
 }
 
