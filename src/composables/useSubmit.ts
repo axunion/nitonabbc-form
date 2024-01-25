@@ -1,12 +1,16 @@
 import { ref } from 'vue'
 
-export function useFormSubmit<T>() {
-  const errorMessage = ref<string>('')
+interface PostResponse {
+  status: 'done' | 'error'
+  error: string
+}
 
-  async function submitForm(url: string, formData: T) {
+export function useSubmit<T>() {
+  const result = ref<'' | 'done' | 'error'>('')
+  const error = ref<string>('')
+
+  async function post(url: string, formData: T) {
     try {
-      errorMessage.value = ''
-
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -18,12 +22,19 @@ export function useFormSubmit<T>() {
       if (!response.ok) {
         throw new Error('Form submission failed')
       }
-    } catch (error) {
-      if (error instanceof Error) {
-        errorMessage.value = error.message
+
+      const responseJson: PostResponse = await response.json()
+      result.value = responseJson.status
+
+      if (responseJson.error) {
+        throw new Error(responseJson.error)
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        error.value = e.message
       }
     }
   }
 
-  return { errorMessage, submitForm }
+  return { result, error, post }
 }

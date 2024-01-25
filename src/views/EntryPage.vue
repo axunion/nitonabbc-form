@@ -8,14 +8,17 @@ import AppSubmitOverlay from '@/components/AppSubmitOverlay.vue'
 
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useSubmit } from '@/composables/useSubmit'
 import { getStructure, type Definition, type PostData } from '@/utils/structure'
 
 type Status = '' | 'submitting' | 'submitted' | 'failed' | 'expired'
 
 const route = useRoute()
+const { result, error, post } = useSubmit<PostData>()
 const status = ref<Status>('')
 const definition = ref<Definition>()
 const postData = ref<PostData>({})
+const postUrl = ''
 
 const isSubmitDisabled = computed(
   () => status.value === 'submitting' || status.value === 'submitted'
@@ -23,13 +26,21 @@ const isSubmitDisabled = computed(
 
 const canInput = computed(() => status.value === '' || status.value === 'submitting')
 
-const submit = () => {
+const submit = async () => {
   status.value = 'submitting'
   console.log(postData.value)
 
-  setTimeout(() => {
+  await post(postUrl, postData.value)
+
+  if (result.value === 'done') {
     status.value = 'submitted'
-  }, 1000)
+  } else {
+    status.value = 'failed'
+  }
+
+  if (error.value) {
+    console.error(error.value)
+  }
 
   return false
 }
@@ -46,6 +57,7 @@ watch(
         }
 
         definition.value = structure.definition
+        postData.value = structure.defaultPostData
       } else {
         definition.value = undefined
       }
@@ -135,7 +147,7 @@ watch(
     </main>
 
     <footer class="footer">
-      <small>{{ definition.organizer }}</small>
+      <small>主催：{{ definition.organizer }}</small>
     </footer>
 
     <AppSubmitOverlay :isActive="status === 'submitting'" />
