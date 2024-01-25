@@ -13,3 +13,7 @@
   line-height: 1;
   margin: 0 0 2em;
 }
+
+.grecaptcha-badge {
+  visibility: hidden;
+}

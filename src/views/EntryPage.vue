@@ -18,7 +18,8 @@ const { result, error, post } = useSubmit<PostData>()
 const status = ref<Status>('')
 const definition = ref<Definition>()
 const postData = ref<PostData>({})
-const postUrl = ''
+const postUrl =
+  'https://script.google.com/macros/s/AKfycbz0XpiZXPwg81pRa_0aiNriC61CN78m0hpsbqT3K-Kn9IZ88hphXqLhq_i-BYSYMGPk/exec'
 
 const isSubmitDisabled = computed(
   () => status.value === 'submitting' || status.value === 'submitted'
@@ -28,7 +29,6 @@ const canInput = computed(() => status.value === '' || status.value === 'submitt
 
 const submit = async () => {
   status.value = 'submitting'
-  console.log(postData.value)
 
   await post(postUrl, postData.value)
 
@@ -126,6 +126,12 @@ watch(
 
         <div>
           <BaseButton type="submit" label="送信" variant="filled" :disabled="isSubmitDisabled" />
+
+          <div class="recaptcha">
+            This site is protected by reCAPTCHA and the Google
+            <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+            <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+          </div>
         </div>
       </form>
 
@@ -206,6 +212,12 @@ watch(
   margin: 15vh 1em;
   padding: 10vh 1.5em;
   text-align: center;
+}
+
+.recaptcha {
+  color: var(--color-subtext);
+  font-size: 85%;
+  margin: 0.5em 1em 0;
 }
 
 .v-enter-active {

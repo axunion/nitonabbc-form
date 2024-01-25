@@ -3,7 +3,7 @@ import list from '@/assets/datalist/keiyo.json'
 const definition = {
   heading: '京葉地区青年交わり会参加申込',
   date: '2024年2月25日',
-  dueDate: '2024/02/18',
+  dueDate: '2024-02-18',
   message: '今回の交わり会は参加費不要です。懇親会にご参加される方は1500円が必要となります。',
   link: 'https://info.nitonabbc.org/2024/02/',
   organizer: '仁戸名聖書バプテスト教会',
@@ -77,6 +77,8 @@ const definition = {
 }
 
 const defaultPostData = {
+  type: '202402',
+  recaptcha: '',
   church: '',
   name: '',
   kana: '',
