@@ -6,17 +6,23 @@ declare const grecaptcha: {
 }
 
 interface PostResponse {
-  status: 'done' | 'error'
+  result: 'done' | 'error'
   error: string
 }
 
+type State = '' | 'submitting' | 'submitted' | 'failed'
+
 const siteKey = '6LemGUgpAAAAAHNy3XuUPkWhP2KZXkp1EfmC5lDh'
+const postUrl =
+  'https://script.google.com/macros/s/AKfycbwVrcTOx7j6Joi6ia4Hpe7IDoq_zPIcl-MM-Sd8QFfVGwuTiMtQfD7AmEQ046UYhGxD/exec'
 
 export function useSubmit<T>() {
-  const result = ref<'' | 'done' | 'error'>('')
+  const state = ref<State>('')
   const error = ref<string>('')
 
-  async function post(url: string, formData: T) {
+  async function post(formData: T) {
+    state.value = 'submitting'
+
     try {
       await grecaptcha.ready(async () => {
         formData = {
@@ -24,28 +30,23 @@ export function useSubmit<T>() {
           recaptcha: await grecaptcha.execute(siteKey, { action: 'submit' })
         }
 
-        console.log(formData)
-
-        const response = await fetch(url, {
+        const response = await fetch(postUrl, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json'
-          },
           body: JSON.stringify(formData)
         })
-
-        console.log(response)
 
         if (!response.ok) {
           throw new Error('Form submission failed')
         }
 
-        const responseJson: PostResponse = await response.json()
-        result.value = responseJson.status
+        const responseData: PostResponse = await response.json()
 
-        if (responseJson.error) {
-          throw new Error(responseJson.error)
+        if (responseData.result === 'done') {
+          state.value = 'submitted'
+        } else if (responseData.result === 'error') {
+          state.value = 'failed'
+          console.error(responseData.error)
+          throw new Error(responseData.error)
         }
       })
     } catch (e) {
@@ -55,5 +56,5 @@ export function useSubmit<T>() {
     }
   }
 
-  return { result, error, post }
+  return { state, error, post }
 }

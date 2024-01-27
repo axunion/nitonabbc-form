@@ -11,32 +11,19 @@ import { useRoute } from 'vue-router'
 import { useSubmit } from '@/composables/useSubmit'
 import { getStructure, type Definition, type PostData } from '@/utils/structure'
 
-type Status = '' | 'submitting' | 'submitted' | 'failed' | 'expired'
-
 const route = useRoute()
-const { result, error, post } = useSubmit<PostData>()
-const status = ref<Status>('')
+const { state, error, post } = useSubmit<PostData>()
 const definition = ref<Definition>()
 const postData = ref<PostData>({})
-const postUrl =
-  'https://script.google.com/macros/s/AKfycbz0XpiZXPwg81pRa_0aiNriC61CN78m0hpsbqT3K-Kn9IZ88hphXqLhq_i-BYSYMGPk/exec'
+const isExpired = ref<boolean>(false)
 
-const isSubmitDisabled = computed(
-  () => status.value === 'submitting' || status.value === 'submitted'
+const isShowInput = computed(
+  () => !isExpired.value && (state.value === '' || state.value === 'submitting')
 )
-
-const canInput = computed(() => status.value === '' || status.value === 'submitting')
+const isSubmitDisabled = computed(() => state.value === 'submitting' || state.value === 'submitted')
 
 const submit = async () => {
-  status.value = 'submitting'
-
-  await post(postUrl, postData.value)
-
-  if (result.value === 'done') {
-    status.value = 'submitted'
-  } else {
-    status.value = 'failed'
-  }
+  await post(postData.value)
 
   if (error.value) {
     console.error(error.value)
@@ -52,8 +39,8 @@ watch(
       const structure = getStructure(target)
 
       if (structure) {
-        if (Date.now() > new Date(structure.definition.dueDate).getTime()) {
-          status.value = 'expired'
+        if (new Date() > new Date(structure.definition.dueDate)) {
+          isExpired.value = true
         }
 
         definition.value = structure.definition
@@ -75,7 +62,7 @@ watch(
     </header>
 
     <main class="main">
-      <form v-if="canInput" class="form" @submit.prevent="submit">
+      <form v-if="isShowInput" class="form" @submit.prevent="submit">
         <template v-for="item in definition.items" :key="item.name">
           <BaseInputText
             v-if="item.type === 'text'"
@@ -111,7 +98,7 @@ watch(
             :name="item.name"
             :label="item.label"
             :items="item.checkboxItems"
-            v-model="postData[item.name as keyof PostData]"
+            v-model="postData[item.name]"
           />
         </template>
 
@@ -126,48 +113,43 @@ watch(
 
         <div>
           <BaseButton type="submit" label="送信" variant="filled" :disabled="isSubmitDisabled" />
-
-          <div class="recaptcha">
-            This site is protected by reCAPTCHA and the Google
-            <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-            <a href="https://policies.google.com/terms">Terms of Service</a> apply.
-          </div>
         </div>
       </form>
 
       <Transition>
-        <div v-if="status === 'submitted'" class="note">
+        <div v-if="state === 'submitted'" class="note">
           <p>送信が完了しました。<br />ありがとうございました。</p>
         </div>
       </Transition>
 
       <Transition>
-        <div v-if="status === 'failed'" class="note">
+        <div v-if="state === 'failed'" class="note">
           <p>送信に失敗しました。<br />恐れ入りますが再度お試しください。</p>
         </div>
       </Transition>
 
-      <div v-if="status === 'expired'" class="note">
-        <p>この申し込みは終了しています。</p>
+      <div v-if="isExpired" class="note">
+        <p>この申込は終了しています。</p>
       </div>
     </main>
 
     <footer class="footer">
-      <small>主催：{{ definition.organizer }}</small>
+      <div>主催：{{ definition.organizer }}</div>
+
+      <div class="recaptcha">
+        This site is protected by reCAPTCHA and the Google
+        <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+        <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+      </div>
     </footer>
 
-    <AppSubmitOverlay :isActive="status === 'submitting'" />
+    <AppSubmitOverlay :isActive="state === 'submitting'" />
   </template>
 </template>
 
 <style scoped>
 .header {
   padding: 2em 1em 0;
-}
-
-.footer {
-  padding: 15vh 0 1em;
-  text-align: center;
 }
 
 .h1 {
@@ -187,7 +169,6 @@ watch(
 .main {
   margin: auto;
   max-width: var(--content-max-wieght);
-  min-width: 320px;
   padding: 1em;
   position: relative;
   z-index: 0;
@@ -209,15 +190,20 @@ watch(
   background: white;
   border-radius: 0.5em;
   box-shadow: 0 1px 3px gray;
-  margin: 15vh 1em;
+  margin: 10vh 1em;
   padding: 10vh 1.5em;
+  text-align: center;
+}
+
+.footer {
+  padding: 25vh 0 1em;
+  font-size: 85%;
   text-align: center;
 }
 
 .recaptcha {
   color: var(--color-subtext);
-  font-size: 85%;
-  margin: 0.5em 1em 0;
+  margin: 1em 0 0;
 }
 
 .v-enter-active {

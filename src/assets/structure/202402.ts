@@ -40,12 +40,12 @@ const definition = {
       required: true,
       disabled: false,
       options: [
-        { label: '10代', value: '10' },
-        { label: '20代', value: '20' },
-        { label: '30代', value: '30' },
-        { label: '40代', value: '40' },
-        { label: '50代', value: '50' },
-        { label: '60代', value: '60' }
+        { label: '10代', value: '10代' },
+        { label: '20代', value: '20代' },
+        { label: '30代', value: '30代' },
+        { label: '40代', value: '40代' },
+        { label: '50代', value: '50代' },
+        { label: '60代', value: '60代' }
       ]
     },
     {
@@ -53,8 +53,8 @@ const definition = {
       name: 'gender',
       label: '性別',
       radioItems: [
-        { label: '男性', value: '1' },
-        { label: '女性', value: '2' }
+        { label: '男性', value: '男性' },
+        { label: '女性', value: '女性' }
       ]
     },
     {
@@ -62,16 +62,16 @@ const definition = {
       name: 'status',
       label: '教会員など',
       radioItems: [
-        { label: '教会員', value: '1' },
-        { label: '非教会員', value: '2' },
-        { label: '指導者', value: '3' }
+        { label: '教会員', value: '教会員' },
+        { label: '非教会員', value: '非教会員' },
+        { label: '指導者', value: '指導者' }
       ]
     },
     {
       type: 'checkbox',
       name: 'party',
       label: '懇親会',
-      checkboxItems: [{ label: '参加', value: '1', required: false }]
+      checkboxItems: [{ label: '参加', value: '参加', required: false }]
     }
   ]
 }
