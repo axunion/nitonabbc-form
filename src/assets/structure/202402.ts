@@ -1,7 +1,7 @@
 import list from '@/assets/datalist/keiyo.json'
 
 const definition = {
-  heading: '京葉地区青年交わり会参加申込',
+  heading: '京葉地区合同青年会参加申込',
   date: '2024年2月25日',
   dueDate: '2024-02-18',
   message: '今回の交わり会は参加費不要です。懇親会にご参加される方は1500円が必要となります。',

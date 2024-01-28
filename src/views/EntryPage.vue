@@ -45,6 +45,7 @@ watch(
 
         definition.value = structure.definition
         postData.value = structure.defaultPostData
+        document.title = structure.definition.heading || ''
       } else {
         definition.value = undefined
       }
