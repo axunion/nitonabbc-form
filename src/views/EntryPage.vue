@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { useSubmit } from '@/composables/useSubmit'
+import { getStructure, type Definition, type PostData } from '@/utils/structure'
+
 import BaseInputCheckbox from '@/components/BaseInputCheckbox.vue'
 import BaseInputRadio from '@/components/BaseInputRadio.vue'
 import BaseInputSelect from '@/components/BaseInputSelect.vue'
 import BaseInputText from '@/components/BaseInputText.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import AppRecaptcha from '@/components/AppRecaptcha.vue'
 import AppSubmitOverlay from '@/components/AppSubmitOverlay.vue'
-
-import { ref, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { useSubmit } from '@/composables/useSubmit'
-import { getStructure, type Definition, type PostData } from '@/utils/structure'
 
 const route = useRoute()
 const { state, error, post } = useSubmit<PostData>()
@@ -136,12 +137,7 @@ watch(
 
     <footer class="footer">
       <div>主催：{{ definition.organizer }}</div>
-
-      <div class="recaptcha">
-        This site is protected by reCAPTCHA and the Google
-        <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-        <a href="https://policies.google.com/terms">Terms of Service</a> apply.
-      </div>
+      <AppRecaptcha></AppRecaptcha>
     </footer>
 
     <AppSubmitOverlay :isActive="state === 'submitting'" />
@@ -197,14 +193,9 @@ watch(
 }
 
 .footer {
-  padding: 25vh 0 1em;
+  padding: 20vh 0 0;
   font-size: 85%;
   text-align: center;
-}
-
-.recaptcha {
-  color: var(--color-subtext);
-  margin: 1em 0 0;
 }
 
 .v-enter-active {
