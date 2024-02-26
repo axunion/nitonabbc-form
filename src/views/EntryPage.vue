@@ -9,6 +9,7 @@ import BaseInputRadio from '@/components/BaseInputRadio.vue'
 import BaseInputSelect from '@/components/BaseInputSelect.vue'
 import BaseInputText from '@/components/BaseInputText.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import AppClose from '@/components/AppClose.vue'
 import AppRecaptcha from '@/components/AppRecaptcha.vue'
 import AppSubmitOverlay from '@/components/AppSubmitOverlay.vue'
 
@@ -131,6 +132,7 @@ watch(
       </Transition>
 
       <div v-if="isExpired" class="note">
+        <AppClose></AppClose>
         <p>この申込は終了しています。</p>
       </div>
     </main>
@@ -193,8 +195,8 @@ watch(
 }
 
 .footer {
-  padding: 20vh 0 0;
   font-size: 85%;
+  margin: 15vh 0 0;
   text-align: center;
 }
 
