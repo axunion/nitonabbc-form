@@ -1,9 +1,9 @@
 <script setup lang="ts">
-interface Props {
-  type: 'submit' | 'reset' | 'button'
+type Props = {
+  type?: 'submit' | 'reset' | 'button'
   label: string
   variant?: 'outlined' | 'filled'
-  disabled: boolean
+  disabled?: boolean
 }
 
 withDefaults(defineProps<Props>(), {

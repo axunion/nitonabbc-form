@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import BaseInputText from '@/components/BaseInputText.vue'
-import BaseButton from '@/components/BaseButton.vue'
+import AppButton from '@/components/AppButton.vue'
+import AppInputText from '@/components/AppInputText.vue'
 import OverlayLoading from '@/components/OverlayLoading.vue'
 
 const postData = ref<{ church: string }>({ church: '' })
@@ -23,10 +23,10 @@ const submit = () => {
 <template>
   <main class="main">
     <form v-if="!isFinished" class="form" @submit.prevent="submit">
-      <BaseInputText label="教会名" maxlength="64" :required="true" v-model="postData['church']" />
+      <AppInputText label="教会名" maxlength="64" :required="true" v-model="postData['church']" />
 
       <div>
-        <BaseButton type="submit" label="確認" variant="filled" :disabled="isSubmitDisabled" />
+        <AppButton type="submit" label="確認" variant="filled" :disabled="isSubmitDisabled" />
       </div>
     </form>
   </main>

@@ -16,12 +16,10 @@ const route = useRoute()
 const { state, error, post } = useSubmit<PostData>()
 const definition = ref<Definition>()
 const postData = ref<PostData>({})
-const isExpired = ref<boolean>(false)
+const isExpired = ref(false)
 
-const isShowInput = computed(
-  () => !isExpired.value && (state.value === '' || state.value === 'submitting')
-)
-const isSubmitDisabled = computed(() => state.value === 'submitting' || state.value === 'submitted')
+const isShowInput = computed(() => !isExpired.value && ['', 'submitting'].includes(state.value))
+const isSubmitDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
 
 const submit = async () => {
   await post(postData.value)
@@ -29,8 +27,6 @@ const submit = async () => {
   if (error.value) {
     console.error(error.value)
   }
-
-  return false
 }
 
 watch(

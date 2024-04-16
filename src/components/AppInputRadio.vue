@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineModel } from 'vue'
 
-interface Props {
+type Props = {
   name: string
   label: string
   items: { label: string; value: string }[]
