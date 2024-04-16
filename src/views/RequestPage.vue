@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import BaseInputText from '@/components/BaseInputText.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import AppLooadingOverlay from '@/components/AppLooadingOverlay.vue'
+import OverlayLoading from '@/components/OverlayLoading.vue'
 
 const postData = ref<{ church: string }>({ church: '' })
 const status = ref<'' | 'submitting' | 'submitted' | 'failed'>('')
@@ -31,7 +31,7 @@ const submit = () => {
     </form>
   </main>
 
-  <AppLooadingOverlay :isActive="status === 'submitting'" />
+  <OverlayLoading :isActive="status === 'submitting'" />
 </template>
 
 <style scoped>

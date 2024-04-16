@@ -2,16 +2,15 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSubmit } from '@/composables/useSubmit'
-import { getStructure, type Definition, type PostData } from '@/utils/structure'
-
-import BaseInputCheckbox from '@/components/BaseInputCheckbox.vue'
-import BaseInputRadio from '@/components/BaseInputRadio.vue'
-import BaseInputSelect from '@/components/BaseInputSelect.vue'
-import BaseInputText from '@/components/BaseInputText.vue'
-import BaseButton from '@/components/BaseButton.vue'
-import AppClose from '@/components/AppClose.vue'
-import AppRecaptcha from '@/components/AppRecaptcha.vue'
-import AppSubmitOverlay from '@/components/AppSubmitOverlay.vue'
+import AppButton from '@/components/AppButton.vue'
+import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
+import AppInputRadio from '@/components/AppInputRadio.vue'
+import AppInputSelect from '@/components/AppInputSelect.vue'
+import AppInputText from '@/components/AppInputText.vue'
+import IconClose from '@/components/IconClose.vue'
+import OverlaySubmit from '@/components/OverlaySubmit.vue'
+import RecaptchaText from '@/components/RecaptchaText.vue'
+import { type Definition, type PostData, getStructure } from '@/utils/structure'
 
 const route = useRoute()
 const { state, error, post } = useSubmit<PostData>()
@@ -67,7 +66,7 @@ watch(
     <main class="main">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
         <template v-for="item in definition.items" :key="item.name">
-          <BaseInputText
+          <AppInputText
             v-if="item.type === 'text'"
             :name="item.name"
             :label="item.label"
@@ -78,7 +77,7 @@ watch(
             v-model="postData[item.name]"
           />
 
-          <BaseInputSelect
+          <AppInputSelect
             v-else-if="item.type === 'select'"
             :name="item.name"
             :label="item.label"
@@ -88,7 +87,7 @@ watch(
             v-model="postData[item.name]"
           />
 
-          <BaseInputRadio
+          <AppInputRadio
             v-else-if="item.type === 'radio'"
             :name="item.name"
             :label="item.label"
@@ -96,7 +95,7 @@ watch(
             v-model="postData[item.name]"
           />
 
-          <BaseInputCheckbox
+          <AppInputCheckbox
             v-else-if="item.type === 'checkbox'"
             :name="item.name"
             :label="item.label"
@@ -115,7 +114,7 @@ watch(
         </div>
 
         <div>
-          <BaseButton type="submit" label="送信" variant="filled" :disabled="isSubmitDisabled" />
+          <AppButton type="submit" label="送信" variant="filled" :disabled="isSubmitDisabled" />
         </div>
       </form>
 
@@ -132,17 +131,17 @@ watch(
       </Transition>
 
       <div v-if="isExpired" class="note">
-        <AppClose></AppClose>
+        <IconClose />
         <p>この申込は終了しています。</p>
       </div>
     </main>
 
     <footer class="footer">
       <div>主催：{{ definition.organizer }}</div>
-      <AppRecaptcha></AppRecaptcha>
+      <RecaptchaText />
     </footer>
 
-    <AppSubmitOverlay :isActive="state === 'submitting'" />
+    <OverlaySubmit :isActive="state === 'submitting'" />
   </template>
 </template>
 
