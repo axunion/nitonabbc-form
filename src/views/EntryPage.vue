@@ -16,7 +16,7 @@ const route = useRoute()
 const { state, error, post } = useSubmit<PostData>()
 const definition = ref<Definition>()
 const postData = ref<PostData>({})
-const isExpired = ref(false)
+const isExpired = ref(true)
 
 const isShowInput = computed(() => !isExpired.value && ['', 'submitting'].includes(state.value))
 const isSubmitDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
