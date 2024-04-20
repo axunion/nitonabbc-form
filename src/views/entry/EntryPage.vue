@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { useSubmit } from '@/composables/useSubmit'
+import { ref, computed } from 'vue'
+import datalist from '@/assets/datalist/keiyo.json'
 import AppButton from '@/components/AppButton.vue'
 import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
 import AppInputRadio from '@/components/AppInputRadio.vue'
@@ -10,15 +9,25 @@ import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
 import OverlaySubmit from '@/components/OverlaySubmit.vue'
 import RecaptchaText from '@/components/RecaptchaText.vue'
-import { type Definition, type PostData, getStructure } from '@/utils/structure'
+import { type PostData, useSubmit } from '@/composables/useSubmit'
 
-const route = useRoute()
-const { state, error, post } = useSubmit<PostData>()
-const definition = ref<Definition>()
-const postData = ref<PostData>({})
-const isExpired = ref(true)
+const { state, error, post } = useSubmit()
+const dueDate = new Date('2024-02-19')
+const now = new Date()
+const isExpired = ref(now > dueDate)
+const postData = ref<PostData>({
+  type: '202402',
+  recaptcha: '',
+  church: '',
+  name: '',
+  kana: '',
+  generation: '',
+  gender: '',
+  status: '',
+  party: []
+})
 
-const isShowInput = computed(() => !isExpired.value && ['', 'submitting'].includes(state.value))
+const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
 const isSubmitDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
 
 const submit = async () => {
@@ -28,83 +37,96 @@ const submit = async () => {
     console.error(error.value)
   }
 }
-
-watch(
-  () => route.params.target,
-  (target) => {
-    if (target && typeof target === 'string') {
-      const structure = getStructure(target)
-
-      if (structure) {
-        if (new Date() > new Date(structure.definition.dueDate)) {
-          isExpired.value = true
-        }
-
-        definition.value = structure.definition
-        postData.value = structure.defaultPostData
-        document.title = structure.definition.heading || ''
-      } else {
-        definition.value = undefined
-      }
-    }
-  },
-  { immediate: true }
-)
 </script>
 
 <template>
-  <template v-if="definition">
-    <header class="header">
-      <h1 class="h1">{{ definition.heading }}</h1>
-      <div v-if="definition.date" class="date">開催日：{{ definition.date }}</div>
-    </header>
+  <header class="header">
+    <h1 class="h1">京葉地区合同青年会参加申込</h1>
+    <div class="date">開催日：2024年2月25日</div>
+  </header>
 
-    <main class="main">
+  <main class="main">
+    <template v-if="!isExpired">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
-        <template v-for="item in definition.items" :key="item.name">
-          <AppInputText
-            v-if="item.type === 'text'"
-            :name="item.name"
-            :label="item.label"
-            :datalist="item.datalist"
-            :maxlength="item.maxlength"
-            :required="item.required"
-            :disabled="item.disabled"
-            v-model="postData[item.name]"
-          />
+        <AppInputText
+          name="church"
+          label="教会名"
+          maxlength="128"
+          :required="true"
+          :disabled="false"
+          :datalist="datalist"
+          v-model="postData.church"
+        />
 
-          <AppInputSelect
-            v-else-if="item.type === 'select'"
-            :name="item.name"
-            :label="item.label"
-            :options="item.options"
-            :required="item.required"
-            :disabled="item.disabled"
-            v-model="postData[item.name]"
-          />
+        <AppInputText
+          name="name"
+          label="氏名"
+          maxlength="64"
+          :required="true"
+          :disabled="false"
+          v-model="postData.name"
+        />
 
-          <AppInputRadio
-            v-else-if="item.type === 'radio'"
-            :name="item.name"
-            :label="item.label"
-            :items="item.radioItems"
-            v-model="postData[item.name]"
-          />
+        <AppInputText
+          name="kana"
+          label="ふりがな"
+          maxlength="64"
+          :required="true"
+          :disabled="false"
+          v-model="postData.kana"
+        />
 
-          <AppInputCheckbox
-            v-else-if="item.type === 'checkbox'"
-            :name="item.name"
-            :label="item.label"
-            :items="item.checkboxItems"
-            v-model="postData[item.name]"
-          />
-        </template>
+        <AppInputSelect
+          name="generation"
+          label="世代"
+          :required="true"
+          :disabled="false"
+          :options="[
+            { label: '10代', value: '10代' },
+            { label: '20代', value: '20代' },
+            { label: '30代', value: '30代' },
+            { label: '40代', value: '40代' },
+            { label: '50代', value: '50代' },
+            { label: '60代', value: '60代' }
+          ]"
+          v-model="postData.generation"
+        />
 
-        <div v-if="definition.message || definition.link" class="message">
-          <p v-if="definition.message" v-text="definition.message"></p>
-          <p v-if="definition.link">
+        <AppInputRadio
+          name="gender"
+          label="性別"
+          :items="[
+            { label: '男性', value: '男性' },
+            { label: '女性', value: '女性' }
+          ]"
+          v-model="postData.gender"
+        />
+
+        <AppInputRadio
+          name="status"
+          label="教会員など"
+          :items="[
+            { label: '教会員', value: '教会員' },
+            { label: '非教会員', value: '非教会員' },
+            { label: '指導者', value: '指導者' }
+          ]"
+          v-model="postData.status"
+        />
+
+        <AppInputCheckbox
+          name="party"
+          label="懇親会"
+          :items="[{ label: '参加', value: '参加', required: false }]"
+          v-model="postData.party"
+        />
+
+        <div class="message">
+          <p>今回の交わり会は参加費不要です。懇親会にご参加される方は1500円が必要となります。</p>
+          <p>
             詳細は
-            <a :href="definition.link" target="_blank" rel="noopener noreferrer">ご案内</a>
+            <a href="https://info.nitonabbc.org/2024/02/" target="_blank" rel="noopener noreferrer">
+              ご案内
+            </a>
             をご確認ください。
           </p>
         </div>
@@ -125,20 +147,22 @@ watch(
           <p>送信に失敗しました。<br />恐れ入りますが再度お試しください。</p>
         </div>
       </Transition>
+    </template>
 
+    <template v-else>
       <div v-if="isExpired" class="note">
         <IconClose />
         <p>この申込は終了しています。</p>
       </div>
-    </main>
+    </template>
+  </main>
 
-    <footer class="footer">
-      <div>主催：{{ definition.organizer }}</div>
-      <RecaptchaText />
-    </footer>
+  <footer class="footer">
+    <div>主催：仁戸名聖書バプテスト教会</div>
+    <RecaptchaText />
+  </footer>
 
-    <OverlaySubmit :isActive="state === 'submitting'" />
-  </template>
+  <OverlaySubmit :isActive="state === 'submitting'" />
 </template>
 
 <style scoped>

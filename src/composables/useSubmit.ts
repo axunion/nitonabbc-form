@@ -1,7 +1,12 @@
 import { ref } from 'vue'
 
-type State = '' | 'submitting' | 'submitted' | 'failed'
-type PostResponse = {
+export type State = '' | 'submitting' | 'submitted' | 'failed'
+
+export type PostData = {
+  [key: string]: string | string[]
+}
+
+export type PostResponse = {
   result: 'done' | 'error'
   error: string
 }
@@ -10,11 +15,11 @@ const siteKey = '6LemGUgpAAAAAHNy3XuUPkWhP2KZXkp1EfmC5lDh'
 const postUrl =
   'https://script.google.com/macros/s/AKfycbwVrcTOx7j6Joi6ia4Hpe7IDoq_zPIcl-MM-Sd8QFfVGwuTiMtQfD7AmEQ046UYhGxD/exec'
 
-export const useSubmit = <T>() => {
+export const useSubmit = () => {
   const state = ref<State>('')
   const error = ref('')
 
-  const post = async (formData: T) => {
+  const post = async (formData: PostData) => {
     state.value = 'submitting'
 
     try {
