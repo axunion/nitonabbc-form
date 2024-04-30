@@ -6,13 +6,13 @@ export type PostData = {
   [key: string]: string | string[]
 }
 
-export type PostResponse = {
+export type ResponseData = {
   result: 'done' | 'error'
   error: string
 }
 
-const siteKey = '6LemGUgpAAAAAHNy3XuUPkWhP2KZXkp1EfmC5lDh'
-const postUrl =
+const SITE_KEY = '6LemGUgpAAAAAHNy3XuUPkWhP2KZXkp1EfmC5lDh'
+const POST_URL =
   'https://script.google.com/macros/s/AKfycbwVrcTOx7j6Joi6ia4Hpe7IDoq_zPIcl-MM-Sd8QFfVGwuTiMtQfD7AmEQ046UYhGxD/exec'
 
 export const useSubmit = () => {
@@ -26,10 +26,10 @@ export const useSubmit = () => {
       grecaptcha.ready(async () => {
         const postData = {
           ...formData,
-          recaptcha: await grecaptcha.execute(siteKey, { action: 'submit' })
+          recaptcha: await grecaptcha.execute(SITE_KEY, { action: 'submit' })
         }
 
-        const response = await fetch(postUrl, {
+        const response = await fetch(POST_URL, {
           method: 'POST',
           body: JSON.stringify(postData)
         })
@@ -38,7 +38,7 @@ export const useSubmit = () => {
           throw new Error('Form submission failed')
         }
 
-        const responseData: PostResponse = await response.json()
+        const responseData: ResponseData = await response.json()
 
         if (responseData.result === 'done') {
           state.value = 'submitted'

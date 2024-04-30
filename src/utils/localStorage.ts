@@ -1,6 +1,6 @@
-type Data = Record<string, unknown>
+type StorageData = Record<string, unknown>
 
-export const loadData = (key: string): Data | null => {
+export const loadData = (key: string): StorageData | null => {
   try {
     const value = localStorage.getItem(key)
     const data = value ? JSON.parse(value) : null
@@ -15,7 +15,7 @@ export const loadData = (key: string): Data | null => {
   return null
 }
 
-export const saveData = (key: string, data: Data): void => {
+export const saveData = (key: string, data: StorageData): void => {
   try {
     localStorage.setItem(key, JSON.stringify(data))
   } catch (error) {

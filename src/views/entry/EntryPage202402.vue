@@ -28,7 +28,7 @@ const postData = ref<PostData>({
 })
 
 const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
-const isSubmitDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
+const isDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
 
 const submit = async () => {
   await post(postData.value)
@@ -132,7 +132,7 @@ const submit = async () => {
         </div>
 
         <div>
-          <AppButton type="submit" label="送信" variant="filled" :disabled="isSubmitDisabled" />
+          <AppButton type="submit" label="送信" variant="filled" :disabled="isDisabled" />
         </div>
       </form>
 
