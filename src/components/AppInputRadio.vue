@@ -8,8 +8,6 @@ type Props = {
 }
 
 withDefaults(defineProps<Props>(), {
-  name: '',
-  label: '',
   items: () => []
 })
 

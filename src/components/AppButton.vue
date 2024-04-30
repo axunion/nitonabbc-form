@@ -1,13 +1,14 @@
 <script setup lang="ts">
 type Props = {
-  type?: 'submit' | 'reset' | 'button'
+  type?: 'button' | 'submit' | 'reset'
   label: string
-  variant?: 'outlined' | 'filled'
+  variant?: '' | 'outlined' | 'filled'
   disabled?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
   type: 'button',
+  variant: '',
   disabled: false
 })
 </script>

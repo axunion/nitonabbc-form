@@ -5,14 +5,11 @@ type Props = {
   name: string
   label: string
   options: { label: string; value: string }[]
-  required: boolean
-  disabled: boolean
+  required?: boolean
+  disabled?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  name: '',
-  label: '',
-  options: () => [],
   required: false,
   disabled: false
 })

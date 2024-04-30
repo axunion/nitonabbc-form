@@ -4,15 +4,13 @@ import { defineModel } from 'vue'
 type Props = {
   name: string
   label: string
-  datalist?: string[]
+  required?: boolean
+  disabled?: boolean
   maxlength?: string
-  required: boolean
-  disabled: boolean
+  datalist?: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  name: '',
-  label: '',
   required: false,
   disabled: false
 })
@@ -21,7 +19,7 @@ const model = defineModel()
 let listId: string = ''
 
 if (props.datalist) {
-  listId = 'id' + Math.random().toString(36).slice(-8)
+  listId = 'l' + Math.random().toString(36).slice(-8)
 }
 </script>
 
