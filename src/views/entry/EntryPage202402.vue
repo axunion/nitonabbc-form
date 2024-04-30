@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import datalist from '@/assets/datalist/keiyo.json'
 import AppButton from '@/components/AppButton.vue'
 import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
 import AppInputRadio from '@/components/AppInputRadio.vue'
@@ -10,8 +9,10 @@ import IconClose from '@/components/IconClose.vue'
 import OverlaySubmit from '@/components/OverlaySubmit.vue'
 import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
+import { keiyo } from '@/constants/keiyo'
 
 const { state, error, post } = useSubmit()
+const datalist = keiyo.map((item) => item.label)
 const dueDate = new Date('2024-02-19')
 const now = new Date()
 const isExpired = ref(now > dueDate)
