@@ -16,11 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const model = defineModel()
-let listId: string = ''
-
-if (props.datalist) {
-  listId = 'l' + Math.random().toString(36).slice(-8)
-}
+let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
 </script>
 
 <template>
@@ -29,8 +25,8 @@ if (props.datalist) {
 
     <label class="label">
       <input
-        type="text"
         class="input"
+        type="text"
         :name="name"
         :maxlength="maxlength"
         :required="required"

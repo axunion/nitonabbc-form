@@ -19,10 +19,10 @@ const model = defineModel()
     <div class="input-label">{{ label }}</div>
 
     <div class="group">
-      <label v-for="item in items" :key="item.value" class="label">
+      <label class="label" v-for="item in items" :key="item.value">
         <input
-          type="radio"
           class="input"
+          type="radio"
           :name="name"
           :value="item.value"
           required

@@ -41,7 +41,7 @@
 
 <style scoped>
 .svg {
-  fill: var(--color-text);
+  fill: currentColor;
   height: 4em;
 }
 </style>
