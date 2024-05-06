@@ -1,37 +1,36 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import AppButton from '@/components/AppButton.vue'
-import AppInputText from '@/components/AppInputText.vue'
 import OverlayLoading from '@/components/OverlayLoading.vue'
+import { japaneseSyllabary } from '@/constants/japaneseSyllabary'
 
-const postData = ref<{ church: string }>({ church: '' })
-const status = ref<'' | 'submitting' | 'submitted' | 'failed'>('')
+const status = ref<'' | 'loading' | 'loaded' | 'failed'>('')
+const isFinished = computed(() => status.value === 'loaded' || status.value === 'failed')
 
-const isSubmitDisabled = computed(
-  () => status.value === 'submitting' || status.value === 'submitted'
-)
-
-const isFinished = computed(() => status.value === 'submitted' || status.value === 'failed')
-
-const submit = () => {
-  status.value = 'submitting'
-  console.log(postData.value)
+const load = (initial: string) => {
+  status.value = 'loading'
+  console.log(initial)
   return false
 }
 </script>
 
 <template>
   <main class="main">
-    <form v-if="!isFinished" class="form" @submit.prevent="submit">
-      <AppInputText label="教会名" maxlength="64" :required="true" v-model="postData['church']" />
-
-      <div>
-        <AppButton type="submit" label="確認" variant="filled" :disabled="isSubmitDisabled" />
+    <form class="form" v-if="!isFinished">
+      <div class="row" v-for="(characters, index) in japaneseSyllabary" :key="index">
+        <div class="column" v-for="character in characters" :key="character">
+          <AppButton
+            type="button"
+            :label="character"
+            variant="outlined"
+            @click.prevent="load(character)"
+          />
+        </div>
       </div>
     </form>
   </main>
 
-  <OverlayLoading :isActive="status === 'submitting'" />
+  <OverlayLoading :isActive="status === 'loading'" />
 </template>
 
 <style scoped>
@@ -44,10 +43,22 @@ const submit = () => {
   z-index: 0;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  margin: 25vh auto 0;
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.column {
+  overflow: hidden;
+}
+
+.row:nth-child(odd) > .column {
+  background: #f2f2f2;
+}
+
+.row:nth-child(even) > .column {
+  background: #e0e0e0;
 }
 </style>
