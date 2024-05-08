@@ -16,18 +16,13 @@ const load = (initial: string) => {
 
 <template>
   <main class="main">
-    <form class="form" v-if="!isFinished">
+    <section class="select" v-if="!isFinished">
       <div class="row" v-for="(characters, index) in japaneseSyllabary" :key="index">
-        <div class="column" v-for="character in characters" :key="character">
-          <AppButton
-            type="button"
-            :label="character"
-            variant="outlined"
-            @click.prevent="load(character)"
-          />
+        <div class="character" v-for="character in characters" :key="character">
+          <AppButton type="button" :label="character" @click.prevent="load(character)" />
         </div>
       </div>
-    </form>
+    </section>
   </main>
 
   <OverlayLoading :isActive="status === 'loading'" />
@@ -38,27 +33,70 @@ const load = (initial: string) => {
   margin: auto;
   max-width: var(--content-max-wieght);
   min-width: 320px;
-  padding: 1em;
   position: relative;
   z-index: 0;
+}
+
+.select {
+  align-content: center;
+  box-sizing: border-box;
+  display: grid;
+  gap: 12px;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 .row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
-  margin: 12px 0;
+  width: 100%;
 }
 
-.column {
-  overflow: hidden;
+.character {
+  border-radius: 8px;
+  color: white;
+  font-size: 24px;
+  height: 48px;
 }
 
-.row:nth-child(odd) > .column {
-  background: #f2f2f2;
+.row:nth-child(10n + 1) > .character {
+  background: dodgerblue;
 }
 
-.row:nth-child(even) > .column {
-  background: #e0e0e0;
+.row:nth-child(10n + 2) > .character {
+  background: tomato;
+}
+
+.row:nth-child(10n + 3) > .character {
+  background: limegreen;
+}
+
+.row:nth-child(10n + 4) > .character {
+  background: orchid;
+}
+
+.row:nth-child(10n + 5) > .character {
+  background: aqua;
+}
+
+.row:nth-child(10n + 6) > .character {
+  background: coral;
+}
+
+.row:nth-child(10n + 7) > .character {
+  background: lightsteelblue;
+}
+
+.row:nth-child(10n + 8) > .character {
+  background: khaki;
+}
+
+.row:nth-child(10n + 9) > .character {
+  background: lightgreen;
+}
+
+.row:nth-child(10n + 10) > .character {
+  background: sandybrown;
 }
 </style>
