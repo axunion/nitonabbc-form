@@ -132,7 +132,7 @@ const submit = async () => {
           </p>
         </div>
 
-        <div>
+        <div class="submit">
           <AppButton type="submit" label="送信" variant="filled" :disabled="isDisabled" />
         </div>
       </form>
@@ -202,7 +202,12 @@ const submit = async () => {
 .message {
   border: var(--color-divider) solid 1px;
   border-radius: 0.5em;
+  margin: 0.5em 0;
   padding: 1em 1.5em;
+}
+
+.submit {
+  height: 4em;
 }
 
 .note {

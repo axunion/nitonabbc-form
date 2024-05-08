@@ -28,7 +28,7 @@ withDefaults(defineProps<Props>(), {
   color: inherit;
   cursor: pointer;
   font: inherit;
-  height: 4em;
+  height: 100%;
   letter-spacing: 0.1em;
   margin: 0;
   outline: 0;
