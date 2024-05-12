@@ -14,8 +14,15 @@ const isInitial = computed(() => character.value === '')
 const nameList = computed(() => keiyo.filter((i) => i.initial === character.value) || [])
 
 const selectcharacter = (initial: string) => {
-  character.value = 'loaded'
-  console.log(initial)
+  character.value = initial
+}
+
+const clearCharacter = () => {
+  character.value = ''
+}
+
+const selectName = (name: string) => {
+  console.log(name)
 }
 </script>
 
@@ -27,25 +34,25 @@ const selectcharacter = (initial: string) => {
 
         <div class="row" v-for="(characters, index) in japaneseSyllabary" :key="index">
           <div class="character" v-for="character in characters" :key="character">
-            <AppButton
-              type="button"
-              :label="character"
-              @click.prevent="selectcharacter(character)"
-            />
+            <AppButton :label="character" @click.prevent="selectcharacter(character)" />
           </div>
         </div>
       </section>
 
       <section class="section" v-else>
+        <div class="back-character">
+          <AppButton label="戻る" variant="filled" @click="clearCharacter" />
+        </div>
+
         <ul class="name-list">
           <li class="name-list-item" v-for="{ label } in nameList" :key="label">
-            <AppButton type="button" :label="label" variant="outlined" />
+            <AppButton :label="label" variant="outlined" @click="selectName(label)" />
           </li>
         </ul>
       </section>
     </div>
 
-    <div>
+    <div v-else>
       <section class="section" v-if="list.length">
         <h1 class="h1">申し込み済み一覧</h1>
       </section>
@@ -137,13 +144,18 @@ const selectcharacter = (initial: string) => {
   background: sandybrown;
 }
 
+.back-character {
+  height: 3em;
+  width: 80px;
+}
+
 .name-list {
   list-style: none;
   padding: 0;
 }
 
 .name-list-item {
-  height: 2em;
+  height: 2.5em;
   margin: 0.5em 0;
 }
 </style>
