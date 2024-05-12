@@ -3,31 +3,53 @@ import { ref, computed } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import OverlayLoading from '@/components/OverlayLoading.vue'
 import { japaneseSyllabary } from '@/constants/japaneseSyllabary'
+import { keiyo } from '@/constants/keiyo'
 
 const status = ref<'' | 'loading' | 'loaded' | 'failed'>('')
-const isFinished = computed(() => ['loaded', 'failed'].includes(status.value))
+const character = ref<string>('')
+const list = ref<string[]>([])
 
-const load = (initial: string) => {
-  status.value = 'loaded'
+const isFinished = computed(() => ['loaded', 'failed'].includes(status.value))
+const isInitial = computed(() => character.value === '')
+const nameList = computed(() => keiyo.filter((i) => i.initial === character.value) || [])
+
+const selectcharacter = (initial: string) => {
+  character.value = 'loaded'
   console.log(initial)
 }
 </script>
 
 <template>
   <main class="main">
-    <section class="section" v-if="!isFinished">
-      <h1 class="h1">教会名の最初の文字を選択してください</h1>
+    <div v-if="!isFinished">
+      <section class="section" v-if="isInitial">
+        <h1 class="h1">教会名の最初の文字を選択してください</h1>
 
-      <div class="row" v-for="(characters, index) in japaneseSyllabary" :key="index">
-        <div class="character" v-for="character in characters" :key="character">
-          <AppButton type="button" :label="character" @click.prevent="load(character)" />
+        <div class="row" v-for="(characters, index) in japaneseSyllabary" :key="index">
+          <div class="character" v-for="character in characters" :key="character">
+            <AppButton
+              type="button"
+              :label="character"
+              @click.prevent="selectcharacter(character)"
+            />
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section" v-if="isFinished">
-      <h1 class="h1">申し込み済み一覧</h1>
-    </section>
+      <section class="section" v-else>
+        <ul class="name-list">
+          <li class="name-list-item" v-for="{ label } in nameList" :key="label">
+            <AppButton type="button" :label="label" variant="outlined" />
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <div>
+      <section class="section" v-if="list.length">
+        <h1 class="h1">申し込み済み一覧</h1>
+      </section>
+    </div>
   </main>
 
   <OverlayLoading :isActive="status === 'loading'" />
@@ -113,5 +135,15 @@ const load = (initial: string) => {
 
 .row:nth-of-type(10n + 10) > .character {
   background: sandybrown;
+}
+
+.name-list {
+  list-style: none;
+  padding: 0;
+}
+
+.name-list-item {
+  height: 2em;
+  margin: 0.5em 0;
 }
 </style>
