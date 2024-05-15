@@ -6,18 +6,25 @@ defineEmits(['selectCharacter'])
 </script>
 
 <template>
-  <div class="row" v-for="(characters, index) in japaneseSyllabary" :key="index">
-    <div class="character" v-for="character in characters" :key="character">
-      <AppButton :label="character" @click.prevent="$emit('selectCharacter', character)" />
+  <div class="japanese-syllabary">
+    <div class="row" v-for="(characters, index) in japaneseSyllabary" :key="index">
+      <div class="character" v-for="character in characters" :key="character">
+        <AppButton :label="character" @click.prevent="$emit('selectCharacter', character)" />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.japanese-syllabary {
+  display: grid;
+  gap: 10px;
+}
+
 .row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
+  gap: 5px;
   width: 100%;
 }
 

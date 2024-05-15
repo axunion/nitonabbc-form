@@ -7,10 +7,13 @@ import { keiyo } from '@/constants/keiyo'
 
 const status = ref<'' | 'loading' | 'loaded' | 'failed'>('')
 const character = ref<string>('')
-const list = ref<string[]>([])
+const applicants = ref<string[]>([])
 
-const isFinished = computed(() => ['loaded', 'failed'].includes(status.value))
 const isInitial = computed(() => character.value === '')
+const hasCharacter = computed(() => character.value !== '')
+const isLoading = computed(() => status.value === 'loading')
+const isLoaded = computed(() => status.value === 'loaded')
+const isFailed = computed(() => status.value === 'failed')
 const nameList = computed(() => keiyo.filter((i) => i.initial === character.value) || [])
 
 const selectcharacter = (initial: string) => {
@@ -24,17 +27,25 @@ const clearCharacter = () => {
 const selectName = (name: string) => {
   console.log(name)
 }
+
+const clearApplicants = () => {
+  applicants.value = []
+}
+
+const selectApplicant = (applicant: string) => {
+  console.log(applicant)
+}
 </script>
 
 <template>
   <main class="main">
-    <div v-if="!isFinished">
+    <Transition mode="out-in">
       <section class="section" v-if="isInitial">
         <h1 class="h1">教会名の最初の文字を選択してください</h1>
         <JapaneseSyllabary @select-character="selectcharacter" />
       </section>
 
-      <section class="section" v-else>
+      <section class="section" v-else-if="hasCharacter">
         <div class="back-character">
           <AppButton label="戻る" variant="filled" @click="clearCharacter" />
         </div>
@@ -45,16 +56,26 @@ const selectName = (name: string) => {
           </li>
         </ul>
       </section>
-    </div>
 
-    <div v-else>
-      <section class="section" v-if="list.length">
-        <h1 class="h1">申し込み済み一覧</h1>
+      <section class="section" v-else-if="isLoaded || isFailed">
+        <div class="back-character">
+          <AppButton label="戻る" variant="filled" @click="clearApplicants" />
+        </div>
+
+        <p v-if="isFailed">データの取得に失敗しました</p>
+
+        <p v-else-if="applicants.length === 0">申し込みがありません</p>
+
+        <ul class="applicant-list" v-else>
+          <li class="applicant-list-item" v-for="applicant in applicants" :key="applicant">
+            <AppButton :label="applicant" variant="outlined" @click="selectApplicant(applicant)" />
+          </li>
+        </ul>
       </section>
-    </div>
+    </Transition>
   </main>
 
-  <OverlayLoading :isActive="status === 'loading'" />
+  <OverlayLoading :isActive="isLoading" />
 </template>
 
 <style scoped>
@@ -65,13 +86,17 @@ const selectName = (name: string) => {
   z-index: 0;
 }
 
+.v-enter-active {
+  transition: 0.2s ease-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 .section {
-  align-content: center;
-  box-sizing: border-box;
-  display: grid;
-  gap: 12px;
-  min-height: 100vh;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 .h1 {
@@ -80,7 +105,7 @@ const selectName = (name: string) => {
   color: white;
   font-size: inherit;
   font-weight: bolder;
-  margin: 0;
+  margin: 0 0 20px;
   padding: 1em 0;
   text-align: center;
 }
@@ -92,11 +117,12 @@ const selectName = (name: string) => {
 
 .name-list {
   list-style: none;
+  margin: 20px 0 0;
   padding: 0;
 }
 
 .name-list-item {
-  height: 2.5em;
-  margin: 0.5em 0;
+  height: 40px;
+  margin: 10px 0;
 }
 </style>
