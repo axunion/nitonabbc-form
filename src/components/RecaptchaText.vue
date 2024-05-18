@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useSubmit } from '@/composables/useSubmit'
+
+const { recaptchaReady, appendRecaptcha } = useSubmit()
+
+onMounted(async () => {
+  try {
+    await appendRecaptcha()
+    recaptchaReady.value = true
+  } catch (error) {
+    console.error('Failed to load reCAPTCHA script:', error)
+  }
+})
+</script>
+
 <template>
   <div class="recaptcha">
     This site is protected by reCAPTCHA and the Google

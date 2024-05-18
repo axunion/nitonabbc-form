@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
 import AppInputRadio from '@/components/AppInputRadio.vue'

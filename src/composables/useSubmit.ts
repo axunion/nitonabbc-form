@@ -11,19 +11,45 @@ export type ResponseData = {
   error: string
 }
 
+const RECAPTCHA_URL = 'https://www.google.com/recaptcha/api.js'
 const SITE_KEY = '6LemGUgpAAAAAHNy3XuUPkWhP2KZXkp1EfmC5lDh'
 const POST_URL =
   'https://script.google.com/macros/s/AKfycbwVrcTOx7j6Joi6ia4Hpe7IDoq_zPIcl-MM-Sd8QFfVGwuTiMtQfD7AmEQ046UYhGxD/exec'
 
 export const useSubmit = () => {
+  const recaptchaReady = ref(false)
   const state = ref<State>('')
   const error = ref('')
 
+  const appendRecaptcha = (): Promise<void> => {
+    const ID = 'recaptcha-script'
+
+    return new Promise((resolve, reject): void => {
+      if (document.getElementById(ID)) {
+        resolve()
+        return
+      }
+
+      const script = document.createElement('script')
+      script.id = ID
+      script.src = `${RECAPTCHA_URL}?render=${SITE_KEY}`
+      script.async = true
+      script.defer = true
+      script.onload = () => resolve()
+      script.onerror = () => reject(new Error('Failed to load reCAPTCHA script'))
+      document.head.appendChild(script)
+    })
+  }
+
   const post = async (formData: PostData) => {
+    if (!recaptchaReady.value) {
+      throw new Error('reCAPTCHA is not ready')
+    }
+
     state.value = 'submitting'
 
     try {
-      grecaptcha.ready(async () => {
+      window.grecaptcha.ready(async () => {
         const postData = {
           ...formData,
           recaptcha: await grecaptcha.execute(SITE_KEY, { action: 'submit' })
@@ -54,5 +80,5 @@ export const useSubmit = () => {
     }
   }
 
-  return { state, error, post }
+  return { recaptchaReady, state, error, appendRecaptcha, post }
 }
