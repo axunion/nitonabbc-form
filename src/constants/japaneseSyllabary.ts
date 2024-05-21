@@ -1,4 +1,4 @@
-export const japaneseSyllabary = [
+export const JAPANESE_SYLLABARY = [
   ['あ', 'い', 'う', 'え', 'お'],
   ['か', 'き', 'く', 'け', 'こ'],
   ['さ', 'し', 'す', 'せ', 'そ'],

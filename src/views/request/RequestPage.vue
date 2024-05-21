@@ -3,18 +3,18 @@ import { ref, computed } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import JapaneseSyllabary from '@/components/JapaneseSyllabary.vue'
 import OverlayLoading from '@/components/OverlayLoading.vue'
-import { keiyo } from '@/constants/keiyo'
+import { KEIYO } from '@/constants/keiyo'
 
 const status = ref<'' | 'loading' | 'loaded' | 'failed'>('')
 const character = ref<string>('')
 const applicants = ref<string[]>([])
 
-const isInitial = computed(() => character.value === '')
-const hasCharacter = computed(() => character.value !== '')
+const isInitial = computed(() => status.value === '' && character.value === '')
+const hasCharacter = computed(() => status.value === '' && character.value !== '')
 const isLoading = computed(() => status.value === 'loading')
 const isLoaded = computed(() => status.value === 'loaded')
 const isFailed = computed(() => status.value === 'failed')
-const nameList = computed(() => keiyo.filter((i) => i.initial === character.value) || [])
+const nameList = computed(() => KEIYO.filter((i) => i.initial === character.value) || [])
 
 const selectcharacter = (initial: string) => {
   character.value = initial
@@ -26,10 +26,12 @@ const clearCharacter = () => {
 
 const selectName = (name: string) => {
   console.log(name)
+  status.value = 'loaded'
 }
 
 const clearApplicants = () => {
   applicants.value = []
+  status.value = ''
 }
 
 const selectApplicant = (applicant: string) => {
@@ -96,16 +98,16 @@ const selectApplicant = (applicant: string) => {
 }
 
 .section {
-  padding: 40px 20px;
+  padding: 20px;
 }
 
 .h1 {
   background: var(--color-subtext);
-  border-radius: 4px;
+  border-radius: 2em;
   color: white;
   font-size: inherit;
   font-weight: bolder;
-  margin: 0 0 20px;
+  margin: 20px 0 30px;
   padding: 1em 0;
   text-align: center;
 }

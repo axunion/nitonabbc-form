@@ -1,4 +1,4 @@
-export const keiyo = [
+export const KEIYO = [
   { label: '稲毛聖書バプテスト教会', initial: 'い' },
   { label: '市原聖書バプテスト教会', initial: 'い' },
   { label: '浦和聖書バプテスト教会', initial: 'う' },

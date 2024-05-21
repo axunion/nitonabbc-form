@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import AppButton from '@/components/AppButton.vue'
-import { japaneseSyllabary } from '@/constants/japaneseSyllabary'
+import { JAPANESE_SYLLABARY } from '@/constants/japaneseSyllabary'
 
 defineEmits(['selectCharacter'])
 </script>
 
 <template>
   <div class="japanese-syllabary">
-    <div class="row" v-for="(characters, index) in japaneseSyllabary" :key="index">
+    <div class="row" v-for="(characters, index) in JAPANESE_SYLLABARY" :key="index">
       <div class="character" v-for="character in characters" :key="character">
         <AppButton :label="character" @click.prevent="$emit('selectCharacter', character)" />
       </div>

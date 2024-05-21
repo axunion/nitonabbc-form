@@ -9,10 +9,10 @@ import IconClose from '@/components/IconClose.vue'
 import OverlaySubmit from '@/components/OverlaySubmit.vue'
 import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
-import { keiyo } from '@/constants/keiyo'
+import { KEIYO } from '@/constants/keiyo'
 
 const { state, error, post } = useSubmit()
-const datalist = keiyo.map((item) => item.label)
+const datalist = KEIYO.map((item) => item.label)
 const dueDate = new Date('2024-02-19')
 const now = new Date()
 const isExpired = ref(now > dueDate)
