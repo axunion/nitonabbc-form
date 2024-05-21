@@ -2,12 +2,11 @@
 import { onMounted } from 'vue'
 import { useSubmit } from '@/composables/useSubmit'
 
-const { recaptchaReady, appendRecaptcha } = useSubmit()
+const { appendRecaptcha } = useSubmit()
 
 onMounted(async () => {
   try {
     await appendRecaptcha()
-    recaptchaReady.value = true
   } catch (error) {
     console.error('Failed to load reCAPTCHA script:', error)
   }

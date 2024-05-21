@@ -30,14 +30,19 @@ export const useSubmit = () => {
         return
       }
 
-      const script = document.createElement('script')
-      script.id = ID
-      script.src = `${RECAPTCHA_URL}?render=${SITE_KEY}`
-      script.async = true
-      script.defer = true
-      script.onload = () => resolve()
-      script.onerror = () => reject(new Error('Failed to load reCAPTCHA script'))
-      document.head.appendChild(script)
+      const s = document.createElement('script')
+
+      s.id = ID
+      s.src = `${RECAPTCHA_URL}?render=${SITE_KEY}`
+      s.async = true
+      s.defer = true
+      s.onerror = () => reject(new Error('Failed to load reCAPTCHA script'))
+      s.onload = () => {
+        recaptchaReady.value = true
+        resolve()
+      }
+
+      document.head.appendChild(s)
     })
   }
 
