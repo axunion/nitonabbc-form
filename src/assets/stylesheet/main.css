@@ -1,7 +1,11 @@
 @import './base.css';
 @import './keyframes.css';
 
-.container {
+.grecaptcha-badge {
+  visibility: hidden;
+}
+
+.input-box {
   background: white;
   border-radius: 4px;
   box-shadow: 0 1px 2px gray;
@@ -14,6 +18,11 @@
   margin: 0 0 2em;
 }
 
-.grecaptcha-badge {
-  visibility: hidden;
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px gray;
+  margin: 10vh 0;
+  padding: 10vh 20px;
+  text-align: center;
 }

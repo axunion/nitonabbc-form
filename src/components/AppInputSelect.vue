@@ -18,7 +18,7 @@ const model = defineModel()
 </script>
 
 <template>
-  <div class="container">
+  <div class="input-box">
     <div class="input-label">{{ label }}</div>
 
     <label class="label">

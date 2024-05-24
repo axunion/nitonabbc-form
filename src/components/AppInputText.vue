@@ -20,7 +20,7 @@ let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
 </script>
 
 <template>
-  <div class="container">
+  <div class="input-box">
     <div class="input-label">{{ label }}</div>
 
     <label class="label">

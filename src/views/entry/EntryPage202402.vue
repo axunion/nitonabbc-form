@@ -138,20 +138,20 @@ const submit = async () => {
       </form>
 
       <Transition>
-        <div v-if="state === 'submitted'" class="note">
+        <div v-if="state === 'submitted'" class="card">
           <p>送信が完了しました。<br />ありがとうございました。</p>
         </div>
       </Transition>
 
       <Transition>
-        <div v-if="state === 'failed'" class="note">
+        <div v-if="state === 'failed'" class="card">
           <p>送信に失敗しました。<br />恐れ入りますが再度お試しください。</p>
         </div>
       </Transition>
     </template>
 
     <template v-else>
-      <div v-if="isExpired" class="note">
+      <div v-if="isExpired" class="card">
         <IconClose class="icon-close" />
         <p>この申込は終了しています。</p>
       </div>
@@ -208,15 +208,6 @@ const submit = async () => {
 
 .submit {
   height: 4em;
-}
-
-.note {
-  background: white;
-  border-radius: 0.5em;
-  box-shadow: 0 1px 3px gray;
-  margin: 10vh 1em;
-  padding: 10vh 1.5em;
-  text-align: center;
 }
 
 .icon-close {

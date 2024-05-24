@@ -10,12 +10,12 @@ const status = ref<'' | 'loading' | 'loaded' | 'failed'>('')
 const character = ref<string>('')
 const applicants = ref<string[]>([])
 
+const churches = computed(() => KEIYO.filter((i) => i.initial === character.value) || [])
 const isInitial = computed(() => status.value === '' && character.value === '')
 const hasCharacter = computed(() => status.value === '' && character.value !== '')
 const isLoading = computed(() => status.value === 'loading')
 const isLoaded = computed(() => status.value === 'loaded')
 const isFailed = computed(() => status.value === 'failed')
-const nameList = computed(() => KEIYO.filter((i) => i.initial === character.value) || [])
 
 const selectcharacter = (initial: string) => {
   character.value = initial
@@ -43,20 +43,20 @@ const selectApplicant = (applicant: string) => {
 <template>
   <main class="main">
     <Transition mode="out-in">
-      <section class="section" v-if="isInitial">
+      <section v-if="isInitial" class="section">
         <h1 class="h1">教会名の最初の文字を選択してください</h1>
         <JapaneseSyllabary @select-character="selectcharacter" />
       </section>
 
-      <section class="section" v-else-if="hasCharacter">
-        <div class="back-character">
+      <section v-else-if="hasCharacter" class="section">
+        <div class="back-button">
           <AppButton variant="filled" @click="clearCharacter">
             <IconArrowLeft class="icon-arrow-left" />
           </AppButton>
         </div>
 
         <ul class="name-list">
-          <li class="name-list-item" v-for="{ label } in nameList" :key="label">
+          <li v-for="{ label } in churches" :key="label" class="name-list-item">
             <AppButton variant="outlined" @click="selectName(label)">
               {{ label }}
             </AppButton>
@@ -64,19 +64,23 @@ const selectApplicant = (applicant: string) => {
         </ul>
       </section>
 
-      <section class="section" v-else-if="isLoaded || isFailed">
-        <div class="back-character">
+      <section v-else-if="isLoaded || isFailed" class="section">
+        <div class="back-button">
           <AppButton variant="filled" @click="clearApplicants">
             <IconArrowLeft class="icon-arrow-left" />
           </AppButton>
         </div>
 
-        <p v-if="isFailed">データの取得に失敗しました</p>
+        <div v-if="isFailed" class="card">
+          <p>データの取得に失敗しました</p>
+        </div>
 
-        <p v-else-if="applicants.length === 0">申し込みがありません</p>
+        <div v-else-if="applicants.length === 0" class="card">
+          <p>申し込みがありません</p>
+        </div>
 
-        <ul class="applicant-list" v-else>
-          <li class="applicant-list-item" v-for="applicant in applicants" :key="applicant">
+        <ul v-else class="name-list">
+          <li v-for="applicant in applicants" :key="applicant" class="name-list-item">
             <AppButton variant="outlined" @click="selectApplicant(applicant)">
               {{ applicant }}
             </AppButton>
@@ -111,7 +115,7 @@ const selectApplicant = (applicant: string) => {
 }
 
 .h1 {
-  background: var(--color-subtext);
+  background: var(--color-accent);
   border-radius: 2em;
   color: white;
   font-size: inherit;
@@ -121,13 +125,13 @@ const selectApplicant = (applicant: string) => {
   text-align: center;
 }
 
-.back-character {
-  height: 40px;
-  width: 64px;
+.back-button {
+  height: 3em;
+  width: 5em;
 }
 
 .icon-arrow-left {
-  height: 24px;
+  height: 2em;
   vertical-align: -6px;
 }
 
@@ -138,7 +142,7 @@ const selectApplicant = (applicant: string) => {
 }
 
 .name-list-item {
-  height: 40px;
+  height: 3em;
   margin: 10px 0;
 }
 </style>
