@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import AppButton from '@/components/AppButton.vue'
+import IconArrowLeft from '@/components/IconArrowLeft.vue'
 import JapaneseSyllabary from '@/components/JapaneseSyllabary.vue'
 import OverlayLoading from '@/components/OverlayLoading.vue'
 import { KEIYO } from '@/constants/keiyo'
@@ -49,19 +50,25 @@ const selectApplicant = (applicant: string) => {
 
       <section class="section" v-else-if="hasCharacter">
         <div class="back-character">
-          <AppButton label="戻る" variant="filled" @click="clearCharacter" />
+          <AppButton variant="filled" @click="clearCharacter">
+            <IconArrowLeft class="icon-arrow-left" />
+          </AppButton>
         </div>
 
         <ul class="name-list">
           <li class="name-list-item" v-for="{ label } in nameList" :key="label">
-            <AppButton :label="label" variant="outlined" @click="selectName(label)" />
+            <AppButton variant="outlined" @click="selectName(label)">
+              {{ label }}
+            </AppButton>
           </li>
         </ul>
       </section>
 
       <section class="section" v-else-if="isLoaded || isFailed">
         <div class="back-character">
-          <AppButton label="戻る" variant="filled" @click="clearApplicants" />
+          <AppButton variant="filled" @click="clearApplicants">
+            <IconArrowLeft class="icon-arrow-left" />
+          </AppButton>
         </div>
 
         <p v-if="isFailed">データの取得に失敗しました</p>
@@ -70,7 +77,9 @@ const selectApplicant = (applicant: string) => {
 
         <ul class="applicant-list" v-else>
           <li class="applicant-list-item" v-for="applicant in applicants" :key="applicant">
-            <AppButton :label="applicant" variant="outlined" @click="selectApplicant(applicant)" />
+            <AppButton variant="outlined" @click="selectApplicant(applicant)">
+              {{ applicant }}
+            </AppButton>
           </li>
         </ul>
       </section>
@@ -113,8 +122,13 @@ const selectApplicant = (applicant: string) => {
 }
 
 .back-character {
-  height: 3em;
-  width: 80px;
+  height: 40px;
+  width: 64px;
+}
+
+.icon-arrow-left {
+  height: 24px;
+  vertical-align: -6px;
 }
 
 .name-list {

@@ -133,7 +133,7 @@ const submit = async () => {
         </div>
 
         <div class="submit">
-          <AppButton type="submit" label="送信" variant="filled" :disabled="isDisabled" />
+          <AppButton type="submit" variant="filled" :disabled="isDisabled">送信</AppButton>
         </div>
       </form>
 
@@ -152,7 +152,7 @@ const submit = async () => {
 
     <template v-else>
       <div v-if="isExpired" class="note">
-        <IconClose />
+        <IconClose class="icon-close" />
         <p>この申込は終了しています。</p>
       </div>
     </template>
@@ -217,6 +217,10 @@ const submit = async () => {
   margin: 10vh 1em;
   padding: 10vh 1.5em;
   text-align: center;
+}
+
+.icon-close {
+  height: 4em;
 }
 
 .footer {

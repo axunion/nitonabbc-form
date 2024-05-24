@@ -1,7 +1,6 @@
 <script setup lang="ts">
 type Props = {
   type?: 'button' | 'submit' | 'reset'
-  label: string
   variant?: '' | 'outlined' | 'filled'
   disabled?: boolean
 }
@@ -14,7 +13,9 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <button class="button" :class="variant" :disabled="disabled">{{ label }}</button>
+  <button class="button" :class="variant" :disabled="disabled">
+    <slot></slot>
+  </button>
 </template>
 
 <style scoped>
@@ -35,6 +36,7 @@ withDefaults(defineProps<Props>(), {
   padding: 0;
   text-align: center;
   transition: background-color 0.15s;
+  text-shadow: inherit;
   width: 100%;
 }
 

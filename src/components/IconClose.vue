@@ -1,11 +1,5 @@
 <template>
-  <svg
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    viewBox="0 0 512 512"
-    class="svg"
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg">
     <g>
       <path
         class="st0"
@@ -42,6 +36,7 @@
 <style scoped>
 .svg {
   fill: currentColor;
-  height: 4em;
+  max-height: 100%;
+  max-width: 100%;
 }
 </style>
