@@ -4,18 +4,19 @@ import AppButton from '@/components/AppButton.vue'
 import IconArrowLeft from '@/components/IconArrowLeft.vue'
 import JapaneseSyllabary from '@/components/JapaneseSyllabary.vue'
 import OverlayLoading from '@/components/OverlayLoading.vue'
+import { useRequest } from '@/composables/useRequest'
 import { KEIYO } from '@/constants/keiyo'
 
-const status = ref<'' | 'loading' | 'loaded' | 'failed'>('')
+const { state, error, get } = useRequest()
 const character = ref<string>('')
 const applicants = ref<string[]>([])
 
 const churches = computed(() => KEIYO.filter((i) => i.initial === character.value) || [])
-const isInitial = computed(() => status.value === '' && character.value === '')
-const hasCharacter = computed(() => status.value === '' && character.value !== '')
-const isLoading = computed(() => status.value === 'loading')
-const isLoaded = computed(() => status.value === 'loaded')
-const isFailed = computed(() => status.value === 'failed')
+const isInitial = computed(() => state.value === '' && character.value === '')
+const hasCharacter = computed(() => state.value === '' && character.value !== '')
+const isLoading = computed(() => state.value === 'loading')
+const isLoaded = computed(() => state.value === 'loaded')
+const isFailed = computed(() => state.value === 'failed')
 
 const selectcharacter = (initial: string) => {
   character.value = initial
@@ -25,14 +26,17 @@ const clearCharacter = () => {
   character.value = ''
 }
 
-const selectName = (name: string) => {
-  console.log(name)
-  status.value = 'loaded'
+const selectChurch = (church: string) => {
+  get({ church })
+
+  if (error.value) {
+    console.error(error.value)
+  }
 }
 
 const clearApplicants = () => {
   applicants.value = []
-  status.value = ''
+  state.value = ''
 }
 
 const selectApplicant = (applicant: string) => {
@@ -57,7 +61,7 @@ const selectApplicant = (applicant: string) => {
 
         <ul class="name-list">
           <li v-for="{ label } in churches" :key="label" class="name-list-item">
-            <AppButton variant="outlined" @click="selectName(label)">
+            <AppButton variant="outlined" @click="selectChurch(label)">
               {{ label }}
             </AppButton>
           </li>
