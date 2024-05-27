@@ -7,7 +7,7 @@ import OverlayLoading from '@/components/OverlayLoading.vue'
 import { useRequest } from '@/composables/useRequest'
 import { KEIYO } from '@/constants/keiyo'
 
-const { state, error, get } = useRequest()
+const { state, error, getApplicants } = useRequest()
 const character = ref<string>('')
 const applicants = ref<string[]>([])
 
@@ -26,11 +26,13 @@ const clearCharacter = () => {
   character.value = ''
 }
 
-const selectChurch = (church: string) => {
-  get({ church })
+const selectChurch = async (church: string) => {
+  const response = await getApplicants({ church })
 
-  if (error.value) {
+  if (error.value || !response) {
     console.error(error.value)
+  } else {
+    applicants.value = response
   }
 }
 
@@ -39,7 +41,7 @@ const clearApplicants = () => {
   state.value = ''
 }
 
-const selectApplicant = (applicant: string) => {
+const selectApplicant = async (applicant: string) => {
   console.log(applicant)
 }
 </script>
