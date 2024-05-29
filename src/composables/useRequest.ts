@@ -4,8 +4,8 @@ export type State = '' | 'loading' | 'loaded' | 'failed'
 
 export type ResponseData<T> = {
   result: 'done' | 'error'
-  data: T
-  error: string
+  data?: T
+  error?: string
 }
 
 const GET_URL = import.meta.env.DEV ? 'https://example.com/request' : ''

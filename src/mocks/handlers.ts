@@ -1,11 +1,15 @@
 import { http, HttpResponse } from 'msw'
-import { responses } from './api/request'
+import { requestResponses } from './api/request'
 
 export const handlers = [
-  http.get('https://example.com/request', () => {
-    const shuffled = responses.data.sort(() => Math.random() - 0.5)
-    const randomLength = Math.floor(Math.random() * shuffled.length) + 1
-    responses.data = shuffled.slice(0, randomLength)
-    return HttpResponse.json(responses)
+  http.get('https://example.com/request', (): HttpResponse => {
+    const shuffled = requestResponses.sort(() => Math.random() - 0.5)
+    const length = Math.floor(Math.random() * shuffled.length)
+
+    if (length === 0) {
+      return HttpResponse.json({ result: 'error', error: 'No data found' })
+    } else {
+      return HttpResponse.json({ result: 'done', data: shuffled.slice(0, length) })
+    }
   })
 ]
