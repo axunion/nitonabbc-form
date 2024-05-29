@@ -42,9 +42,5 @@ export const useRequest = () => {
     }
   }
 
-  const getApplicants = async (params: Record<string, string>): Promise<string[] | void> => {
-    return await get<string[]>(params)
-  }
-
-  return { state, error, getApplicants }
+  return { state, error, get }
 }

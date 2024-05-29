@@ -7,9 +7,14 @@ import OverlayLoading from '@/components/OverlayLoading.vue'
 import { useRequest } from '@/composables/useRequest'
 import { KEIYO } from '@/constants/keiyo'
 
-const { state, error, getApplicants } = useRequest()
+type Appricant = {
+  name: string
+  isCheckedIn: boolean
+}
+
+const { state, error, get } = useRequest()
 const character = ref<string>('')
-const applicants = ref<string[]>([])
+const applicants = ref<Appricant[]>([])
 
 const churches = computed(() => KEIYO.filter((i) => i.initial === character.value) || [])
 const isInitial = computed(() => state.value === '' && character.value === '')
@@ -27,7 +32,7 @@ const clearCharacter = () => {
 }
 
 const selectChurch = async (church: string) => {
-  const response = await getApplicants({ church })
+  const response = await get<Appricant[]>({ church })
 
   if (error.value || !response) {
     console.error(error.value)
@@ -41,7 +46,8 @@ const clearApplicants = () => {
   state.value = ''
 }
 
-const selectApplicant = async (applicant: string) => {
+const selectApplicant = async (applicant: Appricant) => {
+  applicant.isCheckedIn = !applicant.isCheckedIn
   console.log(applicant)
 }
 </script>
@@ -61,11 +67,13 @@ const selectApplicant = async (applicant: string) => {
           </AppButton>
         </div>
 
-        <ul class="name-list">
+        <div v-if="churches.length === 0" class="card">
+          <p>対象の教会がありません</p>
+        </div>
+
+        <ul v-else class="name-list">
           <li v-for="{ label } in churches" :key="label" class="name-list-item">
-            <AppButton variant="outlined" @click="selectChurch(label)">
-              {{ label }}
-            </AppButton>
+            <AppButton @click="selectChurch(label)">{{ label }}</AppButton>
           </li>
         </ul>
       </section>
@@ -86,10 +94,13 @@ const selectApplicant = async (applicant: string) => {
         </div>
 
         <ul v-else class="name-list">
-          <li v-for="applicant in applicants" :key="applicant" class="name-list-item">
-            <AppButton variant="outlined" @click="selectApplicant(applicant)">
-              {{ applicant }}
-            </AppButton>
+          <li
+            v-for="applicant in applicants"
+            :key="applicant.name"
+            :class="{ isCheckedIn: applicant.isCheckedIn }"
+            class="name-list-item"
+          >
+            <AppButton @click="selectApplicant(applicant)">{{ applicant.name }}</AppButton>
           </li>
         </ul>
       </section>
@@ -117,6 +128,11 @@ const selectApplicant = async (applicant: string) => {
 }
 
 .section {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
   padding: 20px;
 }
 
@@ -126,29 +142,43 @@ const selectApplicant = async (applicant: string) => {
   color: white;
   font-size: inherit;
   font-weight: bolder;
-  margin: 20px 0 30px;
+  margin: 0 0 20px;
   padding: 1em 0;
   text-align: center;
 }
 
 .back-button {
   height: 3em;
+  margin: 0 0 20px;
   width: 5em;
 }
 
 .icon-arrow-left {
-  height: 2em;
+  height: 24px;
   vertical-align: -6px;
+}
+
+.card {
+  border-radius: 4px;
+  margin: 0 0 auto;
 }
 
 .name-list {
   list-style: none;
-  margin: 20px 0 0;
+  margin: 0 0 auto;
   padding: 0;
 }
 
 .name-list-item {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px gray;
   height: 3em;
-  margin: 10px 0;
+  margin: 0 0 10px;
+}
+
+.name-list-item.isCheckedIn {
+  background: var(--color-primary);
+  color: white;
 }
 </style>
