@@ -1,9 +1,10 @@
 :root {
   --color-background: #d8dbf0;
   --color-primary: #566df0;
+  --color-secondary: #f0d956;
+  --color-accent: #f0566e;
   --color-text: #282928;
   --color-subtext: #7d807d;
-  --color-accent: #f0566e;
   --color-divider: #4b4d4b;
   --content-max-wieght: 480px;
 }
