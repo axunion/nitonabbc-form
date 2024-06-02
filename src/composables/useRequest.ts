@@ -43,7 +43,7 @@ export const useRequest = () => {
     }
   }
 
-  const checkIn = async (id: number) => {
+  const checkIn = async (id: string) => {
     const response = await fetch(CHECK_IN_URL, {
       method: 'POST',
       body: JSON.stringify({ id })

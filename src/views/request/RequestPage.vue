@@ -9,7 +9,7 @@ import { useRequest } from '@/composables/useRequest'
 import { KEIYO } from '@/constants/keiyo'
 
 type Appricant = {
-  id: number
+  id: string
   name: string
   isCheckedIn: boolean
 }

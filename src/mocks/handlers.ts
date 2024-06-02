@@ -13,8 +13,9 @@ export const handlers = [
     }
   }),
 
-  http.post('https://example.com/checkIn', ({ params }) => {
-    const target = requestResponses.find((item) => item.id === params.id)
+  http.post('https://example.com/checkIn', async ({ request }) => {
+    const data = (await request.json()) as { id: string }
+    const target = requestResponses.find((item) => item.id === data?.id)
 
     if (target) {
       target.isCheckedIn = !target.isCheckedIn
