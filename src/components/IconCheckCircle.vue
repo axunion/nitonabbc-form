@@ -21,7 +21,7 @@
 }
 
 .circle {
-  animation: draw 1.5s linear forwards;
+  animation: draw 1s linear forwards;
   transform: rotate(-90deg);
   transform-origin: 50%;
 }

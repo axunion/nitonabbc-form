@@ -9,6 +9,7 @@ export type ResponseData<T> = {
 }
 
 const GET_URL = import.meta.env.DEV ? 'https://example.com/request' : ''
+const CHECK_IN_URL = import.meta.env.DEV ? 'https://example.com/checkIn' : ''
 
 export const useRequest = () => {
   const state = ref<State>('')
@@ -42,5 +43,24 @@ export const useRequest = () => {
     }
   }
 
-  return { state, error, get }
+  const checkIn = async (id: number) => {
+    const response = await fetch(CHECK_IN_URL, {
+      method: 'POST',
+      body: JSON.stringify({ id })
+    })
+
+    if (!response.ok) {
+      throw new Error('Form submission failed')
+    }
+
+    const responseData: ResponseData<unknown> = await response.json()
+
+    if (responseData.result === 'error' && responseData.error) {
+      error.value = responseData.error
+    }
+
+    return responseData.result === 'done'
+  }
+
+  return { state, error, get, checkIn }
 }

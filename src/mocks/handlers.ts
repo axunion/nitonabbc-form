@@ -11,5 +11,16 @@ export const handlers = [
     } else {
       return HttpResponse.json({ result: 'done', data: shuffled.slice(0, length) })
     }
+  }),
+
+  http.post('https://example.com/checkIn', ({ params }) => {
+    const target = requestResponses.find((item) => item.id === params.id)
+
+    if (target) {
+      target.isCheckedIn = !target.isCheckedIn
+      return HttpResponse.json({ result: 'done' })
+    } else {
+      return HttpResponse.json({ result: 'error', error: 'No data found' })
+    }
   })
 ]

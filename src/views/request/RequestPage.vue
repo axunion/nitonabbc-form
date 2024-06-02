@@ -9,11 +9,12 @@ import { useRequest } from '@/composables/useRequest'
 import { KEIYO } from '@/constants/keiyo'
 
 type Appricant = {
+  id: number
   name: string
   isCheckedIn: boolean
 }
 
-const { state, error, get } = useRequest()
+const { state, error, get, checkIn } = useRequest()
 const character = ref<string>('')
 const applicants = ref<Appricant[]>([])
 
@@ -48,8 +49,13 @@ const clearApplicants = () => {
 }
 
 const selectApplicant = async (applicant: Appricant) => {
-  applicant.isCheckedIn = !applicant.isCheckedIn
-  console.log(applicant)
+  const result = await checkIn(applicant.id)
+
+  if (result) {
+    applicant.isCheckedIn = !applicant.isCheckedIn
+  } else {
+    console.error(error.value)
+  }
 }
 </script>
 
