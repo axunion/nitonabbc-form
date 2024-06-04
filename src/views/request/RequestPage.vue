@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AppButton from '@/components/AppButton.vue'
 import IconArrowLeft from '@/components/IconArrowLeft.vue'
@@ -63,6 +63,8 @@ const selectApplicant = async (applicant: Appricant) => {
     console.error(error.value)
   }
 }
+
+document.title = '申し込み確認'
 </script>
 
 <template>

@@ -38,6 +38,8 @@ const submit = async () => {
     console.error(error.value)
   }
 }
+
+document.title = '京葉地区合同青年会参加申込'
 </script>
 
 <template>
