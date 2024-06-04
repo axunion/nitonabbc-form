@@ -9,7 +9,7 @@ const router = createRouter({
       component: () => import('@/views/entry/EntryPage202402.vue')
     },
     {
-      path: '/request/:target',
+      path: '/request/:type',
       name: 'request',
       component: () => import('@/views/request/RequestPage.vue')
     }

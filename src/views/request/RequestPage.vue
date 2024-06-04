@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import AppButton from '@/components/AppButton.vue'
 import IconArrowLeft from '@/components/IconArrowLeft.vue'
 import IconCheckCircle from '@/components/IconCheckCircle.vue'
@@ -14,7 +15,9 @@ type Appricant = {
   isCheckedIn: boolean
 }
 
+const route = useRoute()
 const { state, error, get, checkIn } = useRequest()
+
 const character = ref<string>('')
 const applicants = ref<Appricant[]>([])
 
@@ -34,7 +37,10 @@ const clearCharacter = () => {
 }
 
 const selectChurch = async (church: string) => {
-  const response = await get<Appricant[]>({ church })
+  const response = await get<Appricant[]>({
+    type: route.params.type as string,
+    church
+  })
 
   if (error.value || !response) {
     console.error(error.value)
