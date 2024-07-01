@@ -7,11 +7,10 @@ import AppInputSelect from '@/components/AppInputSelect.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
 import OverlaySubmit from '@/components/OverlaySubmit.vue'
-import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
-const { state, error, post } = useSubmit()
+const { state /* error, post */ } = useSubmit()
 const datalist = KEIYO.map((item) => item.label)
 const dueDate = new Date('2024-02-19')
 const now = new Date()
@@ -32,11 +31,10 @@ const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
 const isDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
 
 const submit = async () => {
-  await post(postData.value)
-
-  if (error.value) {
-    console.error(error.value)
-  }
+  // await post(postData.value)
+  // if (error.value) {
+  //   console.error(error.value)
+  // }
 }
 
 document.title = '京葉地区合同青年会参加申込'
@@ -162,7 +160,6 @@ document.title = '京葉地区合同青年会参加申込'
 
   <footer class="footer">
     <div>主催：仁戸名聖書バプテスト教会</div>
-    <RecaptchaText />
   </footer>
 
   <OverlaySubmit :isActive="state === 'submitting'" />
@@ -219,6 +216,7 @@ document.title = '京葉地区合同青年会参加申込'
 .footer {
   font-size: 85%;
   margin: 15vh 0 0;
+  padding: 1em;
   text-align: center;
 }
 
