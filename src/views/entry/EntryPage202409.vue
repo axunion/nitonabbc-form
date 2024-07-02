@@ -44,13 +44,15 @@ document.title = '京葉地区一泊お泊まり会参加申込'
 
 <template>
   <header class="header">
-    <h1 class="h1">
-      京葉地区一泊お泊まり会参加申込<br />
-      Keiyo Area Overnight Retreat Registration
-    </h1>
-    <div class="date">
-      開催日：2024年9月22日〜23日<br />
-      Event Dates: September 22-23, 2024
+    <div class="header-content">
+      <h1 class="h1">
+        京葉地区一泊お泊まり会参加申込<br />
+        Keiyo Area Overnight Retreat Registration
+      </h1>
+      <div class="date">
+        開催日：2024年9月22日〜23日<br />
+        Event Dates: September 22-23, 2024
+      </div>
     </div>
   </header>
 
@@ -161,19 +163,28 @@ document.title = '京葉地区一泊お泊まり会参加申込'
 
 <style scoped>
 .header {
-  padding: 2em 1em 0;
+  margin: auto;
+  max-width: var(--content-max-wieght);
+  padding: 1em 1em 0;
+}
+
+.header-content {
+  background: white;
+  border-left: var(--color-primary) solid 4px;
+  border-right: var(--color-primary) solid 4px;
+  box-shadow: 0 1px 3px gray;
+  margin: auto;
+  padding: 1.5em 1em;
 }
 
 .h1 {
   font-size: 100%;
-  margin: 0 0 1em;
-  text-align: center;
+  margin: 0 0 1.5em;
 }
 
 .date {
   font-size: 90%;
   margin: auto;
-  max-width: var(--content-max-wieght);
   text-align: right;
 }
 
