@@ -59,63 +59,56 @@ document.title = '京葉地区一泊お泊まり会参加申込'
   <main class="main">
     <template v-if="!isExpired">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
-        <AppInputText
-          name="church"
-          label="教会名 - Church Name"
-          maxlength="128"
-          :required="true"
-          :disabled="false"
-          :datalist="datalist"
-          v-model="postData.church"
-        />
+        <div class="input-box">
+          <div class="input-label">教会名 - Church Name</div>
+          <AppInputText
+            name="church"
+            maxlength="128"
+            :required="true"
+            :datalist="datalist"
+            v-model="postData.church"
+          />
+        </div>
 
-        <AppInputText
-          name="name"
-          label="氏名 - Full Name"
-          maxlength="64"
-          :required="true"
-          :disabled="false"
-          v-model="postData.name"
-        />
+        <div class="input-box">
+          <div class="input-label">氏名 - Full Name</div>
+          <AppInputText name="name" maxlength="64" :required="true" v-model="postData.name" />
+        </div>
 
-        <AppInputText
-          name="kana"
-          label="ふりがな - Phonetic Name"
-          maxlength="64"
-          :required="true"
-          :disabled="false"
-          v-model="postData.kana"
-        />
+        <div class="input-box">
+          <div class="input-label">ふりがな - Phonetic Name</div>
+          <AppInputText name="kana" maxlength="64" :required="true" v-model="postData.kana" />
+        </div>
 
-        <AppInputText
-          name="kana"
-          label="年齢 - Age"
-          maxlength="3"
-          :required="true"
-          :disabled="false"
-          v-model="postData.age"
-        />
+        <div class="input-box">
+          <div class="input-label">年齢 - Age</div>
+          <AppInputText name="age" maxlength="3" :required="true" v-model="postData.age" />
+        </div>
 
-        <AppInputRadio
-          name="gender"
-          label="性別 - Gender"
-          :items="[
-            { label: '男性 - Male', value: '男性' },
-            { label: '女性 - Female', value: '女性' }
-          ]"
-          v-model="postData.gender"
-        />
+        <div class="input-box">
+          <div class="input-label">性別 - Gender</div>
+          <AppInputRadio
+            name="gender"
+            :items="[
+              { label: '男性 - Male', value: '男性' },
+              { label: '女性 - Female', value: '女性' }
+            ]"
+            v-model="postData.gender"
+          />
+        </div>
 
-        <AppInputRadio
-          name="status"
-          label="教会員など - Church Member"
-          :items="[
-            { label: '教会員 - Church Member', value: '教会員' },
-            { label: '非教会員 - Non-Church Member', value: '非教会員' },
-            { label: '指導者 - Leader', value: '指導者' }
-          ]"
-          v-model="postData.status"
-        />
+        <div class="input-box">
+          <div class="input-label">教会員など - Church Member</div>
+          <AppInputRadio
+            name="status"
+            :items="[
+              { label: '教会員 - Church Member', value: '教会員' },
+              { label: '非教会員 - Non-Church Member', value: '非教会員' },
+              { label: '指導者 - Leader', value: '指導者' }
+            ]"
+            v-model="postData.status"
+          />
+        </div>
 
         <div class="message">
           <p>一泊お泊まり会の詳細については、下記の案内をご確認ください。</p>
