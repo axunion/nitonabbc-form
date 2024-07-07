@@ -219,12 +219,4 @@ document.title = '京葉地区合同青年会参加申込'
   padding: 1em;
   text-align: center;
 }
-
-.v-enter-active {
-  animation: fade-up-in 0.5s;
-}
-
-.v-leave-active {
-  animation: fade-up-in 0.5s reverse;
-}
 </style>

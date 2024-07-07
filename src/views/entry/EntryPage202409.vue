@@ -47,7 +47,7 @@ document.title = '京葉地区一泊お泊まり会参加申込'
     <div class="header-content">
       <h1 class="h1">
         京葉地区一泊お泊まり会参加申込<br />
-        Keiyo Area Overnight Retreat Registration
+        Keiyo Area Retreat Registration
       </h1>
       <div class="date">
         開催日：2024年9月22日〜23日<br />
@@ -82,7 +82,7 @@ document.title = '京葉地区一泊お泊まり会参加申込'
 
         <div class="input-box">
           <div class="input-label">年齢 - Age</div>
-          <AppInputText name="age" maxlength="3" :required="true" v-model="postData.age" />
+          <AppInputText name="age" maxlength="2" :required="true" v-model="postData.age" />
         </div>
 
         <div class="input-box">
@@ -163,20 +163,21 @@ document.title = '京葉地区一泊お泊まり会参加申込'
 
 .header-content {
   background: white;
-  border-left: var(--color-primary) solid 4px;
-  border-right: var(--color-primary) solid 4px;
+  border-bottom: var(--color-primary) solid 4px;
+  border-top: var(--color-primary) solid 4px;
   box-shadow: 0 1px 3px gray;
   margin: auto;
   padding: 1.5em 1em;
 }
 
 .h1 {
-  font-size: 100%;
+  color: var(--color-primary);
+  font-size: 115%;
   margin: 0 0 1.5em;
 }
 
 .date {
-  font-size: 90%;
+  font-size: 85%;
   margin: auto;
   text-align: right;
 }
@@ -215,13 +216,5 @@ document.title = '京葉地区一泊お泊まり会参加申込'
   margin: 15vh 0 0;
   padding: 1em;
   text-align: center;
-}
-
-.v-enter-active {
-  animation: fade-up-in 0.5s;
-}
-
-.v-leave-active {
-  animation: fade-up-in 0.5s reverse;
 }
 </style>
