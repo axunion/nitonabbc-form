@@ -25,7 +25,9 @@ const postData = ref<PostData>({
   age: '',
   gender: '',
   status: '',
-  party: []
+  participationOptions: '',
+  recreation: '',
+  thematicMeetings: ''
 })
 
 const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
@@ -110,12 +112,52 @@ document.title = '京葉地区一泊お泊まり会参加申込'
           />
         </div>
 
+        <div class="input-box">
+          <div class="input-label">参加形式 - Participation Options</div>
+          <AppInputRadio
+            name="participation-options"
+            :items="[
+              { label: '全日参加 - Full-day Participation', value: '全日参加' },
+              { label: '部分参加 - Partial Participation', value: '部分参加' }
+            ]"
+            v-model="postData.participationOptions"
+          />
+        </div>
+
+        <div class="input-box">
+          <div class="input-label">レクリエーション - Recreation</div>
+          <AppInputRadio
+            name="recreation"
+            :items="[
+              { label: 'スポーツ - Sports', value: 'スポーツ' },
+              { label: '周辺散策 - Nearby Exploration', value: '周辺散策' }
+            ]"
+            v-model="postData.recreation"
+          />
+        </div>
+
+        <div class="input-box">
+          <div class="input-label">テーマ別集会 - Thematic Meetings</div>
+          <AppInputRadio
+            name="thematic-meetings"
+            :items="[
+              { label: '結婚 - Marriage', value: '結婚' },
+              { label: '献身 - Devotion', value: '献身' },
+              { label: '仕事と教会生活 - Work and Church Life', value: '仕事と教会生活' },
+              { label: '礼拝 - Worship', value: '礼拝' },
+              { label: '日曜学校 - Sunday School', value: '日曜学校' }
+            ]"
+            v-model="postData.thematicMeetings"
+          />
+        </div>
+
         <div class="message">
-          <p>一泊お泊まり会の詳細については、下記の案内をご確認ください。</p>
+          <p>一泊お泊まり会の詳細については、下記のご案内をご確認ください。</p>
           <p>Please refer to the information below for details about the event.</p>
           <p>
             <a href="https://info.nitonabbc.org/2024/09/" target="_blank" rel="noopener noreferrer">
-              ご案内 - Announcement
+              京葉地区一泊お泊まり会のご案内<br />
+              Keiyo Area Retreat Announcement
             </a>
           </p>
         </div>
