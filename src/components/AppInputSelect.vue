@@ -3,7 +3,6 @@ import { defineModel } from 'vue'
 
 type Props = {
   name: string
-  label: string
   options: { label: string; value: string }[]
   required?: boolean
   disabled?: boolean
@@ -18,18 +17,14 @@ const model = defineModel()
 </script>
 
 <template>
-  <div class="input-box">
-    <div class="input-label">{{ label }}</div>
-
-    <label class="label">
-      <select class="select" :name="name" :required="required" :disabled="disabled" v-model="model">
-        <option value=""></option>
-        <option v-for="item in options" :key="item.value" :value="item.value">
-          {{ item.label }}
-        </option>
-      </select>
-    </label>
-  </div>
+  <label class="label">
+    <select class="select" :name="name" :required="required" :disabled="disabled" v-model="model">
+      <option value=""></option>
+      <option v-for="item in options" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </option>
+    </select>
+  </label>
 </template>
 
 <style scoped>

@@ -9,8 +9,13 @@ const router = createRouter({
       component: () => import('@/views/request/RequestPage.vue')
     },
     {
+      path: '/entry/2024/09',
+      name: 'entry202409',
+      component: () => import('@/views/entry/EntryPage202409.vue')
+    },
+    {
       path: '/entry/2024/02',
-      name: 'entry',
+      name: 'entry202402',
       component: () => import('@/views/entry/EntryPage202402.vue')
     }
   ]

@@ -1,6 +1,14 @@
 @import './base.css';
 @import './keyframes.css';
 
+.v-enter-active {
+  animation: fade-up-in 0.5s;
+}
+
+.v-leave-active {
+  animation: fade-up-in 0.5s reverse;
+}
+
 .grecaptcha-badge {
   visibility: hidden;
 }
@@ -13,7 +21,7 @@
 }
 
 .input-label {
-  font-size: 75%;
+  font-size: 85%;
   line-height: 1;
   margin: 0 0 2em;
 }

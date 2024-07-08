@@ -3,7 +3,6 @@ import { defineModel } from 'vue'
 
 type Props = {
   name: string
-  label: string
   items: { label: string; value: string; required: boolean }[]
 }
 
@@ -15,46 +14,41 @@ const model = defineModel()
 </script>
 
 <template>
-  <div class="input-box">
-    <div class="input-label">{{ label }}</div>
+  <div class="group">
+    <label class="label" v-for="item in items" :key="item.value">
+      <input
+        class="input"
+        type="checkbox"
+        :name="name"
+        :value="item.value"
+        :required="item.required"
+        v-model="model"
+      />
 
-    <div class="group">
-      <label class="label" v-for="item in items" :key="item.value">
-        <input
-          class="input"
-          type="checkbox"
-          :name="name"
-          :value="item.value"
-          :required="item.required"
-          v-model="model"
-        />
-
-        <span class="item">
-          <span class="s">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
-              <path
-                d="M9.9997 15.1709L19.1921 5.97852L20.6063 7.39273L9.9997 17.9993L3.63574 11.6354L5.04996 10.2212L9.9997 15.1709Z"
-              ></path>
-            </svg>
-          </span>
-          {{ item.label }}
+      <span class="item">
+        <span class="s">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+            <path
+              d="M9.9997 15.1709L19.1921 5.97852L20.6063 7.39273L9.9997 17.9993L3.63574 11.6354L5.04996 10.2212L9.9997 15.1709Z"
+            ></path>
+          </svg>
         </span>
-      </label>
-    </div>
+        {{ item.label }}
+      </span>
+    </label>
   </div>
 </template>
 
 <style scoped>
 .group {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 0.5em;
-  padding: 0.5em 0;
 }
 
 .label {
   cursor: pointer;
-  padding: 0 1em 0 0;
+  padding: 0 0 0 1em;
 }
 
 .input {
@@ -68,7 +62,7 @@ const model = defineModel()
   align-items: center;
   color: var(--color-subtext);
   display: flex;
-  gap: 0.25em;
+  gap: 0.5em;
 }
 
 :checked + .item {

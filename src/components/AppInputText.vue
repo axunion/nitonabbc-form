@@ -3,10 +3,9 @@ import { defineModel } from 'vue'
 
 type Props = {
   name: string
-  label: string
+  maxlength?: string
   required?: boolean
   disabled?: boolean
-  maxlength?: string
   datalist?: string[]
 }
 
@@ -20,26 +19,22 @@ let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
 </script>
 
 <template>
-  <div class="input-box">
-    <div class="input-label">{{ label }}</div>
+  <label class="label">
+    <input
+      class="input"
+      type="text"
+      :name="name"
+      :maxlength="maxlength"
+      :required="required"
+      :disabled="disabled"
+      :list="listId"
+      v-model.trim="model"
+    />
+  </label>
 
-    <label class="label">
-      <input
-        class="input"
-        type="text"
-        :name="name"
-        :maxlength="maxlength"
-        :required="required"
-        :disabled="disabled"
-        :list="listId"
-        v-model.trim="model"
-      />
-    </label>
-
-    <datalist v-if="listId" :id="listId">
-      <option v-for="item in datalist" :key="item" :value="item"></option>
-    </datalist>
-  </div>
+  <datalist v-if="listId" :id="listId">
+    <option v-for="item in datalist" :key="item" :value="item"></option>
+  </datalist>
 </template>
 
 <style scoped>
