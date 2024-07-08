@@ -19,7 +19,7 @@ let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
 </script>
 
 <template>
-  <label class="label">
+  <div class="div">
     <input
       class="input"
       type="text"
@@ -30,7 +30,7 @@ let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
       :list="listId"
       v-model.trim="model"
     />
-  </label>
+  </div>
 
   <datalist v-if="listId" :id="listId">
     <option v-for="item in datalist" :key="item" :value="item"></option>
@@ -38,7 +38,7 @@ let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
 </template>
 
 <style scoped>
-.label {
+.div {
   border-bottom: var(--color-subtext) solid 1px;
   display: block;
   padding: 0 0.5em 0.5em;

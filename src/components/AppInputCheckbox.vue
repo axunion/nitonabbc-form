@@ -14,7 +14,7 @@ const model = defineModel()
 </script>
 
 <template>
-  <div class="group">
+  <fieldset class="fieldset">
     <label class="label" v-for="item in items" :key="item.value">
       <input
         class="input"
@@ -36,14 +36,17 @@ const model = defineModel()
         {{ item.label }}
       </span>
     </label>
-  </div>
+  </fieldset>
 </template>
 
 <style scoped>
-.group {
+.fieldset {
+  border: none;
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 1em;
+  margin: 0.5em 0;
+  padding: 0 0.5em;
 }
 
 .label {
@@ -63,6 +66,7 @@ const model = defineModel()
   color: var(--color-subtext);
   display: flex;
   gap: 0.5em;
+  line-height: 1.4;
 }
 
 :checked + .item {
