@@ -3,7 +3,7 @@ import { defineModel } from 'vue'
 
 type Props = {
   name: string
-  items: { label: string; value: string; required: boolean }[]
+  items: { label: string; value: string; required?: boolean }[]
 }
 
 withDefaults(defineProps<Props>(), {
@@ -15,13 +15,13 @@ const model = defineModel()
 
 <template>
   <fieldset class="fieldset">
-    <label class="label" v-for="item in items" :key="item.value">
+    <label class="label" v-for="(item, index) in items" :key="item.value">
       <input
         class="input"
         type="checkbox"
-        :name="name"
+        :name="`${name}-${index}`"
         :value="item.value"
-        :required="item.required"
+        :required="item.required || false"
         v-model="model"
       />
 
@@ -51,7 +51,6 @@ const model = defineModel()
 
 .label {
   cursor: pointer;
-  padding: 0 0 0 1em;
 }
 
 .input {
@@ -74,7 +73,7 @@ const model = defineModel()
 }
 
 .s {
-  border: var(--color-background) solid 1px;
+  border: var(--color-subtext) solid 1px;
   border-radius: 4px;
   display: inline-block;
   height: 0.9em;
@@ -82,15 +81,11 @@ const model = defineModel()
 }
 
 .svg {
-  height: 150%;
-  margin: -25% 0 0 -25%;
+  height: 140%;
+  margin: -20% 0 0 -20%;
   opacity: 0;
   stroke: var(--color-primary);
   vertical-align: top;
-}
-
-:checked + .item .s {
-  border-color: transparent;
 }
 
 :checked + .item .svg {

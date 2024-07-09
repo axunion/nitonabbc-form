@@ -3,17 +3,16 @@ import { computed, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
 import AppInputRadio from '@/components/AppInputRadio.vue'
-import AppInputSelect from '@/components/AppInputSelect.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
 import OverlaySubmit from '@/components/OverlaySubmit.vue'
-import RecaptchaText from '@/components/RecaptchaText.vue'
+// import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
 const { state, error, post } = useSubmit()
 const datalist = KEIYO.map((item) => item.label)
-const dueDate = new Date('2024-08-05')
+const dueDate = new Date('2024-08-31')
 const now = new Date()
 const isExpired = ref(now > dueDate)
 const postData = ref<PostData>({
@@ -25,13 +24,26 @@ const postData = ref<PostData>({
   age: '',
   gender: '',
   status: '',
-  participationOptions: '',
+  participationOption: '',
+  participationDetails: [],
   recreation: '',
   thematicMeetings: ''
 })
 
 const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
 const isDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
+
+const participationFee = computed(() => {
+  const table: Record<string, number> = {
+    夕食: 1400,
+    宿泊: parseInt(postData.value.age as string) <= 22 ? 3500 : 4500,
+    朝食: 700,
+    昼食: 1400
+  }
+  const details = postData.value.participationDetails as string[]
+  const fee = details.reduce((acc, cur) => acc + table[cur], 0)
+  return `¥ ${fee.toLocaleString()}`
+})
 
 const submit = async () => {
   await post(postData.value)
@@ -115,13 +127,28 @@ document.title = '京葉地区一泊お泊まり会参加申込'
         <div class="input-box">
           <div class="input-label">参加形式 - Participation Options</div>
           <AppInputRadio
-            name="participation-options"
+            name="participation-option"
             :items="[
               { label: '全日参加 - Full-day Participation', value: '全日参加' },
               { label: '部分参加 - Partial Participation', value: '部分参加' }
             ]"
-            v-model="postData.participationOptions"
+            v-model="postData.participationOption"
           />
+
+          <div v-if="postData.participationOption === '部分参加'" class="nest">
+            <AppInputCheckbox
+              name="participation-details"
+              :items="[
+                { label: '夕食 - Dinner', value: '夕食' },
+                { label: '宿泊 - Accommodation', value: '宿泊' },
+                { label: '朝食 - Breakfast', value: '朝食' },
+                { label: '昼食 - Lunch', value: '昼食' }
+              ]"
+              v-model="postData.participationDetails"
+            />
+
+            <div class="participation-fee">{{ participationFee }}</div>
+          </div>
         </div>
 
         <div class="input-box">
@@ -236,6 +263,18 @@ document.title = '京葉地区一泊お泊まり会参加申込'
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+}
+
+.nest {
+  margin: 1em 2em 0;
+}
+
+.participation-fee {
+  border-top: var(--color-subtext) solid 1px;
+  margin: 1em 0 0;
+  padding: 0.5em 1em 0;
+  text-align: right;
+  width: 200px;
 }
 
 .message {
