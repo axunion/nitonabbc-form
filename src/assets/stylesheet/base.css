@@ -37,6 +37,11 @@ body {
   margin: 0;
 }
 
+hr {
+  border: none;
+  margin: 1em 0;
+}
+
 p {
   font-feature-settings: 'palt';
   line-height: 1.6;

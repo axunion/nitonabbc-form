@@ -27,7 +27,9 @@ const postData = ref<PostData>({
   participationOption: '',
   participationDetails: [],
   recreation: '',
-  thematicMeetings: ''
+  thematicMeetings: '',
+  surveyInterested: [],
+  surveyImportant: []
 })
 
 const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
@@ -157,7 +159,8 @@ document.title = '京葉地区一泊お泊まり会参加申込'
             name="recreation"
             :items="[
               { label: 'スポーツ - Sports', value: 'スポーツ' },
-              { label: '周辺散策 - Nearby Exploration', value: '周辺散策' }
+              { label: '周辺散策 - Nearby Exploration', value: '周辺散策' },
+              { label: '不参加 - Non-attendance', value: '不参加' }
             ]"
             v-model="postData.recreation"
           />
@@ -172,9 +175,69 @@ document.title = '京葉地区一泊お泊まり会参加申込'
               { label: '献身 - Devotion', value: '献身' },
               { label: '仕事と教会生活 - Work and Church Life', value: '仕事と教会生活' },
               { label: '礼拝 - Worship', value: '礼拝' },
-              { label: '日曜学校 - Sunday School', value: '日曜学校' }
+              { label: '日曜学校 - Sunday School', value: '日曜学校' },
+              { label: '不参加 - Non-attendance', value: '不参加' }
             ]"
             v-model="postData.thematicMeetings"
+          />
+        </div>
+
+        <div class="input-box">
+          <p>
+            グループ分けの参考にするため、簡単なアンケートにご協力ください。複数回答可能です。どれにも当てはまらない場合は、選択しないでください。
+          </p>
+          <p>
+            To help with group assignments, please complete this brief survey. Multiple answers are
+            allowed. If none of the options apply to you, please do not select any.
+          </p>
+
+          <p class="question">
+            交わり会で重視する目的を選んでください。<br />
+            What objectives do you consider important for attending the retreat?
+          </p>
+          <AppInputCheckbox
+            name="survey-important"
+            :items="[
+              { label: '新しい出会い - Meeting new people', value: '新しい出会い' },
+              { label: '信仰の深まり - Deepening faith', value: '信仰の深まり' },
+              { label: '知識の向上 - Improving knowledge', value: '知識の向上' },
+              { label: 'アクティブな交流 - Active interaction', value: 'アクティブな交流' },
+              { label: 'リフレッシュ - Refreshment', value: 'リフレッシュ' }
+            ]"
+            v-model="postData.surveyImportant"
+          />
+
+          <p class="question">
+            興味のあるトピックを教えてください。<br />
+            Please select the topics you are interested in.
+          </p>
+          <AppInputCheckbox
+            name="survey-interested"
+            :items="[
+              { label: 'テクノロジー - Technology', value: 'テクノロジー' },
+              { label: 'ウェルネス - Wellness', value: 'ウェルネス' },
+              { label: 'アートと文化 - Arts and Culture', value: 'アートと文化' },
+              { label: 'ビジネス - Business', value: 'ビジネス' },
+              { label: 'サステナビリティ - Sustainability', value: 'サステナビリティ' }
+            ]"
+            v-model="postData.surveyInterested"
+          />
+
+          <p class="question">
+            教会の教えと世の中の動向に関して、考えたいテーマを教えてください。<br />
+            Please select the themes you would like to reflect on related to the church’s teachings
+            and current societal trends.
+          </p>
+          <AppInputCheckbox
+            name="survey-interested"
+            :items="[
+              { label: 'AIの倫理 - Ethics of AI', value: 'AIの倫理' },
+              { label: 'LGBTQ+', value: 'LGBTQ+' },
+              { label: 'SNSと信仰生活 - SNS and faith life', value: 'SNSと信仰生活' },
+              { label: '現代医学 - Modern medicine', value: '現代医学' },
+              { label: '家族の価値観 - Family values', value: '家族の価値観' }
+            ]"
+            v-model="postData.surveyInterested"
           />
         </div>
 
@@ -271,10 +334,17 @@ document.title = '京葉地区一泊お泊まり会参加申込'
 
 .participation-fee {
   border-top: var(--color-subtext) solid 1px;
+  color: var(--color-subtext);
   margin: 1em 0 0;
   padding: 0.5em 1em 0;
   text-align: right;
   width: 200px;
+}
+
+.question {
+  border-left: var(--color-divider) solid 2px;
+  margin: 2em 0 1em;
+  padding: 0 0 0 1em;
 }
 
 .message {
