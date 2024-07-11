@@ -5,11 +5,7 @@ import { useSubmit } from '@/composables/useSubmit'
 const { appendRecaptcha } = useSubmit()
 
 onMounted(async () => {
-  try {
-    await appendRecaptcha()
-  } catch (error) {
-    console.error('Failed to load reCAPTCHA script:', error)
-  }
+  await appendRecaptcha()
 })
 </script>
 

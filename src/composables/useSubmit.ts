@@ -17,7 +17,6 @@ const POST_URL =
   'https://script.google.com/macros/s/AKfycbwVrcTOx7j6Joi6ia4Hpe7IDoq_zPIcl-MM-Sd8QFfVGwuTiMtQfD7AmEQ046UYhGxD/exec'
 
 export const useSubmit = () => {
-  const recaptchaReady = ref(false)
   const state = ref<State>('')
   const error = ref('')
 
@@ -37,20 +36,12 @@ export const useSubmit = () => {
       s.async = true
       s.defer = true
       s.onerror = () => reject(new Error('Failed to load reCAPTCHA script'))
-      s.onload = () => {
-        recaptchaReady.value = true
-        resolve()
-      }
 
       document.head.appendChild(s)
     })
   }
 
   const post = async (formData: PostData) => {
-    if (!recaptchaReady.value) {
-      throw new Error('reCAPTCHA is not ready')
-    }
-
     state.value = 'submitting'
 
     try {
@@ -85,5 +76,5 @@ export const useSubmit = () => {
     }
   }
 
-  return { recaptchaReady, state, error, appendRecaptcha, post }
+  return { state, error, appendRecaptcha, post }
 }
