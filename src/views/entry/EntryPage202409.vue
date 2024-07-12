@@ -6,7 +6,7 @@ import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
 import OverlaySubmit from '@/components/OverlaySubmit.vue'
-// import RecaptchaText from '@/components/RecaptchaText.vue'
+import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
@@ -28,8 +28,11 @@ const postData = ref<PostData>({
   participationDetails: [],
   recreation: '',
   thematicMeetings: '',
+  musicMinisters: [],
+  instrument: '',
   surveyInterested: [],
-  surveyImportant: []
+  surveyImportant: [],
+  surveyReflect: []
 })
 
 const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
@@ -183,12 +186,26 @@ document.title = '京葉地区一泊お泊まり会参加申込'
         </div>
 
         <div class="input-box">
+          <div class="input-label">奏楽奉仕 - Music Ministry</div>
+          <AppInputCheckbox
+            name="music-ministers"
+            :items="[{ label: '希望する - I am interested', value: '希望する' }]"
+            v-model="postData.musicMinisters"
+          />
+
+          <div v-if="postData.musicMinisters.includes('希望する')" class="nest">
+            <div class="input-label">楽器 - Instrument</div>
+            <AppInputText name="instrument" maxlength="32" v-model="postData.instrument" />
+          </div>
+        </div>
+
+        <div class="input-box">
           <p>
-            グループ分けの参考にするため、簡単なアンケートにご協力ください。複数回答可能です。どれにも当てはまらない場合は、選択しないでください。
+            グループ分けの参考にするため、簡単なアンケートにご協力ください。当てはまるものをすべて選択し、どれにも当てはまらない場合は、何も選択しないでください。
           </p>
           <p>
-            To help with group assignments, please complete this brief survey. Multiple answers are
-            allowed. If none of the options apply to you, please do not select any.
+            To help with group assignments, please complete this brief survey. Select all that
+            apply, and if none of the options apply to you, please do not select any.
           </p>
 
           <p class="question">
@@ -229,7 +246,7 @@ document.title = '京葉地区一泊お泊まり会参加申込'
             and current societal trends.
           </p>
           <AppInputCheckbox
-            name="survey-interested"
+            name="survey-reflect"
             :items="[
               { label: 'AIの倫理 - Ethics of AI', value: 'AIの倫理' },
               { label: 'LGBTQ+', value: 'LGBTQ+' },
@@ -237,7 +254,7 @@ document.title = '京葉地区一泊お泊まり会参加申込'
               { label: '現代医学 - Modern medicine', value: '現代医学' },
               { label: '家族の価値観 - Family values', value: '家族の価値観' }
             ]"
-            v-model="postData.surveyInterested"
+            v-model="postData.surveyReflect"
           />
         </div>
 
@@ -280,7 +297,7 @@ document.title = '京葉地区一泊お泊まり会参加申込'
 
   <footer class="footer">
     <div>担当：仁戸名聖書バプテスト教会</div>
-    <!-- <RecaptchaText /> -->
+    <RecaptchaText />
   </footer>
 
   <OverlaySubmit :isActive="state === 'submitting'" />
