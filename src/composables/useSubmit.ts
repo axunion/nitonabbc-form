@@ -2,11 +2,15 @@ import { ref } from 'vue'
 
 export type State = '' | 'submitting' | 'submitted' | 'failed'
 
+export type GetResponseData = {
+  result: 'done' | 'error' | 'expired'
+}
+
 export type PostData = {
   [key: string]: string | string[]
 }
 
-export type ResponseData = {
+export type PostResponseData = {
   result: 'done' | 'error'
   error: string
 }
@@ -41,6 +45,12 @@ export const useSubmit = () => {
     })
   }
 
+  const isExpired = async (): Promise<boolean> => {
+    const response = await fetch(POST_URL)
+    const responseData: GetResponseData = await response.json()
+    return responseData.result === 'expired'
+  }
+
   const post = async (formData: PostData) => {
     state.value = 'submitting'
 
@@ -60,7 +70,7 @@ export const useSubmit = () => {
           throw new Error('Form submission failed')
         }
 
-        const responseData: ResponseData = await response.json()
+        const responseData: PostResponseData = await response.json()
 
         if (responseData.result === 'done') {
           state.value = 'submitted'
@@ -76,5 +86,5 @@ export const useSubmit = () => {
     }
   }
 
-  return { state, error, appendRecaptcha, post }
+  return { state, error, appendRecaptcha, isExpired, post }
 }
