@@ -8,7 +8,9 @@ export type ResponseData<T> = {
   error?: string
 }
 
-const GET_URL = import.meta.env.DEV ? 'https://example.com/request' : ''
+const GET_URL = import.meta.env.DEV
+  ? 'https://example.com/request'
+  : 'https://script.google.com/macros/s/AKfycbwOtqqeRFi-laXj0CiFHa9T-_HBVABwJwx7YBIpTQswy7yyJRqxH4TkkFcS6wMpJN8LjA/exec'
 const CHECK_IN_URL = import.meta.env.DEV ? 'https://example.com/checkIn' : ''
 
 export const useRequest = () => {
