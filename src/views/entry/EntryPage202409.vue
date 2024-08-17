@@ -10,13 +10,12 @@ import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
-const { state, error, post } = useSubmit()
+const { state, error, checkExpiration, post } = useSubmit()
 const datalist = KEIYO.map((item) => item.label)
-const dueDate = new Date('2024-08-31')
-const now = new Date()
-const isExpired = ref(now > dueDate)
+const type = '202409'
+const isExpired = !(await checkExpiration(type))
 const postData = ref<PostData>({
-  type: '202409',
+  type,
   recaptcha: '',
   church: '',
   name: '',

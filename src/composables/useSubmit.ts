@@ -23,10 +23,10 @@ export const useSubmit = () => {
   const state = ref<State>('')
   const error = ref('')
 
-  const isExpired = async (): Promise<boolean> => {
-    const response = await fetch(POST_URL)
+  const checkExpiration = async (type: string): Promise<boolean> => {
+    const response = await fetch(`${POST_URL}?type=${type}`)
     const responseData: GetResponseData = await response.json()
-    return responseData.result === 'expired'
+    return responseData.result === 'done'
   }
 
   const post = async (formData: PostData) => {
@@ -64,5 +64,5 @@ export const useSubmit = () => {
     }
   }
 
-  return { state, error, isExpired, post }
+  return { state, error, checkExpiration, post }
 }
