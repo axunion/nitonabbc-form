@@ -12,11 +12,13 @@ onMounted(async () => {
       return
     }
 
-    const s = document.createElement('script')
-    s.id = ID
-    s.src = `${RECAPTCHA_URL}?render=${SITE_KEY}`
-    s.onerror = () => reject(new Error('Failed to load reCAPTCHA script'))
-    document.head.appendChild(s)
+    const script = document.createElement('script')
+    script.id = ID
+    script.src = `${RECAPTCHA_URL}?render=${SITE_KEY}`
+    script.async = true
+    script.defer = true
+    script.onerror = () => reject(new Error('Failed to load reCAPTCHA script'))
+    document.head.appendChild(script)
   })
 })
 </script>
