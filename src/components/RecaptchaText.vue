@@ -1,11 +1,25 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useSubmit } from '@/composables/useSubmit'
-
-const { appendRecaptcha } = useSubmit()
+import { SITE_KEY } from '@/composables/useSubmit'
 
 onMounted(async () => {
-  await appendRecaptcha()
+  const ID = 'recaptcha-script'
+  const RECAPTCHA_URL = 'https://www.google.com/recaptcha/api.js'
+
+  await new Promise<void>((resolve, reject): void => {
+    if (document.getElementById(ID)) {
+      resolve()
+      return
+    }
+
+    const script = document.createElement('script')
+    script.id = ID
+    script.src = `${RECAPTCHA_URL}?render=${SITE_KEY}`
+    script.async = true
+    script.defer = true
+    script.onerror = () => reject(new Error('Failed to load reCAPTCHA script'))
+    document.head.appendChild(script)
+  })
 })
 </script>
 

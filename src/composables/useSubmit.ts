@@ -2,46 +2,34 @@ import { ref } from 'vue'
 
 export type State = '' | 'submitting' | 'submitted' | 'failed'
 
+export type GetResponseData = {
+  result: 'done' | 'error' | 'expired'
+}
+
 export type PostData = {
   [key: string]: string | string[]
 }
 
-export type ResponseData = {
+export type PostResponseData = {
   result: 'done' | 'error'
   error: string
 }
 
-const RECAPTCHA_URL = 'https://www.google.com/recaptcha/api.js'
-const SITE_KEY = '6LemGUgpAAAAAHNy3XuUPkWhP2KZXkp1EfmC5lDh'
-const POST_URL =
+export const SITE_KEY = '6LemGUgpAAAAAHNy3XuUPkWhP2KZXkp1EfmC5lDh'
+export const POST_URL =
   'https://script.google.com/macros/s/AKfycbwVrcTOx7j6Joi6ia4Hpe7IDoq_zPIcl-MM-Sd8QFfVGwuTiMtQfD7AmEQ046UYhGxD/exec'
 
 export const useSubmit = () => {
   const state = ref<State>('')
   const error = ref('')
 
-  const appendRecaptcha = (): Promise<void> => {
-    const ID = 'recaptcha-script'
-
-    return new Promise((resolve, reject): void => {
-      if (document.getElementById(ID)) {
-        resolve()
-        return
-      }
-
-      const s = document.createElement('script')
-
-      s.id = ID
-      s.src = `${RECAPTCHA_URL}?render=${SITE_KEY}`
-      s.async = true
-      s.defer = true
-      s.onerror = () => reject(new Error('Failed to load reCAPTCHA script'))
-
-      document.head.appendChild(s)
-    })
+  const checkExpiration = async (type: string): Promise<boolean> => {
+    const response = await fetch(`${POST_URL}?type=${type}`)
+    const responseData: GetResponseData = await response.json()
+    return responseData.result === 'done'
   }
 
-  const post = async (formData: PostData) => {
+  const post = async (formData: PostData): Promise<void> => {
     state.value = 'submitting'
 
     try {
@@ -60,7 +48,7 @@ export const useSubmit = () => {
           throw new Error('Form submission failed')
         }
 
-        const responseData: ResponseData = await response.json()
+        const responseData: PostResponseData = await response.json()
 
         if (responseData.result === 'done') {
           state.value = 'submitted'
@@ -76,5 +64,5 @@ export const useSubmit = () => {
     }
   }
 
-  return { state, error, appendRecaptcha, post }
+  return { state, error, checkExpiration, post }
 }
