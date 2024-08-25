@@ -6,14 +6,13 @@ import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
 import OverlaySubmit from '@/components/OverlaySubmit.vue'
-import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
-const { state, error, checkExpiration, post } = useSubmit()
+const { state, error, post } = useSubmit()
 const datalist = KEIYO.map((item) => item.label)
 const type = '202409'
-const isExpired = !(await checkExpiration(type))
+const isExpired = true
 const postData = ref<PostData>({
   type,
   recaptcha: '',
@@ -286,8 +285,8 @@ document.title = '京葉地区一泊お泊まり会参加申込'
       </Transition>
     </template>
 
-    <template v-else>
-      <div v-if="isExpired" class="card">
+    <template v-if="isExpired">
+      <div class="card">
         <IconClose class="icon-close" />
         <p>この申込は終了しています。</p>
       </div>
@@ -296,7 +295,6 @@ document.title = '京葉地区一泊お泊まり会参加申込'
 
   <footer class="footer">
     <div>担当：仁戸名聖書バプテスト教会</div>
-    <RecaptchaText />
   </footer>
 
   <OverlaySubmit :isActive="state === 'submitting'" />

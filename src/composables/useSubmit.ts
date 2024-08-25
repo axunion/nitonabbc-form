@@ -29,7 +29,7 @@ export const useSubmit = () => {
     return responseData.result === 'done'
   }
 
-  const post = async (formData: PostData) => {
+  const post = async (formData: PostData): Promise<void> => {
     state.value = 'submitting'
 
     try {
