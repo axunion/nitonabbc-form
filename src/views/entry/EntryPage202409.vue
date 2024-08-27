@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
 import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
 import OverlaySubmit from '@/components/OverlaySubmit.vue'
+import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
-const { state, error, post } = useSubmit()
+const { state, error, checkExpiration, post } = useSubmit()
 const datalist = KEIYO.map((item) => item.label)
 const type = '202409'
-const isExpired = true
+const isExpired = ref<boolean | null>(null)
 const postData = ref<PostData>({
   type,
   recaptcha: '',
@@ -56,7 +57,10 @@ const submit = async () => {
   }
 }
 
-document.title = '京葉地区一泊お泊まり会参加申込'
+onMounted(async () => {
+  document.title = '京葉地区一泊お泊まり会参加申込'
+  isExpired.value = await checkExpiration(type)
+})
 </script>
 
 <template>
@@ -74,7 +78,7 @@ document.title = '京葉地区一泊お泊まり会参加申込'
   </header>
 
   <main class="main">
-    <template v-if="!isExpired">
+    <template v-if="isExpired === false">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
         <div class="input-box">
           <div class="input-label">教会名 - Church Name</div>
@@ -285,7 +289,7 @@ document.title = '京葉地区一泊お泊まり会参加申込'
       </Transition>
     </template>
 
-    <template v-if="isExpired">
+    <template v-if="isExpired === true">
       <div class="card">
         <IconClose class="icon-close" />
         <p>この申込は終了しています。</p>
@@ -295,6 +299,7 @@ document.title = '京葉地区一泊お泊まり会参加申込'
 
   <footer class="footer">
     <div>担当：仁戸名聖書バプテスト教会</div>
+    <RecaptchaText />
   </footer>
 
   <OverlaySubmit :isActive="state === 'submitting'" />
@@ -378,7 +383,8 @@ document.title = '京葉地区一泊お泊まり会参加申込'
 
 .footer {
   font-size: 85%;
-  margin: 15vh 0 0;
+  margin: 15vh auto 0;
+  max-width: var(--content-max-wieght);
   padding: 1em;
   text-align: center;
 }

@@ -26,7 +26,7 @@ export const useSubmit = () => {
   const checkExpiration = async (type: string): Promise<boolean> => {
     const response = await fetch(`${POST_URL}?type=${type}`)
     const responseData: GetResponseData = await response.json()
-    return responseData.result === 'done'
+    return responseData.result === 'expired'
   }
 
   const post = async (formData: PostData): Promise<void> => {
