@@ -5,7 +5,6 @@ import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
 import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
-import OverlaySubmit from '@/components/OverlaySubmit.vue'
 import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
@@ -65,15 +64,13 @@ onMounted(async () => {
 
 <template>
   <header class="header">
-    <div class="header-content">
-      <h1 class="h1">
-        京葉地区一泊お泊まり会参加申込<br />
-        Keiyo Area Retreat Registration
-      </h1>
-      <div class="date">
-        開催日：2024年9月22日〜23日<br />
-        Event Dates: September 22-23, 2024
-      </div>
+    <h1 class="h1">
+      京葉地区一泊お泊まり会参加申込<br />
+      Keiyo Area Retreat Registration
+    </h1>
+    <div class="date">
+      開催日：2024年9月22日〜23日<br />
+      Event Dates: September 22-23, 2024
     </div>
   </header>
 
@@ -297,27 +294,18 @@ onMounted(async () => {
     </template>
   </main>
 
-  <footer class="footer">
+  <footer v-if="isExpired === false" class="footer">
     <div>担当：仁戸名聖書バプテスト教会</div>
     <RecaptchaText />
   </footer>
-
-  <OverlaySubmit :isActive="state === 'submitting'" />
 </template>
 
 <style scoped>
 .header {
-  margin: auto;
-  max-width: var(--content-max-wieght);
-  padding: 1em 1em 0;
-}
-
-.header-content {
   background: white;
   border-bottom: var(--color-primary) solid 4px;
   border-top: var(--color-primary) solid 4px;
   box-shadow: 0 1px 3px gray;
-  margin: auto;
   padding: 1.5em 1em;
 }
 
@@ -331,14 +319,6 @@ onMounted(async () => {
   font-size: 85%;
   margin: auto;
   text-align: right;
-}
-
-.main {
-  margin: auto;
-  max-width: var(--content-max-wieght);
-  padding: 1em;
-  position: relative;
-  z-index: 0;
 }
 
 .form {
@@ -383,9 +363,7 @@ onMounted(async () => {
 
 .footer {
   font-size: 85%;
-  margin: 15vh auto 0;
-  max-width: var(--content-max-wieght);
-  padding: 1em;
+  margin: 15vh 0 0;
   text-align: center;
 }
 </style>
