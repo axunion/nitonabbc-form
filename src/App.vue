@@ -8,8 +8,8 @@ import OverlaySubmit from '@/components/OverlaySubmit.vue'
     <router-view />
   </div>
 
-  <OverlayLoading :is-active="false" />
-  <OverlaySubmit :is-active="false" />
+  <OverlayLoading />
+  <OverlaySubmit />
 </template>
 
 <style scoped>

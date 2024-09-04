@@ -1,11 +1,11 @@
 <script setup lang="ts">
-defineProps<{
-  isActive: boolean
-}>()
+import { useOverlayStore } from '@/stores/overlay'
+
+const overlayStore = useOverlayStore()
 </script>
 
 <template>
-  <div v-if="isActive" class="overlay">
+  <div v-if="overlayStore.isActiveLoading" class="overlay">
     <span class="loading">Loading</span>
   </div>
 </template>

@@ -4,8 +4,11 @@ import AppButton from '@/components/AppButton.vue'
 import IconClose from '@/components/IconClose.vue'
 import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
+import { useOverlayStore } from '@/stores/overlay'
 
 const { state, error, post } = useSubmit()
+const { showOverlayLoading, hideOverlayLoading } = useOverlayStore()
+
 const type = '202409'
 const isExpired = false
 const postData = ref<PostData>({
@@ -27,8 +30,11 @@ const submit = async () => {
   }
 }
 
+showOverlayLoading()
+
 onMounted(async () => {
   document.title = '京葉地区一泊お泊まり会アンケート'
+  setTimeout(hideOverlayLoading, 1000)
 })
 </script>
 
