@@ -6,7 +6,6 @@ import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppInputSelect from '@/components/AppInputSelect.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
-import OverlaySubmit from '@/components/OverlaySubmit.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
@@ -158,16 +157,14 @@ document.title = '京葉地区合同青年会参加申込'
     </template>
   </main>
 
-  <footer class="footer">
+  <footer v-if="!isExpired" class="footer">
     <div>主催：仁戸名聖書バプテスト教会</div>
   </footer>
-
-  <OverlaySubmit :isActive="state === 'submitting'" />
 </template>
 
 <style scoped>
 .header {
-  padding: 2em 1em 0;
+  padding: 1em 0 0;
 }
 
 .h1 {
@@ -179,17 +176,7 @@ document.title = '京葉地区合同青年会参加申込'
 
 .date {
   font-size: 90%;
-  margin: auto;
-  max-width: var(--content-max-wieght);
   text-align: right;
-}
-
-.main {
-  margin: auto;
-  max-width: var(--content-max-wieght);
-  padding: 1em;
-  position: relative;
-  z-index: 0;
 }
 
 .form {
@@ -216,7 +203,6 @@ document.title = '京葉地区合同青年会参加申込'
 .footer {
   font-size: 85%;
   margin: 15vh 0 0;
-  padding: 1em;
   text-align: center;
 }
 </style>
