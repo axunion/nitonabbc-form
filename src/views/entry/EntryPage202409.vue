@@ -5,14 +5,14 @@ import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
 import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
-import RecaptchaText from '@/components/RecaptchaText.vue'
+// import RecaptchaText from '@/components/RecaptchaText.vue'
 import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
-const { state, error, checkExpiration, post } = useSubmit()
+const { state /* error, checkExpiration, post */ } = useSubmit()
 const datalist = KEIYO.map((item) => item.label)
 const type = '202409'
-const isExpired = ref<boolean | null>(null)
+const isExpired = ref<boolean | null>(true)
 const postData = ref<PostData>({
   type,
   recaptcha: '',
@@ -49,16 +49,15 @@ const participationFee = computed(() => {
 })
 
 const submit = async () => {
-  await post(postData.value)
-
-  if (error.value) {
-    console.error(error.value)
-  }
+  // await post(postData.value)
+  // if (error.value) {
+  //   console.error(error.value)
+  // }
 }
 
 onMounted(async () => {
   document.title = '京葉地区一泊お泊まり会参加申込'
-  isExpired.value = await checkExpiration(type)
+  // isExpired.value = await checkExpiration(type)
 })
 </script>
 
@@ -296,7 +295,7 @@ onMounted(async () => {
 
   <footer v-if="isExpired === false" class="footer">
     <div>担当：仁戸名聖書バプテスト教会</div>
-    <RecaptchaText />
+    <!-- <RecaptchaText /> -->
   </footer>
 </template>
 
