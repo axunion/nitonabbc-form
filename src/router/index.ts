@@ -4,11 +4,6 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/request/:type',
-      name: 'request',
-      component: () => import('@/views/request/RequestPage.vue')
-    },
-    {
       path: '/survey',
       name: 'survey',
       children: [
