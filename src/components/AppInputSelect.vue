@@ -30,7 +30,6 @@ const model = defineModel()
 <style scoped>
 .div {
   border-bottom: var(--color-subtext) solid 1px;
-  display: block;
   padding: 0 0.5em 0.5em;
   position: relative;
 }

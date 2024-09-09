@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineModel } from 'vue'
+import { defineModel, ref, onMounted } from 'vue'
 
 type Props = {
   name: string
@@ -13,6 +13,18 @@ withDefaults(defineProps<Props>(), {
 })
 
 const model = defineModel<string | string[]>()
+const textarea = ref<HTMLTextAreaElement | null>(null)
+
+const autoResize = () => {
+  if (textarea.value) {
+    textarea.value.style.height = 'auto'
+    textarea.value.style.height = `${textarea.value.scrollHeight}px`
+  }
+}
+
+onMounted(() => {
+  autoResize()
+})
 </script>
 
 <template>
@@ -22,7 +34,9 @@ const model = defineModel<string | string[]>()
       :name="name"
       :required="required"
       :disabled="disabled"
+      @input="autoResize"
       v-model.trim="model"
+      ref="textarea"
     ></textarea>
   </div>
 </template>
@@ -36,7 +50,6 @@ const model = defineModel<string | string[]>()
 }
 
 .textarea {
-  height: 8em;
   resize: none;
   width: 100%;
 }

@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const model = defineModel()
+
 let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
 </script>
 
@@ -40,7 +41,6 @@ let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
 <style scoped>
 .div {
   border-bottom: var(--color-subtext) solid 1px;
-  display: block;
   padding: 0 0.5em 0.5em;
   position: relative;
 }
