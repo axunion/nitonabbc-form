@@ -12,7 +12,7 @@ import { useOverlayStore } from '@/stores/overlay'
 const { state, error, post } = useSubmit()
 const { showOverlayLoading, hideOverlayLoading } = useOverlayStore()
 
-const type = 'surveys202409'
+const type = 's202409'
 const isExpired = false
 const postData = ref<PostData>({
   type,
@@ -69,60 +69,73 @@ onMounted(async () => {
         <div class="input-box">
           <div class="input-label">施設について</div>
 
-          <p class="question">場所はどうでしたか？</p>
+          <p class="question">
+            場所について、どのように感じましたか？<br />
+            How did you feel about the location?
+          </p>
 
           <AppInputRadio
             name="place"
             :items="[
-              { label: '満足', value: '満足' },
-              { label: '普通', value: '普通' },
-              { label: '不満', value: '不満' }
+              { label: '満足 - Satisfied', value: '満足' },
+              { label: '普通 - Neutral', value: '普通' },
+              { label: '不満 - Dissatisfied', value: '不満' }
             ]"
             v-model="postData.place"
           />
 
-          <p class="question">食事はどうでしたか？</p>
+          <p class="question">
+            食事の内容や質についてはいかがでしたか？<br />
+            How was the quality and variety of the food?
+          </p>
 
           <AppInputRadio
             name="meal"
             :items="[
-              { label: '満足', value: '満足' },
-              { label: '普通', value: '普通' },
-              { label: '不満', value: '不満' }
+              { label: '満足 - Satisfied', value: '満足' },
+              { label: '普通 - Neutral', value: '普通' },
+              { label: '不満 - Dissatisfied', value: '不満' }
             ]"
             v-model="postData.meal"
           />
 
-          <p class="question">設備はどうでしたか？</p>
+          <p class="question">
+            設備や施設の使いやすさについて、どのように感じましたか？<br />
+            How did you find the convenience and usability of the facilities?
+          </p>
 
           <AppInputRadio
             name="facility"
             :items="[
-              { label: '満足', value: '満足' },
-              { label: '普通', value: '普通' },
-              { label: '不満', value: '不満' }
+              { label: '満足 - Satisfied', value: '満足' },
+              { label: '普通 - Neutral', value: '普通' },
+              { label: '不満 - Dissatisfied', value: '不満' }
             ]"
-            v-model="postData.meal"
+            v-model="postData.facility"
           />
         </div>
 
         <div class="input-box">
           <div class="input-label">プログラムについて</div>
 
-          <p class="question">スケジュールは適切でしたか？</p>
+          <p class="question">
+            スケジュールの内容や進行は適切でしたか？<br />
+            Was the content and pace of the schedule appropriate?
+          </p>
 
           <AppInputRadio
             name="schedule"
             :items="[
-              { label: '忙しかった', value: '忙しかった' },
-              { label: 'ちょうどよかった', value: 'ちょうどよかった' },
-              { label: 'ゆっくりすぎた', value: 'ゆっくりすぎた' }
+              { label: '忙しかった - Too busy', value: '忙しかった' },
+              { label: 'ちょうどよかった - Just right', value: 'ちょうどよかった' },
+              { label: 'ゆっくりすぎた - Too slow', value: 'ゆっくりすぎた' }
             ]"
             v-model="postData.schedule"
           />
 
           <p class="question">
-            特に楽しかったまたは満足したプログラムに当てはまるものをすべて選択してください。
+            特に楽しかったまたは満足したプログラムに当てはまるものをすべて選択してください。<br />
+            Please select all the programs you particularly enjoyed or were satisfied with.
           </p>
 
           <AppInputCheckbox
@@ -136,7 +149,9 @@ onMounted(async () => {
           />
 
           <p class="question">
-            今回参加されたテーマ別集会でまた参加したい、または今回参加できなかったため次に参加したいテーマに当てはまるものをすべて選択してください。
+            今回参加されたテーマ別集会でまた参加したい、または今回参加できなかったため次に参加したいテーマに当てはまるものをすべて選択してください。<br />
+            Please select all the thematic sessions you would like to attend again, or those you
+            missed this time but would like to attend next time.
           </p>
 
           <AppInputCheckbox
@@ -152,19 +167,27 @@ onMounted(async () => {
           />
 
           <p class="question">
-            今後聞いてみたい、または興味のあるテーマに当てはまるものをすべて選択してください。
+            今後聞いてみたい、または興味のあるテーマに当てはまるものをすべて選択してください。<br />
+            Please select all the topics you would like to hear about in the future or are
+            interested in.
           </p>
 
           <AppInputCheckbox
             name="nextThematicMeetings"
             :items="[
-              { label: '個人伝道', value: '個人伝道' },
-              { label: '賛美', value: '賛美' },
-              { label: '青年会の盛り上げ方', value: '青年会の盛り上げ方' },
-              { label: '終末論', value: '終末論' },
-              { label: 'イスラエルの歴史', value: 'イスラエルの歴史' },
-              { label: '教会内の人間関係', value: '教会内の人間関係' },
-              { label: '将来の不安', value: '将来の不安' }
+              { label: '個人伝道 - Personal Evangelism', value: '個人伝道' },
+              { label: '賛美 - Worship/Praise', value: '賛美' },
+              {
+                label: '青年会の盛り上げ方 - How to Revitalize Youth Groups',
+                value: '青年会の盛り上げ方'
+              },
+              { label: '終末論 - Eschatology', value: '終末論' },
+              { label: 'イスラエルの歴史 - History of Israel', value: 'イスラエルの歴史' },
+              {
+                label: '教会内の人間関係 - Interpersonal Relationships within the Church',
+                value: '教会内の人間関係'
+              },
+              { label: '将来の不安 - Anxiety about the Future', value: '将来の不安' }
             ]"
             v-model="postData.nextThematicMeetings"
           />
@@ -173,13 +196,18 @@ onMounted(async () => {
         <div class="input-box">
           <div class="input-label">その他</div>
 
-          <p class="question">
-            改善してほしい点や新たに取り入れてほしいプログラムがあれば教えてください。
+          <p data-v-71ff252e="" class="question">
+            改善してほしい点や、新たに取り入れてほしいプログラムがあれば教えてください。<br />
+            Please let us know if there are any points you would like to see improved or any new
+            programs you would like to see added.
           </p>
 
           <AppTextarea name="kaizen" v-model="postData.kaizen" />
 
-          <p class="question">その他のご意見や感想があれば自由にご記入ください。</p>
+          <p data-v-71ff252e="" class="question">
+            その他のご意見や感想があれば自由にご記入ください。<br />
+            Please feel free to provide any other comments or feedback you may have.
+          </p>
 
           <AppTextarea name="opinion" v-model="postData.opinion" />
         </div>
