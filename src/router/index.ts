@@ -16,17 +16,17 @@ const router = createRouter({
     },
     {
       path: '/entry',
-      name: 'entry',
+      name: 'apply',
       children: [
         {
           path: '2024/09',
-          name: 'entry202409',
-          component: () => import('@/views/entry/EntryPage202409.vue')
+          name: 'apply202409',
+          component: () => import('@/views/apply/ApplyPage202409.vue')
         },
         {
           path: '2024/02',
-          name: 'entry202402',
-          component: () => import('@/views/entry/EntryPage202402.vue')
+          name: 'apply202402',
+          component: () => import('@/views/apply/ApplyPage202402.vue')
         }
       ]
     }
