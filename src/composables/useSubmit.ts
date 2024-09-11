@@ -15,9 +15,8 @@ export type PostResponseData = {
   error: string
 }
 
-export const SITE_KEY = '6LemGUgpAAAAAHNy3XuUPkWhP2KZXkp1EfmC5lDh'
-export const POST_URL =
-  'https://script.google.com/macros/s/AKfycbwVrcTOx7j6Joi6ia4Hpe7IDoq_zPIcl-MM-Sd8QFfVGwuTiMtQfD7AmEQ046UYhGxD/exec'
+const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY
+const POST_URL = import.meta.env.VITE_API_POST_URL
 
 export const useSubmit = () => {
   const state = ref<State>('')
