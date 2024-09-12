@@ -10,7 +10,7 @@ import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { useOverlayStore } from '@/stores/overlay'
 
 const { state, error, post } = useSubmit()
-const { showOverlayLoading, hideOverlayLoading } = useOverlayStore()
+const { showOverlayLoading } = useOverlayStore()
 
 const type = 's202409'
 const isExpired = false
@@ -21,7 +21,7 @@ const postData = ref<PostData>({
   meal: '',
   facility: '',
   schedule: '',
-  recreation: [],
+  favorite: [],
   thematicMeetings: [],
   nextThematicMeetings: [],
   kaizen: '',
@@ -43,7 +43,6 @@ showOverlayLoading()
 
 onMounted(async () => {
   document.title = '京葉地区一泊お泊まり会アンケート'
-  setTimeout(hideOverlayLoading, 1000)
 })
 </script>
 
@@ -77,8 +76,10 @@ onMounted(async () => {
           <AppInputRadio
             name="place"
             :items="[
+              { label: '非常に満足 - Very Satisfied', value: '非常に満足' },
               { label: '満足 - Satisfied', value: '満足' },
               { label: '普通 - Neutral', value: '普通' },
+              { label: 'やや不満 - Somewhat Dissatisfied', value: 'やや不満' },
               { label: '不満 - Dissatisfied', value: '不満' }
             ]"
             v-model="postData.place"
@@ -92,8 +93,10 @@ onMounted(async () => {
           <AppInputRadio
             name="meal"
             :items="[
+              { label: '非常に満足 - Very Satisfied', value: '非常に満足' },
               { label: '満足 - Satisfied', value: '満足' },
               { label: '普通 - Neutral', value: '普通' },
+              { label: 'やや不満 - Somewhat Dissatisfied', value: 'やや不満' },
               { label: '不満 - Dissatisfied', value: '不満' }
             ]"
             v-model="postData.meal"
@@ -107,8 +110,10 @@ onMounted(async () => {
           <AppInputRadio
             name="facility"
             :items="[
+              { label: '非常に満足 - Very Satisfied', value: '非常に満足' },
               { label: '満足 - Satisfied', value: '満足' },
               { label: '普通 - Neutral', value: '普通' },
+              { label: 'やや不満 - Somewhat Dissatisfied', value: 'やや不満' },
               { label: '不満 - Dissatisfied', value: '不満' }
             ]"
             v-model="postData.facility"
@@ -139,13 +144,13 @@ onMounted(async () => {
           </p>
 
           <AppInputCheckbox
-            name="recreation"
+            name="favorite"
             :items="[
               { label: '交流会 - Fellowship time', value: '' },
               { label: 'レクリエーション - Recreation', value: '' },
               { label: 'テーマ別集会 - Themed sessions', value: '' }
             ]"
-            v-model="postData.recreation"
+            v-model="postData.favorite"
           />
 
           <p class="question">
