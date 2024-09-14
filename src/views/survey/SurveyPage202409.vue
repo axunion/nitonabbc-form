@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
 import AppInputRadio from '@/components/AppInputRadio.vue'
@@ -10,9 +10,9 @@ import { type PostData, useSubmit } from '@/composables/useSubmit'
 import { useOverlayStore } from '@/stores/overlay'
 
 const { state, error, post } = useSubmit()
-const { showOverlayLoading } = useOverlayStore()
+const { showOverlaySubmit, hideOverlaySubmit } = useOverlayStore()
 
-const type = 's202409'
+const type = '202409s'
 const isExpired = false
 const postData = ref<PostData>({
   type,
@@ -39,10 +39,16 @@ const submit = async () => {
   }
 }
 
-showOverlayLoading()
-
 onMounted(async () => {
   document.title = '京葉地区一泊お泊まり会アンケート'
+})
+
+watch(state, (value) => {
+  if (value === 'submitting') {
+    showOverlaySubmit()
+  } else if (value === 'submitted' || value === 'failed') {
+    hideOverlaySubmit()
+  }
 })
 </script>
 
@@ -146,9 +152,9 @@ onMounted(async () => {
           <AppInputCheckbox
             name="favorite"
             :items="[
-              { label: '交流会 - Fellowship time', value: '' },
-              { label: 'レクリエーション - Recreation', value: '' },
-              { label: 'テーマ別集会 - Themed sessions', value: '' }
+              { label: '交流会 - Fellowship time', value: '交流会' },
+              { label: 'レクリエーション - Recreation', value: 'レクリエーション' },
+              { label: 'テーマ別集会 - Themed sessions', value: 'テーマ別集会' }
             ]"
             v-model="postData.favorite"
           />
