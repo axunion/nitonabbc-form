@@ -12,7 +12,7 @@ withDefaults(defineProps<Props>(), {
   disabled: false
 })
 
-const model = defineModel<string | string[]>()
+const model = defineModel<string>()
 const textarea = ref<HTMLTextAreaElement | null>(null)
 
 const autoResize = () => {

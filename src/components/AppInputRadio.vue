@@ -10,7 +10,7 @@ withDefaults(defineProps<Props>(), {
   items: () => []
 })
 
-const model = defineModel()
+const model = defineModel<string>()
 </script>
 
 <template>

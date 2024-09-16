@@ -6,7 +6,7 @@ import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppTextarea from '@/components/AppTextarea.vue'
 import IconClose from '@/components/IconClose.vue'
 import RecaptchaText from '@/components/RecaptchaText.vue'
-import { type PostData, useSubmit } from '@/composables/useSubmit'
+import { useSubmit } from '@/composables/useSubmit'
 import { useOverlayStore } from '@/stores/overlay'
 
 const { state, error, post } = useSubmit()
@@ -14,16 +14,16 @@ const { showOverlaySubmit, hideOverlaySubmit } = useOverlayStore()
 
 const type = '202409s'
 const isExpired = false
-const postData = ref<PostData>({
+const postData = ref({
   type,
   recaptcha: '',
   place: '',
   meal: '',
   facility: '',
   schedule: '',
-  favorite: [],
-  thematicMeetings: [],
-  nextThematicMeetings: [],
+  favorite: [] as string[],
+  thematicMeetings: [] as string[],
+  nextThematicMeetings: [] as string[],
   kaizen: '',
   opinion: ''
 })

@@ -6,7 +6,7 @@ import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppInputSelect from '@/components/AppInputSelect.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
-import { type PostData, useSubmit } from '@/composables/useSubmit'
+import { useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
 const { state /* error, post */ } = useSubmit()
@@ -14,7 +14,7 @@ const datalist = KEIYO.map((item) => item.label)
 const dueDate = new Date('2024-02-19')
 const now = new Date()
 const isExpired = ref(now > dueDate)
-const postData = ref<PostData>({
+const postData = ref({
   type: '202402',
   recaptcha: '',
   church: '',
@@ -23,7 +23,7 @@ const postData = ref<PostData>({
   generation: '',
   gender: '',
   status: '',
-  party: []
+  party: [] as string[]
 })
 
 const isShowInput = computed(() => ['', 'submitting'].includes(state.value))

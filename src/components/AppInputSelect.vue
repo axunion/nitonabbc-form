@@ -13,7 +13,7 @@ withDefaults(defineProps<Props>(), {
   disabled: false
 })
 
-const model = defineModel()
+const model = defineModel<string>()
 </script>
 
 <template>

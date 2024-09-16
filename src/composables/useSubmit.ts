@@ -6,10 +6,6 @@ export type GetResponseData = {
   result: 'done' | 'error' | 'expired'
 }
 
-export type PostData = {
-  [key: string]: string | string[]
-}
-
 export type PostResponseData = {
   result: 'done' | 'error'
   error: string
@@ -28,7 +24,7 @@ export const useSubmit = () => {
     return responseData.result === 'expired'
   }
 
-  const post = async (formData: PostData): Promise<void> => {
+  const post = async (formData: Record<string, string | string[]>): Promise<void> => {
     state.value = 'submitting'
 
     try {

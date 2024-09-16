@@ -6,14 +6,14 @@ import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppInputText from '@/components/AppInputText.vue'
 import IconClose from '@/components/IconClose.vue'
 // import RecaptchaText from '@/components/RecaptchaText.vue'
-import { type PostData, useSubmit } from '@/composables/useSubmit'
+import { useSubmit } from '@/composables/useSubmit'
 import { KEIYO } from '@/constants/keiyo'
 
 const { state /* error, checkExpiration, post */ } = useSubmit()
 const datalist = KEIYO.map((item) => item.label)
 const type = '202409'
 const isExpired = ref<boolean | null>(true)
-const postData = ref<PostData>({
+const postData = ref({
   type,
   recaptcha: '',
   church: '',
@@ -23,14 +23,14 @@ const postData = ref<PostData>({
   gender: '',
   status: '',
   participationOption: '',
-  participationDetails: [],
+  participationDetails: [] as string[],
   recreation: '',
   thematicMeetings: '',
-  musicMinisters: [],
+  musicMinisters: [] as string[],
   instrument: '',
-  surveyInterested: [],
-  surveyImportant: [],
-  surveyReflect: []
+  surveyInterested: [] as string[],
+  surveyImportant: [] as string[],
+  surveyReflect: [] as string[]
 })
 
 const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
@@ -43,7 +43,7 @@ const participationFee = computed(() => {
     朝食: 700,
     昼食: 1400
   }
-  const details = postData.value.participationDetails as string[]
+  const details = postData.value.participationDetails
   const fee = details.reduce((acc, cur) => acc + table[cur], 0)
   return `¥ ${fee.toLocaleString()}`
 })

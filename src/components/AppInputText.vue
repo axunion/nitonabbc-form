@@ -14,7 +14,7 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false
 })
 
-const model = defineModel()
+const model = defineModel<string>()
 
 let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
 </script>
