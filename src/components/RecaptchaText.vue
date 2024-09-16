@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
+import { SITE_KEY } from '@/composables/useSubmit'
 
 onMounted(async () => {
   const ID = 'recaptcha-script'
   const RECAPTCHA_URL = 'https://www.google.com/recaptcha/api.js'
-  const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY
 
   await new Promise<void>((resolve, reject): void => {
     if (document.getElementById(ID)) {
