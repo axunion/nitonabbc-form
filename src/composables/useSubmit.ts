@@ -11,17 +11,15 @@ export type PostResponseData = {
   error: string
 }
 
-export const SITE_KEY = '6LemGUgpAAAAAHNy3XuUPkWhP2KZXkp1EfmC5lDh'
-
-const POST_URL =
-  'https://script.google.com/macros/s/AKfycbwVrcTOx7j6Joi6ia4Hpe7IDoq_zPIcl-MM-Sd8QFfVGwuTiMtQfD7AmEQ046UYhGxD/exec'
+const ENDPOINT = import.meta.env.VITE_ENDPOINT
+const SITEKEY = import.meta.env.VITE_SITEKEY
 
 export const useSubmit = () => {
   const state = ref<State>('')
   const error = ref('')
 
   const checkExpiration = async (type: string): Promise<boolean> => {
-    const response = await fetch(`${POST_URL}?type=${type}`)
+    const response = await fetch(`${ENDPOINT}?type=${type}`)
     const responseData: GetResponseData = await response.json()
     return responseData.result === 'expired'
   }
@@ -33,10 +31,10 @@ export const useSubmit = () => {
       window.grecaptcha.ready(async () => {
         const postData = {
           ...formData,
-          recaptcha: await grecaptcha.execute(SITE_KEY, { action: 'submit' })
+          recaptcha: await grecaptcha.execute(SITEKEY, { action: 'submit' })
         }
 
-        const response = await fetch(POST_URL, {
+        const response = await fetch(ENDPOINT, {
           method: 'POST',
           body: JSON.stringify(postData)
         })
