@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref /* watch */ } from 'vue'
 import AppButton from '@/components/AppButton.vue'
 import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
 import AppInputRadio from '@/components/AppInputRadio.vue'
 import AppTextarea from '@/components/AppTextarea.vue'
 import IconClose from '@/components/IconClose.vue'
-import RecaptchaText from '@/components/RecaptchaText.vue'
+// import RecaptchaText from '@/components/RecaptchaText.vue'
 import { useSubmit } from '@/composables/useSubmit'
-import { useOverlayStore } from '@/stores/overlay'
+// import { useOverlayStore } from '@/stores/overlay'
 
-const { state, error, post } = useSubmit()
-const { showOverlaySubmit, hideOverlaySubmit } = useOverlayStore()
+const { state /* error, post */ } = useSubmit()
+// const { showOverlaySubmit, hideOverlaySubmit } = useOverlayStore()
 
 const type = '202409s'
-const isExpired = false
+const isExpired = true
 const postData = ref({
   type,
   recaptcha: '',
@@ -32,24 +32,23 @@ const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
 const isDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
 
 const submit = async () => {
-  await post(postData.value)
-
-  if (error.value) {
-    console.error(error.value)
-  }
+  // await post(postData.value)
+  // if (error.value) {
+  //   console.error(error.value)
+  // }
 }
 
 onMounted(async () => {
   document.title = '京葉地区一泊お泊まり会アンケート'
 })
 
-watch(state, (value) => {
-  if (value === 'submitting') {
-    showOverlaySubmit()
-  } else if (value === 'submitted' || value === 'failed') {
-    hideOverlaySubmit()
-  }
-})
+// watch(state, (value) => {
+//   if (value === 'submitting') {
+//     showOverlaySubmit()
+//   } else if (value === 'submitted' || value === 'failed') {
+//     hideOverlaySubmit()
+//   }
+// })
 </script>
 
 <template>
@@ -251,7 +250,7 @@ watch(state, (value) => {
 
   <footer class="footer">
     <div>担当：仁戸名聖書バプテスト教会</div>
-    <RecaptchaText />
+    <!-- <RecaptchaText /> -->
   </footer>
 </template>
 
