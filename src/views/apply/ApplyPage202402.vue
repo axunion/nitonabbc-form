@@ -1,42 +1,44 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import AppButton from '@/components/AppButton.vue'
-import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
-import AppInputRadio from '@/components/AppInputRadio.vue'
-import AppInputSelect from '@/components/AppInputSelect.vue'
-import AppInputText from '@/components/AppInputText.vue'
-import IconClose from '@/components/IconClose.vue'
-import { useSubmit } from '@/composables/useSubmit'
-import { KEIYO } from '@/constants/keiyo'
+import { computed, ref } from "vue";
+import AppButton from "@/components/AppButton.vue";
+import AppInputCheckbox from "@/components/AppInputCheckbox.vue";
+import AppInputRadio from "@/components/AppInputRadio.vue";
+import AppInputSelect from "@/components/AppInputSelect.vue";
+import AppInputText from "@/components/AppInputText.vue";
+import IconClose from "@/components/IconClose.vue";
+import { useSubmit } from "@/composables/useSubmit";
+import { KEIYO } from "@/constants/keiyo";
 
-const { state /* error, post */ } = useSubmit()
-const datalist = KEIYO.map((item) => item.label)
-const dueDate = new Date('2024-02-19')
-const now = new Date()
-const isExpired = ref(now > dueDate)
+const { state /* error, post */ } = useSubmit();
+const datalist = KEIYO.map((item) => item.label);
+const dueDate = new Date("2024-02-19");
+const now = new Date();
+const isExpired = ref(now > dueDate);
 const postData = ref({
-  type: '202402',
-  recaptcha: '',
-  church: '',
-  name: '',
-  kana: '',
-  generation: '',
-  gender: '',
-  status: '',
-  party: [] as string[]
-})
+	type: "202402",
+	recaptcha: "",
+	church: "",
+	name: "",
+	kana: "",
+	generation: "",
+	gender: "",
+	status: "",
+	party: [] as string[],
+});
 
-const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
-const isDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
+const isShowInput = computed(() => ["", "submitting"].includes(state.value));
+const isDisabled = computed(() =>
+	["submitting", "submitted"].includes(state.value),
+);
 
 const submit = async () => {
-  // await post(postData.value)
-  // if (error.value) {
-  //   console.error(error.value)
-  // }
-}
+	// await post(postData.value)
+	// if (error.value) {
+	//   console.error(error.value)
+	// }
+};
 
-document.title = '京葉地区合同青年会参加申込'
+document.title = "京葉地区合同青年会参加申込";
 </script>
 
 <template>

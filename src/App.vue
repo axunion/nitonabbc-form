@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import OverlayLoading from '@/components/OverlayLoading.vue'
-import OverlaySubmit from '@/components/OverlaySubmit.vue'
+import OverlayLoading from "@/components/OverlayLoading.vue";
+import OverlaySubmit from "@/components/OverlaySubmit.vue";
 </script>
 
 <template>

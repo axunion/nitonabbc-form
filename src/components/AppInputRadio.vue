@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { defineModel } from 'vue'
+import { defineModel } from "vue";
 
 type Props = {
-  name: string
-  items: { label: string; value: string }[]
-}
+	name: string;
+	items: { label: string; value: string }[];
+};
 
 withDefaults(defineProps<Props>(), {
-  items: () => []
-})
+	items: () => [],
+});
 
-const model = defineModel<string>()
+const model = defineModel<string>();
 </script>
 
 <template>

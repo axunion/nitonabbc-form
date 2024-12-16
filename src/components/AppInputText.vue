@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { defineModel } from 'vue'
+import { defineModel } from "vue";
 
 type Props = {
-  name: string
-  maxlength?: string
-  required?: boolean
-  disabled?: boolean
-  datalist?: string[]
-}
+	name: string;
+	maxlength?: string;
+	required?: boolean;
+	disabled?: boolean;
+	datalist?: string[];
+};
 
 const props = withDefaults(defineProps<Props>(), {
-  required: false,
-  disabled: false
-})
+	required: false,
+	disabled: false,
+});
 
-const model = defineModel<string>()
+const model = defineModel<string>();
 
-let listId = props.datalist ? 'l' + Math.random().toString(36).slice(-8) : ''
+const listId = props.datalist ? `l${Math.random().toString(36).slice(-8)}` : "";
 </script>
 
 <template>

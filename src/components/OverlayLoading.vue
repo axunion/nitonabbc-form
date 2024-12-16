@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useOverlayStore } from '@/stores/overlay'
+import { useOverlayStore } from "@/stores/overlay";
 
-const overlayStore = useOverlayStore()
+const overlayStore = useOverlayStore();
 </script>
 
 <template>

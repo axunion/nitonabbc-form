@@ -1,46 +1,48 @@
 <script setup lang="ts">
-import { computed, onMounted, ref /* watch */ } from 'vue'
-import AppButton from '@/components/AppButton.vue'
-import AppInputCheckbox from '@/components/AppInputCheckbox.vue'
-import AppInputRadio from '@/components/AppInputRadio.vue'
-import AppTextarea from '@/components/AppTextarea.vue'
-import IconClose from '@/components/IconClose.vue'
+import { computed, onMounted, ref /* watch */ } from "vue";
+import AppButton from "@/components/AppButton.vue";
+import AppInputCheckbox from "@/components/AppInputCheckbox.vue";
+import AppInputRadio from "@/components/AppInputRadio.vue";
+import AppTextarea from "@/components/AppTextarea.vue";
+import IconClose from "@/components/IconClose.vue";
 // import RecaptchaText from '@/components/RecaptchaText.vue'
-import { useSubmit } from '@/composables/useSubmit'
+import { useSubmit } from "@/composables/useSubmit";
 // import { useOverlayStore } from '@/stores/overlay'
 
-const { state /* error, post */ } = useSubmit()
+const { state /* error, post */ } = useSubmit();
 // const { showOverlaySubmit, hideOverlaySubmit } = useOverlayStore()
 
-const type = '202409s'
-const isExpired = true
+const type = "202409s";
+const isExpired = true;
 const postData = ref({
-  type,
-  recaptcha: '',
-  place: '',
-  meal: '',
-  facility: '',
-  schedule: '',
-  favorite: [] as string[],
-  thematicMeetings: [] as string[],
-  nextThematicMeetings: [] as string[],
-  kaizen: '',
-  opinion: ''
-})
+	type,
+	recaptcha: "",
+	place: "",
+	meal: "",
+	facility: "",
+	schedule: "",
+	favorite: [] as string[],
+	thematicMeetings: [] as string[],
+	nextThematicMeetings: [] as string[],
+	kaizen: "",
+	opinion: "",
+});
 
-const isShowInput = computed(() => ['', 'submitting'].includes(state.value))
-const isDisabled = computed(() => ['submitting', 'submitted'].includes(state.value))
+const isShowInput = computed(() => ["", "submitting"].includes(state.value));
+const isDisabled = computed(() =>
+	["submitting", "submitted"].includes(state.value),
+);
 
 const submit = async () => {
-  // await post(postData.value)
-  // if (error.value) {
-  //   console.error(error.value)
-  // }
-}
+	// await post(postData.value)
+	// if (error.value) {
+	//   console.error(error.value)
+	// }
+};
 
 onMounted(async () => {
-  document.title = '京葉地区一泊お泊まり会アンケート'
-})
+	document.title = "京葉地区一泊お泊まり会アンケート";
+});
 
 // watch(state, (value) => {
 //   if (value === 'submitting') {
