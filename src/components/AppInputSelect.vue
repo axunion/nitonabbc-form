@@ -2,15 +2,15 @@
 import { defineModel } from "vue";
 
 type Props = {
-	name: string;
-	options: { label: string; value: string }[];
-	required?: boolean;
-	disabled?: boolean;
+  name: string;
+  options: { label: string; value: string }[];
+  required?: boolean;
+  disabled?: boolean;
 };
 
 withDefaults(defineProps<Props>(), {
-	required: false,
-	disabled: false,
+  required: false,
+  disabled: false,
 });
 
 const model = defineModel<string>();

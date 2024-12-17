@@ -15,33 +15,33 @@ const { state /* error, post */ } = useSubmit();
 const type = "202409s";
 const isExpired = true;
 const postData = ref({
-	type,
-	recaptcha: "",
-	place: "",
-	meal: "",
-	facility: "",
-	schedule: "",
-	favorite: [] as string[],
-	thematicMeetings: [] as string[],
-	nextThematicMeetings: [] as string[],
-	kaizen: "",
-	opinion: "",
+  type,
+  recaptcha: "",
+  place: "",
+  meal: "",
+  facility: "",
+  schedule: "",
+  favorite: [] as string[],
+  thematicMeetings: [] as string[],
+  nextThematicMeetings: [] as string[],
+  kaizen: "",
+  opinion: "",
 });
 
 const isShowInput = computed(() => ["", "submitting"].includes(state.value));
 const isDisabled = computed(() =>
-	["submitting", "submitted"].includes(state.value),
+  ["submitting", "submitted"].includes(state.value),
 );
 
 const submit = async () => {
-	// await post(postData.value)
-	// if (error.value) {
-	//   console.error(error.value)
-	// }
+  // await post(postData.value)
+  // if (error.value) {
+  //   console.error(error.value)
+  // }
 };
 
 onMounted(async () => {
-	document.title = "京葉地区一泊お泊まり会アンケート";
+  document.title = "京葉地区一泊お泊まり会アンケート";
 });
 
 // watch(state, (value) => {

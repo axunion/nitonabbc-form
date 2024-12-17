@@ -2,44 +2,44 @@
 @import "./keyframes.css";
 
 .v-enter-active {
-	animation: fade-up-in 0.5s;
+  animation: fade-up-in 0.5s;
 }
 
 .v-leave-active {
-	animation: fade-up-in 0.5s reverse;
+  animation: fade-up-in 0.5s reverse;
 }
 
 .grecaptcha-badge {
-	visibility: hidden;
+  visibility: hidden;
 }
 
 .input-box {
-	background: white;
-	border-radius: 4px;
-	box-shadow: 0 1px 2px gray;
-	padding: 0.5em 1em 1.5em;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px gray;
+  padding: 0.5em 1em 1.5em;
 }
 
 .input-box p {
-	font-size: 85%;
+  font-size: 85%;
 }
 
 .input-label {
-	font-size: 85%;
-	line-height: 1;
-	margin: 1em 0 2em;
+  font-size: 85%;
+  line-height: 1;
+  margin: 1em 0 2em;
 }
 
 .card {
-	background: white;
-	border-radius: 8px;
-	box-shadow: 0 1px 3px gray;
-	margin: 0;
-	padding: 10vh 20px;
-	text-align: center;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px gray;
+  margin: 0;
+  padding: 10vh 20px;
+  text-align: center;
 }
 
 .no-wrap {
-	white-space: nowrap;
-	display: inline-block;
+  white-space: nowrap;
+  display: inline-block;
 }

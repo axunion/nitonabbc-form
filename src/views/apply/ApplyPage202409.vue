@@ -14,52 +14,52 @@ const datalist = KEIYO.map((item) => item.label);
 const type = "202409";
 const isExpired = ref<boolean | null>(true);
 const postData = ref({
-	type,
-	recaptcha: "",
-	church: "",
-	name: "",
-	kana: "",
-	age: "",
-	gender: "",
-	status: "",
-	participationOption: "",
-	participationDetails: [] as string[],
-	recreation: "",
-	thematicMeetings: "",
-	musicMinisters: [] as string[],
-	instrument: "",
-	surveyInterested: [] as string[],
-	surveyImportant: [] as string[],
-	surveyReflect: [] as string[],
+  type,
+  recaptcha: "",
+  church: "",
+  name: "",
+  kana: "",
+  age: "",
+  gender: "",
+  status: "",
+  participationOption: "",
+  participationDetails: [] as string[],
+  recreation: "",
+  thematicMeetings: "",
+  musicMinisters: [] as string[],
+  instrument: "",
+  surveyInterested: [] as string[],
+  surveyImportant: [] as string[],
+  surveyReflect: [] as string[],
 });
 
 const isShowInput = computed(() => ["", "submitting"].includes(state.value));
 const isDisabled = computed(() =>
-	["submitting", "submitted"].includes(state.value),
+  ["submitting", "submitted"].includes(state.value),
 );
 
 const participationFee = computed(() => {
-	const table: Record<string, number> = {
-		夕食: 1400,
-		宿泊: Number.parseInt(postData.value.age as string) <= 22 ? 3500 : 4500,
-		朝食: 700,
-		昼食: 1400,
-	};
-	const details = postData.value.participationDetails;
-	const fee = details.reduce((acc, cur) => acc + table[cur], 0);
-	return `¥ ${fee.toLocaleString()}`;
+  const table: Record<string, number> = {
+    夕食: 1400,
+    宿泊: Number.parseInt(postData.value.age as string) <= 22 ? 3500 : 4500,
+    朝食: 700,
+    昼食: 1400,
+  };
+  const details = postData.value.participationDetails;
+  const fee = details.reduce((acc, cur) => acc + table[cur], 0);
+  return `¥ ${fee.toLocaleString()}`;
 });
 
 const submit = async () => {
-	// await post(postData.value)
-	// if (error.value) {
-	//   console.error(error.value)
-	// }
+  // await post(postData.value)
+  // if (error.value) {
+  //   console.error(error.value)
+  // }
 };
 
 onMounted(async () => {
-	document.title = "京葉地区一泊お泊まり会参加申込";
-	// isExpired.value = await checkExpiration(type)
+  document.title = "京葉地区一泊お泊まり会参加申込";
+  // isExpired.value = await checkExpiration(type)
 });
 </script>
 

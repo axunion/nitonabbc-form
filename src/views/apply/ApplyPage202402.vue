@@ -15,27 +15,27 @@ const dueDate = new Date("2024-02-19");
 const now = new Date();
 const isExpired = ref(now > dueDate);
 const postData = ref({
-	type: "202402",
-	recaptcha: "",
-	church: "",
-	name: "",
-	kana: "",
-	generation: "",
-	gender: "",
-	status: "",
-	party: [] as string[],
+  type: "202402",
+  recaptcha: "",
+  church: "",
+  name: "",
+  kana: "",
+  generation: "",
+  gender: "",
+  status: "",
+  party: [] as string[],
 });
 
 const isShowInput = computed(() => ["", "submitting"].includes(state.value));
 const isDisabled = computed(() =>
-	["submitting", "submitted"].includes(state.value),
+  ["submitting", "submitted"].includes(state.value),
 );
 
 const submit = async () => {
-	// await post(postData.value)
-	// if (error.value) {
-	//   console.error(error.value)
-	// }
+  // await post(postData.value)
+  // if (error.value) {
+  //   console.error(error.value)
+  // }
 };
 
 document.title = "京葉地区合同青年会参加申込";
