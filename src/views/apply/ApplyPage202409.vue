@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
 import AppButton from "@/components/AppButton.vue";
 import AppInputCheckbox from "@/components/AppInputCheckbox.vue";
 import AppInputRadio from "@/components/AppInputRadio.vue";
@@ -8,6 +7,7 @@ import IconClose from "@/components/IconClose.vue";
 // import RecaptchaText from '@/components/RecaptchaText.vue'
 import { useSubmit } from "@/composables/useSubmit";
 import { KEIYO } from "@/constants/keiyo";
+import { computed, onMounted, ref } from "vue";
 
 const { state /* error, checkExpiration, post */ } = useSubmit();
 const datalist = KEIYO.map((item) => item.label);

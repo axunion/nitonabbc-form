@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineModel, ref, onMounted } from "vue";
+import { defineModel, onMounted, ref } from "vue";
 
 type Props = {
   name: string;
