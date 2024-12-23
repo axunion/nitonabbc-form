@@ -1,11 +1,5 @@
-<script setup lang="ts">
-import { useOverlayStore } from "@/stores/overlay";
-
-const overlayStore = useOverlayStore();
-</script>
-
 <template>
-  <div v-if="overlayStore.isActiveLoading" class="overlay">
+  <div v-if="false" class="overlay">
     <span class="loading">Loading</span>
   </div>
 </template>

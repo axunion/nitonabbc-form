@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineModel } from "vue";
-
 type Props = {
   name: string;
   items: { label: string; value: string }[];
@@ -51,7 +49,7 @@ const model = defineModel<string>();
   line-height: 1.4;
 }
 
-:checked + .item {
+:checked+.item {
   color: var(--color-text);
 }
 
@@ -65,7 +63,7 @@ const model = defineModel<string>();
   width: 0.9em;
 }
 
-:checked + .item::before {
+:checked+.item::before {
   background: var(--color-primary);
 }
 </style>

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineModel } from "vue";
-
 type Props = {
   name: string;
   options: { label: string; value: string }[];

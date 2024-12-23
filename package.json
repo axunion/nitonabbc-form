@@ -1,43 +1,27 @@
 {
   "name": "nitonabbc-form",
-  "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
-    "build-only": "vite-ssg build",
-    "type-check": "vue-tsc --build",
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
     "format": "biome format ./src",
-    "format:fix": "biome format --write ./src",
+    "format:write": "biome format --write ./src",
     "lint": "biome lint ./src",
-    "lint:fix": "biome lint --write ./src",
+    "lint:write": "biome lint --write ./src",
     "check": "biome check ./src",
-    "check:fix": "biome check --write ./src",
+    "check:write": "biome check --write ./src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "pinia": "^2.2.6",
-    "vue": "^3.5.13"
+    "nuxt": "^3.14.1592",
+    "vue": "latest",
+    "vue-router": "latest"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@tsconfig/node22": "^22.0.0",
-    "@types/grecaptcha": "^3.0.9",
-    "@types/node": "^22.9.3",
-    "@unhead/vue": "^1.11.14",
-    "@vitejs/plugin-vue": "^5.2.1",
-    "@vue/tsconfig": "^0.7.0",
-    "npm-run-all2": "^7.0.1",
-    "typescript": "~5.6.3",
-    "vite": "^6.0.1",
-    "vite-plugin-vue-devtools": "^7.6.5",
-    "vite-ssg": "^0.24.3",
-    "vue-router": "^4.5.0",
-    "vue-tsc": "^2.1.10"
-  },
-  "volta": {
-    "node": "22.12.0"
+    "@biomejs/biome": "1.9.4"
   }
 }

@@ -1,15 +1,11 @@
-<script setup lang="ts">
-import OverlayLoading from "@/components/OverlayLoading.vue";
-import OverlaySubmit from "@/components/OverlaySubmit.vue";
+<script>
+import '~/assets/stylesheet/main.css'
 </script>
 
 <template>
   <div class="content">
-    <router-view />
+    <slot />
   </div>
-
-  <OverlayLoading />
-  <OverlaySubmit />
 </template>
 
 <style scoped>

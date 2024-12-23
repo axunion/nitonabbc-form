@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineModel, onMounted, ref } from "vue";
-
 type Props = {
   name: string;
   required?: boolean;
@@ -29,15 +27,8 @@ onMounted(() => {
 
 <template>
   <div class="div">
-    <textarea
-      class="textarea"
-      :name="name"
-      :required="required"
-      :disabled="disabled"
-      @input="autoResize"
-      v-model.trim="model"
-      ref="textarea"
-    ></textarea>
+    <textarea class="textarea" :name="name" :required="required" :disabled="disabled" @input="autoResize"
+      v-model.trim="model" ref="textarea"></textarea>
   </div>
 </template>
 

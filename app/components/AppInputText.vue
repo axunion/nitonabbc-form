@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { defineModel } from "vue";
-
 type Props = {
   name: string;
   maxlength?: string;
@@ -21,16 +19,8 @@ const listId = props.datalist ? `l${Math.random().toString(36).slice(-8)}` : "";
 
 <template>
   <div class="div">
-    <input
-      class="input"
-      type="text"
-      :name="name"
-      :maxlength="maxlength"
-      :required="required"
-      :disabled="disabled"
-      :list="listId"
-      v-model.trim="model"
-    />
+    <input class="input" type="text" :name="name" :maxlength="maxlength" :required="required" :disabled="disabled"
+      :list="listId" v-model.trim="model" />
   </div>
 
   <datalist v-if="listId" :id="listId">
