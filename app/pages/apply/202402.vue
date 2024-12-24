@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import AppButton from "@/components/AppButton.vue";
-import AppInputCheckbox from "@/components/AppInputCheckbox.vue";
-import AppInputRadio from "@/components/AppInputRadio.vue";
-import AppInputSelect from "@/components/AppInputSelect.vue";
-import AppInputText from "@/components/AppInputText.vue";
-import IconClose from "@/components/IconClose.vue";
-import { useSubmit } from "@/composables/useSubmit";
 import { KEIYO } from "@/constants/keiyo";
-import { computed, ref } from "vue";
 
 const { state /* error, post */ } = useSubmit();
 const datalist = KEIYO.map((item) => item.label);
@@ -38,7 +30,9 @@ const submit = async () => {
   // }
 };
 
-document.title = "京葉地区合同青年会参加申込";
+useHead({
+  title: "京葉地区合同青年会参加申込",
+});
 </script>
 
 <template>
@@ -50,77 +44,59 @@ document.title = "京葉地区合同青年会参加申込";
   <main class="main">
     <template v-if="!isExpired">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
-        <AppInputText
-          name="church"
-          label="教会名"
-          maxlength="128"
-          :required="true"
-          :disabled="false"
-          :datalist="datalist"
-          v-model="postData.church"
-        />
+        <div class="input-box">
+          <div class="input-label">教会名 - Church Name</div>
+          <AppInputText name="church" maxlength="128" :required="true" :disabled="false" :datalist="datalist"
+            v-model="postData.church" />
+        </div>
 
-        <AppInputText
-          name="name"
-          label="氏名"
-          maxlength="64"
-          :required="true"
-          :disabled="false"
-          v-model="postData.name"
-        />
+        <div class="input-box">
+          <div class="input-label">氏名 - Full Name</div>
+          <AppInputText name="name" maxlength="64" :required="true" :disabled="false" v-model="postData.name" />
+        </div>
 
-        <AppInputText
-          name="kana"
-          label="ふりがな"
-          maxlength="64"
-          :required="true"
-          :disabled="false"
-          v-model="postData.kana"
-        />
+        <div class="input-box">
+          <div class="input-label">ふりがな - Phonetic Name</div>
+          <AppInputText name="kana" maxlength="64" :required="true" :disabled="false" v-model="postData.kana" />
+        </div>
 
-        <AppInputSelect
-          name="generation"
-          label="世代"
-          :required="true"
-          :disabled="false"
-          :options="[
+        <div class="input-box">
+          <div class="input-label">世代 - Generation</div>
+          <AppInputSelect name="generation" :required="true" :disabled="false" :options="[
             { label: '10代', value: '10代' },
             { label: '20代', value: '20代' },
             { label: '30代', value: '30代' },
             { label: '40代', value: '40代' },
             { label: '50代', value: '50代' },
             { label: '60代', value: '60代' }
-          ]"
-          v-model="postData.generation"
-        />
+          ]" v-model="postData.generation" />
+        </div>
 
-        <AppInputRadio
-          name="gender"
-          label="性別"
-          :items="[
+        <div class="input-box">
+          <div class="input-label">性別 - Gender</div>
+          <AppInputRadio name="gender" :items="[
             { label: '男性', value: '男性' },
             { label: '女性', value: '女性' }
-          ]"
-          v-model="postData.gender"
-        />
+          ]" v-model="postData.gender" />
+        </div>
 
-        <AppInputRadio
-          name="status"
-          label="教会員など"
-          :items="[
+        <div class="input-box">
+          <div class="input-label">教会員など - Church Member</div>
+          <AppInputRadio name="status" :items="[
             { label: '教会員', value: '教会員' },
             { label: '非教会員', value: '非教会員' },
             { label: '指導者', value: '指導者' }
-          ]"
-          v-model="postData.status"
-        />
+          ]" v-model="postData.status" />
+        </div>
 
-        <AppInputCheckbox
-          name="party"
-          label="懇親会"
-          :items="[{ label: '参加', value: '参加', required: false }]"
-          v-model="postData.party"
-        />
+        <div class="input-box">
+          <div class="input-label">懇親会 - Party</div>
+          <AppInputCheckbox name="party" :items="[{
+            label: '参加',
+            value: '参加',
+            required: false
+          }]" v-model="postData.party" />
+        </div>
 
         <div class="message">
           <p>今回の交わり会は参加費不要です。懇親会にご参加される方は1500円が必要となります。</p>
@@ -153,7 +129,7 @@ document.title = "京葉地区合同青年会参加申込";
 
     <template v-else>
       <div v-if="isExpired" class="card">
-        <IconClose class="icon-close" />
+        <SvgClose class="icon-close" />
         <p>この申込は終了しています。</p>
       </div>
     </template>

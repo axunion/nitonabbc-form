@@ -1,16 +1,5 @@
 <script setup lang="ts">
-import AppButton from "@/components/AppButton.vue";
-import AppInputCheckbox from "@/components/AppInputCheckbox.vue";
-import AppInputRadio from "@/components/AppInputRadio.vue";
-import AppTextarea from "@/components/AppTextarea.vue";
-import IconClose from "@/components/IconClose.vue";
-// import RecaptchaText from '@/components/RecaptchaText.vue'
-import { useSubmit } from "@/composables/useSubmit";
-import { computed, onMounted, ref /* watch */ } from "vue";
-// import { useOverlayStore } from '@/stores/overlay'
-
 const { state /* error, post */ } = useSubmit();
-// const { showOverlaySubmit, hideOverlaySubmit } = useOverlayStore()
 
 const type = "202409s";
 const isExpired = true;
@@ -40,10 +29,6 @@ const submit = async () => {
   // }
 };
 
-onMounted(async () => {
-  document.title = "京葉地区一泊お泊まり会アンケート";
-});
-
 // watch(state, (value) => {
 //   if (value === 'submitting') {
 //     showOverlaySubmit()
@@ -51,6 +36,10 @@ onMounted(async () => {
 //     hideOverlaySubmit()
 //   }
 // })
+
+useHead({
+  title: "京葉地区一泊お泊まり会アンケート",
+});
 </script>
 
 <template>
@@ -80,51 +69,39 @@ onMounted(async () => {
             How did you feel about the location?
           </p>
 
-          <AppInputRadio
-            name="place"
-            :items="[
-              { label: '非常に満足 - Very Satisfied', value: '非常に満足' },
-              { label: '満足 - Satisfied', value: '満足' },
-              { label: '普通 - Neutral', value: '普通' },
-              { label: 'やや不満 - Somewhat Dissatisfied', value: 'やや不満' },
-              { label: '不満 - Dissatisfied', value: '不満' }
-            ]"
-            v-model="postData.place"
-          />
+          <AppInputRadio name="place" :items="[
+            { label: '非常に満足 - Very Satisfied', value: '非常に満足' },
+            { label: '満足 - Satisfied', value: '満足' },
+            { label: '普通 - Neutral', value: '普通' },
+            { label: 'やや不満 - Somewhat Dissatisfied', value: 'やや不満' },
+            { label: '不満 - Dissatisfied', value: '不満' }
+          ]" v-model="postData.place" />
 
           <p class="question">
             食事の内容や質についてはいかがでしたか？<br />
             How was the quality and variety of the food?
           </p>
 
-          <AppInputRadio
-            name="meal"
-            :items="[
-              { label: '非常に満足 - Very Satisfied', value: '非常に満足' },
-              { label: '満足 - Satisfied', value: '満足' },
-              { label: '普通 - Neutral', value: '普通' },
-              { label: 'やや不満 - Somewhat Dissatisfied', value: 'やや不満' },
-              { label: '不満 - Dissatisfied', value: '不満' }
-            ]"
-            v-model="postData.meal"
-          />
+          <AppInputRadio name="meal" :items="[
+            { label: '非常に満足 - Very Satisfied', value: '非常に満足' },
+            { label: '満足 - Satisfied', value: '満足' },
+            { label: '普通 - Neutral', value: '普通' },
+            { label: 'やや不満 - Somewhat Dissatisfied', value: 'やや不満' },
+            { label: '不満 - Dissatisfied', value: '不満' }
+          ]" v-model="postData.meal" />
 
           <p class="question">
             設備や施設の使いやすさについて、どのように感じましたか？<br />
             How did you find the convenience and usability of the facilities?
           </p>
 
-          <AppInputRadio
-            name="facility"
-            :items="[
-              { label: '非常に満足 - Very Satisfied', value: '非常に満足' },
-              { label: '満足 - Satisfied', value: '満足' },
-              { label: '普通 - Neutral', value: '普通' },
-              { label: 'やや不満 - Somewhat Dissatisfied', value: 'やや不満' },
-              { label: '不満 - Dissatisfied', value: '不満' }
-            ]"
-            v-model="postData.facility"
-          />
+          <AppInputRadio name="facility" :items="[
+            { label: '非常に満足 - Very Satisfied', value: '非常に満足' },
+            { label: '満足 - Satisfied', value: '満足' },
+            { label: '普通 - Neutral', value: '普通' },
+            { label: 'やや不満 - Somewhat Dissatisfied', value: 'やや不満' },
+            { label: '不満 - Dissatisfied', value: '不満' }
+          ]" v-model="postData.facility" />
         </div>
 
         <div class="input-box">
@@ -135,30 +112,22 @@ onMounted(async () => {
             Was the content and pace of the schedule appropriate?
           </p>
 
-          <AppInputRadio
-            name="schedule"
-            :items="[
-              { label: '忙しかった - Too busy', value: '忙しかった' },
-              { label: 'ちょうどよかった - Just right', value: 'ちょうどよかった' },
-              { label: 'ゆっくりすぎた - Too slow', value: 'ゆっくりすぎた' }
-            ]"
-            v-model="postData.schedule"
-          />
+          <AppInputRadio name="schedule" :items="[
+            { label: '忙しかった - Too busy', value: '忙しかった' },
+            { label: 'ちょうどよかった - Just right', value: 'ちょうどよかった' },
+            { label: 'ゆっくりすぎた - Too slow', value: 'ゆっくりすぎた' }
+          ]" v-model="postData.schedule" />
 
           <p class="question">
             特に楽しかったまたは満足したプログラムに当てはまるものをすべて選択してください。<br />
             Please select all the programs you particularly enjoyed or were satisfied with.
           </p>
 
-          <AppInputCheckbox
-            name="favorite"
-            :items="[
-              { label: '交流会 - Fellowship time', value: '交流会' },
-              { label: 'レクリエーション - Recreation', value: 'レクリエーション' },
-              { label: 'テーマ別集会 - Themed sessions', value: 'テーマ別集会' }
-            ]"
-            v-model="postData.favorite"
-          />
+          <AppInputCheckbox name="favorite" :items="[
+            { label: '交流会 - Fellowship time', value: '交流会' },
+            { label: 'レクリエーション - Recreation', value: 'レクリエーション' },
+            { label: 'テーマ別集会 - Themed sessions', value: 'テーマ別集会' }
+          ]" v-model="postData.favorite" />
 
           <p class="question">
             今回参加されたテーマ別集会でまた参加したい、または今回参加できなかったため次に参加したいテーマに当てはまるものをすべて選択してください。<br />
@@ -166,17 +135,13 @@ onMounted(async () => {
             missed this time but would like to attend next time.
           </p>
 
-          <AppInputCheckbox
-            name="thematicMeetings"
-            :items="[
-              { label: '結婚 - Marriage', value: '結婚' },
-              { label: '献身 - Devotion', value: '献身' },
-              { label: '仕事と教会生活 - Work and Church Life', value: '仕事と教会生活' },
-              { label: '礼拝 - Worship', value: '礼拝' },
-              { label: '日曜学校 - Sunday School', value: '日曜学校' }
-            ]"
-            v-model="postData.thematicMeetings"
-          />
+          <AppInputCheckbox name="thematicMeetings" :items="[
+            { label: '結婚 - Marriage', value: '結婚' },
+            { label: '献身 - Devotion', value: '献身' },
+            { label: '仕事と教会生活 - Work and Church Life', value: '仕事と教会生活' },
+            { label: '礼拝 - Worship', value: '礼拝' },
+            { label: '日曜学校 - Sunday School', value: '日曜学校' }
+          ]" v-model="postData.thematicMeetings" />
 
           <p class="question">
             今後聞いてみたい、または興味のあるテーマに当てはまるものをすべて選択してください。<br />
@@ -184,25 +149,21 @@ onMounted(async () => {
             interested in.
           </p>
 
-          <AppInputCheckbox
-            name="nextThematicMeetings"
-            :items="[
-              { label: '個人伝道 - Personal Evangelism', value: '個人伝道' },
-              { label: '賛美 - Worship/Praise', value: '賛美' },
-              {
-                label: '青年会の盛り上げ方 - How to Revitalize Youth Groups',
-                value: '青年会の盛り上げ方'
-              },
-              { label: '終末論 - Eschatology', value: '終末論' },
-              { label: 'イスラエルの歴史 - History of Israel', value: 'イスラエルの歴史' },
-              {
-                label: '教会内の人間関係 - Interpersonal Relationships within the Church',
-                value: '教会内の人間関係'
-              },
-              { label: '将来の不安 - Anxiety about the Future', value: '将来の不安' }
-            ]"
-            v-model="postData.nextThematicMeetings"
-          />
+          <AppInputCheckbox name="nextThematicMeetings" :items="[
+            { label: '個人伝道 - Personal Evangelism', value: '個人伝道' },
+            { label: '賛美 - Worship/Praise', value: '賛美' },
+            {
+              label: '青年会の盛り上げ方 - How to Revitalize Youth Groups',
+              value: '青年会の盛り上げ方'
+            },
+            { label: '終末論 - Eschatology', value: '終末論' },
+            { label: 'イスラエルの歴史 - History of Israel', value: 'イスラエルの歴史' },
+            {
+              label: '教会内の人間関係 - Interpersonal Relationships within the Church',
+              value: '教会内の人間関係'
+            },
+            { label: '将来の不安 - Anxiety about the Future', value: '将来の不安' }
+          ]" v-model="postData.nextThematicMeetings" />
         </div>
 
         <div class="input-box">
@@ -244,7 +205,7 @@ onMounted(async () => {
 
     <template v-else>
       <div class="card">
-        <IconClose class="icon-close" />
+        <SvgClose class="icon-close" />
         <p>このアンケートは終了しています。</p>
       </div>
     </template>

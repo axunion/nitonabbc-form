@@ -8,12 +8,12 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "format": "biome format ./src",
-    "format:write": "biome format --write ./src",
-    "lint": "biome lint ./src",
-    "lint:write": "biome lint --write ./src",
-    "check": "biome check ./src",
-    "check:write": "biome check --write ./src",
+    "format": "biome format ./app",
+    "format:write": "biome format --write ./app",
+    "lint": "biome lint ./app",
+    "lint:write": "biome lint --write ./app",
+    "check": "biome check ./app",
+    "check:write": "biome check --write ./app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "vue-router": "latest"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4"
+    "@biomejs/biome": "1.9.4",
+    "@iconify/vue": "^4.2.0"
   }
 }

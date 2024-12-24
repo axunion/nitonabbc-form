@@ -1,7 +1,9 @@
 <template>
-  <div v-if="false" class="overlay">
-    <span class="loading">Loading</span>
-  </div>
+  <Teleport to="body">
+    <div v-if="false" class="overlay">
+      <span class="loading">Loading</span>
+    </div>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -22,5 +24,19 @@
   font-size: 0;
   height: 24px;
   width: 24px;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    background: var(--color-primary);
+    transform: scale(1, 0.9) translateY(0);
+  }
+
+  40% {
+    background: var(--color-accent);
+    transform: scale(1) translateY(-200%);
+  }
 }
 </style>

@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import AppButton from "@/components/AppButton.vue";
-import AppInputCheckbox from "@/components/AppInputCheckbox.vue";
-import AppInputRadio from "@/components/AppInputRadio.vue";
-import AppInputText from "@/components/AppInputText.vue";
-import IconClose from "@/components/IconClose.vue";
-// import RecaptchaText from '@/components/RecaptchaText.vue'
-import { useSubmit } from "@/composables/useSubmit";
 import { KEIYO } from "@/constants/keiyo";
-import { computed, onMounted, ref } from "vue";
 
 const { state /* error, checkExpiration, post */ } = useSubmit();
 const datalist = KEIYO.map((item) => item.label);
@@ -46,7 +38,7 @@ const participationFee = computed(() => {
     昼食: 1400,
   };
   const details = postData.value.participationDetails;
-  const fee = details.reduce((acc, cur) => acc + table[cur], 0);
+  const fee = details.reduce((acc, cur) => acc + (table[cur] || 0), 0);
   return `¥ ${fee.toLocaleString()}`;
 });
 
@@ -58,8 +50,11 @@ const submit = async () => {
 };
 
 onMounted(async () => {
-  document.title = "京葉地区一泊お泊まり会参加申込";
   // isExpired.value = await checkExpiration(type)
+});
+
+useHead({
+  title: "京葉地区一泊お泊まり会参加申込",
 });
 </script>
 
@@ -80,13 +75,7 @@ onMounted(async () => {
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
         <div class="input-box">
           <div class="input-label">教会名 - Church Name</div>
-          <AppInputText
-            name="church"
-            maxlength="128"
-            :required="true"
-            :datalist="datalist"
-            v-model="postData.church"
-          />
+          <AppInputText name="church" maxlength="128" :required="true" :datalist="datalist" v-model="postData.church" />
         </div>
 
         <div class="input-box">
@@ -106,51 +95,35 @@ onMounted(async () => {
 
         <div class="input-box">
           <div class="input-label">性別 - Gender</div>
-          <AppInputRadio
-            name="gender"
-            :items="[
-              { label: '男性 - Male', value: '男性' },
-              { label: '女性 - Female', value: '女性' }
-            ]"
-            v-model="postData.gender"
-          />
+          <AppInputRadio name="gender" :items="[
+            { label: '男性 - Male', value: '男性' },
+            { label: '女性 - Female', value: '女性' }
+          ]" v-model="postData.gender" />
         </div>
 
         <div class="input-box">
           <div class="input-label">教会員など - Church Member</div>
-          <AppInputRadio
-            name="status"
-            :items="[
-              { label: '教会員 - Church Member', value: '教会員' },
-              { label: '非教会員 - Non-Church Member', value: '非教会員' },
-              { label: '指導者 - Leader', value: '指導者' }
-            ]"
-            v-model="postData.status"
-          />
+          <AppInputRadio name="status" :items="[
+            { label: '教会員 - Church Member', value: '教会員' },
+            { label: '非教会員 - Non-Church Member', value: '非教会員' },
+            { label: '指導者 - Leader', value: '指導者' }
+          ]" v-model="postData.status" />
         </div>
 
         <div class="input-box">
           <div class="input-label">参加形式 - Participation Options</div>
-          <AppInputRadio
-            name="participation-option"
-            :items="[
-              { label: '全日参加 - Full-day Participation', value: '全日参加' },
-              { label: '部分参加 - Partial Participation', value: '部分参加' }
-            ]"
-            v-model="postData.participationOption"
-          />
+          <AppInputRadio name="participation-option" :items="[
+            { label: '全日参加 - Full-day Participation', value: '全日参加' },
+            { label: '部分参加 - Partial Participation', value: '部分参加' }
+          ]" v-model="postData.participationOption" />
 
           <div v-if="postData.participationOption === '部分参加'" class="nest">
-            <AppInputCheckbox
-              name="participation-details"
-              :items="[
-                { label: '夕食 - Dinner', value: '夕食' },
-                { label: '宿泊 - Accommodation', value: '宿泊' },
-                { label: '朝食 - Breakfast', value: '朝食' },
-                { label: '昼食 - Lunch', value: '昼食' }
-              ]"
-              v-model="postData.participationDetails"
-            />
+            <AppInputCheckbox name="participation-details" :items="[
+              { label: '夕食 - Dinner', value: '夕食' },
+              { label: '宿泊 - Accommodation', value: '宿泊' },
+              { label: '朝食 - Breakfast', value: '朝食' },
+              { label: '昼食 - Lunch', value: '昼食' }
+            ]" v-model="postData.participationDetails" />
 
             <div class="participation-fee">{{ participationFee }}</div>
           </div>
@@ -158,40 +131,29 @@ onMounted(async () => {
 
         <div class="input-box">
           <div class="input-label">レクリエーション - Recreation</div>
-          <AppInputRadio
-            name="recreation"
-            :items="[
-              { label: 'スポーツ - Sports', value: 'スポーツ' },
-              { label: '周辺散策 - Nearby Exploration', value: '周辺散策' },
-              { label: '不参加 - Non-attendance', value: '不参加' }
-            ]"
-            v-model="postData.recreation"
-          />
+          <AppInputRadio name="recreation" :items="[
+            { label: 'スポーツ - Sports', value: 'スポーツ' },
+            { label: '周辺散策 - Nearby Exploration', value: '周辺散策' },
+            { label: '不参加 - Non-attendance', value: '不参加' }
+          ]" v-model="postData.recreation" />
         </div>
 
         <div class="input-box">
           <div class="input-label">テーマ別集会 - Thematic Meetings</div>
-          <AppInputRadio
-            name="thematic-meetings"
-            :items="[
-              { label: '結婚 - Marriage', value: '結婚' },
-              { label: '献身 - Devotion', value: '献身' },
-              { label: '仕事と教会生活 - Work and Church Life', value: '仕事と教会生活' },
-              { label: '礼拝 - Worship', value: '礼拝' },
-              { label: '日曜学校 - Sunday School', value: '日曜学校' },
-              { label: '不参加 - Non-attendance', value: '不参加' }
-            ]"
-            v-model="postData.thematicMeetings"
-          />
+          <AppInputRadio name="thematic-meetings" :items="[
+            { label: '結婚 - Marriage', value: '結婚' },
+            { label: '献身 - Devotion', value: '献身' },
+            { label: '仕事と教会生活 - Work and Church Life', value: '仕事と教会生活' },
+            { label: '礼拝 - Worship', value: '礼拝' },
+            { label: '日曜学校 - Sunday School', value: '日曜学校' },
+            { label: '不参加 - Non-attendance', value: '不参加' }
+          ]" v-model="postData.thematicMeetings" />
         </div>
 
         <div class="input-box">
           <div class="input-label">奏楽奉仕 - Music Ministry</div>
-          <AppInputCheckbox
-            name="music-ministers"
-            :items="[{ label: '希望する - I am interested', value: '希望する' }]"
-            v-model="postData.musicMinisters"
-          />
+          <AppInputCheckbox name="music-ministers" :items="[{ label: '希望する - I am interested', value: '希望する' }]"
+            v-model="postData.musicMinisters" />
 
           <div v-if="postData.musicMinisters.includes('希望する')" class="nest">
             <div class="input-label">楽器 - Instrument</div>
@@ -212,50 +174,38 @@ onMounted(async () => {
             交わり会で重視する目的を選んでください。<br />
             What objectives do you consider important for attending the retreat?
           </p>
-          <AppInputCheckbox
-            name="survey-important"
-            :items="[
-              { label: '新しい出会い - Meeting new people', value: '新しい出会い' },
-              { label: '信仰の深まり - Deepening faith', value: '信仰の深まり' },
-              { label: '知識の向上 - Improving knowledge', value: '知識の向上' },
-              { label: 'アクティブな交流 - Active interaction', value: 'アクティブな交流' },
-              { label: 'リフレッシュ - Refreshment', value: 'リフレッシュ' }
-            ]"
-            v-model="postData.surveyImportant"
-          />
+          <AppInputCheckbox name="survey-important" :items="[
+            { label: '新しい出会い - Meeting new people', value: '新しい出会い' },
+            { label: '信仰の深まり - Deepening faith', value: '信仰の深まり' },
+            { label: '知識の向上 - Improving knowledge', value: '知識の向上' },
+            { label: 'アクティブな交流 - Active interaction', value: 'アクティブな交流' },
+            { label: 'リフレッシュ - Refreshment', value: 'リフレッシュ' }
+          ]" v-model="postData.surveyImportant" />
 
           <p class="question">
             興味のあるトピックを教えてください。<br />
             Please select the topics you are interested in.
           </p>
-          <AppInputCheckbox
-            name="survey-interested"
-            :items="[
-              { label: 'テクノロジー - Technology', value: 'テクノロジー' },
-              { label: 'ウェルネス - Wellness', value: 'ウェルネス' },
-              { label: 'アートと文化 - Arts and Culture', value: 'アートと文化' },
-              { label: 'ビジネス - Business', value: 'ビジネス' },
-              { label: 'サステナビリティ - Sustainability', value: 'サステナビリティ' }
-            ]"
-            v-model="postData.surveyInterested"
-          />
+          <AppInputCheckbox name="survey-interested" :items="[
+            { label: 'テクノロジー - Technology', value: 'テクノロジー' },
+            { label: 'ウェルネス - Wellness', value: 'ウェルネス' },
+            { label: 'アートと文化 - Arts and Culture', value: 'アートと文化' },
+            { label: 'ビジネス - Business', value: 'ビジネス' },
+            { label: 'サステナビリティ - Sustainability', value: 'サステナビリティ' }
+          ]" v-model="postData.surveyInterested" />
 
           <p class="question">
             教会の教えと世の中の動向に関して、考えたいテーマを教えてください。<br />
             Please select the themes you would like to reflect on related to the church’s teachings
             and current societal trends.
           </p>
-          <AppInputCheckbox
-            name="survey-reflect"
-            :items="[
-              { label: 'AIの倫理 - Ethics of AI', value: 'AIの倫理' },
-              { label: 'LGBTQ+', value: 'LGBTQ+' },
-              { label: 'SNSと信仰生活 - SNS and faith life', value: 'SNSと信仰生活' },
-              { label: '現代医学 - Modern medicine', value: '現代医学' },
-              { label: '家族の価値観 - Family values', value: '家族の価値観' }
-            ]"
-            v-model="postData.surveyReflect"
-          />
+          <AppInputCheckbox name="survey-reflect" :items="[
+            { label: 'AIの倫理 - Ethics of AI', value: 'AIの倫理' },
+            { label: 'LGBTQ+', value: 'LGBTQ+' },
+            { label: 'SNSと信仰生活 - SNS and faith life', value: 'SNSと信仰生活' },
+            { label: '現代医学 - Modern medicine', value: '現代医学' },
+            { label: '家族の価値観 - Family values', value: '家族の価値観' }
+          ]" v-model="postData.surveyReflect" />
         </div>
 
         <div class="message">
@@ -289,7 +239,7 @@ onMounted(async () => {
 
     <template v-if="isExpired === true">
       <div class="card">
-        <IconClose class="icon-close" />
+        <SvgClose class="icon-close" />
         <p>この申込は終了しています。</p>
       </div>
     </template>
