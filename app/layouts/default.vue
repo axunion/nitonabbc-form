@@ -1,4 +1,4 @@
-<script>
+<script setup lang="ts">
 import "~/assets/stylesheet/main.css";
 </script>
 

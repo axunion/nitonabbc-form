@@ -1,6 +1,16 @@
+<script setup lang="ts">
+type Props = {
+  show?: boolean;
+};
+
+withDefaults(defineProps<Props>(), {
+  show: false,
+});
+</script>
+
 <template>
   <Teleport to="body">
-    <div v-if="false" class="overlay">
+    <div v-if="show" class="overlay">
       <span class="loading">Loading</span>
     </div>
   </Teleport>
