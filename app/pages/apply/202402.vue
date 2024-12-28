@@ -127,12 +127,10 @@ useHead({
       </Transition>
     </template>
 
-    <template v-else>
-      <div v-if="isExpired" class="card">
-        <SvgClose class="icon-close" />
-        <p>この申込は終了しています。</p>
-      </div>
-    </template>
+    <FormClose v-if="isExpired === true">
+      この申込は終了しています。<br />
+      This form is now closed.
+    </FormClose>
   </main>
 
   <footer v-if="!isExpired" class="footer">
@@ -171,10 +169,6 @@ useHead({
 }
 
 .submit {
-  height: 4em;
-}
-
-.icon-close {
   height: 4em;
 }
 
