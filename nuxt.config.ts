@@ -5,4 +5,9 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+  css: [
+    "~/assets/stylesheet/base.css",
+    "~/assets/stylesheet/keyframes.css",
+    "~/assets/stylesheet/main.css",
+  ],
 });
