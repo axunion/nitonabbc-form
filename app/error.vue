@@ -1,14 +1,13 @@
 <template>
-    <h1 class="h1">404 Not Found</h1>
+    <div class="error">
+        <h1 class="h1">404 Not Found</h1>
+    </div>
 </template>
 
 <style>
-html {
-    background-image: linear-gradient(-225deg, #77FFD2 0%, #6297DB 48%, #1EECFF 100%);
-}
-
-body {
+.error {
     align-items: center;
+    background-image: linear-gradient(-225deg, #77FFD2 0%, #6297DB 48%, #1EECFF 100%);
     display: flex;
     height: 100vh;
     justify-content: center;

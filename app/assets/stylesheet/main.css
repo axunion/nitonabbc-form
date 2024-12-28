@@ -1,6 +1,3 @@
-@import "./base.css";
-@import "./keyframes.css";
-
 .v-enter-active {
   animation: fade-up-in 0.5s;
 }

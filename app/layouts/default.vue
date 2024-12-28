@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import "~/assets/stylesheet/base.css";
+import "~/assets/stylesheet/keyframes.css";
 import "~/assets/stylesheet/main.css";
 </script>
 
