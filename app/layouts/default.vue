@@ -6,7 +6,6 @@
 
 <style scoped>
 .content {
-  justify-content: space-between;
   display: flex;
   flex-direction: column;
   gap: 1em;

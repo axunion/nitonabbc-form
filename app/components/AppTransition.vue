@@ -1,11 +1,10 @@
 <script setup lang="ts">
 type Props = {
-  show?: boolean;
+  show: boolean;
   transition?: "" | "fade";
 };
 
 withDefaults(defineProps<Props>(), {
-  show: true,
   transition: "",
 });
 </script>
