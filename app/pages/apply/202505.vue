@@ -50,42 +50,36 @@ useHead({
     <main class="main">
         <template v-if="isExpired === false">
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
-                <div class="input-box">
-                    <div class="input-label">教会名 - Church Name</div>
+                <FormBox label="教会名 - Church Name">
                     <AppInputText name="church" maxlength="128" :required="true" v-model="postData.church" />
-                </div>
+                </FormBox>
 
-                <div class="input-box">
-                    <div class="input-label">氏名 - Full Name</div>
+                <FormBox label="氏名 - Full Name">
                     <AppInputText name="name" maxlength="64" :required="true" v-model="postData.name" />
-                </div>
+                </FormBox>
 
-                <div class="input-box">
-                    <div class="input-label">ふりがな - Phonetic Name</div>
+                <FormBox label="ふりがな - Phonetic Name">
                     <AppInputText name="kana" maxlength="64" :required="true" v-model="postData.kana" />
-                </div>
+                </FormBox>
 
-                <div class="input-box">
-                    <div class="input-label">年齢 - Age</div>
+                <FormBox label="年齢 - Age">
                     <AppInputText name="age" maxlength="2" :required="true" v-model="postData.age" />
-                </div>
+                </FormBox>
 
-                <div class="input-box">
-                    <div class="input-label">性別 - Gender</div>
+                <FormBox label="性別 - Gender">
                     <AppInputRadio name="gender" :items="[
                         { label: '男性 - Male', value: '男性' },
                         { label: '女性 - Female', value: '女性' }
                     ]" v-model="postData.gender" />
-                </div>
+                </FormBox>
 
-                <div class="input-box">
-                    <div class="input-label">教会員など - Church Member</div>
+                <FormBox label="教会員など - Church Member">
                     <AppInputRadio name="member" :items="[
                         { label: '教会員 - Church Member', value: '教会員' },
                         { label: '非教会員 - Non-Church Member', value: '非教会員' },
                         { label: '指導者 - Leader', value: '指導者' }
                     ]" v-model="postData.member" />
-                </div>
+                </FormBox>
 
                 <div class="submit">
                     <AppButton type="submit" variant="filled" :disabled="isDisabled">送信</AppButton>
@@ -143,7 +137,7 @@ useHead({
 
 .submit {
     height: 4em;
-    margin: 1em 0 0;
+    margin: .5em 0 0;
 }
 
 .footer {
