@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { state /* error, checkExpiration, post */ } = useSubmit();
 const type = "202509";
-const isExpired = ref<boolean | null>(false);
+const isExpired = ref(false);
 const postData = ref({
     type,
     recaptcha: "",
@@ -15,7 +15,13 @@ const postData = ref({
 
 const isShowInput = computed(() => ["", "submitting"].includes(state.value));
 const isDisabled = computed(() =>
-    ["submitting", "submitted"].includes(state.value),
+    !postData.value.recaptcha ||
+    !postData.value.church ||
+    !postData.value.name ||
+    !postData.value.kana ||
+    !postData.value.age ||
+    !postData.value ||
+    ["submitting", "submitted"].includes(state.value)
 );
 
 const submit = async () => {
@@ -83,6 +89,7 @@ useHead({
 
                 <div class="submit">
                     <AppButton type="submit" variant="filled" :disabled="isDisabled">送信</AppButton>
+                    <RecaptchaText />
                 </div>
             </form>
 
@@ -104,7 +111,6 @@ useHead({
 
     <footer v-if="isExpired === false" class="footer">
         <div>担当：仁戸名聖書バプテスト教会</div>
-        <!-- <RecaptchaText /> -->
     </footer>
 </template>
 
