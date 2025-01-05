@@ -1,7 +1,6 @@
 <script setup lang="ts">
-const { state /* error, checkExpiration, post */ } = useSubmit();
+const { expirationState, postState, /* error, checkExpiration, post */ } = useSubmit();
 const type = "202509";
-const isExpired = ref(false);
 const postData = ref({
     type,
     recaptcha: "",
@@ -13,7 +12,9 @@ const postData = ref({
     member: "",
 });
 
-const isShowInput = computed(() => ["", "submitting"].includes(state.value));
+const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expirationState.value));
+const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
+const isShowInput = computed(() => ["", "submitting"].includes(postState.value));
 const isDisabled = computed(() =>
     !postData.value.recaptcha ||
     !postData.value.church ||
@@ -21,7 +22,7 @@ const isDisabled = computed(() =>
     !postData.value.kana ||
     !postData.value.age ||
     !postData.value ||
-    ["submitting", "submitted"].includes(state.value)
+    ["submitting", "submitted"].includes(postState.value)
 );
 
 const submit = async () => {
@@ -33,7 +34,7 @@ const submit = async () => {
 };
 
 onMounted(async () => {
-    // isExpired.value = await checkExpiration(type)
+    // await checkExpiration(type)
 });
 
 useHead({
@@ -54,7 +55,7 @@ useHead({
     </header>
 
     <main class="main">
-        <template v-if="isExpired === false">
+        <template v-if="expirationState === 'valid'">
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
                 <FormBox label="教会名 - Church Name">
                     <AppInputText name="church" maxlength="128" :required="true" v-model="postData.church" />
@@ -93,23 +94,26 @@ useHead({
                 </div>
             </form>
 
-            <AppTransition :show="state === 'submitting'" transition="fade">
+            <AppTransition :show="postState === 'submitting'" transition="fade">
                 <p>送信が完了しました。<br />ありがとうございました。</p>
             </AppTransition>
 
 
-            <AppTransition :show="state === 'failed'" transition="fade">
+            <AppTransition :show="postState === 'failed'" transition="fade">
                 <p>送信に失敗しました。<br />恐れ入りますが再度お試しください。</p>
             </AppTransition>
         </template>
 
-        <FormClose v-if="isExpired === true">
+        <FormClose v-if="expirationState === 'expired'">
             この申込は終了しています。<br />
             This form is now closed.
         </FormClose>
     </main>
 
-    <footer v-if="isExpired === false" class="footer">
+    <OverlayLoading :show="isShowOverlayLoading" />
+    <OverlaySubmit :show="isShowOverlaySubmit" />
+
+    <footer v-if="expirationState === 'valid'" class="footer">
         <div>担当：仁戸名聖書バプテスト教会</div>
     </footer>
 </template>

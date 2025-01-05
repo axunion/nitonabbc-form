@@ -1,8 +1,9 @@
 import { ref } from "vue";
 
-export type State = "" | "submitting" | "submitted" | "failed";
+export type ExpirationState = "idle" | "checking" | "valid" | "expired";
+export type PostState = "idle" | "submitting" | "submitted" | "failed";
 
-export type GetResponseData = {
+export type CheckExpirationResponseData = {
   result: "done" | "error" | "expired";
 };
 
@@ -15,19 +16,21 @@ const ENDPOINT = import.meta.env.VITE_ENDPOINT;
 const SITEKEY = import.meta.env.VITE_SITEKEY;
 
 export const useSubmit = () => {
-  const state = ref<State>("");
+  const expirationState = ref<ExpirationState>("idle");
+  const postState = ref<PostState>("idle");
   const error = ref("");
 
-  const checkExpiration = async (type: string): Promise<boolean> => {
+  const checkExpiration = async (type: string): Promise<void> => {
+    expirationState.value = "checking";
     const response = await fetch(`${ENDPOINT}?type=${type}`);
-    const responseData: GetResponseData = await response.json();
-    return responseData.result === "expired";
+    const data: CheckExpirationResponseData = await response.json();
+    expirationState.value = data.result === "done" ? "idle" : "expired";
   };
 
   const post = async (
     formData: Record<string, string | string[]>,
   ): Promise<void> => {
-    state.value = "submitting";
+    postState.value = "submitting";
 
     // try {
     //   window.grecaptcha.ready(async () => {
@@ -48,9 +51,9 @@ export const useSubmit = () => {
     //     const responseData: PostResponseData = await response.json();
 
     //     if (responseData.result === "done") {
-    //       state.value = "submitted";
+    //       postState.value = "submitted";
     //     } else if (responseData.result === "error") {
-    //       state.value = "failed";
+    //       postState.value = "failed";
     //       throw new Error(responseData.error);
     //     }
     //   });
@@ -61,5 +64,5 @@ export const useSubmit = () => {
     // }
   };
 
-  return { state, error, checkExpiration, post };
+  return { expirationState, postState, error, checkExpiration, post };
 };
