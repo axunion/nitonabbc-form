@@ -1,7 +1,8 @@
 <script setup lang="ts">
 const { expirationState, postState, /* error, checkExpiration, post */ } = useSubmit();
 const type = "202509";
-const postData = ref({
+const requiredNames = ["recaptcha", "church", "name", "kana", "age", "gender", "member"];
+const postData = ref<Record<string, string>>({
     type,
     recaptcha: "",
     church: "",
@@ -16,12 +17,7 @@ const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expira
 const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
 const isShowInput = computed(() => ["", "submitting"].includes(postState.value));
 const isDisabled = computed(() =>
-    !postData.value.recaptcha ||
-    !postData.value.church ||
-    !postData.value.name ||
-    !postData.value.kana ||
-    !postData.value.age ||
-    !postData.value ||
+    requiredNames.every(key => postData.value[key] !== '') ||
     ["submitting", "submitted"].includes(postState.value)
 );
 
