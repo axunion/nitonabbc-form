@@ -1,21 +1,16 @@
 <script setup lang="ts">
-const { expirationState, postState, /* error, checkExpiration, post */ } = useSubmit();
+const { expirationState, postState, error, checkExpiration, post } = useSubmit();
 const type = "202509";
 const requiredNames = ["recaptcha", "church", "name", "kana", "age", "gender", "member"];
 const postData = ref<Record<string, string>>({
     type,
     recaptcha: "",
     church: "",
-    name: "",
-    kana: "",
-    age: "",
-    gender: "",
-    member: "",
 });
 
 const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expirationState.value));
 const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
-const isShowInput = computed(() => ["", "submitting"].includes(postState.value));
+const isShowInput = computed(() => ["idle", "submitting"].includes(postState.value));
 const isDisabled = computed(() =>
     requiredNames.every(key => postData.value[key] !== '') ||
     ["submitting", "submitted"].includes(postState.value)
@@ -30,7 +25,7 @@ const submit = async () => {
 };
 
 onMounted(async () => {
-    // await checkExpiration(type)
+    await checkExpiration(type)
 });
 
 useHead({
@@ -41,51 +36,22 @@ useHead({
 <template>
     <header class="header">
         <h1 class="h1">
-            第56回JBBF全国青年フェローシップキャンプ参加申込<br />
-            Registration for the 56th JBBF National Youth Fellowship Camp
+            2025 第56回 JBBF全国青年フェローシップキャンプ<br />
         </h1>
         <div class="date">
-            開催日：2025年5月5日〜7日<br />
-            Dates: May 5-7, 2025
+            開催日：2025年5月5日〜7日
         </div>
     </header>
 
     <main class="main">
         <template v-if="expirationState === 'valid'">
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
-                <FormBox label="教会名 - Church Name">
+                <FormBox label="教会名">
                     <AppInputText name="church" maxlength="128" :required="true" v-model="postData.church" />
                 </FormBox>
 
-                <FormBox label="氏名 - Full Name">
-                    <AppInputText name="name" maxlength="64" :required="true" v-model="postData.name" />
-                </FormBox>
-
-                <FormBox label="ふりがな - Phonetic Name">
-                    <AppInputText name="kana" maxlength="64" :required="true" v-model="postData.kana" />
-                </FormBox>
-
-                <FormBox label="年齢 - Age">
-                    <AppInputText name="age" maxlength="2" :required="true" v-model="postData.age" />
-                </FormBox>
-
-                <FormBox label="性別 - Gender">
-                    <AppInputRadio name="gender" :items="[
-                        { label: '男性 - Male', value: '男性' },
-                        { label: '女性 - Female', value: '女性' }
-                    ]" v-model="postData.gender" />
-                </FormBox>
-
-                <FormBox label="教会員など - Church Member">
-                    <AppInputRadio name="member" :items="[
-                        { label: '教会員 - Church Member', value: '教会員' },
-                        { label: '非教会員 - Non-Church Member', value: '非教会員' },
-                        { label: '指導者 - Leader', value: '指導者' }
-                    ]" v-model="postData.member" />
-                </FormBox>
-
                 <div class="submit">
-                    <AppButton type="submit" variant="filled" :disabled="isDisabled">送信</AppButton>
+                    <AppButton type="submit" variant="filled" :disabled="isDisabled">申込書作成</AppButton>
                     <RecaptchaText />
                 </div>
             </form>

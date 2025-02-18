@@ -21,10 +21,11 @@ export const useSubmit = () => {
   const error = ref("");
 
   const checkExpiration = async (type: string): Promise<void> => {
-    expirationState.value = "checking";
-    const response = await fetch(`${ENDPOINT}?type=${type}`);
-    const data: CheckExpirationResponseData = await response.json();
-    expirationState.value = data.result === "done" ? "idle" : "expired";
+    expirationState.value = "valid";
+    // expirationState.value = "checking";
+    // const response = await fetch(`${ENDPOINT}?type=${type}`);
+    // const data: CheckExpirationResponseData = await response.json();
+    // expirationState.value = data.result === "done" ? "valid" : "expired";
   };
 
   const post = async (
