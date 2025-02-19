@@ -5,6 +5,7 @@ const requiredNames = ["recaptcha", "church", "name", "kana", "age", "gender", "
 const postData = ref<Record<string, string>>({
     type,
     recaptcha: "",
+    email: "",
     church: "",
 });
 
@@ -38,9 +39,9 @@ useHead({
         <h1 class="h1">
             2025 第56回 JBBF全国青年フェローシップキャンプ<br />
         </h1>
-        <div class="date">
-            開催日：2025年5月5日〜7日
-        </div>
+        <p class="description">
+            教会名を入力し、申込書を作成してください。作成された申込書は、指定のメールアドレスに送信されますので、ご確認の上、お申込みください。
+        </p>
     </header>
 
     <main class="main">
@@ -48,6 +49,10 @@ useHead({
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
                 <FormBox label="教会名">
                     <AppInputText name="church" maxlength="128" :required="true" v-model="postData.church" />
+                </FormBox>
+
+                <FormBox label="メールアドレス">
+                    <AppInputText name="email" maxlength="256" :required="true" v-model="postData.email" />
                 </FormBox>
 
                 <div class="submit">
@@ -74,10 +79,6 @@ useHead({
 
     <OverlayLoading :show="isShowOverlayLoading" />
     <OverlaySubmit :show="isShowOverlaySubmit" />
-
-    <footer v-if="expirationState === 'valid'" class="footer">
-        <div>担当：仁戸名聖書バプテスト教会</div>
-    </footer>
 </template>
 
 <style scoped>
@@ -95,10 +96,9 @@ useHead({
     margin: 0 0 1.5em;
 }
 
-.date {
+.description {
     font-size: 85%;
-    margin: auto;
-    text-align: right;
+    margin: .5em;
 }
 
 .form {
@@ -110,11 +110,5 @@ useHead({
 .submit {
     height: 4em;
     margin: .5em 0 0;
-}
-
-.footer {
-    font-size: 85%;
-    margin: 15vh 0 0;
-    text-align: center;
 }
 </style>

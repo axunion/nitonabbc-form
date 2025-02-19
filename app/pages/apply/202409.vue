@@ -1,57 +1,57 @@
 <script setup lang="ts">
-import { KEIYO } from "@/constants/keiyo";
+// import { KEIYO } from "@/constants/keiyo";
 
-const { state /* error, checkExpiration, post */ } = useSubmit();
-const datalist = KEIYO.map((item) => item.label);
-const type = "202409";
-const isExpired = ref<boolean | null>(true);
-const postData = ref({
-  type,
-  recaptcha: "",
-  church: "",
-  name: "",
-  kana: "",
-  age: "",
-  gender: "",
-  status: "",
-  participationOption: "",
-  participationDetails: [] as string[],
-  recreation: "",
-  thematicMeetings: "",
-  musicMinisters: [] as string[],
-  instrument: "",
-  surveyInterested: [] as string[],
-  surveyImportant: [] as string[],
-  surveyReflect: [] as string[],
-});
+// const { state, error, checkExpiration, post } = useSubmit();
+// const datalist = KEIYO.map((item) => item.label);
+// const type = "202409";
+// const isExpired = ref<boolean | null>(true);
+// const postData = ref({
+//   type,
+//   recaptcha: "",
+//   church: "",
+//   name: "",
+//   kana: "",
+//   age: "",
+//   gender: "",
+//   status: "",
+//   participationOption: "",
+//   participationDetails: [] as string[],
+//   recreation: "",
+//   thematicMeetings: "",
+//   musicMinisters: [] as string[],
+//   instrument: "",
+//   surveyInterested: [] as string[],
+//   surveyImportant: [] as string[],
+//   surveyReflect: [] as string[],
+// });
 
-const isShowInput = computed(() => ["", "submitting"].includes(state.value));
-const isDisabled = computed(() =>
-  ["submitting", "submitted"].includes(state.value),
-);
+// const isShowInput = computed(() => ["", "submitting"].includes(state.value));
+// const isDisabled = computed(() =>
+//   ["submitting", "submitted"].includes(state.value),
+// );
 
-const participationFee = computed(() => {
-  const table: Record<string, number> = {
-    夕食: 1400,
-    宿泊: Number.parseInt(postData.value.age as string) <= 22 ? 3500 : 4500,
-    朝食: 700,
-    昼食: 1400,
-  };
-  const details = postData.value.participationDetails;
-  const fee = details.reduce((acc, cur) => acc + (table[cur] || 0), 0);
-  return `¥ ${fee.toLocaleString()}`;
-});
+// const participationFee = computed(() => {
+//   const table: Record<string, number> = {
+//     夕食: 1400,
+//     宿泊: Number.parseInt(postData.value.age as string) <= 22 ? 3500 : 4500,
+//     朝食: 700,
+//     昼食: 1400,
+//   };
+//   const details = postData.value.participationDetails;
+//   const fee = details.reduce((acc, cur) => acc + (table[cur] || 0), 0);
+//   return `¥ ${fee.toLocaleString()}`;
+// });
 
-const submit = async () => {
-  // await post(postData.value)
-  // if (error.value) {
-  //   console.error(error.value)
-  // }
-};
+// const submit = async () => {
+//   await post(postData.value)
+//   if (error.value) {
+//     console.error(error.value)
+//   }
+// };
 
-onMounted(async () => {
-  // isExpired.value = await checkExpiration(type)
-});
+// onMounted(async () => {
+//   isExpired.value = await checkExpiration(type)
+// });
 
 useHead({
   title: "京葉地区一泊お泊まり会参加申込",
@@ -71,7 +71,7 @@ useHead({
   </header>
 
   <main class="main">
-    <template v-if="isExpired === false">
+    <!-- <template v-if="isExpired === false">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
         <div class="input-box">
           <div class="input-label">教会名 - Church Name</div>
@@ -235,18 +235,18 @@ useHead({
           <p>送信に失敗しました。<br />恐れ入りますが再度お試しください。</p>
         </div>
       </Transition>
-    </template>
+    </template> -->
 
-    <FormClose v-if="isExpired === true">
+    <FormClose>
       この申込は終了しています。<br />
       This form is now closed.
     </FormClose>
   </main>
 
-  <footer v-if="isExpired === false" class="footer">
+  <!-- <footer v-if="isExpired === false" class="footer">
     <div>担当：仁戸名聖書バプテスト教会</div>
-    <!-- <RecaptchaText /> -->
-  </footer>
+    <RecaptchaText />
+  </footer> -->
 </template>
 
 <style scoped>

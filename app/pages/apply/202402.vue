@@ -1,34 +1,34 @@
 <script setup lang="ts">
-import { KEIYO } from "@/constants/keiyo";
+// import { KEIYO } from "@/constants/keiyo";
 
-const { state /* error, post */ } = useSubmit();
-const datalist = KEIYO.map((item) => item.label);
-const dueDate = new Date("2024-02-19");
-const now = new Date();
-const isExpired = ref(now > dueDate);
-const postData = ref({
-  type: "202402",
-  recaptcha: "",
-  church: "",
-  name: "",
-  kana: "",
-  generation: "",
-  gender: "",
-  status: "",
-  party: [] as string[],
-});
+// const { state, error, post } = useSubmit();
+// const datalist = KEIYO.map((item) => item.label);
+// const dueDate = new Date("2024-02-19");
+// const now = new Date();
+// const isExpired = ref(now > dueDate);
+// const postData = ref({
+//   type: "202402",
+//   recaptcha: "",
+//   church: "",
+//   name: "",
+//   kana: "",
+//   generation: "",
+//   gender: "",
+//   status: "",
+//   party: [] as string[],
+// });
 
-const isShowInput = computed(() => ["", "submitting"].includes(state.value));
-const isDisabled = computed(() =>
-  ["submitting", "submitted"].includes(state.value),
-);
+// const isShowInput = computed(() => ["", "submitting"].includes(state.value));
+// const isDisabled = computed(() =>
+//   ["submitting", "submitted"].includes(state.value),
+// );
 
-const submit = async () => {
-  // await post(postData.value)
-  // if (error.value) {
-  //   console.error(error.value)
-  // }
-};
+// const submit = async () => {
+//   await post(postData.value)
+//   if (error.value) {
+//     console.error(error.value)
+//   }
+// };
 
 useHead({
   title: "京葉地区合同青年会参加申込",
@@ -42,7 +42,7 @@ useHead({
   </header>
 
   <main class="main">
-    <template v-if="!isExpired">
+    <!-- <template v-if="!isExpired">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
         <div class="input-box">
           <div class="input-label">教会名 - Church Name</div>
@@ -125,33 +125,37 @@ useHead({
           <p>送信に失敗しました。<br />恐れ入りますが再度お試しください。</p>
         </div>
       </Transition>
-    </template>
+    </template> -->
 
-    <FormClose v-if="isExpired === true">
+    <FormClose>
       この申込は終了しています。<br />
       This form is now closed.
     </FormClose>
   </main>
 
-  <footer v-if="!isExpired" class="footer">
+  <!-- <footer v-if="!isExpired" class="footer">
     <div>主催：仁戸名聖書バプテスト教会</div>
-  </footer>
+  </footer> -->
 </template>
 
 <style scoped>
 .header {
-  padding: 1em 0 0;
+  background: white;
+  border-bottom: var(--color-primary) solid 4px;
+  border-top: var(--color-primary) solid 4px;
+  box-shadow: 0 1px 3px gray;
+  padding: 1.5em 1em;
 }
 
 .h1 {
-  font-size: 125%;
-  letter-spacing: 1px;
-  margin: 0 0 0.5em;
-  text-align: center;
+  color: var(--color-primary);
+  font-size: 115%;
+  margin: 0 0 1.5em;
 }
 
 .date {
-  font-size: 90%;
+  font-size: 85%;
+  margin: auto;
   text-align: right;
 }
 
