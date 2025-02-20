@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { expirationState, postState, error, checkExpiration, post } = useSubmit();
-const type = "202509";
-const requiredNames = ["recaptcha", "church", "name", "kana", "age", "gender", "member"];
+const type = "202505";
+const requiredNames = ["email", "church"];
 const postData = ref<Record<string, string>>({
     type,
     recaptcha: "",
@@ -13,7 +13,7 @@ const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expira
 const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
 const isShowInput = computed(() => ["idle", "submitting"].includes(postState.value));
 const isDisabled = computed(() =>
-    requiredNames.every(key => postData.value[key] !== '') ||
+    requiredNames.every(key => postData.value[key] === '') ||
     ["submitting", "submitted"].includes(postState.value)
 );
 
@@ -30,23 +30,29 @@ onMounted(async () => {
 });
 
 useHead({
-    title: "第56回JBBF全国青年フェローシップキャンプ参加申込",
+    title: "2025 JBBF全国青年フェローシップキャンプ",
 });
 </script>
 
 <template>
     <header class="header">
         <h1 class="h1">
-            2025 第56回 JBBF全国青年フェローシップキャンプ<br />
+            2025 JBBF全国青年フェローシップキャンプ<br />
         </h1>
-        <p class="description">
-            教会名を入力し、申込書を作成してください。作成された申込書は、指定のメールアドレスに送信されますので、ご確認の上、お申込みください。
-        </p>
+        <div class="date">
+            開催日：2025年5月5日〜7日
+        </div>
     </header>
 
-    <main class="main">
+    <main>
         <template v-if="expirationState === 'valid'">
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
+                <AppCard>
+                    <p class="discription">
+                        教会名とメールアドレスを入力し送信をお願いいたします。申込書が作成され、指定のメールアドレスに送信されます。
+                    </p>
+                </AppCard>
+
                 <FormBox label="教会名">
                     <AppInputText name="church" maxlength="128" :required="true" v-model="postData.church" />
                 </FormBox>
@@ -56,18 +62,23 @@ useHead({
                 </FormBox>
 
                 <div class="submit">
-                    <AppButton type="submit" variant="filled" :disabled="isDisabled">申込書作成</AppButton>
-                    <RecaptchaText />
+                    <AppButton type="submit" variant="filled" :disabled="isDisabled">送信</AppButton>
                 </div>
+
+                <RecaptchaText />
             </form>
 
-            <AppTransition :show="postState === 'submitting'" transition="fade">
-                <p>送信が完了しました。<br />ありがとうございました。</p>
+            <AppTransition :show="postState === 'submitting'">
+                <AppCard>
+                    <p class="message">送信が完了しました。<br />ありがとうございました。</p>
+                </AppCard>
             </AppTransition>
 
 
-            <AppTransition :show="postState === 'failed'" transition="fade">
-                <p>送信に失敗しました。<br />恐れ入りますが再度お試しください。</p>
+            <AppTransition :show="postState === 'failed'">
+                <AppCard>
+                    <p class="message">送信が失敗しました。<br />恐れ入りますが再度お試しください。</p>
+                </AppCard>
             </AppTransition>
         </template>
 
@@ -92,13 +103,13 @@ useHead({
 
 .h1 {
     color: var(--color-primary);
-    font-size: 115%;
+    font-size: 120%;
     margin: 0 0 1.5em;
 }
 
-.description {
+.date {
     font-size: 85%;
-    margin: .5em;
+    text-align: right;
 }
 
 .form {
@@ -107,8 +118,16 @@ useHead({
     gap: 0.5em;
 }
 
+.discription {
+    font-size: 85%;
+}
+
 .submit {
     height: 4em;
     margin: .5em 0 0;
+}
+
+.message {
+    margin: 10vh auto;
 }
 </style>

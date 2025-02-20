@@ -7,10 +7,10 @@
 <style scoped>
 .card {
     background: white;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 1px 3px gray;
-    margin: 0;
-    padding: 10vh 20px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding: 1.5em;
 }
 </style>

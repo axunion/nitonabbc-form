@@ -41,22 +41,19 @@ withDefaults(defineProps<Props>(), {
 }
 
 .button:disabled {
-  color: var(--color-text);
   cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .outlined {
   border: currentColor solid 1px;
+  color: var(--color-primary);
+  font-weight: bolder;
 }
 
 .filled {
   background: var(--color-primary);
   border: var(--color-primary) solid 1px;
   color: white;
-}
-
-.filled:disabled {
-  background: var(--color-subtext);
-  border-color: var(--color-subtext);
 }
 </style>
