@@ -49,7 +49,8 @@ useHead({
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
                 <AppCard>
                     <p class="discription">
-                        教会名とメールアドレスを入力し送信をお願いいたします。申込書が作成され、指定のメールアドレスに送信されます。
+                        教会名とメールアドレスを入力し、送信をお願いいたします。申込書が作成され、ご指定のメールアドレスへ送信されます。<br />
+                        ご入力いただいたメールアドレスは返信目的のみに使用し、保存はいたしません。
                     </p>
                 </AppCard>
 
@@ -70,7 +71,7 @@ useHead({
 
             <AppTransition :show="postState === 'submitting'">
                 <AppCard>
-                    <p class="message">送信が完了しました。<br />ありがとうございました。</p>
+                    <p class="message">送信が完了しました。<br />メールの確認をお願いいたします。</p>
                 </AppCard>
             </AppTransition>
 
