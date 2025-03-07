@@ -1,12 +1,13 @@
 <script setup lang="ts">
 const { expirationState, postState, error, checkExpiration, post } = useSubmit();
 const type = "202505";
-const requiredNames = ["email", "church"];
+const requiredNames = ["church"];
+const spreadSheetUrl = ref("");
 const postData = ref<Record<string, string>>({
     type,
     recaptcha: "",
-    email: "",
     church: "",
+    fileName: "",
 });
 
 const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expirationState.value));
@@ -30,7 +31,7 @@ onMounted(async () => {
 });
 
 useHead({
-    title: "2025 JBBF全国青年フェローシップキャンプ",
+    title: "2025 JBBF全国青年フェローシップキャンプ 参加お申し込み",
 });
 </script>
 
@@ -38,6 +39,7 @@ useHead({
     <header class="header">
         <h1 class="h1">
             2025 JBBF全国青年フェローシップキャンプ<br />
+            参加お申し込み
         </h1>
         <div class="date">
             開催日：2025年5月5日〜7日
@@ -49,17 +51,15 @@ useHead({
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
                 <AppCard>
                     <p class="discription">
-                        教会名とメールアドレスを入力し、送信をお願いいたします。申込書が作成され、ご指定のメールアドレスへ送信されます。<br />
-                        ご入力いただいたメールアドレスは返信目的のみに使用し、保存はいたしません。
+                        教会名を送信後に表示されるリンクから申込書を開き、参加者情報をご入力ください。入力した情報は自動保存されますので、別途のご連絡は不要です。
+                    </p>
+                    <p class="discription">
+                        申込書の提出期限は2025年4月6日です。期限時点での入力情報をもって、お申し込み完了となります。
                     </p>
                 </AppCard>
 
                 <FormBox label="教会名">
                     <AppInputText name="church" maxlength="128" :required="true" v-model="postData.church" />
-                </FormBox>
-
-                <FormBox label="メールアドレス">
-                    <AppInputText name="email" maxlength="256" :required="true" v-model="postData.email" />
                 </FormBox>
 
                 <div class="submit">
@@ -69,18 +69,26 @@ useHead({
                 <RecaptchaText />
             </form>
 
-            <AppTransition :show="postState === 'submitting'">
-                <AppCard>
-                    <p class="message">送信が完了しました。<br />メールの確認をお願いいたします。</p>
-                </AppCard>
-            </AppTransition>
-
-
             <AppTransition :show="postState === 'failed'">
                 <AppCard>
                     <p class="message">送信が失敗しました。<br />恐れ入りますが再度お試しください。</p>
                 </AppCard>
             </AppTransition>
+
+            <div v-if="spreadSheetUrl !== ''">
+                <AppCard>
+                    <p class="discription">
+                        以下のリンクから申込書を開き、参加者情報をご入力ください。入力した情報は自動保存されますので、別途のご連絡は不要です。
+                    </p>
+                    <p class="discription">
+                        申込書の提出期限は2025年4月6日です。期限時点での入力情報をもって、お申し込み完了となります。
+                    </p>
+                </AppCard>
+
+                <div class="link">
+                    <AppButton variant="outlined">申込書を開く</AppButton>
+                </div>
+            </div>
         </template>
 
         <FormClose v-if="expirationState === 'expired'">
@@ -130,5 +138,15 @@ useHead({
 
 .message {
     margin: 10vh auto;
+}
+
+.link {
+    height: 8em;
+    margin: 1em 0 0;
+
+    :hover {
+        background: var(--color-primary);
+        color: white;
+    }
 }
 </style>
