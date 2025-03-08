@@ -1,13 +1,12 @@
 <script setup lang="ts">
 const { expirationState, postState, error, checkExpiration, post } = useSubmit();
 const type = "202505";
-const requiredNames = ["church"];
+const requiredNames = ["name"];
 const spreadSheetUrl = ref("");
 const postData = ref<Record<string, string>>({
     type,
     recaptcha: "",
-    church: "",
-    fileName: "",
+    name: "",
 });
 
 const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expirationState.value));
@@ -59,7 +58,7 @@ useHead({
                 </AppCard>
 
                 <FormBox label="教会名">
-                    <AppInputText name="church" maxlength="128" :required="true" v-model="postData.church" />
+                    <AppInputText name="name" maxlength="128" :required="true" v-model="postData.name" />
                 </FormBox>
 
                 <div class="submit">
