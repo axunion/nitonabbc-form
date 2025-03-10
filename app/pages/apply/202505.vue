@@ -46,7 +46,16 @@ useHead({
     </header>
 
     <main>
-        <template v-if="expirationState === 'valid'">
+        <AppCard>
+            <div class="ready">
+                <p>
+                    只今準備中です。<br />
+                    恐れ入りますが、お申し込み開始までもうしばらくお待ちください。
+                </p>
+            </div>
+        </AppCard>
+
+        <!-- <template v-if="expirationState === 'valid'">
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
                 <AppCard>
                     <p class="discription">
@@ -90,10 +99,10 @@ useHead({
             </div>
         </template>
 
-        <FormClose v-if="expirationState === 'expired'">
-            この申込は終了しています。<br />
-            This form is now closed.
-        </FormClose>
+<FormClose v-if="expirationState === 'expired'">
+    この申込は終了しています。<br />
+    This form is now closed.
+</FormClose> -->
     </main>
 
     <OverlayLoading :show="isShowOverlayLoading" />
@@ -118,6 +127,13 @@ useHead({
 .date {
     font-size: 85%;
     text-align: right;
+}
+
+.ready {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
 }
 
 .form {
