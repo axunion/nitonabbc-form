@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { expirationState, postState, error, checkExpiration, post } = useSubmit();
+import { Icon } from "@iconify/vue";
+
+const { expirationState, postState, error, checkExpiration, createSheet } = useCreateSheet();
 const type = "202505";
 const requiredNames = ["name"];
 const spreadSheetUrl = ref("");
@@ -18,11 +20,19 @@ const isDisabled = computed(() =>
 );
 
 const submit = async () => {
-    console.log(postData.value);
-    // await post(postData.value)
-    // if (error.value) {
-    //   console.error(error.value)
-    // }
+    const result = await createSheet(postData.value)
+    console.log(result)
+
+    if (error.value) {
+        console.error(error.value)
+    }
+
+    spreadSheetUrl.value = result;
+};
+
+const copy = async () => {
+    await navigator.clipboard.writeText(spreadSheetUrl.value);
+    alert("リンクをコピーしました");
 };
 
 onMounted(async () => {
@@ -46,23 +56,14 @@ useHead({
     </header>
 
     <main>
-        <AppCard>
-            <div class="ready">
-                <p>
-                    只今準備中です。<br />
-                    恐れ入りますが、お申し込み開始までもうしばらくお待ちください。
-                </p>
-            </div>
-        </AppCard>
-
-        <!-- <template v-if="expirationState === 'valid'">
+        <template v-if="expirationState === 'valid'">
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
                 <AppCard>
-                    <p class="discription">
-                        教会名を送信後に表示されるリンクから申込書を開き、参加者情報をご入力ください。入力した情報は自動保存されますので、別途のご連絡は不要です。
+                    <p>
+                        教会名をご送信後、表示されるリンクから申し込み書を開き、必要事項をご入力ください。お申し込みは教会ごとに行っていただきますようお願いいたします。
                     </p>
-                    <p class="discription">
-                        申込書の提出期限は2025年4月6日です。期限時点での入力情報をもって、お申し込み完了となります。
+                    <p>
+                        入力された情報は自動で保存されますので、入力後の追加連絡は必要ありません。申込書の提出締め切りは2025年4月6日です。期限時点で入力済みの情報をもって、お申し込みとさせていただきます。
                     </p>
                 </AppCard>
 
@@ -83,26 +84,35 @@ useHead({
                 </AppCard>
             </AppTransition>
 
-            <div v-if="spreadSheetUrl !== ''">
-                <AppCard>
-                    <p class="discription">
-                        以下のリンクから申込書を開き、参加者情報をご入力ください。入力した情報は自動保存されますので、別途のご連絡は不要です。
-                    </p>
-                    <p class="discription">
-                        申込書の提出期限は2025年4月6日です。期限時点での入力情報をもって、お申し込み完了となります。
-                    </p>
-                </AppCard>
+            <AppTransition :show="spreadSheetUrl !== ''">
+                <div>
+                    <AppCard>
+                        <p>
+                            お申し込みは教会ごとに手続きをお願いいたします。一度発行された申込書のリンクは、紛失しないようご注意ください。リンクをコピーして教会関係者間で共有いただく方法がおすすめです。
+                        </p>
+                        <p>
+                            入力された情報は自動で保存されますので、入力後の追加連絡は必要ありません。申込書の提出締め切りは2025年4月6日です。期限時点で入力済みの情報をもって、お申し込みとさせていただきます。
+                        </p>
+                    </AppCard>
 
-                <div class="link">
-                    <AppButton variant="outlined">申込書を開く</AppButton>
+                    <a :href="spreadSheetUrl" target="_blank" rel="noopener noreferrer" class="link">
+                        <AppButton variant="filled">申し込み書を開く</AppButton>
+                    </a>
+
+                    <div class="copy">
+                        <AppButton variant="outlined" @click="copy">
+                            リンクをコピー
+                            <Icon icon="mdi:content-copy" width="1em" height="1em" />
+                        </AppButton>
+                    </div>
                 </div>
-            </div>
+            </AppTransition>
         </template>
 
-<FormClose v-if="expirationState === 'expired'">
-    この申込は終了しています。<br />
-    This form is now closed.
-</FormClose> -->
+        <FormClose v-if="expirationState === 'expired'">
+            この申込は終了しています。<br />
+            This form is now closed.
+        </FormClose>
     </main>
 
     <OverlayLoading :show="isShowOverlayLoading" />
@@ -142,10 +152,6 @@ useHead({
     gap: 0.5em;
 }
 
-.discription {
-    font-size: 85%;
-}
-
 .submit {
     height: 4em;
     margin: .5em 0 0;
@@ -156,12 +162,13 @@ useHead({
 }
 
 .link {
-    height: 8em;
+    display: block;
+    height: 5em;
     margin: 1em 0 0;
+}
 
-    :hover {
-        background: var(--color-primary);
-        color: white;
-    }
+.copy {
+    height: 3em;
+    margin: 1em 3em 3em;
 }
 </style>
