@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 
-const { expirationState, postState, error, checkExpiration, createSheet } = useCreateSheet();
 const type = "202505";
 const requiredNames = ["name"];
+const storageKey = "spreadSheetUrl202505";
 const spreadSheetUrl = ref("");
 const postData = ref<Record<string, string>>({
     type,
@@ -11,9 +11,10 @@ const postData = ref<Record<string, string>>({
     name: "",
 });
 
+const { expirationState, postState, error, checkExpiration, createSheet } = useCreateSheet();
 const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expirationState.value));
 const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
-const isShowInput = computed(() => ["idle", "submitting"].includes(postState.value));
+const isShowInput = computed(() => ["idle", "submitting"].includes(postState.value) && spreadSheetUrl.value === "");
 const isDisabled = computed(() =>
     requiredNames.every(key => postData.value[key] === '') ||
     ["submitting", "submitted"].includes(postState.value)
@@ -21,13 +22,13 @@ const isDisabled = computed(() =>
 
 const submit = async () => {
     const result = await createSheet(postData.value)
-    console.log(result)
 
     if (error.value) {
         console.error(error.value)
     }
 
     spreadSheetUrl.value = result;
+    localStorage.setItem(storageKey, result);
 };
 
 const copy = async () => {
@@ -36,11 +37,12 @@ const copy = async () => {
 };
 
 onMounted(async () => {
-    await checkExpiration(type)
+    await checkExpiration(type);
+    spreadSheetUrl.value = localStorage.getItem(storageKey) || "";
 });
 
 useHead({
-    title: "2025 JBBF全国青年フェローシップキャンプ 参加お申し込み",
+    title: "2025 JBBF全国青年フェローシップキャンプ 参加申し込み",
 });
 </script>
 
@@ -48,7 +50,7 @@ useHead({
     <header class="header">
         <h1 class="h1">
             2025 JBBF全国青年フェローシップキャンプ<br />
-            参加お申し込み
+            参加申し込み
         </h1>
         <div class="date">
             開催日：2025年5月5日〜7日
