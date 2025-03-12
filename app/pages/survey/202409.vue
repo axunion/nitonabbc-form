@@ -1,33 +1,33 @@
 <script setup lang="ts">
-const { state /* error, post */ } = useSubmit();
+// const { state /* error, post */ } = useSubmit();
 
-const type = "202409s";
-const isExpired = true;
-const postData = ref({
-  type,
-  recaptcha: "",
-  place: "",
-  meal: "",
-  facility: "",
-  schedule: "",
-  favorite: [] as string[],
-  thematicMeetings: [] as string[],
-  nextThematicMeetings: [] as string[],
-  kaizen: "",
-  opinion: "",
-});
+// const type = "202409s";
+// const isExpired = true;
+// const postData = ref({
+//   type,
+//   recaptcha: "",
+//   place: "",
+//   meal: "",
+//   facility: "",
+//   schedule: "",
+//   favorite: [] as string[],
+//   thematicMeetings: [] as string[],
+//   nextThematicMeetings: [] as string[],
+//   kaizen: "",
+//   opinion: "",
+// });
 
-const isShowInput = computed(() => ["", "submitting"].includes(state.value));
-const isDisabled = computed(() =>
-  ["submitting", "submitted"].includes(state.value),
-);
+// const isShowInput = computed(() => ["", "submitting"].includes(state.value));
+// const isDisabled = computed(() =>
+//   ["submitting", "submitted"].includes(state.value),
+// );
 
-const submit = async () => {
-  // await post(postData.value)
-  // if (error.value) {
-  //   console.error(error.value)
-  // }
-};
+// const submit = async () => {
+//   await post(postData.value)
+//   if (error.value) {
+//     console.error(error.value)
+//   }
+// };
 
 // watch(state, (value) => {
 //   if (value === 'submitting') {
@@ -55,7 +55,7 @@ useHead({
   </header>
 
   <main class="main">
-    <template v-if="!isExpired">
+    <!-- <template v-if="!isExpired">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
         <div class="input-box">
           <p>次回開催時の参考にするため、簡単なアンケートにご協力ください。</p>
@@ -201,9 +201,9 @@ useHead({
           <p>送信に失敗しました。<br />恐れ入りますが再度お試しください。</p>
         </div>
       </Transition>
-    </template>
+    </template> -->
 
-    <FormClose v-if="isExpired === true">
+    <FormClose>
       このアンケートは終了しています。<br />
       This form is now closed.
     </FormClose>
