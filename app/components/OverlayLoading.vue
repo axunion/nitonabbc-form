@@ -19,8 +19,8 @@ withDefaults(defineProps<Props>(), {
 <style scoped>
 .overlay {
   align-items: center;
-  backdrop-filter: blur(2px);
-  background: #ffffff80;
+  backdrop-filter: blur(3px);
+  background: #00000080;
   display: flex;
   inset: 0;
   justify-content: center;
@@ -40,13 +40,20 @@ withDefaults(defineProps<Props>(), {
 
   0%,
   100% {
-    background: var(--color-primary);
+    background: var(--color-secondary);
     transform: scale(1, 0.9) translateY(0);
   }
 
-  40% {
+  30% {
     background: var(--color-accent);
+  }
+
+  50% {
     transform: scale(1) translateY(-200%);
+  }
+
+  70% {
+    background: var(--color-primary);
   }
 }
 </style>
