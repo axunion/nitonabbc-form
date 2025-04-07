@@ -1,35 +1,35 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 
-const type = "202505";
-const requiredNames = ["name"];
+// const type = "202505";
+// const requiredNames = ["name"];
 const storageKey = "spreadSheetUrl202505";
 const spreadSheetUrl = ref("");
-const postData = ref<Record<string, string>>({
-    type,
-    recaptcha: "",
-    name: "",
-});
+// const postData = ref<Record<string, string>>({
+//     type,
+//     recaptcha: "",
+//     name: "",
+// });
 
-const { expirationState, postState, error, checkExpiration, createSheet } = useCreateSheet();
-const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expirationState.value));
-const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
-const isShowInput = computed(() => ["idle", "submitting"].includes(postState.value) && spreadSheetUrl.value === "");
-const isDisabled = computed(() =>
-    requiredNames.every(key => postData.value[key] === '') ||
-    ["submitting", "submitted"].includes(postState.value)
-);
+// const { expirationState, postState, error, checkExpiration, createSheet } = useCreateSheet();
+// const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expirationState.value));
+// const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
+// const isShowInput = computed(() => ["idle", "submitting"].includes(postState.value) && spreadSheetUrl.value === "");
+// const isDisabled = computed(() =>
+//     requiredNames.every(key => postData.value[key] === '') ||
+//     ["submitting", "submitted"].includes(postState.value)
+// );
 
-const submit = async () => {
-    const result = await createSheet(postData.value)
+// const submit = async () => {
+//     const result = await createSheet(postData.value)
 
-    if (error.value) {
-        console.error(error.value)
-    }
+//     if (error.value) {
+//         console.error(error.value)
+//     }
 
-    spreadSheetUrl.value = result;
-    localStorage.setItem(storageKey, result);
-};
+//     spreadSheetUrl.value = result;
+//     localStorage.setItem(storageKey, result);
+// };
 
 const copy = async () => {
     await navigator.clipboard.writeText(spreadSheetUrl.value);
@@ -37,7 +37,7 @@ const copy = async () => {
 };
 
 onMounted(async () => {
-    await checkExpiration(type);
+    // await checkExpiration(type);
     spreadSheetUrl.value = localStorage.getItem(storageKey) || "";
 });
 
@@ -58,7 +58,7 @@ useHead({
     </header>
 
     <main>
-        <template v-if="expirationState === 'valid'">
+        <!-- <template v-if="expirationState === 'valid'">
             <form v-if="isShowInput" class="form" @submit.prevent="submit">
                 <AppCard>
                     <p>
@@ -109,16 +109,27 @@ useHead({
                     </div>
                 </div>
             </AppTransition>
-        </template>
+        </template> -->
 
-        <FormClose v-if="expirationState === 'expired'">
+        <FormClose>
             この申込は終了しています。<br />
             This form is now closed.
         </FormClose>
+
+        <a :href="spreadSheetUrl" target="_blank" rel="noopener noreferrer" class="link">
+            <AppButton variant="filled">申し込み書を開く</AppButton>
+        </a>
+
+        <div class="copy">
+            <AppButton variant="outlined" @click="copy">
+                リンクをコピー
+                <Icon icon="mdi:content-copy" width="1em" height="1em" />
+            </AppButton>
+        </div>
     </main>
 
-    <OverlayLoading :show="isShowOverlayLoading" />
-    <OverlaySubmit :show="isShowOverlaySubmit" />
+    <!-- <OverlayLoading :show="isShowOverlayLoading" />
+    <OverlaySubmit :show="isShowOverlaySubmit" /> -->
 </template>
 
 <style scoped>
