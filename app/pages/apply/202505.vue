@@ -116,16 +116,19 @@ useHead({
             This form is now closed.
         </FormClose>
 
-        <a :href="spreadSheetUrl" target="_blank" rel="noopener noreferrer" class="link">
-            <AppButton variant="filled">申し込み書を開く</AppButton>
-        </a>
+        <template v-if="spreadSheetUrl !== ''">
+            <a :href="spreadSheetUrl" target="_blank" rel="noopener noreferrer" class="link">
 
-        <div class="copy">
-            <AppButton variant="outlined" @click="copy">
-                リンクをコピー
-                <Icon icon="mdi:content-copy" width="1em" height="1em" />
-            </AppButton>
-        </div>
+                <AppButton variant="filled">申し込み書を開く</AppButton>
+            </a>
+
+            <div class="copy">
+                <AppButton variant="outlined" @click="copy">
+                    リンクをコピー
+                    <Icon icon="mdi:content-copy" width="1em" height="1em" />
+                </AppButton>
+            </div>
+        </template>
     </main>
 
     <!-- <OverlayLoading :show="isShowOverlayLoading" />
