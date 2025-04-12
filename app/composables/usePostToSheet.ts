@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import { ENDPOINT, SITEKEY } from "@/constants/config";
 
 export type ExpirationState = "idle" | "checking" | "valid" | "expired";
 export type PostState = "idle" | "submitting" | "submitted" | "failed";
@@ -17,9 +18,6 @@ export type CreateSheetResponseData = {
   url: string;
   error: string;
 };
-
-const ENDPOINT = import.meta.env.VITE_ENDPOINT;
-const SITEKEY = import.meta.env.VITE_SITEKEY;
 
 export const usePostToSheet = () => {
   const expirationState = ref<ExpirationState>("idle");

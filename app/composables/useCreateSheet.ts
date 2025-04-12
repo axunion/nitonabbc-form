@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import { ENDPOINT_CREATE_SHEET } from "@/constants/config";
 
 export type ExpirationState = "idle" | "checking" | "valid" | "expired";
 export type PostState = "idle" | "submitting" | "submitted" | "failed";
@@ -18,8 +19,6 @@ export type CreateSheetResponseData = {
   error: string;
 };
 
-const ENDPOINT = import.meta.env.VITE_ENDPOINT_CREATE_SHEET;
-
 export const useCreateSheet = () => {
   const expirationState = ref<ExpirationState>("idle");
   const postState = ref<PostState>("idle");
@@ -28,7 +27,7 @@ export const useCreateSheet = () => {
   const checkExpiration = async (type: string): Promise<void> => {
     expirationState.value = "valid";
     expirationState.value = "checking";
-    const response = await fetch(`${ENDPOINT}?type=${type}`);
+    const response = await fetch(`${ENDPOINT_CREATE_SHEET}?type=${type}`);
     const data: CheckExpirationResponseData = await response.json();
     expirationState.value = data.result === "done" ? "valid" : "expired";
   };
@@ -40,7 +39,7 @@ export const useCreateSheet = () => {
     postState.value = "submitting";
 
     try {
-      const response = await fetch(ENDPOINT, {
+      const response = await fetch(ENDPOINT_CREATE_SHEET, {
         method: "POST",
         body: JSON.stringify(postData),
       });
