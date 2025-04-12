@@ -1,5 +1,5 @@
-import { ref } from "vue";
 import { ENDPOINT, SITEKEY } from "@/constants/config";
+import { ref } from "vue";
 
 export type ExpirationState = "idle" | "checking" | "valid" | "expired";
 export type PostState = "idle" | "submitting" | "submitted" | "failed";

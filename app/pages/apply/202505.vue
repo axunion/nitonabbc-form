@@ -32,17 +32,17 @@ const spreadSheetUrl = ref("");
 // };
 
 const copy = async () => {
-    await navigator.clipboard.writeText(spreadSheetUrl.value);
-    alert("リンクをコピーしました");
+  await navigator.clipboard.writeText(spreadSheetUrl.value);
+  alert("リンクをコピーしました");
 };
 
 onMounted(async () => {
-    // await checkExpiration(type);
-    spreadSheetUrl.value = localStorage.getItem(storageKey) || "";
+  // await checkExpiration(type);
+  spreadSheetUrl.value = localStorage.getItem(storageKey) || "";
 });
 
 useHead({
-    title: "2025 JBBF全国青年フェローシップキャンプ 参加申し込み",
+  title: "2025 JBBF全国青年フェローシップキャンプ 参加申し込み",
 });
 </script>
 
