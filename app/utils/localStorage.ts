@@ -9,7 +9,7 @@ export const loadData = (key: string): StorageData | null => {
       return data;
     }
   } catch (error) {
-    console.error(`Error load data from localStorage: ${error}`);
+    console.error(`Error loading data from localStorage: ${error}`);
   }
 
   return null;
@@ -28,17 +28,5 @@ export const removeData = (key: string): void => {
     localStorage.removeItem(key);
   } catch (error) {
     console.error(`Error removing data from localStorage: ${error}`);
-  }
-};
-
-export const removeDataByList = (keys: string[]): void => {
-  keys.forEach(removeData);
-};
-
-export const clearData = (): void => {
-  try {
-    localStorage.clear();
-  } catch (error) {
-    console.error(`Error clearing localStorage: ${error}`);
   }
 };
