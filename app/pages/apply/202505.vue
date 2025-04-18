@@ -32,25 +32,24 @@ const spreadSheetUrl = ref("");
 // };
 
 const copy = async () => {
-  await navigator.clipboard.writeText(spreadSheetUrl.value);
-  alert("リンクをコピーしました");
+    await navigator.clipboard.writeText(spreadSheetUrl.value);
+    alert("リンクをコピーしました");
 };
 
 onMounted(async () => {
-  // await checkExpiration(type);
-  spreadSheetUrl.value = localStorage.getItem(storageKey) || "";
+    // await checkExpiration(type);
+    spreadSheetUrl.value = localStorage.getItem(storageKey) || "";
 });
 
 useHead({
-  title: "2025 JBBF全国青年フェローシップキャンプ 参加申し込み",
+    title: "2025 JBBF全国青年フェローシップキャンプ 参加申し込み",
 });
 </script>
 
 <template>
     <header class="header">
         <h1 class="h1">
-            2025 JBBF全国青年フェローシップキャンプ<br />
-            参加申し込み
+            2025 JBBF全国青年フェローシップキャンプ参加申し込み
         </h1>
         <div class="date">
             開催日：2025年5月5日〜7日

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 type Props = {
-  type?: "button" | "submit" | "reset";
-  variant?: "" | "outlined" | "filled";
-  disabled?: boolean;
+    type?: "button" | "submit" | "reset";
+    variant?: "" | "outlined" | "filled";
+    disabled?: boolean;
 };
 
 withDefaults(defineProps<Props>(), {
-  type: "button",
-  variant: "",
-  disabled: false,
+    type: "button",
+    variant: "",
+    disabled: false,
 });
 </script>
 

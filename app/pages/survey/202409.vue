@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: "京葉地区一泊お泊まり会アンケート",
+    title: "京葉地区一泊お泊まり会アンケート",
 });
 </script>
 

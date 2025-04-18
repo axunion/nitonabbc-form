@@ -1,11 +1,11 @@
 <script setup lang="ts">
 type Props = {
-  name: string;
-  items: { label: string; value: string }[];
+    name: string;
+    items: { label: string; value: string }[];
 };
 
 withDefaults(defineProps<Props>(), {
-  items: () => [],
+    items: () => [],
 });
 
 const model = defineModel<string>();

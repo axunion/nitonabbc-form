@@ -14,13 +14,16 @@ type Json = string | number | boolean | null | Json[] | { [key: string]: Json };
  * the structure of the stored data, as incorrect assumptions may lead to runtime errors.
  */
 export const loadData = <T = Json>(key: string): T | null => {
-  try {
-    const value = localStorage.getItem(key);
-    return value ? (JSON.parse(value) as T) : null;
-  } catch (error) {
-    console.error(`Error loading data from localStorage (key: ${key}):`, error);
-    return null;
-  }
+    try {
+        const value = localStorage.getItem(key);
+        return value ? (JSON.parse(value) as T) : null;
+    } catch (error) {
+        console.error(
+            `Error loading data from localStorage (key: ${key}):`,
+            error,
+        );
+        return null;
+    }
 };
 
 /**
@@ -30,11 +33,14 @@ export const loadData = <T = Json>(key: string): T | null => {
  * @param data - The data to be stored. Must be serializable as JSON.
  */
 export const saveData = (key: string, data: Json): void => {
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch (error) {
-    console.error(`Error saving data to localStorage (key: ${key}):`, error);
-  }
+    try {
+        localStorage.setItem(key, JSON.stringify(data));
+    } catch (error) {
+        console.error(
+            `Error saving data to localStorage (key: ${key}):`,
+            error,
+        );
+    }
 };
 
 /**
@@ -43,12 +49,12 @@ export const saveData = (key: string, data: Json): void => {
  * @param key - The key to remove from localStorage.
  */
 export const removeData = (key: string): void => {
-  try {
-    localStorage.removeItem(key);
-  } catch (error) {
-    console.error(
-      `Error removing data from localStorage (key: ${key}):`,
-      error,
-    );
-  }
+    try {
+        localStorage.removeItem(key);
+    } catch (error) {
+        console.error(
+            `Error removing data from localStorage (key: ${key}):`,
+            error,
+        );
+    }
 };
