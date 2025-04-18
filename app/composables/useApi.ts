@@ -1,31 +1,26 @@
-import { ENDPOINT, ENDPOINT_CREATE_SHEET, SITEKEY } from "@/constants/config";
+import {
+  SITEKEY,
+  URL_CREATE_SHEET,
+  URL_POST_TO_SHEET,
+  URL_TIMESTAMP,
+} from "@/constants/config";
 import { ref } from "vue";
-
-declare global {
-  interface Window {
-    grecaptcha: {
-      ready: (callback: () => void) => void;
-      execute: (
-        siteKey: string,
-        options: { action: string },
-      ) => Promise<string>;
-    };
-  }
-}
 
 export type ExpirationState = "idle" | "checking" | "valid" | "expired";
 export type PostState = "idle" | "submitting" | "submitted" | "failed";
 
-export type CheckExpirationResponseData = {
-  result: "done" | "error" | "expired";
+export type TimestampResponse = {
+  result: "done" | "error";
+  timestamp: number;
+  error: string;
 };
 
-export type PostResponseData = {
+export type PostResponse = {
   result: "done" | "error";
   error: string;
 };
 
-export type CreateSheetResponseData = {
+export type CreateSheetResponse = {
   result: "done" | "error";
   url: string;
   error: string;
@@ -67,13 +62,17 @@ export const useApi = () => {
   const postState = ref<PostState>("idle");
   const error = ref("");
 
-  const checkExpiration = async (type: string): Promise<void> => {
+  const checkExpiration = async (deadline: number): Promise<void> => {
     expirationState.value = "checking";
+
     try {
-      const data = await fetchJson<CheckExpirationResponseData>(
-        `${ENDPOINT_CREATE_SHEET}?type=${type}`,
-      );
-      expirationState.value = data.result === "done" ? "valid" : "expired";
+      const data = await fetchJson<TimestampResponse>(URL_TIMESTAMP);
+
+      if (data.result === "error") {
+        throw new Error(data.error);
+      }
+
+      expirationState.value = data.timestamp > deadline ? "expired" : "valid";
     } catch (e) {
       expirationState.value = "expired";
       error.value = e instanceof Error ? e.message : "Unknown error";
@@ -84,6 +83,7 @@ export const useApi = () => {
     formData: Record<string, string | string[]>,
   ): Promise<void> => {
     postState.value = "submitting";
+
     try {
       const recaptchaToken = await getRecaptchaToken();
       const postData = {
@@ -91,7 +91,7 @@ export const useApi = () => {
         recaptcha: recaptchaToken,
       };
 
-      const responseData = await fetchJson<PostResponseData>(ENDPOINT, {
+      const responseData = await fetchJson<PostResponse>(URL_POST_TO_SHEET, {
         method: "POST",
         body: JSON.stringify(postData),
       });
@@ -114,9 +114,10 @@ export const useApi = () => {
     postData: Record<string, string>,
   ): Promise<string> => {
     postState.value = "submitting";
+
     try {
-      const responseData = await fetchJson<CreateSheetResponseData>(
-        ENDPOINT_CREATE_SHEET,
+      const responseData = await fetchJson<CreateSheetResponse>(
+        URL_CREATE_SHEET,
         {
           method: "POST",
           body: JSON.stringify(postData),
