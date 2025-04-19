@@ -1,27 +1,27 @@
 <script setup lang="ts">
 type Props = {
-    name: string;
-    required?: boolean;
-    disabled?: boolean;
+  name: string;
+  required?: boolean;
+  disabled?: boolean;
 };
 
 withDefaults(defineProps<Props>(), {
-    required: false,
-    disabled: false,
+  required: false,
+  disabled: false,
 });
 
 const model = defineModel<string>();
 const textarea = ref<HTMLTextAreaElement | null>(null);
 
 const autoResize = () => {
-    if (textarea.value) {
-        textarea.value.style.height = "auto";
-        textarea.value.style.height = `${textarea.value.scrollHeight}px`;
-    }
+  if (textarea.value) {
+    textarea.value.style.height = "auto";
+    textarea.value.style.height = `${textarea.value.scrollHeight}px`;
+  }
 };
 
 onMounted(() => {
-    autoResize();
+  autoResize();
 });
 </script>
 

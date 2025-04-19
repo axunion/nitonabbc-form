@@ -1,10 +1,10 @@
 <script setup lang="ts">
 type Props = {
-    show?: boolean;
+  show?: boolean;
 };
 
 withDefaults(defineProps<Props>(), {
-    show: false,
+  show: false,
 });
 </script>
 

@@ -1,64 +1,64 @@
 :root {
-    --color-background: #d8dbf0;
-    --color-primary: #566df0;
-    --color-secondary: #f0d956;
-    --color-accent: #f0566e;
-    --color-text: #282928;
-    --color-subtext: #7d807d;
-    --color-divider: #4b4d4b;
+  --color-background: #d8dbf0;
+  --color-primary: #566df0;
+  --color-secondary: #f0d956;
+  --color-accent: #f0566e;
+  --color-text: #282928;
+  --color-subtext: #7d807d;
+  --color-divider: #4b4d4b;
 }
 
 ::selection {
-    background: var(--color-primary);
-    color: var(--color-background);
-    text-shadow: none;
+  background: var(--color-primary);
+  color: var(--color-background);
+  text-shadow: none;
 }
 
 html {
-    background: var(--color-background);
-    color: var(--color-text);
-    font: 100% / 1.5 -apple-system, BlinkMacSystemFont, Roboto, Helvetica,
-        "Noto Sans JP", "Yu Gothic", sans-serif;
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
+  background: var(--color-background);
+  color: var(--color-text);
+  font: 100% / 1.5 -apple-system, BlinkMacSystemFont, Roboto, Helvetica,
+    "Noto Sans JP", "Yu Gothic", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-    margin: 0;
+  margin: 0;
 }
 
 hr {
-    border: none;
-    margin: 1em 0;
+  border: none;
+  margin: 1em 0;
 }
 
 p {
-    font-feature-settings: "palt";
-    line-height: 1.6;
-    margin: 1em 0;
+  font-feature-settings: "palt";
+  line-height: 1.6;
+  margin: 1em 0;
 }
 
 a {
-    color: var(--color-primary);
-    text-decoration: underline;
+  color: var(--color-primary);
+  text-decoration: underline;
 }
 
 input,
 optgroup,
 select,
 textarea {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    background: transparent;
-    border: 0;
-    color: inherit;
-    font: inherit;
-    margin: 0;
-    outline: 0;
-    padding: 0;
-    text-align: inherit;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  margin: 0;
+  outline: 0;
+  padding: 0;
+  text-align: inherit;
 }

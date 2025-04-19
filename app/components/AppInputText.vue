@@ -1,15 +1,15 @@
 <script setup lang="ts">
 type Props = {
-    name: string;
-    maxlength?: string;
-    required?: boolean;
-    disabled?: boolean;
-    datalist?: string[];
+  name: string;
+  maxlength?: string;
+  required?: boolean;
+  disabled?: boolean;
+  datalist?: string[];
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    required: false,
-    disabled: false,
+  required: false,
+  disabled: false,
 });
 
 const model = defineModel<string>();
