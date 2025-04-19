@@ -47,14 +47,14 @@ useHead({
 </script>
 
 <template>
-    <header class="header">
-        <h1 class="h1">
-            2025 JBBF全国青年フェローシップキャンプ参加申し込み
-        </h1>
-        <div class="date">
-            開催日：2025年5月5日〜7日
-        </div>
-    </header>
+    <HeaderDefault>
+        <template #heading>
+            2025 JBBF全国青年フェローシップキャンプ 参加申し込み
+        </template>
+        <template #date>
+            開催日：2025年4月6日〜7日
+        </template>
+    </HeaderDefault>
 
     <main>
         <!-- <template v-if="expirationState === 'valid'">
@@ -135,32 +135,6 @@ useHead({
 </template>
 
 <style scoped>
-.header {
-    background: white;
-    border-bottom: var(--color-primary) solid 4px;
-    border-top: var(--color-primary) solid 4px;
-    box-shadow: 0 1px 3px gray;
-    padding: 1.5em 1em;
-}
-
-.h1 {
-    color: var(--color-primary);
-    font-size: 120%;
-    margin: 0 0 1.5em;
-}
-
-.date {
-    font-size: 85%;
-    text-align: right;
-}
-
-.ready {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    padding: 1em;
-}
-
 .form {
     display: flex;
     flex-direction: column;

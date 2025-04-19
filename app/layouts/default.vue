@@ -1,14 +1,18 @@
 <template>
-  <div class="content">
-    <slot></slot>
+  <div class="cantainer">
+    <div class="content">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.cantainer {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
 .content {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
   margin: auto;
   max-width: 480px;
   padding: 1em;

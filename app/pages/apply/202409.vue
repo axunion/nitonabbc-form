@@ -1,20 +1,20 @@
 <script setup lang="ts">
 useHead({
-    title: "京葉地区一泊お泊まり会参加申込",
+  title: "京葉地区一泊お泊まり会参加申込",
 });
 </script>
 
 <template>
-  <header class="header">
-    <h1 class="h1">
-      京葉地区一泊お泊まり会参加申込<br />
+  <HeaderDefault>
+    <template #heading>
+      京葉地区一泊お泊まり会 参加申込<br />
       Keiyo Area Retreat Registration
-    </h1>
-    <div class="date">
+    </template>
+    <template #date>
       開催日：2024年9月22日〜23日<br />
       Event Dates: September 22-23, 2024
-    </div>
-  </header>
+    </template>
+  </HeaderDefault>
 
   <main class="main">
     <FormClose>
@@ -23,25 +23,3 @@ useHead({
     </FormClose>
   </main>
 </template>
-
-<style scoped>
-.header {
-  background: white;
-  border-bottom: var(--color-primary) solid 4px;
-  border-top: var(--color-primary) solid 4px;
-  box-shadow: 0 1px 3px gray;
-  padding: 1.5em 1em;
-}
-
-.h1 {
-  color: var(--color-primary);
-  font-size: 115%;
-  margin: 0 0 1.5em;
-}
-
-.date {
-  font-size: 85%;
-  margin: auto;
-  text-align: right;
-}
-</style>
