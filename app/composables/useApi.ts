@@ -6,7 +6,6 @@ import {
 } from "@/constants/config";
 import { ref } from "vue";
 
-export type ExpirationState = "idle" | "checking" | "valid" | "expired";
 export type PostState = "idle" | "submitting" | "submitted" | "failed";
 
 export type TimestampResponse = {
@@ -57,13 +56,10 @@ const fetchJson = async <T>(url: string, options?: RequestInit): Promise<T> => {
 };
 
 export const useApi = () => {
-  const expirationState = ref<ExpirationState>("idle");
   const postState = ref<PostState>("idle");
   const error = ref("");
 
-  const checkExpiration = async (deadline: number): Promise<void> => {
-    expirationState.value = "checking";
-
+  const checkExpiration = async (deadline: number): Promise<boolean> => {
     try {
       const data = await fetchJson<TimestampResponse>(URL_TIMESTAMP);
 
@@ -71,28 +67,28 @@ export const useApi = () => {
         throw new Error(data.error);
       }
 
-      expirationState.value = data.timestamp > deadline ? "expired" : "valid";
+      return data.timestamp > deadline;
     } catch (e) {
-      expirationState.value = "expired";
       error.value = e instanceof Error ? e.message : "Unknown error";
+      return false;
     }
   };
 
-  const post = async (
-    formData: Record<string, string | string[]>,
+  const postToSheet = async (
+    postData: Record<string, string | string[]>,
   ): Promise<void> => {
     postState.value = "submitting";
 
     try {
       const recaptchaToken = await getRecaptchaToken();
-      const postData = {
-        ...formData,
+      const data = {
+        ...postData,
         recaptcha: recaptchaToken,
       };
 
       const responseData = await fetchJson<PostResponse>(URL_POST_TO_SHEET, {
         method: "POST",
-        body: JSON.stringify(postData),
+        body: JSON.stringify(data),
       });
 
       if (responseData.result === "done") {
@@ -115,11 +111,17 @@ export const useApi = () => {
     postState.value = "submitting";
 
     try {
+      const recaptchaToken = await getRecaptchaToken();
+      const data = {
+        ...postData,
+        recaptcha: recaptchaToken,
+      };
+
       const responseData = await fetchJson<CreateSheetResponse>(
         URL_CREATE_SHEET,
         {
           method: "POST",
-          body: JSON.stringify(postData),
+          body: JSON.stringify(data),
         },
       );
 
@@ -140,11 +142,10 @@ export const useApi = () => {
   };
 
   return {
-    expirationState,
     postState,
     error,
     checkExpiration,
-    post,
+    postToSheet,
     createSheet,
   };
 };
