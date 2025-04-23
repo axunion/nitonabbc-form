@@ -3,32 +3,41 @@ const type = "202505s";
 const deadline = Date.parse("2025-05-18T23:59:59+09:00");
 const storageKey = "orqpboeruhqpeorhj";
 const requiredNames = ["name"];
-const postData = ref<Record<string, string>>({
+
+const { postState, error, checkExpiration, postToSheet } = useApi();
+const expirationState = ref<boolean | null>(null);
+const postData = ref({
   type,
   recaptcha: "",
+  noticeClarity: "",
+  noticeFrequency: "",
+  websiteClarity: "",
+  websiteInfo: "",
+  schedule: "",
+  favorite: [],
+  futureThemes: [],
+  kaizen: "",
+  opinion: "",
 });
-
-const { expirationState, postState, error, checkExpiration, createSheet } = useApi();
-const isShowOverlayLoading = computed(() => ["idle", "checking"].includes(expirationState.value));
+const isShowOverlayLoading = computed(() => expirationState === null);
 const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
 const isShowInput = computed(() => ["idle", "submitting"].includes(postState.value));
 const isDisabled = computed(() =>
-  requiredNames.every(key => postData.value[key] === '') ||
+  // requiredNames.every(key => postData.value[key] === '') ||
   ["submitting", "submitted"].includes(postState.value)
 );
 
 const submit = async () => {
-  const result = await createSheet(postData.value)
+  console.log(postData.value);
+  // const result = await postToSheet(postData.value)
 
-  if (error.value) {
-    console.error(error.value)
-  }
-
-  localStorage.setItem(storageKey, result);
+  // if (error.value) {
+  //   console.error(error.value)
+  // }
 };
 
 onMounted(async () => {
-  // await checkExpiration(deadline);
+  // expirationState.value = await checkExpiration(deadline);
 });
 
 useHead({
@@ -43,26 +52,80 @@ useHead({
   </HeaderDefault>
 
   <main>
-    <template v-if="expirationState !== 'valid'">
+    <template v-if="expirationState === null">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
+        <AppCard>
+          <p>このたびはご参加いただき、誠にありがとうございました。今後のキャンプ運営の参考とさせていただきたく、ぜひアンケートにご協力ください。</p>
+        </AppCard>
+
         <FormBox label="お知らせについて">
-          <p class="question">お知らせはわかりやすかったですか？</p>
-
-          <AppInputRadio name="info" :items="[
-            { label: '非常にわかりやすかった', value: '非常にわかりやすかった' },
+          <p class="question">ご案内はわかりやすかったでしょうか？</p>
+          <AppInputRadio name="noticeClarity" :items="[
+            { label: 'とてもわかりやすかった', value: 'とてもわかりやすかった' },
             { label: 'わかりやすかった', value: 'わかりやすかった' },
-            { label: '普通', value: '普通' },
-            { label: 'ややわかりにくかった', value: 'ややわかりにくかった' },
-            { label: 'わかりにくかった', value: 'わかりにくかった' }
-          ]" v-model="postData.info" />
-          Ï
-          <p class="question">お知らせの回数は適切でしたか？</p>
+            { label: 'どちらともいえない', value: 'どちらともいえない' },
+            { label: 'わかりにくかった', value: 'わかりにくかった' },
+            { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' }
+          ]" v-model="postData.noticeClarity" />
 
-          <AppInputRadio name="info" :items="[
+          <p class="question">ご案内の回数は適切でしたでしょうか？</p>
+          <AppInputRadio name="noticeFrequency" :items="[
             { label: '多かった', value: '多かった' },
             { label: 'ちょうどよかった', value: 'ちょうどよかった' },
             { label: '少なかった', value: '少なかった' }
-          ]" v-model="postData.info" />
+          ]" v-model="postData.noticeFrequency" />
+
+          <p class="question">Webサイトはわかりやすかったでしょうか？</p>
+          <AppInputRadio name="websiteClarity" :items="[
+            { label: 'とてもわかりやすかった', value: 'とてもわかりやすかった' },
+            { label: 'わかりやすかった', value: 'わかりやすかった' },
+            { label: 'どちらともいえない', value: 'どちらともいえない' },
+            { label: 'わかりにくかった', value: 'わかりにくかった' },
+            { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' }
+          ]" v-model="postData.websiteClarity" />
+
+          <p class="question">Webサイトの情報量は適切でしたでしょうか？</p>
+          <AppInputRadio name="websiteInfo" :items="[
+            { label: '多かった', value: '多かった' },
+            { label: 'ちょうどよかった', value: 'ちょうどよかった' },
+            { label: '少なかった', value: '少なかった' }
+          ]" v-model="postData.websiteInfo" />
+        </FormBox>
+
+
+        <FormBox label="プログラムについて">
+          <p class="question">スケジュールの内容や進行はいかがでしたか？</p>
+          <AppInputRadio name="schedule" :items="[
+            { label: '忙しく感じた', value: '忙しく感じた' },
+            { label: 'ちょうどよかった', value: 'ちょうどよかった' },
+            { label: 'ゆっくりすぎた', value: 'ゆっくりすぎた' }
+          ]" v-model="postData.schedule" />
+
+          <p class="question">特に楽しかった、または満足されたプログラムをすべて選択してください。</p>
+          <AppInputCheckbox name="favorite" :items="[
+            { label: '自由交わり', value: '自由交わり' },
+            { label: '分科会', value: '分科会' },
+            { label: '全体レクリエーション', value: '全体レクリエーション' },
+            { label: '選択レクリエーション', value: '選択レクリエーション' }
+          ]" v-model="postData.favorite" />
+
+          <p class="question">興味のある分科会のテーマに当てはまるものをすべて選択してください。</p>
+          <AppInputCheckbox name="futureThemes" :items="[
+            { label: '教会内の人間関係', value: '教会内の人間関係' },
+            { label: '賛美', value: '賛美' },
+            { label: '社会での輝き方', value: '社会での輝き方' },
+            { label: 'クリスチャンホームの悩み', value: 'クリスチャンホームの悩み' },
+            { label: '奉仕', value: '奉仕' },
+            { label: 'クリスチャンホームの悩み', value: 'クリスチャンホームの悩み' },
+          ]" v-model="postData.futureThemes" />
+        </FormBox>
+
+        <FormBox>
+          <p class="question">改善してほしい点や、新たに取り入れてほしいプログラムがあれば教えてください。</p>
+          <AppTextarea name="kaizen" v-model="postData.kaizen" />
+
+          <p class="question">その他のご意見やご感想があれば自由にご記入ください。</p>
+          <AppTextarea name="opinion" v-model="postData.opinion" />
         </FormBox>
 
         <div class="submit">
@@ -85,7 +148,7 @@ useHead({
       </AppTransition>
     </template>
 
-    <FormClose v-else>
+    <FormClose v-if="expirationState">
       この申込は終了しています。<br />
       This form is now closed.
     </FormClose>
@@ -105,7 +168,8 @@ useHead({
 
 .question {
   border-left: var(--color-divider) solid 4px;
-  line-height: 1.2;
+  font-size: 90%;
+  line-height: 1.4;
   margin: 2em 0 1em;
   padding: 0 0 0 .5em;
 }
