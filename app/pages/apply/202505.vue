@@ -20,12 +20,8 @@ useHead({
 
 <template>
     <HeaderDefault>
-        <template #heading>
-            2025 JBBF全国青年フェローシップキャンプ 参加申し込み
-        </template>
-        <template #date>
-            開催日：2025年4月6日〜7日
-        </template>
+        <template #heading>2025 JBBF全国青年フェローシップキャンプ 参加申し込み</template>
+        <template #date>開催日：2025年5月5日〜7日</template>
     </HeaderDefault>
 
     <main>

@@ -48,7 +48,7 @@ useHead({
 <template>
   <HeaderDefault>
     <template #heading>2025 JBBF全国青年フェローシップキャンプ アンケート</template>
-    <template #date>開催日：2025年4月6日〜7日</template>
+    <template #date>開催日：2025年5月5日〜7日</template>
   </HeaderDefault>
 
   <main>
@@ -58,7 +58,9 @@ useHead({
           <p>このたびはご参加いただき、誠にありがとうございました。今後のキャンプ運営の参考とさせていただきたく、ぜひアンケートにご協力ください。</p>
         </AppCard>
 
-        <FormBox label="お知らせについて">
+        <FormBox>
+          <template #label>お知らせについて</template>
+
           <p class="question">ご案内はわかりやすかったでしょうか？</p>
           <AppInputRadio name="noticeClarity" :items="[
             { label: 'とてもわかりやすかった', value: 'とてもわかりやすかった' },
@@ -93,7 +95,9 @@ useHead({
         </FormBox>
 
 
-        <FormBox label="プログラムについて">
+        <FormBox>
+          <template #label>プログラムについて</template>
+
           <p class="question">スケジュールの内容や進行はいかがでしたか？</p>
           <AppInputRadio name="schedule" :items="[
             { label: '忙しく感じた', value: '忙しく感じた' },

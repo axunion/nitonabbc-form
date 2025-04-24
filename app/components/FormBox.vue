@@ -1,12 +1,9 @@
-<script setup lang="ts">
-defineProps<{
-  label?: string;
-}>();
-</script>
-
 <template>
     <div class="box">
-        <div v-if="label" class="label">{{ label }}</div>
+        <div class="label">
+            <slot name="label"></slot>
+        </div>
+
         <slot></slot>
     </div>
 </template>
