@@ -47,7 +47,7 @@ useHead({
 
 <template>
   <HeaderDefault>
-    <template #heading>2025 JBBF全国青年フェローシップキャンプ アンケート</template>
+    2025 JBBF全国青年フェローシップキャンプアンケート
     <template #date>開催日：2025年5月5日〜7日</template>
   </HeaderDefault>
 

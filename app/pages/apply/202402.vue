@@ -6,7 +6,7 @@ useHead({
 
 <template>
   <HeaderDefault>
-    <template #heading>京葉地区合同青年会 参加申込</template>
+    京葉地区合同青年会参加申込
     <template #date>開催日：2024年2月25日</template>
   </HeaderDefault>
 

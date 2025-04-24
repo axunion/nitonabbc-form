@@ -6,10 +6,8 @@ useHead({
 
 <template>
   <HeaderDefault>
-    <template #heading>
-      京葉地区一泊お泊まり会 アンケート<br />
-      Keiyo Area Retreat Survey
-    </template>
+    京葉地区一泊お泊まり会アンケート<br />
+    Keiyo Area Retreat Survey
     <template #date>
       開催日：2024年9月22日〜23日<br />
       Event Dates: September 22-23, 2024

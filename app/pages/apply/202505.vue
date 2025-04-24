@@ -14,13 +14,13 @@ onMounted(async () => {
 });
 
 useHead({
-    title: "2025 JBBF全国青年フェローシップキャンプ 参加申し込み",
+    title: "2025 JBBF全国青年フェローシップキャンプ参加申し込み",
 });
 </script>
 
 <template>
     <HeaderDefault>
-        <template #heading>2025 JBBF全国青年フェローシップキャンプ 参加申し込み</template>
+        2025 JBBF全国青年フェローシップキャンプ参加申し込み
         <template #date>開催日：2025年5月5日〜7日</template>
     </HeaderDefault>
 

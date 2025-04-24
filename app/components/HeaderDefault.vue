@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <h1 class="heading">
-            <slot name="heading"></slot>
+            <slot></slot>
         </h1>
         <div class="date">
             <slot name="date"></slot>
