@@ -11,9 +11,9 @@
 <style scoped>
 .box {
     background: white;
-    border-radius: 4px;
+    border-radius: 8px;
     box-shadow: 0 1px 3px gray;
-    padding: 0.5em 1em 1.5em;
+    padding: 1.5em 1em;
 }
 
 .label {
@@ -21,6 +21,6 @@
     font-weight: bolder;
     letter-spacing: .05em;
     line-height: 1;
-    margin: 1em 0 2em;
+    margin: 0 0 2em;
 }
 </style>
