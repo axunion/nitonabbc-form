@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const type = "202505s";
 const deadline = Date.parse("2025-05-18T23:59:59+09:00");
-const storageKey = "orqpboeruhqpeorhj";
 const requiredNames = ["name"];
 
 const { postState, error, checkExpiration, postToSheet } = useApi();
@@ -15,7 +14,8 @@ const postData = ref({
   websiteInfo: "",
   schedule: "",
   favorite: [],
-  futureThemes: [],
+  fellowship: "",
+  growth: "",
   kaizen: "",
   opinion: "",
 });
@@ -55,7 +55,9 @@ useHead({
     <template v-if="expirationState === null">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
         <AppCard>
-          <p>このたびはご参加いただき、誠にありがとうございました。今後のキャンプ運営の参考とさせていただきたく、ぜひアンケートにご協力ください。</p>
+          <p>
+            このたびはご参加いただき、誠にありがとうございました。今後のキャンプ運営の参考とさせていただきたく、ぜひアンケートにご協力ください。
+          </p>
         </AppCard>
 
         <FormBox>
@@ -92,6 +94,21 @@ useHead({
             { label: 'ちょうどよかった', value: 'ちょうどよかった' },
             { label: '少なかった', value: '少なかった' }
           ]" v-model="postData.websiteInfo" />
+
+          <p class="question">
+            今回の青年キャンプに参加しようと思った理由を教えてください。<br />
+            （該当するものをすべて選んでください）
+          </p>
+          <AppInputCheckbox name="favorite" :items="[
+            { label: 'いつも参加しているから', value: 'いつも参加しているから' },
+            { label: '教会や友人に誘われたから', value: '教会や友人に誘われたから' },
+            { label: '特にメッセージに期待していたから', value: '特にメッセージに期待していたから' },
+            { label: '同世代と交流したかったから', value: '同世代と交流したかったから' },
+            { label: 'プログラム内容に魅力を感じたから', value: 'プログラム内容に魅力を感じたから' },
+            { label: 'キャンプ聖歌隊に参加したかったから', value: 'キャンプ聖歌隊に参加したかったから' },
+            { label: '分科会のテーマに興味があったから', value: '分科会のテーマに興味があったから' },
+            { label: 'レクリエーションが楽しみだったから', value: 'レクリエーションが楽しみだったから' },
+          ]" v-model="postData.favorite" />
         </FormBox>
 
 
@@ -105,30 +122,43 @@ useHead({
             { label: 'ゆっくりすぎた', value: 'ゆっくりすぎた' }
           ]" v-model="postData.schedule" />
 
-          <p class="question">特に楽しかった、または満足されたプログラムをすべて選択してください。</p>
+          <p class="question">
+            特に楽しかった、または満足されたプログラムを教えてください。<br />
+            （該当するものをすべて選んでください）
+          </p>
           <AppInputCheckbox name="favorite" :items="[
             { label: '自由交わり', value: '自由交わり' },
             { label: '分科会', value: '分科会' },
-            { label: '全体レクリエーション', value: '全体レクリエーション' },
-            { label: '選択レクリエーション', value: '選択レクリエーション' }
+            { label: '午前レクリエーション', value: '午前レクリエーション' },
+            { label: '午後レクリエーション', value: '午後レクリエーション' }
           ]" v-model="postData.favorite" />
 
-          <p class="question">興味のある分科会のテーマに当てはまるものをすべて選択してください。</p>
-          <AppInputCheckbox name="futureThemes" :items="[
-            { label: '教会内の人間関係', value: '教会内の人間関係' },
-            { label: '賛美', value: '賛美' },
-            { label: '社会での輝き方', value: '社会での輝き方' },
-            { label: 'クリスチャンホームの悩み', value: 'クリスチャンホームの悩み' },
-            { label: '奉仕', value: '奉仕' },
-            { label: 'クリスチャンホームの悩み', value: 'クリスチャンホームの悩み' },
-          ]" v-model="postData.futureThemes" />
+          <p class="question">新しい交わりは生まれましたか？</p>
+          <AppInputRadio name="fellowship" :items="[
+            { label: 'とても新しい交わりが生まれた', value: 'とても新しい交わりが生まれた' },
+            { label: '新しい交わりが生まれた', value: '新しい交わりが生まれた' },
+            { label: 'どちらともいえない', value: 'どちらともいえない' },
+            { label: '新しい交わりが生まれなかった', value: '新しい交わりが生まれなかった' },
+            { label: '全く新しい交わりが生まれなかった', value: '全く新しい交わりが生まれなかった' }
+          ]" v-model="postData.fellowship" />
+
+          <p class="question">キャンプを通してご自身の信仰は深まりましたか？</p>
+          <AppInputRadio name="growth" :items="[
+            { label: '大いに深まった', value: '大いに深まった' },
+            { label: '少し深まった', value: '少し深まった' },
+            { label: '変化なし', value: '変化なし' },
+            { label: 'あまり深まらなかった', value: 'あまり深まらなかった' },
+            { label: '全く深まらなかった', value: '全く深まらなかった' }
+          ]" v-model="postData.growth" />
         </FormBox>
 
         <FormBox>
+          <template #label>その他</template>
+
           <p class="question">改善してほしい点や、新たに取り入れてほしいプログラムがあれば教えてください。</p>
           <AppTextarea name="kaizen" v-model="postData.kaizen" />
 
-          <p class="question">その他のご意見やご感想があれば自由にご記入ください。</p>
+          <p class="question">その他のご意見やご感想があれば、ご自由にご記入ください。</p>
           <AppTextarea name="opinion" v-model="postData.opinion" />
         </FormBox>
 
@@ -153,13 +183,12 @@ useHead({
     </template>
 
     <FormClose v-if="expirationState">
-      この申込は終了しています。<br />
-      This form is now closed.
+      このアンケートは終了しています。
     </FormClose>
   </main>
 
-  <!-- <OverlayLoading :show="isShowOverlayLoading" />
-  <OverlaySubmit :show="isShowOverlaySubmit" /> -->
+  <OverlayLoading :show="isShowOverlayLoading" />
+  <OverlaySubmit :show="isShowOverlaySubmit" />
 
 </template>
 
@@ -167,7 +196,7 @@ useHead({
 .form {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: .75em;
 }
 
 .question {
