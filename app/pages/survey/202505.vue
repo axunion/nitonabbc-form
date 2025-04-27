@@ -11,7 +11,8 @@ const postData = ref({
   noticeClarity: "",
   noticeFrequency: "",
   websiteClarity: "",
-  websiteInfo: "",
+  entryClarity: "",
+  participationReason: [],
   schedule: "",
   favorite: [],
   fellowship: "",
@@ -87,33 +88,39 @@ useHead({
             { label: 'わかりにくかった', value: 'わかりにくかった' },
             { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' }
           ]" v-model="postData.websiteClarity" />
+        </FormBox>
 
-          <p class="question">Webサイトの情報量は適切でしたでしょうか？</p>
-          <AppInputRadio name="websiteInfo" :items="[
-            { label: '多かった', value: '多かった' },
-            { label: 'ちょうどよかった', value: 'ちょうどよかった' },
-            { label: '少なかった', value: '少なかった' }
-          ]" v-model="postData.websiteInfo" />
+        <FormBox>
+          <template #label>お申し込みについて</template>
+
+          <p class="question">お申し込み方法はわかりやすかったでしょうか？</p>
+          <AppInputRadio name="entryClarity" :items="[
+            { label: 'とてもわかりやすかった', value: 'とてもわかりやすかった' },
+            { label: 'わかりやすかった', value: 'わかりやすかった' },
+            { label: 'どちらともいえない', value: 'どちらともいえない' },
+            { label: 'わかりにくかった', value: 'わかりにくかった' },
+            { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' }
+          ]" v-model="postData.entryClarity" />
 
           <p class="question">
             今回の青年キャンプに参加しようと思った理由を教えてください。<br />
             （該当するものをすべて選んでください）
           </p>
-          <AppInputCheckbox name="favorite" :items="[
+          <AppInputCheckbox name="participationReason" :items="[
             { label: 'いつも参加しているから', value: 'いつも参加しているから' },
             { label: '教会や友人に誘われたから', value: '教会や友人に誘われたから' },
+            { label: '案内やWebサイトが魅力的だったから', value: '案内やWebサイトが魅力的だったから' },
             { label: '特にメッセージに期待していたから', value: '特にメッセージに期待していたから' },
             { label: '同世代と交流したかったから', value: '同世代と交流したかったから' },
             { label: 'プログラム内容に魅力を感じたから', value: 'プログラム内容に魅力を感じたから' },
             { label: 'キャンプ聖歌隊に参加したかったから', value: 'キャンプ聖歌隊に参加したかったから' },
             { label: '分科会のテーマに興味があったから', value: '分科会のテーマに興味があったから' },
             { label: 'レクリエーションが楽しみだったから', value: 'レクリエーションが楽しみだったから' },
-          ]" v-model="postData.favorite" />
+          ]" v-model="postData.participationReason" />
         </FormBox>
 
-
         <FormBox>
-          <template #label>プログラムについて</template>
+          <template #label>内容について</template>
 
           <p class="question">スケジュールの内容や進行はいかがでしたか？</p>
           <AppInputRadio name="schedule" :items="[
