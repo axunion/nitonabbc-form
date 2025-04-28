@@ -66,8 +66,7 @@ const model = defineModel<string[]>();
 
 .s {
   border: var(--color-subtext) solid 1px;
-  border-radius: 4px;
-  display: inline-block;
+  border-radius: 3px;
   height: 0.9em;
   margin: 0.2em 0 0;
   width: 0.9em;

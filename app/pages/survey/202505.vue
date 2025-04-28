@@ -62,7 +62,7 @@ useHead({
         </AppCard>
 
         <FormBox>
-          <template #label>お知らせについて</template>
+          <h2 class="h2">お知らせについて</h2>
 
           <p class="question">ご案内はわかりやすかったでしょうか？</p>
           <AppInputRadio name="noticeClarity" :items="[
@@ -91,7 +91,7 @@ useHead({
         </FormBox>
 
         <FormBox>
-          <template #label>お申し込みについて</template>
+          <h2 class="h2">お申し込みについて</h2>
 
           <p class="question">お申し込み方法はわかりやすかったでしょうか？</p>
           <AppInputRadio name="entryClarity" :items="[
@@ -109,18 +109,18 @@ useHead({
           <AppInputCheckbox name="participationReason" :items="[
             { label: 'いつも参加しているから', value: 'いつも参加しているから' },
             { label: '教会や友人に誘われたから', value: '教会や友人に誘われたから' },
-            { label: '案内やWebサイトが魅力的だったから', value: '案内やWebサイトが魅力的だったから' },
+            { label: '案内やWebサイトを見て興味を惹かれたから', value: '案内やWebサイトを見て興味を惹かれたから' },
             { label: '特にメッセージに期待していたから', value: '特にメッセージに期待していたから' },
             { label: '同世代と交流したかったから', value: '同世代と交流したかったから' },
             { label: 'プログラム内容に魅力を感じたから', value: 'プログラム内容に魅力を感じたから' },
             { label: 'キャンプ聖歌隊に参加したかったから', value: 'キャンプ聖歌隊に参加したかったから' },
-            { label: '分科会のテーマに興味があったから', value: '分科会のテーマに興味があったから' },
+            { label: '分科会に参加したいテーマがあったから', value: '分科会に参加したいテーマがあったから' },
             { label: 'レクリエーションが楽しみだったから', value: 'レクリエーションが楽しみだったから' },
           ]" v-model="postData.participationReason" />
         </FormBox>
 
         <FormBox>
-          <template #label>内容について</template>
+          <h2 class="h2">内容について</h2>
 
           <p class="question">スケジュールの内容や進行はいかがでしたか？</p>
           <AppInputRadio name="schedule" :items="[
@@ -206,8 +206,14 @@ useHead({
   gap: .75em;
 }
 
+.h2 {
+  font-size: 100%;
+  margin: 0;
+  text-align: center;
+}
+
 .question {
-  border-left: var(--color-divider) solid 4px;
+  border-left: var(--color-divider) solid 3px;
   font-size: 90%;
   line-height: 1.4;
   margin: 2em 0 1em;

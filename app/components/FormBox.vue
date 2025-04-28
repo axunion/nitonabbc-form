@@ -1,7 +1,17 @@
+<script setup lang="ts">
+type Props = {
+    label?: string;
+};
+
+withDefaults(defineProps<Props>(), {
+    label: "",
+});
+</script>
+
 <template>
     <div class="box">
-        <div class="label">
-            <slot name="label"></slot>
+        <div class="label" v-if="label">
+            {{ label }}
         </div>
 
         <slot></slot>
