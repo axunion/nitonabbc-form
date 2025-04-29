@@ -64,42 +64,42 @@ useHead({
         <FormBox>
           <h2 class="h2">お知らせについて</h2>
 
-          <p class="question">ご案内はわかりやすかったでしょうか？</p>
+          <p class="question">ご案内は分かりやすかったですか？</p>
           <AppInputRadio name="noticeClarity" :items="[
             { label: 'とてもわかりやすかった', value: 'とてもわかりやすかった' },
             { label: 'わかりやすかった', value: 'わかりやすかった' },
             { label: 'どちらともいえない', value: 'どちらともいえない' },
             { label: 'わかりにくかった', value: 'わかりにくかった' },
-            { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' }
+            { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' },
           ]" v-model="postData.noticeClarity" />
 
-          <p class="question">ご案内の回数は適切でしたでしょうか？</p>
+          <p class="question">ご案内の回数は適切でしたか？</p>
           <AppInputRadio name="noticeFrequency" :items="[
-            { label: '多かった', value: '多かった' },
-            { label: 'ちょうどよかった', value: 'ちょうどよかった' },
-            { label: '少なかった', value: '少なかった' }
+            { label: '多いと感じた', value: '多いと感じた' },
+            { label: '適切だった', value: '適切だった' },
+            { label: '少ないと感じた', value: '少ないと感じた' },
           ]" v-model="postData.noticeFrequency" />
 
-          <p class="question">Webサイトはわかりやすかったでしょうか？</p>
+          <p class="question">Webサイトはわかりやすかったですか？</p>
           <AppInputRadio name="websiteClarity" :items="[
             { label: 'とてもわかりやすかった', value: 'とてもわかりやすかった' },
             { label: 'わかりやすかった', value: 'わかりやすかった' },
             { label: 'どちらともいえない', value: 'どちらともいえない' },
             { label: 'わかりにくかった', value: 'わかりにくかった' },
-            { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' }
+            { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' },
           ]" v-model="postData.websiteClarity" />
         </FormBox>
 
         <FormBox>
           <h2 class="h2">お申し込みについて</h2>
 
-          <p class="question">お申し込み方法はわかりやすかったでしょうか？</p>
+          <p class="question">お申し込み方法は分かりやすかったですか？</p>
           <AppInputRadio name="entryClarity" :items="[
             { label: 'とてもわかりやすかった', value: 'とてもわかりやすかった' },
             { label: 'わかりやすかった', value: 'わかりやすかった' },
             { label: 'どちらともいえない', value: 'どちらともいえない' },
             { label: 'わかりにくかった', value: 'わかりにくかった' },
-            { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' }
+            { label: 'とてもわかりにくかった', value: 'とてもわかりにくかった' },
           ]" v-model="postData.entryClarity" />
 
           <p class="question">
@@ -107,26 +107,28 @@ useHead({
             （該当するものをすべて選んでください）
           </p>
           <AppInputCheckbox name="participationReason" :items="[
-            { label: 'いつも参加しているから', value: 'いつも参加しているから' },
-            { label: '教会や友人に誘われたから', value: '教会や友人に誘われたから' },
-            { label: '案内やWebサイトを見て興味を惹かれたから', value: '案内やWebサイトを見て興味を惹かれたから' },
-            { label: '特にメッセージに期待していたから', value: '特にメッセージに期待していたから' },
-            { label: '同世代と交流したかったから', value: '同世代と交流したかったから' },
-            { label: 'プログラム内容に魅力を感じたから', value: 'プログラム内容に魅力を感じたから' },
-            { label: 'キャンプ聖歌隊に参加したかったから', value: 'キャンプ聖歌隊に参加したかったから' },
-            { label: '分科会に参加したいテーマがあったから', value: '分科会に参加したいテーマがあったから' },
-            { label: 'レクリエーションが楽しみだったから', value: 'レクリエーションが楽しみだったから' },
+            { label: '毎回参加しているため', value: '毎回参加しているため' },
+            { label: '教会や友人に誘われたため', value: '教会や友人に誘われたから' },
+            { label: '案内やWebサイトを見て興味を持ったため', value: '案内やWeb サイトを見て興味を持ったため' },
+            { label: '特にメッセージに期待があったため', value: '特にメッセージに期待があったため' },
+            { label: '同世代と交流したかったため', value: '同世代と交流したかったため' },
+            { label: 'プログラム内容に魅力を感じたため', value: 'プログラム内容に魅力を感じたため' },
+            { label: 'キャンプ聖歌隊に参加したかったため', value: 'キャンプ聖歌隊に参加したかったため' },
+            { label: '分科会に参加したいテーマがあったため', value: '分科会に参加したいテーマがあったため' },
+            { label: 'レクリエーションを楽しみにしていたため', value: 'レクリエーションを楽しみにしていたため' },
           ]" v-model="postData.participationReason" />
         </FormBox>
 
         <FormBox>
           <h2 class="h2">内容について</h2>
 
-          <p class="question">スケジュールの内容や進行はいかがでしたか？</p>
+          <p class="question">全体のスケジュール進行はいかがでしたか？</p>
           <AppInputRadio name="schedule" :items="[
-            { label: '忙しく感じた', value: '忙しく感じた' },
-            { label: 'ちょうどよかった', value: 'ちょうどよかった' },
-            { label: 'ゆっくりすぎた', value: 'ゆっくりすぎた' }
+            { label: 'とても忙しいと感じた', value: 'とても忙しいと感じた' },
+            { label: 'やや忙しいと感じた', value: 'やや忙しいと感じた' },
+            { label: '適切だった', value: '適切だった' },
+            { label: 'ややゆっくりだと感じた', value: 'ややゆっくりだと感じた' },
+            { label: 'とてもゆっくりだと感じた', value: 'とてもゆっくりだと感じた' },
           ]" v-model="postData.schedule" />
 
           <p class="question">
@@ -135,37 +137,38 @@ useHead({
           </p>
           <AppInputCheckbox name="favorite" :items="[
             { label: '自由交わり', value: '自由交わり' },
+            { label: 'キャンプ聖歌隊', value: 'キャンプ聖歌隊' },
             { label: '分科会', value: '分科会' },
             { label: '午前レクリエーション', value: '午前レクリエーション' },
-            { label: '午後レクリエーション', value: '午後レクリエーション' }
+            { label: '午後レクリエーション', value: '午後レクリエーション' },
           ]" v-model="postData.favorite" />
 
           <p class="question">新しい交わりは生まれましたか？</p>
           <AppInputRadio name="fellowship" :items="[
-            { label: 'とても新しい交わりが生まれた', value: 'とても新しい交わりが生まれた' },
-            { label: '新しい交わりが生まれた', value: '新しい交わりが生まれた' },
+            { label: 'とても生まれた', value: 'とても生まれた' },
+            { label: '生まれた', value: '生まれた' },
             { label: 'どちらともいえない', value: 'どちらともいえない' },
-            { label: '新しい交わりが生まれなかった', value: '新しい交わりが生まれなかった' },
-            { label: '全く新しい交わりが生まれなかった', value: '全く新しい交わりが生まれなかった' }
+            { label: 'あまり生まれなかった', value: 'あまり生まれなかった' },
+            { label: '全く生まれなかった', value: '全く生まれなかった' },
           ]" v-model="postData.fellowship" />
 
-          <p class="question">キャンプを通してご自身の信仰は深まりましたか？</p>
+          <p class="question">キャンプを通して信仰は深まりましたか？</p>
           <AppInputRadio name="growth" :items="[
             { label: '大いに深まった', value: '大いに深まった' },
             { label: '少し深まった', value: '少し深まった' },
-            { label: '変化なし', value: '変化なし' },
+            { label: '変化はなかった', value: '変化はなかった' },
             { label: 'あまり深まらなかった', value: 'あまり深まらなかった' },
-            { label: '全く深まらなかった', value: '全く深まらなかった' }
+            { label: '全く深まらなかった', value: '全く深まらなかった' },
           ]" v-model="postData.growth" />
         </FormBox>
 
         <FormBox>
-          <template #label>その他</template>
+          <h2 class="h2">その他</h2>
 
-          <p class="question">改善してほしい点や、新たに取り入れてほしいプログラムがあれば教えてください。</p>
+          <p class="question">改善してほしい点や、新たに取り入れてほしいプログラムがございましたらご記入ください。</p>
           <AppTextarea name="kaizen" v-model="postData.kaizen" />
 
-          <p class="question">その他のご意見やご感想があれば、ご自由にご記入ください。</p>
+          <p class="question">その他のご意見やご感想がありましたら、ご自由にご記入ください。</p>
           <AppTextarea name="opinion" v-model="postData.opinion" />
         </FormBox>
 

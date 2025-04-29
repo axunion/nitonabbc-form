@@ -18,7 +18,6 @@
     box-shadow: 0 1px 3px gray;
     margin: 0 0 1em;
     padding: 1.5em 1em 1em;
-    white-space: pre-wrap;
 }
 
 .heading {
