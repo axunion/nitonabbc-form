@@ -1,4 +1,4 @@
-export {};
+import { NuxtApp } from "nuxt/app";
 
 declare global {
   interface Window {
@@ -9,5 +9,11 @@ declare global {
         options: { action: string },
       ) => Promise<string>;
     };
+  }
+}
+
+declare module "#app" {
+  interface NuxtApp {
+    $loadRecaptcha: () => Promise<void>;
   }
 }
