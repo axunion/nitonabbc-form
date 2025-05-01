@@ -33,4 +33,10 @@ withDefaults(defineProps<Props>(), {
     line-height: 1;
     margin: 0 0 2em;
 }
+
+@media (min-width: 600px) {
+    .box {
+        padding: 1.5em;
+    }
+}
 </style>

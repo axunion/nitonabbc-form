@@ -15,4 +15,10 @@
     justify-content: center;
     padding: 1.5em 1em;
 }
+
+@media (min-width: 600px) {
+    .card {
+        padding: 1.5em;
+    }
+}
 </style>
