@@ -1,9 +1,15 @@
 <script setup lang="ts">
 const type = "202505s";
-const deadline = Date.parse("2025-05-18T23:59:59+09:00");
+const deadline = Date.parse("2025-05-18T23:59:59+09:00") / 1000;
 
 const { postState, error, checkExpiration, postToSheet } = useApi();
 const expirationState = ref<boolean | null>(null);
+const isShowOverlayLoading = computed(() => expirationState.value === null);
+const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
+const isShowInput = computed(() => ["idle", "submitting"].includes(postState.value));
+const isDisabled = computed(() =>
+  ["submitting", "submitted"].includes(postState.value)
+);
 const postData = ref({
   type,
   recaptcha: "",
@@ -19,12 +25,6 @@ const postData = ref({
   kaizen: "",
   opinion: "",
 });
-const isShowOverlayLoading = computed(() => expirationState === null);
-const isShowOverlaySubmit = computed(() => ["submitting"].includes(postState.value));
-const isShowInput = computed(() => ["idle", "submitting"].includes(postState.value));
-const isDisabled = computed(() =>
-  ["submitting", "submitted"].includes(postState.value)
-);
 
 const submit = async () => {
   const result = await postToSheet(postData.value)
@@ -36,7 +36,7 @@ const submit = async () => {
 
 onMounted(async () => {
   await useNuxtApp().$loadRecaptcha()
-  // expirationState.value = await checkExpiration(deadline);
+  expirationState.value = await checkExpiration(deadline);
 });
 
 useHead({
@@ -51,7 +51,7 @@ useHead({
   </HeaderDefault>
 
   <main>
-    <template v-if="expirationState === null">
+    <template v-if="expirationState === false">
       <form v-if="isShowInput" class="form" @submit.prevent="submit">
         <AppCard>
           <p>
@@ -197,7 +197,6 @@ useHead({
 
   <OverlayLoading :show="isShowOverlayLoading" />
   <OverlaySubmit :show="isShowOverlaySubmit" />
-
 </template>
 
 <style scoped>
