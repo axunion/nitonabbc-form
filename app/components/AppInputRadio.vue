@@ -58,7 +58,6 @@ const model = defineModel<string>();
   border-radius: 50%;
   box-shadow: inset 0 0 0 3px white;
   content: '';
-  display: inline-block;
   height: 0.9em;
   width: 0.9em;
 }

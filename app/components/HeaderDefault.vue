@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <h1 class="heading">
-            <slot name="heading"></slot>
+            <slot></slot>
         </h1>
         <div class="date">
             <slot name="date"></slot>
@@ -17,8 +17,7 @@
     border-top: var(--color-primary) solid 4px;
     box-shadow: 0 1px 3px gray;
     margin: 0 0 1em;
-    padding: 1.5em 1em;
-    white-space: pre-wrap;
+    padding: 1.5em 1em 1em;
 }
 
 .heading {

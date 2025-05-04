@@ -14,7 +14,7 @@
 
 .content {
   margin: auto;
-  max-width: 480px;
+  max-width: 600px;
   padding: 1em;
   position: relative;
   z-index: 0;

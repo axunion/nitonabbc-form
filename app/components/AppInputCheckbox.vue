@@ -53,7 +53,7 @@ const model = defineModel<string[]>();
 }
 
 .item {
-  align-items: center;
+  align-items: start;
   color: var(--color-subtext);
   display: flex;
   gap: 0.5em;
@@ -66,9 +66,9 @@ const model = defineModel<string[]>();
 
 .s {
   border: var(--color-subtext) solid 1px;
-  border-radius: 4px;
-  display: inline-block;
+  border-radius: 3px;
   height: 0.9em;
+  margin: 0.2em 0 0;
   width: 0.9em;
 }
 

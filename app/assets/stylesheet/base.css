@@ -62,3 +62,7 @@ textarea {
   padding: 0;
   text-align: inherit;
 }
+
+.grecaptcha-badge {
+  visibility: hidden;
+}

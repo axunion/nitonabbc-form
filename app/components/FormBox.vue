@@ -1,12 +1,19 @@
 <script setup lang="ts">
-defineProps<{
-  label?: string;
-}>();
+type Props = {
+    label?: string;
+};
+
+withDefaults(defineProps<Props>(), {
+    label: "",
+});
 </script>
 
 <template>
     <div class="box">
-        <div v-if="label" class="label">{{ label }}</div>
+        <div class="label" v-if="label">
+            {{ label }}
+        </div>
+
         <slot></slot>
     </div>
 </template>
@@ -14,9 +21,9 @@ defineProps<{
 <style scoped>
 .box {
     background: white;
-    border-radius: 4px;
+    border-radius: 8px;
     box-shadow: 0 1px 3px gray;
-    padding: 0.5em 1em 1.5em;
+    padding: 1.5em 1em;
 }
 
 .label {
@@ -24,6 +31,12 @@ defineProps<{
     font-weight: bolder;
     letter-spacing: .05em;
     line-height: 1;
-    margin: 1em 0 2em;
+    margin: 0 0 2em;
+}
+
+@media (min-width: 600px) {
+    .box {
+        padding: 1.5em;
+    }
 }
 </style>
