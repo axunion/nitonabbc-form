@@ -1,0 +1,35 @@
+---
+export interface Props {
+	name: string;
+	options: Array<{ value: string; label: string }>;
+	required?: boolean;
+	value?: string;
+	class?: string;
+}
+
+const {
+	name,
+	options,
+	required = false,
+	value = "",
+	class: className = "",
+} = Astro.props;
+---
+
+<div class={`space-y-2 ${className}`}>
+	{
+		options.map((option) => (
+			<label class="flex items-center space-x-2 cursor-pointer">
+				<input
+					type="radio"
+					name={name}
+					value={option.value}
+					checked={option.value === value}
+					required={required}
+					class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+				/>
+				<span class="text-sm text-gray-700">{option.label}</span>
+			</label>
+		))
+	}
+</div>

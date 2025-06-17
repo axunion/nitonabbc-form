@@ -1,0 +1,33 @@
+---
+export interface Props {
+	name: string;
+	options: Array<{ value: string; label: string }>;
+	required?: boolean;
+	value?: string;
+	class?: string;
+}
+
+const {
+	name,
+	options,
+	required = false,
+	value = "",
+	class: className = "",
+} = Astro.props;
+---
+
+<select
+	name={name}
+	required={required}
+	class={`w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white ${className}`}
+	aria-describedby={`${name}-description`}
+>
+	<option value="">選択してください</option>
+	{
+		options.map((option) => (
+			<option value={option.value} selected={option.value === value}>
+				{option.label}
+			</option>
+		))
+	}
+</select>

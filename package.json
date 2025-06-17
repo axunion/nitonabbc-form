@@ -1,14 +1,30 @@
 {
-  "name": "nitonabbc-form",
-  "type": "module",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "astro": "^5.9.3"
-  }
+	"name": "nitonabbc-form",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"format": "biome format ./src",
+		"format:write": "biome format --write ./src",
+		"lint": "biome lint ./src",
+		"lint:write": "biome lint --write ./src",
+		"check": "biome check ./src",
+		"check:write": "biome check --write ./src",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"@astrojs/solid-js": "^5.1.0",
+		"astro": "^5.9.3"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@tailwindcss/vite": "^4.1.10",
+		"tailwindcss": "^4.1.10"
+	},
+	"volta": {
+		"node": "22.16.0"
+	}
 }

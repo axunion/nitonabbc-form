@@ -1,48 +1,65 @@
-# Astro Starter Kit: Basics
+# nitonabbc-form
 
-```sh
-npm create astro@latest -- --template basics
-```
+A simple form application built with Astro, SolidJS, and TailwindCSS for creating event registration and survey forms.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## Tech Stack
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+- **Framework**: Astro v5.9.3
+- **UI Library**: SolidJS v5.1.0
+- **Styling**: TailwindCSS v4.1.10
+- **Code Quality**: Biome v1.9.4
+- **Runtime**: Node.js v22.16.0 (Volta managed)
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+## Project Structure
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+src/
+├── assets/             # Static files (images, SVGs, etc.)
+├── components/
+│   ├── forms/          # Form-related components
+│   └── ui/             # Reusable UI components
+├── layouts/            # Page layouts
+├── lib/                # External API integration (Google Apps Script, etc.)
+├── pages/              # Page files following /YYYY/MM/(apply|survey) pattern
+└── styles/             # Global styles
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Development
 
-## 🧞 Commands
+```bash
+# Install dependencies
+npm install
 
-All commands are run from the root of the project, from a terminal:
+# Start development server
+npm run dev
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+# Build for production
+npm run build
 
-## 👀 Want to learn more?
+# Preview production build
+npm run preview
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+# Format and lint code
+npm run check:write
+```
+
+## Form Pages
+
+Form pages follow the URL pattern `/YYYY/MM/(apply|survey)`:
+
+- `apply`: Event registration forms
+- `survey`: Post-event survey forms
+
+Example: `/2025/06/apply` for June 2025 event registration
+
+## Features
+
+- Islands Architecture with minimal client-side JavaScript
+- Responsive design with mobile-first approach
+- Form validation with real-time feedback
+- Google Apps Script integration for data management
+- reCAPTCHA v3 spam protection
+- Accessibility compliance (WCAG 2.1 A/AA)
+- Browser-dependent translation support
+
+For detailed development guidelines, see [Copilot Instructions](.github/copilot-instructions.md).

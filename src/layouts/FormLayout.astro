@@ -1,0 +1,40 @@
+---
+import "@/styles/global.css";
+
+export interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="description"
+			content={description || "イベント申し込みフォーム"}
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>{title}</title>
+	</head>
+	<body class="bg-gray-50 min-h-screen py-8">
+		<div class="container mx-auto px-4 max-w-2xl">
+			<header class="text-center mb-8">
+				<h1 class="text-3xl font-bold text-gray-900 mb-2">{title}</h1>
+				{description && <p class="text-gray-600 text-lg">{description}</p>}
+			</header>
+
+			<main class="bg-white rounded-lg shadow-md p-6 md:p-8">
+				<slot />
+			</main>
+
+			<footer class="text-center mt-8 text-gray-500 text-sm">
+				<p>&copy; 2025 イベント申し込みシステム</p>
+			</footer>
+		</div>
+	</body>
+</html>
