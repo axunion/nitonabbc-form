@@ -47,7 +47,8 @@ src/
 ├── assets/             # Static files (images, SVGs, etc.)
 ├── components/
 │   ├── forms/          # Form-related components
-│   └── ui/             # Reusable UI components
+│   ├── layout/         # Layout components (Header, Footer, Navigation)
+│   └── ui/             # Reusable UI components (Button, Input, etc.)
 ├── layouts/            # Page layouts
 ├── lib/                # External API integration (Google Apps Script, etc.)
 ├── pages/              # Page files
@@ -182,6 +183,41 @@ src/pages/
 - Enable **strict mode** for type safety
 - Prioritize **type** over **interface** (for performance reasons)
 - Minimize **as** casting
+
+### Code Comments
+
+- **No change history comments**: Avoid comments about when/who changed code (use git history instead)
+- **No obvious comments**: Don't comment on self-explanatory code
+- **Essential comments only**: Keep important comments simple and in English
+- **Focus on "why", not "what"**: Explain business logic, not implementation details
+- **API documentation**: Use JSDoc for public interfaces and complex functions
+
+#### Examples:
+
+```typescript
+// ❌ Avoid
+// Changed by John on 2025-01-15: Updated validation logic
+// This function validates email addresses
+const validateEmail = (email: string) => {
+	// Check if email contains @ symbol
+	return email.includes("@");
+};
+
+// ✅ Recommended
+// reCAPTCHA score threshold for spam detection
+const RECAPTCHA_THRESHOLD = 0.5;
+
+/**
+ * Validates form data before submission to Google Apps Script
+ * Ensures data integrity and prevents malformed requests
+ */
+const validateFormData = (data: FormData) => {
+	// Business rule: email domain must be whitelisted for corporate events
+	if (isCorporateEvent && !isWhitelistedDomain(data.email)) {
+		throw new ValidationError("Corporate events require company email");
+	}
+};
+```
 
 ## Prohibited Patterns & Things to Avoid
 

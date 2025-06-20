@@ -1,0 +1,33 @@
+<header class="relative bg-gradient-to-br from-indigo-600 via-blue-600 to-purple-700 text-white">
+	<div class="max-w-4xl mx-auto px-4 py-12 md:py-16">
+		<div class="text-center">
+			<!-- Title -->
+			<div class="mb-4">
+				<slot name="title">
+					<h1 class="text-3xl md:text-5xl font-bold tracking-tight">
+						Default Title
+					</h1>
+				</slot>
+			</div>
+
+			<!-- Description -->
+			<div class="mb-6">
+				<slot name="description">
+					<p class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto">
+						Default description
+					</p>
+				</slot>
+			</div>
+
+			<!-- Additional Content -->
+			<slot name="additional" />
+		</div>
+	</div>
+
+	<!-- Bottom Wave matching background -->
+	<div class="absolute bottom-0 left-0 right-0">
+		<svg class="w-full h-8 md:h-12" viewBox="0 0 1200 120" preserveAspectRatio="none">
+			<path d="M0,60 C300,30 900,90 1200,60 L1200,120 L0,120 Z" fill="#f0f4ff"/>
+		</svg>
+	</div>
+</header>

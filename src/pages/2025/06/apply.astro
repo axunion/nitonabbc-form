@@ -10,319 +10,134 @@ import TelInput from "@/components/ui/TelInput.astro";
 import TextArea from "@/components/ui/TextArea.astro";
 import TextInput from "@/components/ui/TextInput.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
+import Header from "@/components/layout/Header.astro";
+import Footer from "@/components/layout/Footer.astro";
 
-// イベント情報
-const eventInfo = {
-	title: "2025年6月 プログラミング勉強会",
-	date: "2025年6月28日（土）",
-	time: "13:00 - 17:00",
-	venue: "東京都渋谷区 某会議室",
-};
-
-// セレクトボックスのオプション
-const participantTypeOptions = [
+// Simple form options for testing all components
+const selectOptions = [
+	{ value: "", label: "選択してください" },
 	{ value: "student", label: "学生" },
-	{ value: "employee", label: "会社員" },
-	{ value: "freelancer", label: "フリーランス" },
+	{ value: "engineer", label: "エンジニア" },
 	{ value: "other", label: "その他" },
 ];
 
-const experienceOptions = [
-	{ value: "beginner", label: "初心者（0-1年）" },
-	{ value: "intermediate", label: "中級者（2-3年）" },
-	{ value: "advanced", label: "上級者（4年以上）" },
+const radioOptions = [
+	{ value: "beginner", label: "初心者" },
+	{ value: "intermediate", label: "中級者" },
+	{ value: "advanced", label: "上級者" },
 ];
 
-const interestTopicsOptions = [
-	{ value: "frontend", label: "フロントエンド開発" },
-	{ value: "backend", label: "バックエンド開発" },
-	{ value: "database", label: "データベース設計" },
-	{ value: "devops", label: "DevOps・インフラ" },
-	{ value: "mobile", label: "モバイルアプリ開発" },
+const checkboxOptions = [
+	{ value: "web", label: "Web開発" },
+	{ value: "mobile", label: "モバイルアプリ" },
 	{ value: "ai", label: "AI・機械学習" },
-];
-
-const dietaryOptions = [
-	{ value: "none", label: "特になし" },
-	{ value: "vegetarian", label: "ベジタリアン" },
-	{ value: "vegan", label: "ヴィーガン" },
-	{ value: "halal", label: "ハラル" },
-	{ value: "allergy", label: "アレルギーあり" },
 ];
 ---
 
 <FormLayout
-	title={eventInfo.title}
-	description={`${eventInfo.date} ${eventInfo.time} 開催のイベント申し込みフォーム`}
+	title="テクノロジー勉強会 2025年6月"
+	description="プログラミングとテクノロジーの勉強会への申し込みフォーム"
 >
-	<!-- reCAPTCHA v3 スクリプト -->
-	<script
-		src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY"
-		defer></script>
+	<Header>
+		<h1 slot="title" class="text-3xl md:text-5xl font-bold tracking-tight">
+			テクノロジー勉強会 2025年6月
+		</h1>
+		<p slot="description" class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto">
+			2025年6月28日（土）13:00-17:00 開催
+		</p>
+	</Header>
 
-	<!-- イベント詳細 -->
-	<div class="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
-		<h2 class="text-lg font-semibold text-blue-900 mb-2">イベント詳細</h2>
-		<div class="text-blue-800 space-y-1">
-			<p><strong>日時:</strong> {eventInfo.date} {eventInfo.time}</p>
-			<p><strong>場所:</strong> {eventInfo.venue}</p>
-			<p><strong>定員:</strong> 30名（先着順）</p>
-		</div>
+	<div class="max-w-2xl mx-auto px-4">
+		<main class="bg-white/90 backdrop-blur-sm rounded-lg border border-indigo-200 my-8">
+			<div class="p-6 md:p-8">
+				<form class="space-y-6">
+					<FormContainer>
+						<!-- Basic Text Input -->
+						<FormField label="氏名" required>
+							<TextInput
+								slot="input"
+								name="fullName"
+								placeholder="山田 太郎"
+								required
+							/>
+						</FormField>
+
+						<!-- Email Input -->
+						<FormField label="メールアドレス" required>
+							<EmailInput
+								slot="input"
+								name="email"
+								placeholder="example@example.com"
+								required
+							/>
+						</FormField>
+
+						<!-- Tel Input -->
+						<FormField label="電話番号">
+							<TelInput
+								slot="input"
+								name="phone"
+								placeholder="090-1234-5678"
+							/>
+						</FormField>
+
+						<!-- Select Input -->
+						<FormField label="職業" required>
+							<SelectInput
+								slot="input"
+								name="occupation"
+								options={selectOptions}
+								required
+							/>
+						</FormField>
+
+						<!-- Radio Group -->
+						<FormField label="プログラミング経験" required>
+							<RadioGroup
+								slot="input"
+								name="experience"
+								options={radioOptions}
+								required
+							/>
+						</FormField>
+
+						<!-- Checkbox Group -->
+						<FormField label="興味のある分野" description="複数選択可">
+							<CheckboxGroup
+								slot="input"
+								name="interests"
+								options={checkboxOptions}
+							/>
+						</FormField>
+
+						<!-- Text Area -->
+						<FormField label="質問・コメント">
+							<TextArea
+								slot="input"
+								name="comment"
+								placeholder="ご質問やコメントがあればお書きください..."
+								rows={4}
+							/>
+						</FormField>
+
+						<!-- Submit Button -->
+						<div class="pt-6">
+							<SubmitButton>申し込みを送信</SubmitButton>
+						</div>
+					</FormContainer>
+				</form>
+			</div>
+		</main>
 	</div>
 
-	<form id="event-form" class="space-y-6">
-		<FormContainer>
-			<!-- 基本情報 -->
-			<div class="border-b border-gray-200 pb-6">
-				<h3 class="text-lg font-medium text-gray-900 mb-4">基本情報</h3>
-
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-					<FormField label="氏名" required>
-						<TextInput
-							slot="input"
-							name="fullName"
-							placeholder="山田 太郎"
-							required
-						/>
-					</FormField>
-
-					<FormField label="フリガナ" required>
-						<TextInput
-							slot="input"
-							name="furigana"
-							placeholder="ヤマダ タロウ"
-							required
-						/>
-					</FormField>
-				</div>
-
-				<FormField
-					label="メールアドレス"
-					required
-					description="確認メールをお送りします"
-				>
-					<EmailInput
-						slot="input"
-						name="email"
-						placeholder="example@example.com"
-						required
-					/>
-				</FormField>
-
-				<FormField label="電話番号" required>
-					<TelInput
-						slot="input"
-						name="phone"
-						placeholder="090-1234-5678"
-						required
-					/>
-				</FormField>
-			</div>
-
-			<!-- 参加者情報 -->
-			<div class="border-b border-gray-200 pb-6">
-				<h3 class="text-lg font-medium text-gray-900 mb-4">参加者情報</h3>
-
-				<FormField label="参加者区分" required>
-					<SelectInput
-						slot="input"
-						name="participantType"
-						options={participantTypeOptions}
-						required
-					/>
-				</FormField>
-
-				<FormField label="プログラミング経験" required>
-					<RadioGroup
-						slot="input"
-						name="experience"
-						options={experienceOptions}
-						required
-					/>
-				</FormField>
-
-				<FormField label="興味のある分野" description="複数選択可">
-					<CheckboxGroup
-						slot="input"
-						name="interestTopics"
-						options={interestTopicsOptions}
-					/>
-				</FormField>
-			</div>
-
-			<!-- その他 -->
-			<div class="space-y-4">
-				<h3 class="text-lg font-medium text-gray-900">その他</h3>
-
-				<FormField label="食事制限" required>
-					<RadioGroup
-						slot="input"
-						name="dietary"
-						options={dietaryOptions}
-						required
-					/>
-				</FormField>
-
-				<FormField
-					label="質問・要望"
-					description="当日に関するご質問や要望がございましたらお書きください"
-				>
-					<TextArea
-						slot="input"
-						name="message"
-						placeholder="ご質問やご要望をお書きください..."
-						rows={4}
-					/>
-				</FormField>
-
-				<!-- プライバシーポリシー同意 -->
-				<div class="pt-4">
-					<label class="flex items-start space-x-2 cursor-pointer">
-						<input
-							type="checkbox"
-							name="privacyAgreement"
-							required
-							class="w-4 h-4 mt-1 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-						/>
-						<span class="text-sm text-gray-700">
-							<a
-								href="/privacy"
-								class="text-blue-600 hover:underline"
-								target="_blank">プライバシーポリシー</a
-							>に同意します <span class="text-red-500">*</span>
-						</span>
-					</label>
-				</div>
-			</div>
-
-			<!-- 送信ボタン -->
-			<div class="pt-6">
-				<SubmitButton> 申し込みを送信 </SubmitButton>
-			</div>
-		</FormContainer>
-	</form>
-
-	<!-- 送信結果表示エリア -->
-	<div id="form-result" class="mt-6 hidden"></div>
+	<Footer>
+		<div slot="description">
+			プログラミングとテクノロジーの学習コミュニティ
+		</div>
+		<div slot="additional" class="mt-3">
+			<p class="text-xs text-blue-200">
+				このフォームは安全に処理されます
+			</p>
+		</div>
+	</Footer>
 </FormLayout>
-
-<script>
-	document.addEventListener("DOMContentLoaded", () => {
-		const form = document.getElementById("event-form") as HTMLFormElement;
-		const resultDiv = document.getElementById("form-result") as HTMLDivElement;
-		const submitButton = form?.querySelector(
-			'button[type="submit"]'
-		) as HTMLButtonElement;
-
-		if (!form || !resultDiv || !submitButton) return;
-
-		form.addEventListener("submit", async (e: Event) => {
-			e.preventDefault();
-
-			// ボタンを無効化
-			submitButton.disabled = true;
-			submitButton.innerHTML = `
-        <span class="inline-block w-4 h-4 mr-2 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-        送信中...
-      `;
-
-			// フォームデータを収集
-			const formData = new FormData(form);
-			const data: Record<string, any> = {};
-
-			// チェックボックスとラジオボタンの特別処理
-			for (const [key, value] of formData.entries()) {
-				if (data[key]) {
-					// 既に存在する場合は配列に変換
-					if (Array.isArray(data[key])) {
-						data[key].push(value);
-					} else {
-						data[key] = [data[key], value];
-					}
-				} else {
-					data[key] = value;
-				}
-			}
-
-			try {
-				// reCAPTCHA トークンを取得
-				let recaptchaToken = "";
-				if (typeof window !== "undefined" && (window as any).grecaptcha) {
-					try {
-						recaptchaToken = await (window as any).grecaptcha.execute(
-							"YOUR_SITE_KEY",
-							{
-								action: "submit",
-							}
-						);
-					} catch (error) {
-						console.warn("reCAPTCHA failed:", error);
-					}
-				}
-
-				// Google Apps Script に送信（現在はモック）
-				// const response = await fetch("YOUR_GOOGLE_APPS_SCRIPT_URL", {
-				//   method: "POST",
-				//   headers: {
-				//     "Content-Type": "application/json",
-				//   },
-				//   body: JSON.stringify({
-				//     ...data,
-				//     recaptchaToken,
-				//     timestamp: new Date().toISOString(),
-				//   }),
-				// });
-
-				// モック成功レスポンス（実際の実装時は上記のコメントアウトを外す）
-				await new Promise((resolve) => setTimeout(resolve, 1000)); // 1秒待機
-				const result = {
-					success: true,
-					message:
-						"お申し込みありがとうございます。確認メールを送信いたしました。",
-				};
-
-				// 結果を表示
-				resultDiv.className = `mt-6 p-4 rounded-lg ${
-					result.success
-						? "bg-green-50 border border-green-200 text-green-800"
-						: "bg-red-50 border border-red-200 text-red-800"
-				}`;
-				resultDiv.innerHTML = `
-          <div class="flex">
-            <div class="flex-shrink-0">
-              ${
-								result.success
-									? '<svg class="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>'
-									: '<svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>'
-							}
-            </div>
-            <div class="ml-3">
-              <h3 class="text-sm font-medium">
-                ${result.success ? "送信完了" : "送信エラー"}
-              </h3>
-              <div class="mt-2 text-sm">
-                <p>${result.message}</p>
-              </div>
-            </div>
-          </div>
-        `;
-
-				if (result.success) {
-					form.reset();
-				}
-			} catch (error) {
-				console.error("Submission error:", error);
-				resultDiv.className =
-					"mt-6 p-4 rounded-lg bg-red-50 border border-red-200 text-red-800";
-				resultDiv.innerHTML = `
-          <p><strong>エラー:</strong> 送信中に問題が発生しました。もう一度お試しください。</p>
-        `;
-			} finally {
-				// ボタンを再有効化
-				submitButton.disabled = false;
-				submitButton.innerHTML = "申し込みを送信";
-				resultDiv.classList.remove("hidden");
-			}
-		});
-	});
-</script>
