@@ -14,12 +14,10 @@ const {
 	error,
 	class: className = "",
 } = Astro.props;
-
-const id = `field-${Math.random().toString(36).substr(2, 9)}`;
 ---
 
 <div class={`space-y-2 ${className}`}>
-	<label for={id} class="block text-sm font-medium text-gray-700">
+	<label class="block text-sm font-medium">
 		{label}
 		{
 			required && (
@@ -33,7 +31,7 @@ const id = `field-${Math.random().toString(36).substr(2, 9)}`;
 	{description && <p class="text-sm text-gray-500">{description}</p>}
 
 	<div class="relative">
-		<slot name="input" {id} />
+		<slot name="input" />
 	</div>
 
 	{
