@@ -1,36 +1,8 @@
 ---
-import FormField from "@/components/forms/FormField.astro";
-import FormSection from "@/components/forms/FormSection.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
-import CheckboxGroup from "@/components/ui/CheckboxGroup.astro";
-import EmailInput from "@/components/ui/EmailInput.astro";
-import RadioGroup from "@/components/ui/RadioGroup.astro";
-import SelectInput from "@/components/ui/SelectInput.astro";
-import SubmitButton from "@/components/ui/SubmitButton.astro";
-import TelInput from "@/components/ui/TelInput.astro";
-import TextArea from "@/components/ui/TextArea.astro";
-import TextInput from "@/components/ui/TextInput.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
-
-const selectOptions = [
-	{ value: "", label: "選択してください" },
-	{ value: "student", label: "学生" },
-	{ value: "engineer", label: "エンジニア" },
-	{ value: "other", label: "その他" },
-];
-
-const radioOptions = [
-	{ value: "beginner", label: "初心者" },
-	{ value: "intermediate", label: "中級者" },
-	{ value: "advanced", label: "上級者" },
-];
-
-const checkboxOptions = [
-	{ value: "web", label: "Web開発" },
-	{ value: "mobile", label: "モバイルアプリ" },
-	{ value: "ai", label: "AI・機械学習" },
-];
+import ApplyFormComponent from "./_apply-form.tsx";
 ---
 
 <FormLayout
@@ -49,77 +21,7 @@ const checkboxOptions = [
 		</p>
 	</Header>
 
-	<main class="py-12 md:py-16 px-4 md:px-8">
-		<form method="post" class="max-w-lg mx-auto space-y-4">
-			<FormSection>
-				<h2 class="text-lg font-semibold mb-6">基本情報</h2>
-				<FormField label="氏名" required>
-					<TextInput
-						slot="input"
-						name="fullName"
-						placeholder="山田 太郎"
-						required
-					/>
-				</FormField>
-
-				<FormField label="メールアドレス" required>
-					<EmailInput
-						slot="input"
-						name="email"
-						placeholder="example@example.com"
-						required
-					/>
-				</FormField>
-
-				<FormField label="電話番号">
-					<TelInput slot="input" name="phone" placeholder="090-1234-5678" />
-				</FormField>
-
-				<FormField label="職業" required>
-					<SelectInput
-						slot="input"
-						name="occupation"
-						options={selectOptions}
-						required
-					/>
-				</FormField>
-			</FormSection>
-
-			<FormSection>
-				<h2 class="text-lg font-semibold mb-6">スキル・経験</h2>
-				<FormField label="プログラミング経験" required>
-					<RadioGroup
-						slot="input"
-						name="experience"
-						options={radioOptions}
-						required
-					/>
-				</FormField>
-
-				<FormField label="興味のある分野" description="複数選択可">
-					<CheckboxGroup
-						slot="input"
-						name="interests"
-						options={checkboxOptions}
-						required
-					/>
-				</FormField>
-			</FormSection>
-
-			<FormSection>
-				<h3 class="text-lg font-semibold mb-6">ご意見・ご要望</h3>
-				<FormField label="ご意見・ご要望">
-					<TextArea
-						slot="input"
-						name="comments"
-						placeholder="ご自由にお書きください"
-					/>
-				</FormField>
-			</FormSection>
-
-			<SubmitButton>送信する</SubmitButton>
-		</form>
-	</main>
+	<ApplyFormComponent client:load />
 
 	<Footer />
 </FormLayout>

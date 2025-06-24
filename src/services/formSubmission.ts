@@ -4,7 +4,7 @@ import { submitToGoogleAppsScript } from "./googleAppsScript";
 
 export async function submitForm(
 	formData: FormData,
-	useDummyResponse = true
+	useDummyResponse = true,
 ): Promise<FormSubmissionResult> {
 	if (useDummyResponse) {
 		return await createDummyResponse(formData);

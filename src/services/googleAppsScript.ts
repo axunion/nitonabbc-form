@@ -1,9 +1,9 @@
+import { config } from "@/config/env";
 import type { FormData, FormSubmissionResult } from "@/types/form";
 import { getRecaptchaToken } from "./recaptcha";
-import { config } from "@/config/env";
 
 export async function submitToGoogleAppsScript(
-	formData: FormData
+	formData: FormData,
 ): Promise<FormSubmissionResult> {
 	const recaptchaToken = await getRecaptchaToken();
 

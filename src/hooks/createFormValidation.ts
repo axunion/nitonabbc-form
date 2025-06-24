@@ -1,17 +1,13 @@
-import { createSignal, createEffect } from "solid-js";
+import { createSignal } from "solid-js";
 
 type ValidationRule = (value: string) => string | null;
 type ValidationErrors = Record<string, string>;
 type FormData = Record<string, string>;
 
-/**
- * SolidJSを活用したフォームバリデーション用フック
- */
 export function createFormValidation() {
 	const [errors, setErrors] = createSignal<ValidationErrors>({});
 	const [isValid, setIsValid] = createSignal(true);
 
-	// バリデーションルール
 	const validationRules: Record<string, ValidationRule> = {
 		fullName: (value: string) => {
 			if (!value || value.trim().length === 0) {
@@ -55,7 +51,6 @@ export function createFormValidation() {
 		},
 	};
 
-	// フィールドをバリデーション
 	const validateField = (name: string, value: string) => {
 		const rule = validationRules[name];
 		if (rule) {
@@ -74,7 +69,6 @@ export function createFormValidation() {
 		return true;
 	};
 
-	// 全フィールドをバリデーション
 	const validateForm = (formData: FormData) => {
 		const newErrors: ValidationErrors = {};
 		let valid = true;
@@ -93,7 +87,6 @@ export function createFormValidation() {
 		return valid;
 	};
 
-	// エラーをクリア
 	const clearError = (fieldName: string) => {
 		setErrors((prev) => {
 			const newErrors = { ...prev };
@@ -102,7 +95,6 @@ export function createFormValidation() {
 		});
 	};
 
-	// 全エラーをクリア
 	const clearAllErrors = () => {
 		setErrors({});
 		setIsValid(true);
