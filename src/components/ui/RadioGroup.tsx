@@ -5,33 +5,32 @@ interface Props {
 	options: Array<{ value: string; label: string }>;
 	required?: boolean;
 	value?: string;
+	disabled?: boolean;
 	class?: string;
 	onChange?: (e: Event & { currentTarget: HTMLInputElement }) => void;
 }
 
 export default function RadioGroup(props: Props) {
-	const {
-		name,
-		options,
-		required = false,
-		value = "",
-		class: className = "",
-		onChange,
-	} = props;
-
 	return (
-		<div class={`space-y-2 ${className}`}>
-			<For each={options}>
+		<div class={`space-y-2 ${props.class || ""}`}>
+			<For each={props.options}>
 				{(option) => (
-					<label class="flex items-center space-x-2 cursor-pointer">
+					<label
+						class={`flex items-center space-x-2 ${
+							props.disabled
+								? "cursor-not-allowed opacity-50"
+								: "cursor-pointer"
+						}`}
+					>
 						<input
 							type="radio"
-							name={name}
+							name={props.name}
 							value={option.value}
-							checked={option.value === value}
-							required={required}
-							onChange={onChange}
-							class="w-4 h-4 text-indigo-600 bg-white/70 border-indigo-200 focus:ring-indigo-300 focus:ring-2"
+							checked={option.value === (props.value || "")}
+							required={props.required || false}
+							disabled={props.disabled || false}
+							onChange={props.onChange}
+							class="w-4 h-4 text-indigo-600 bg-white/70 border-indigo-200 focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
 						/>
 						<span>{option.label}</span>
 					</label>

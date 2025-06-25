@@ -1,4 +1,5 @@
 export const config = {
+	isDev: import.meta.env.DEV,
 	googleAppsScript: {
 		url: import.meta.env.PUBLIC_GOOGLE_APPS_SCRIPT_URL || "",
 	},

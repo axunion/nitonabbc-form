@@ -1,16 +1,13 @@
 import FormField from "@/components/forms/FormField.tsx";
 import FormSection from "@/components/forms/FormSection.tsx";
+import SubmissionLoader from "@/components/forms/SubmissionLoader.tsx";
 import Checkbox from "@/components/ui/Checkbox.tsx";
 import Input from "@/components/ui/Input.tsx";
 import RadioGroup from "@/components/ui/RadioGroup.tsx";
 import SelectInput from "@/components/ui/SelectInput.tsx";
 import SubmitButton from "@/components/ui/SubmitButton.tsx";
 import TextArea from "@/components/ui/TextArea.tsx";
-import { createFormValidation } from "@/hooks/createFormValidation";
-import { submitForm } from "@/services/formSubmission";
-import type { FormData } from "@/types/form";
-import { For, createSignal } from "solid-js";
-import { createStore } from "solid-js/store";
+import { useForm } from "@/hooks/useForm";
 
 const selectOptions = [
 	{ value: "", label: "選択してください" },
@@ -25,50 +22,24 @@ const radioOptions = [
 	{ value: "advanced", label: "上級者" },
 ];
 
+const initialFormData = {
+	fullName: "",
+	email: "",
+	phone: "",
+	occupation: "",
+	experience: "",
+	interests: [],
+	comments: "",
+};
+
 export default function ApplyFormComponent() {
-	const [formData, setFormData] = createStore<
-		Record<string, string | string[]>
-	>({
-		fullName: "",
-		email: "",
-		phone: "",
-		occupation: "",
-		experience: "",
-		interests: [],
-		comments: "",
-	});
-
-	const [isSubmitting, setIsSubmitting] = createSignal(false);
-	const [submitResult, setSubmitResult] = createSignal<string | null>(null);
-
-	const { errors, validateField, validateForm, clearError } =
-		createFormValidation();
-
-	const handleInputChange = (name: string, value: string | string[]) => {
-		setFormData(name, value);
-
-		if (typeof value === "string") {
-			validateField(name, value);
-		}
-	};
-
-	const handleSingleCheckbox = (
-		name: string,
-		value: string,
-		checked: boolean,
-	) => {
-		const currentValues = Array.isArray(formData[name])
-			? (formData[name] as string[])
-			: [];
-		const newValues = checked
-			? [...currentValues, value]
-			: currentValues.filter((v) => v !== value);
-		setFormData(name, newValues);
-	};
-
-	const handleSubmit = async (e: Event) => {
-		e.preventDefault();
-	};
+	const {
+		formData,
+		isSubmitting,
+		handleInputChange,
+		handleCheckboxChange,
+		handleSubmit,
+	} = useForm(initialFormData);
 
 	return (
 		<main class="py-12 md:py-16 px-4 md:px-8">
@@ -76,45 +47,52 @@ export default function ApplyFormComponent() {
 				<FormSection>
 					<h2 class="text-lg font-semibold mb-6">基本情報</h2>
 
-					<FormField label="氏名" required error={errors().fullName}>
+					<FormField label="氏名" required>
 						<Input
 							type="text"
 							name="fullName"
 							placeholder="山田 太郎"
 							value={formData.fullName as string}
+							disabled={isSubmitting()}
 							onInput={(e) =>
 								handleInputChange("fullName", e.currentTarget.value)
 							}
 							required
+							minlength="2"
 						/>
 					</FormField>
 
-					<FormField label="メールアドレス" required error={errors().email}>
+					<FormField label="メールアドレス" required>
 						<Input
 							type="email"
 							name="email"
 							placeholder="example@example.com"
 							value={formData.email as string}
+							disabled={isSubmitting()}
 							onInput={(e) => handleInputChange("email", e.currentTarget.value)}
 							required
 						/>
 					</FormField>
 
-					<FormField label="電話番号" error={errors().phone}>
+					<FormField label="電話番号">
 						<Input
 							type="tel"
 							name="phone"
 							placeholder="090-1234-5678"
 							value={formData.phone as string}
+							disabled={isSubmitting()}
 							onInput={(e) => handleInputChange("phone", e.currentTarget.value)}
+							pattern="[\d\-\+\(\)\s]+"
+							title="正しい電話番号を入力してください"
 						/>
 					</FormField>
 
-					<FormField label="職業" required error={errors().occupation}>
+					<FormField label="職業" required>
 						<SelectInput
 							name="occupation"
 							options={selectOptions}
 							value={formData.occupation as string}
+							disabled={isSubmitting()}
 							onChange={(e) =>
 								handleInputChange("occupation", e.currentTarget.value)
 							}
@@ -126,15 +104,12 @@ export default function ApplyFormComponent() {
 				<FormSection>
 					<h2 class="text-lg font-semibold mb-6">スキル・経験</h2>
 
-					<FormField
-						label="プログラミング経験"
-						required
-						error={errors().experience}
-					>
+					<FormField label="プログラミング経験" required>
 						<RadioGroup
 							name="experience"
 							options={radioOptions}
 							value={formData.experience as string}
+							disabled={isSubmitting()}
 							onChange={(e) =>
 								handleInputChange("experience", e.currentTarget.value)
 							}
@@ -148,8 +123,9 @@ export default function ApplyFormComponent() {
 								name="interests"
 								value="web"
 								checked={(formData.interests as string[]).includes("web")}
+								disabled={isSubmitting()}
 								onChange={(checked) =>
-									handleSingleCheckbox("interests", "web", checked)
+									handleCheckboxChange("interests", "web", checked)
 								}
 							>
 								Web開発
@@ -158,8 +134,9 @@ export default function ApplyFormComponent() {
 								name="interests"
 								value="mobile"
 								checked={(formData.interests as string[]).includes("mobile")}
+								disabled={isSubmitting()}
 								onChange={(checked) =>
-									handleSingleCheckbox("interests", "mobile", checked)
+									handleCheckboxChange("interests", "mobile", checked)
 								}
 							>
 								モバイルアプリ
@@ -168,8 +145,9 @@ export default function ApplyFormComponent() {
 								name="interests"
 								value="ai"
 								checked={(formData.interests as string[]).includes("ai")}
+								disabled={isSubmitting()}
 								onChange={(checked) =>
-									handleSingleCheckbox("interests", "ai", checked)
+									handleCheckboxChange("interests", "ai", checked)
 								}
 							>
 								AI・機械学習
@@ -185,6 +163,7 @@ export default function ApplyFormComponent() {
 							name="comments"
 							placeholder="ご自由にお書きください"
 							value={formData.comments as string}
+							disabled={isSubmitting()}
 							onInput={(e) =>
 								handleInputChange("comments", e.currentTarget.value)
 							}
@@ -192,20 +171,10 @@ export default function ApplyFormComponent() {
 					</FormField>
 				</FormSection>
 
-				{submitResult() && (
-					<div
-						class={`p-4 rounded-md ${
-							submitResult()?.includes("完了")
-								? "bg-green-50 text-green-800"
-								: "bg-red-50 text-red-800"
-						}`}
-					>
-						{submitResult()}
-					</div>
-				)}
-
 				<SubmitButton loading={isSubmitting()}>送信する</SubmitButton>
 			</form>
+
+			<SubmissionLoader isVisible={isSubmitting()} />
 		</main>
 	);
 }
