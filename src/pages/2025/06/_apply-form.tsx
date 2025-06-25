@@ -4,23 +4,10 @@ import SubmissionLoader from "@/components/forms/SubmissionLoader.tsx";
 import Checkbox from "@/components/ui/Checkbox.tsx";
 import Input from "@/components/ui/Input.tsx";
 import RadioGroup from "@/components/ui/RadioGroup.tsx";
-import SelectInput from "@/components/ui/SelectInput.tsx";
+import Select from "@/components/ui/Select.tsx";
 import SubmitButton from "@/components/ui/SubmitButton.tsx";
 import TextArea from "@/components/ui/TextArea.tsx";
 import { useForm } from "@/hooks/useForm";
-
-const selectOptions = [
-	{ value: "", label: "選択してください" },
-	{ value: "student", label: "学生" },
-	{ value: "engineer", label: "エンジニア" },
-	{ value: "other", label: "その他" },
-];
-
-const radioOptions = [
-	{ value: "beginner", label: "初心者" },
-	{ value: "intermediate", label: "中級者" },
-	{ value: "advanced", label: "上級者" },
-];
 
 const initialFormData = {
 	fullName: "",
@@ -88,9 +75,14 @@ export default function ApplyFormComponent() {
 					</FormField>
 
 					<FormField label="職業" required>
-						<SelectInput
+						<Select
 							name="occupation"
-							options={selectOptions}
+							options={[
+								{ value: "", label: "選択してください" },
+								{ value: "student", label: "学生" },
+								{ value: "engineer", label: "エンジニア" },
+								{ value: "other", label: "その他" },
+							]}
 							value={formData.occupation as string}
 							disabled={isSubmitting()}
 							onChange={(e) =>
@@ -107,7 +99,11 @@ export default function ApplyFormComponent() {
 					<FormField label="プログラミング経験" required>
 						<RadioGroup
 							name="experience"
-							options={radioOptions}
+							options={[
+								{ value: "beginner", label: "初心者" },
+								{ value: "intermediate", label: "中級者" },
+								{ value: "advanced", label: "上級者" },
+							]}
 							value={formData.experience as string}
 							disabled={isSubmitting()}
 							onChange={(e) =>

@@ -10,7 +10,7 @@ interface Props {
 	onChange?: (e: Event & { currentTarget: HTMLSelectElement }) => void;
 }
 
-export default function SelectInput(props: Props) {
+export default function Select(props: Props) {
 	return (
 		<select
 			name={props.name}
