@@ -2,112 +2,76 @@
 
 ## Project Overview
 
-This project is a simple form creation project where pages are added several times a year.
-It primarily creates **event registration forms** and **post-event survey forms**, managing data through Google Apps Script and Google Spreadsheet.
+Form creation project for event registration and post-event surveys, managed through Google Apps Script and Google Spreadsheet.
 
 ## Technology Stack
 
-- **Framework**: Astro v5.9.3
-- **UI Library**: SolidJS v5.1.0
-- **Styling**: TailwindCSS v4.1.10
-- **Code Quality**: Biome v1.9.4
-- **Runtime**: Node.js v22.16.0 (Volta managed)
+- Framework: Astro v5.9.3
+- UI Library: SolidJS v5.1.0
+- Styling: TailwindCSS v4.1.10
+- Code Quality: Biome v1.9.4
+- Runtime: Node.js v22.16.0 (Volta)
 
-## Development Philosophy & Priorities
+## Development Philosophy
 
-### 1. Astro Philosophy First
+### Astro
 
-- Leverage **Islands Architecture** to make only necessary parts interactive
-- Follow **Zero-JavaScript by default** principle, minimizing client-side JavaScript
-- Maximize **Build-time optimizations**
-- Adopt **Multi-page Application (MPA)** architecture, building each form page as an independent page
+- Leverage Islands Architecture for minimal client-side JavaScript
+- Follow Zero-JavaScript by default principle
+- Build each form page as independent MPA
 
-### 2. SolidJS Best Practices
+### SolidJS
 
-- Leverage **Fine-grained reactivity** for performance optimization
-- Use **Signals** appropriately for state management
-- Use **createStore** for managing complex form state
-- Use **Suspense** and **ErrorBoundary** appropriately
-- Choose **client:load**, **client:idle**, **client:visible** directives appropriately
+- Use Signals and createStore for state management
+- Apply fine-grained reactivity
+- Choose appropriate client directives (load/idle/visible)
 
-### 3. TailwindCSS Best Practices
+### TailwindCSS
 
-- Thoroughly adopt **Utility-first** approach
-- Use **Component variants** for consistent styling
-- Implement **Responsive design** with mobile-first approach
-- Utilize **Design tokens** to unify brand colors and spacing
-- Minimize custom CSS and prioritize Tailwind Utility classes
+- Adopt utility-first approach
+- Implement responsive, mobile-first design
+- Minimize custom CSS
 
-## Component Design Principles
+## Component Guidelines
 
 ### Directory Structure
 
 ```
 src/
-├── assets/             # Static files (images, SVGs, etc.)
+├── assets/             # Static files
 ├── components/
-│   ├── forms/          # Form-related components
-│   ├── layout/         # Layout components (Header, Footer, Navigation)
-│   └── ui/             # Reusable UI components (Button, Input, etc.)
+│   ├── forms/          # Form components
+│   ├── layout/         # Layout components
+│   └── ui/             # Reusable UI components
 ├── layouts/            # Page layouts
-├── lib/                # External API integration (Google Apps Script, etc.)
+├── lib/                # External API integration
 ├── pages/              # Page files
 └── styles/             # Global styles
 ```
 
-### Component Design Guidelines
+### Design Principles
 
-1. **Single Responsibility Principle**: Each component has one clear responsibility
-2. **Reusability**: Components that may be used in multiple places should be made common
-3. **Composability**: Build complex UI by combining small components
-4. **Minimal Props**: Design to work with the minimum necessary props
+- Single responsibility per component
+- Reusable and composable design
+- Minimal props interface
 
-### Naming Conventions
+### Naming & Imports
 
-- **Components**: PascalCase (`FormInput.astro`, `SubmitButton.astro`)
-- **Files**: kebab-case (`form-validation.ts`, `api-client.ts`)
-- **CSS classes**: Use Tailwind Utility classes, custom classes in kebab-case
+- Components: PascalCase (`FormInput.astro`)
+- Files: kebab-case (`form-validation.ts`)
+- Use `@/` path aliases for imports
 
-### Import Paths
+## Form Development
 
-- **Path Alias**: Use `@/` for absolute paths from src directory
-- **Example**: `import Layout from "@/layouts/FormLayout.astro"`
-- **Example**: `import TextInput from "@/components/ui/TextInput.astro"`
-- Prioritize path aliases over relative paths (`../`)
+### URL Pattern
 
-## Form Development Guidelines
+- Format: `/YYYY/MM/(apply|survey)`
+- apply: Event registration forms
+- survey: Post-event surveys
 
-### 1. Page Structure and URL Design
-
-- **URL Pattern**: Adopt `/YYYY/MM/(apply|survey)` format
-- **apply**: For event registration forms
-- **survey**: For post-event survey forms
-- **Example**: `/2025/06/apply` (June 2025 event registration)
-- **Example**: `/2025/06/survey` (June 2025 survey)
-
-#### Directory Structure Example
-
-```
-src/pages/
-├── 2025/
-│   ├── 06/
-│   │   ├── apply.astro           # 2025 June registration form
-│   │   └── survey.astro          # 2025 June survey form
-│   └── 07/
-│       ├── apply.astro           # 2025 July registration form
-│       └── survey.astro          # 2025 July survey form
-└── [...etc]
-```
-
-### 2. Form Structure
+### Form Architecture
 
 ```astro
-<!-- ❌ Avoid -->
-<form>
-  <input type="email" />
-  <button>Submit</button>
-</form>
-
 <!-- ✅ Recommended -->
 <FormContainer>
   <FormField label="Email Address" required>
@@ -117,177 +81,77 @@ src/pages/
 </FormContainer>
 ```
 
-### 3. Validation
+### Key Requirements
 
-- **Client-side**: For real-time feedback
-- **Server-side**: Data validation in Google Apps Script (required)
-- **Progressive Enhancement**: Basic functionality works even when JavaScript is disabled
+- Client & server-side validation
+- Google Apps Script integration with reCAPTCHA v3
+- WCAG 2.1 A/AA accessibility compliance
+- Progressive enhancement support
 
-### 4. Google Apps Script Integration
+## Code Quality
 
-- **Form Submission**: Use `fetch` API to send to Google Apps Script
-- **reCAPTCHA Token**: Include reCAPTCHA token when submitting forms
-- **Server-side Verification**: Verify reCAPTCHA token on Google Apps Script side
-- **CORS Support**: Proper Google Apps Script configuration
-- **Error Handling**: Appropriate feedback for submission failures
-- **Response Processing**: UI updates based on success/failure status
+### Biome & TypeScript
 
-### 5. reCAPTCHA Security Measures
+- Run `npm run check:write` before commits
+- Use strict mode and prioritize `type` over `interface`
+- Minimize `as` casting
 
-- **Google reCAPTCHA v3** for spam protection implementation
-- **Site Key** and **Secret Key** management
-- **Score Evaluation**: Set 0.5 or higher as threshold for human determination
-- **Async Loading**: Lazy loading of reCAPTCHA scripts
-- **Fallback**: Alternative measures when reCAPTCHA loading fails
+### Comments Policy
 
-### 6. Accessibility
+- No change history or obvious comments
+- Focus on "why", not "what"
+- Use JSDoc for public APIs
 
-- **WCAG 2.1 A/AA** basic requirements compliance
-- **Form Labels** and **Input Fields** proper association
-- **Error Messages** clear display
-- **Keyboard Navigation** basic support
-
-### 7. Performance
-
-- **Critical CSS** inline optimization
-- **Async loading** for JavaScript optimization
-- **Image optimization** for improved page load speed
-- **Bundle size** minimization
-
-## Multilingual Support Approach
-
-### Browser Translation Dependent Approach
-
-- Leverage **simple form** characteristics and rely on browser auto-translation
-- Use **semantic HTML** correctly to improve browser translation accuracy
-- Set **`lang` attribute** appropriately (e.g., `lang="ja"` for Japanese sites)
-- Control **`translate` attribute** for tags and IDs that don't need translation
-
-### HTML Design Considerations
-
-- Use **clear and translatable text**
-- Avoid context-dependent expressions
-- Use **`<abbr>` tags** for abbreviations and technical terms when necessary
-- Make **placeholders** and **error messages** easy to translate
-
-## Code Quality Standards
-
-### Biome Configuration Usage
-
-- Use **format**, **lint**, and **check** commands
-- Run `npm run check:write` before committing
-- Leverage automatic formatting and linting
-
-### TypeScript
-
-- Enable **strict mode** for type safety
-- Prioritize **type** over **interface** (for performance reasons)
-- Minimize **as** casting
-
-### Code Comments
-
-- **No change history comments**: Avoid comments about when/who changed code (use git history instead)
-- **No obvious comments**: Don't comment on self-explanatory code
-- **Essential comments only**: Keep important comments simple and in English
-- **Focus on "why", not "what"**: Explain business logic, not implementation details
-- **API documentation**: Use JSDoc for public interfaces and complex functions
-
-#### Examples:
-
-```typescript
-// ❌ Avoid
-// Changed by John on 2025-01-15: Updated validation logic
-// This function validates email addresses
-const validateEmail = (email: string) => {
-	// Check if email contains @ symbol
-	return email.includes("@");
-};
-
-// ✅ Recommended
-// reCAPTCHA score threshold for spam detection
-const RECAPTCHA_THRESHOLD = 0.5;
-
-/**
- * Validates form data before submission to Google Apps Script
- * Ensures data integrity and prevents malformed requests
- */
-const validateFormData = (data: FormData) => {
-	// Business rule: email domain must be whitelisted for corporate events
-	if (isCorporateEvent && !isWhitelistedDomain(data.email)) {
-		throw new ValidationError("Corporate events require company email");
-	}
-};
-```
-
-## Prohibited Patterns & Things to Avoid
-
-### ❌ Avoid
+### Avoid
 
 - Unnecessary client-side JavaScript
-- Inline styles (use Tailwind Utility classes)
-- Duplicate components
-- Global state (prioritize form-level state management)
-- Large components (consider splitting if over 100 lines)
+- Inline styles (use Tailwind)
+- Large components (split if >100 lines)
+- Global state
 
-### ❌ Avoid These Libraries
+## New Form Creation Checklist
 
-- Large UI libraries (implement only necessary features)
-- Unnecessary polyfills
-- Libraries with overlapping functionality
+### Structure & Components
 
-## New Form Page Creation Checklist
+- [ ] Create `.astro` file following `/YYYY/MM/(apply|survey)` pattern
+- [ ] Use FormLayout.astro and reuse existing components
+- [ ] Implement responsive design
 
-### 1. Page Structure
+### Security & Validation
 
-- [ ] Create new `.astro` file in `src/pages/` following URL pattern
-- [ ] Set appropriate metadata (title, description)
-- [ ] Implement responsive design with mobile-first approach
-- [ ] Use FormLayout.astro as base layout
+- [ ] Configure reCAPTCHA v3 integration
+- [ ] Add client & server-side validation
+- [ ] Test CORS configuration
 
-### 2. Form Components
+### Quality Assurance
 
-- [ ] Reuse existing components from `src/components/forms/` and `src/components/ui/`
-- [ ] Split into smaller components if new complex functionality is needed
-- [ ] Implement client-side validation with real-time feedback
-- [ ] Configure reCAPTCHA v3 integration properly
+- [ ] Ensure WCAG 2.1 A/AA compliance
+- [ ] Run Biome checks (`npm run check:write`)
+- [ ] Test progressive enhancement
+- [ ] Optimize performance
 
-### 3. Security Implementation
+## References
 
-- [ ] Implement reCAPTCHA token submission to Google Apps Script
-- [ ] Configure server-side verification in Google Apps Script
-- [ ] Test spam protection mechanisms
-- [ ] Verify CORS configuration for API endpoints
+- [Astro](https://docs.astro.build/) | [SolidJS](https://www.solidjs.com/docs/latest) | [TailwindCSS](https://tailwindcss.com/docs)
+- [WCAG Guidelines](https://www.w3.org/WAI/WCAG21/quickref/) | [Biome](https://biomejs.dev/)
+- [Google reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3)
 
-### 4. Accessibility Compliance
+## AI Work Process
 
-- [ ] Implement proper focus management and keyboard navigation
-- [ ] Display error messages clearly with ARIA attributes
-- [ ] Test keyboard-only navigation flow
-- [ ] Ensure form labels are properly associated with inputs
+### Before Making Changes
 
-### 5. Performance Optimization
+1. **Analyze Requirements** - Understand the user's request completely
+2. **Plan Implementation** - Break down the task into clear steps
+3. **Review Context** - Check existing code structure and patterns
+4. **Confirm Approach** - Present the plan to user before execution
+5. **Execute Incrementally** - Make changes step by step with validation
 
-- [ ] Remove unnecessary client-side JavaScript
-- [ ] Optimize images and static assets
-- [ ] Verify bundle size and page load performance
-- [ ] Test with JavaScript disabled (progressive enhancement)
+### Change Management
 
-### 6. Code Quality Assurance
+- Always read existing files before editing
+- Use appropriate tools (read_file, grep_search, semantic_search)
+- Validate changes after each modification
+- Follow established patterns and conventions
+- Test functionality when possible
 
-- [ ] Run `npm run check:write` for Biome formatting and linting
-- [ ] Resolve all TypeScript errors
-- [ ] Remove unused code and imports
-- [ ] Verify all @/ path aliases work correctly
-
-## Recommended Resources
-
-- [Astro Documentation](https://docs.astro.build/)
-- [SolidJS Documentation](https://www.solidjs.com/docs/latest)
-- [TailwindCSS Documentation](https://tailwindcss.com/docs)
-- [Web Accessibility Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
-- [Biome Documentation](https://biomejs.dev/)
-- [Google reCAPTCHA v3 Documentation](https://developers.google.com/recaptcha/docs/v3)
-
----
-
-Follow these guidelines to develop maintainable, performant, and accessible form applications with high code quality standards.
+Follow these guidelines to develop maintainable, performant, and accessible form applications with high code quality.
