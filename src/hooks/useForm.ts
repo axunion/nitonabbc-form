@@ -3,9 +3,14 @@ import type { FormData } from "@/types/form";
 import { createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
+export type SubmissionState = "idle" | "submitting" | "success" | "error";
+
 export function useForm(initialData: Record<string, string | string[]>) {
 	const [formData, setFormData] = createStore(initialData);
 	const [isSubmitting, setIsSubmitting] = createSignal(false);
+	const [submissionState, setSubmissionState] =
+		createSignal<SubmissionState>("idle");
+	const [errorMessage, setErrorMessage] = createSignal("");
 
 	const handleInputChange = (name: string, value: string | string[]) => {
 		setFormData(name, value);
@@ -35,24 +40,29 @@ export function useForm(initialData: Record<string, string | string[]>) {
 			return false;
 		}
 
-		console.log("Form submission:", formData);
-		console.log("Setting isSubmitting to true");
 		setIsSubmitting(true);
+		setSubmissionState("submitting");
+		setErrorMessage("");
 
 		try {
 			const result = await submitForm(formData as FormData);
-			console.log("Submission result:", result);
 
 			if (result.result === "done") {
-				console.log("Form submitted successfully");
-				resetForm();
+				setSubmissionState("success");
 				return true;
 			}
 
-			console.log("Form submission failed:", result.error);
+			setSubmissionState("error");
+			setErrorMessage(result.error || "送信に失敗しました");
 			return false;
 		} catch (error) {
 			console.error("Submission error:", error);
+			setSubmissionState("error");
+			setErrorMessage(
+				error instanceof Error
+					? error.message
+					: "ネットワークエラーが発生しました",
+			);
 			return false;
 		} finally {
 			setIsSubmitting(false);
@@ -66,6 +76,8 @@ export function useForm(initialData: Record<string, string | string[]>) {
 	return {
 		formData,
 		isSubmitting,
+		submissionState,
+		errorMessage,
 		handleInputChange,
 		handleCheckboxChange,
 		handleSubmit,
