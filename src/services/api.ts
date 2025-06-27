@@ -1,7 +1,7 @@
 import type { FormData, FormSubmissionResult } from "@/types/form";
 
 export async function submitForm(
-	formData: FormData
+	formData: FormData,
 ): Promise<FormSubmissionResult> {
 	await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -11,11 +11,11 @@ export async function submitForm(
 				? {
 						result: "done",
 						error: "",
-				  }
+					}
 				: {
 						result: "error",
 						error: "This is a dummy error message for testing purposes.",
-				  };
+					};
 		console.log("Development mode: Using dummy response");
 		console.log("Form data:", formData);
 		console.log("Dummy response:", result);

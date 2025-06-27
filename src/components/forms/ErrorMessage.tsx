@@ -7,7 +7,11 @@ interface Props {
 
 export default function ErrorMessage(props: Props) {
 	return (
-		<div class={`max-w-lg mx-auto ${props.class || ""}`}>
+		<div
+			class={`max-w-lg mx-auto ${props.class || ""}`}
+			role="alert"
+			aria-live="assertive"
+		>
 			<div class="bg-white/80 backdrop-blur-sm rounded-lg p-8 text-center shadow-md opacity-0 translate-y-4 scale-95 animate-[fadeInUp_0.5s_ease-out_forwards]">
 				<div class="mb-6">
 					<div class="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center animate-[shakeIn_0.7s_0.2s_ease-out_forwards]">
@@ -16,9 +20,8 @@ export default function ErrorMessage(props: Props) {
 							fill="none"
 							stroke="currentColor"
 							viewBox="0 0 24 24"
-							aria-label="error"
+							aria-hidden="true"
 						>
-							<title>error</title>
 							<path
 								stroke-linecap="round"
 								stroke-linejoin="round"
