@@ -1,5 +1,5 @@
 import { submitForm } from "@/services/api";
-import type { FormData } from "@/types/form";
+import { getReCaptchaToken } from "@/services/recaptcha";
 import { createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
@@ -45,7 +45,8 @@ export function useForm(initialData: Record<string, string | string[]>) {
 		setErrorMessage("");
 
 		try {
-			const result = await submitForm(formData as FormData);
+			const recaptchaToken = await getReCaptchaToken("form_submit");
+			const result = await submitForm(formData, recaptchaToken);
 
 			if (result.result === "done") {
 				setSubmissionState("success");

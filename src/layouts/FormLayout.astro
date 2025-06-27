@@ -1,4 +1,5 @@
 ---
+import { config } from "@/config/env";
 import "@/styles/global.css";
 
 export interface Props {
@@ -17,6 +18,13 @@ const { title, description = "" } = Astro.props;
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{title}</title>
+		{
+			config.recaptcha.siteKey && (
+				<script
+					src={`https://www.google.com/recaptcha/api.js?render=${config.recaptcha.siteKey}`}
+				/>
+			)
+		}
 	</head>
 	<body class="bg-slate-100 text-gray-700 antialiased">
 		<div class="bg-dot-pattern min-h-screen relative overflow-x-hidden">

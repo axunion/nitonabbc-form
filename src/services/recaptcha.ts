@@ -1,0 +1,35 @@
+import { config } from "@/config/env";
+
+declare global {
+	interface Window {
+		grecaptcha: {
+			ready: (callback: () => void) => void;
+			execute: (
+				siteKey: string,
+				options: { action: string },
+			) => Promise<string>;
+		};
+	}
+}
+
+export async function getReCaptchaToken(action = "submit"): Promise<string> {
+	if (!config.recaptcha.siteKey) {
+		console.warn("reCAPTCHA site key not configured");
+		return "";
+	}
+
+	return new Promise((resolve, reject) => {
+		if (typeof window === "undefined" || !window.grecaptcha) {
+			console.warn("reCAPTCHA not loaded");
+			resolve("");
+			return;
+		}
+
+		window.grecaptcha.ready(() => {
+			window.grecaptcha
+				.execute(config.recaptcha.siteKey, { action })
+				.then(resolve)
+				.catch(reject);
+		});
+	});
+}

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+.grecaptcha-badge {
+	visibility: hidden;
+}
+
 .bg-dot-pattern {
 	background-image: radial-gradient(
 			circle at 30% 30%,

@@ -1,7 +1,3 @@
-export interface FormData {
-	[key: string]: string | string[];
-}
-
 export type SubmissionStatus = "done" | "error";
 
 export interface TimestampResponse {
