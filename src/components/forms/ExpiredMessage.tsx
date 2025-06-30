@@ -6,7 +6,7 @@ interface Props {
 
 export default function ExpiredMessage(props: Props) {
 	return (
-		<div class="max-w-lg mx-auto bg-white/70 backdrop-blur-sm border border-indigo-200 rounded-md p-8 text-center">
+		<div class="max-w-lg mx-auto bg-white/70 backdrop-blur-sm border border-indigo-200 rounded-md px-8 py-12 text-center">
 			<div class="flex justify-center mb-4">
 				<svg
 					class="w-12 h-12 text-orange-500"

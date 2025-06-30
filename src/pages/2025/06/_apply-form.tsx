@@ -73,7 +73,7 @@ export default function ApplyFormComponent() {
 						submissionState() === "idle" || submissionState() === "submitting"
 					}
 				>
-					<form onSubmit={handleSubmit} class="max-w-lg mx-auto space-y-4">
+					<form onSubmit={handleSubmit} class="space-y-4">
 						<FormSection>
 							<h2 class="text-lg font-semibold mb-6">基本情報</h2>
 

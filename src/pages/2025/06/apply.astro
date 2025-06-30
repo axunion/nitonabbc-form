@@ -1,6 +1,7 @@
 ---
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
+import Main from "@/components/layout/Main.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
 import ApplyFormComponent from "./_apply-form.tsx";
 ---
@@ -21,9 +22,13 @@ import ApplyFormComponent from "./_apply-form.tsx";
 		</p>
 	</Header>
 
-	<main class="py-20 px-4">
+	<Main>
 		<ApplyFormComponent client:load />
-	</main>
+	</Main>
 
-	<Footer />
+	<Footer>
+		<p class="pt-12">
+			<small> © 2025 テクノロジー勉強会実行委員会. </small>
+		</p>
+	</Footer>
 </FormLayout>

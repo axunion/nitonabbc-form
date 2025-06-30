@@ -1,22 +1,7 @@
-<footer class="bg-gradient-to-r from-indigo-700 to-purple-800 text-blue-100 border-t border-indigo-600">
-	<div class="max-w-4xl mx-auto px-4 py-6">
-		<div class="text-center">
-			<!-- Description -->
-			<div class="mb-3">
-				<p class="text-sm">
-					<slot name="description">Default description</slot>
-				</p>
-			</div>
-
-			<!-- Additional Content -->
-			<slot name="additional" />
-
-			<!-- Copyright -->
-			<div class="border-t border-indigo-600 pt-3 mt-3">
-				<p class="text-xs text-blue-200">
-					<slot name="copyright">© 2025 Event Registration System. All rights reserved.</slot>
-				</p>
-			</div>
-		</div>
+<footer
+	class="bg-gradient-to-r from-indigo-700 to-purple-800 text-blue-100 border-t border-indigo-600"
+>
+	<div class="max-w-4xl mx-auto px-8 py-12 text-center">
+		<slot />
 	</div>
 </footer>
