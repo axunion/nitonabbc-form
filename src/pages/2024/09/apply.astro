@@ -1,0 +1,36 @@
+---
+import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
+import Footer from "@/components/layout/Footer.astro";
+import Header from "@/components/layout/Header.astro";
+import Main from "@/components/layout/Main.astro";
+import FormLayout from "@/layouts/FormLayout.astro";
+---
+
+<FormLayout title="京葉地区一泊お泊まり会参加申込">
+	<Header>
+		<h1 slot="title" class="text-xl md:text-2xl font-bold tracking-tight">
+			京葉地区一泊お泊まり会参加申込<br />
+			Keiyo Area Retreat Registration
+		</h1>
+		<p slot="description" class="text-sm md:text-base text-blue-100">
+			開催日：2024年9月22日〜23日<br />
+			Event Dates: September 22-23, 2024
+		</p>
+	</Header>
+
+	<Main>
+		<ExpiredMessage>
+			<p>
+				この申込は終了しています。
+				<br />
+				This registration is closed.
+			</p>
+		</ExpiredMessage>
+	</Main>
+
+	<Footer>
+		<p class="pt-12">
+			<small>© 2024 Keiyo Area United Youth Association.</small>
+		</p>
+	</Footer>
+</FormLayout>

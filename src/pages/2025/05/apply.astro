@@ -1,0 +1,30 @@
+---
+import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
+import Footer from "@/components/layout/Footer.astro";
+import Header from "@/components/layout/Header.astro";
+import Main from "@/components/layout/Main.astro";
+import FormLayout from "@/layouts/FormLayout.astro";
+---
+
+<FormLayout title="JBBF全国青年フェローシップキャンプ参加申し込み">
+	<Header>
+		<h1 slot="title" class="text-2xl md:text-3xl font-bold tracking-tight">
+			JBBF全国青年フェローシップキャンプ 参加申し込み
+		</h1>
+		<p slot="description" class="text-base text-blue-100">
+			開催日：2025年5月5日〜7日
+		</p>
+	</Header>
+
+	<Main>
+		<ExpiredMessage>
+			<p class="my-4">この申込は終了しています。</p>
+		</ExpiredMessage>
+	</Main>
+
+	<Footer>
+		<p>
+			<small>© 2025 Nitona Bible Baptist Church.</small>
+		</p>
+	</Footer>
+</FormLayout>

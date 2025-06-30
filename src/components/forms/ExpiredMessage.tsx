@@ -24,7 +24,10 @@ export default function ExpiredMessage(props: Props) {
 					/>
 				</svg>
 			</div>
-			{props.children || <p class="my-4">この申込は終了しています。</p>}
+
+			<div class="my-4">
+				{props.children || <p>このフォームは終了しています。</p>}
+			</div>
 		</div>
 	);
 }

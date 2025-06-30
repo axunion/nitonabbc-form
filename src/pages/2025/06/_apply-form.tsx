@@ -177,7 +177,7 @@ export default function ApplyFormComponent() {
 										name="interests"
 										value="mobile"
 										checked={(formData.interests as string[]).includes(
-											"mobile"
+											"mobile",
 										)}
 										disabled={isSubmitting()}
 										onChange={(checked) =>
