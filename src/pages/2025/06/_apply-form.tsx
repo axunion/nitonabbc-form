@@ -16,7 +16,7 @@ import { useForm } from "@/hooks/useForm";
 import { useTimestamp } from "@/hooks/useTimestamp";
 import { Show } from "solid-js";
 
-const APPLICATION_DEADLINE = new Date("2025-06-28T12:00:00+09:00").getTime();
+const APPLICATION_DEADLINE = new Date("2025-07-28T12:00:00+09:00").getTime();
 
 const initialFormData = {
 	fullName: "",
@@ -42,7 +42,7 @@ export default function ApplyFormComponent() {
 	} = useForm(initialFormData);
 
 	return (
-		<main class="py-12 md:py-16 px-4 md:px-8">
+		<>
 			<Show when={timestampState() === "loading"}>
 				<div class="min-h-[50vh] flex items-center justify-center">
 					<LoadingSpinner />
@@ -177,7 +177,7 @@ export default function ApplyFormComponent() {
 										name="interests"
 										value="mobile"
 										checked={(formData.interests as string[]).includes(
-											"mobile",
+											"mobile"
 										)}
 										disabled={isSubmitting()}
 										onChange={(checked) =>
@@ -247,6 +247,6 @@ export default function ApplyFormComponent() {
 
 				<SubmissionLoader isVisible={isSubmitting()} />
 			</Show>
-		</main>
+		</>
 	);
 }
