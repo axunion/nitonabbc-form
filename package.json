@@ -17,12 +17,12 @@
 	},
 	"dependencies": {
 		"@astrojs/solid-js": "^5.1.0",
-		"astro": "^5.9.3"
+		"astro": "^5.10.2"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@tailwindcss/vite": "^4.1.10",
-		"tailwindcss": "^4.1.10"
+		"@tailwindcss/vite": "^4.1.11",
+		"tailwindcss": "^4.1.11"
 	},
 	"volta": {
 		"node": "22.16.0"
