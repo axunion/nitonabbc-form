@@ -17,7 +17,7 @@ export function useTimestamp(deadlineTimestamp: number) {
 
 			if (response.result === "error") {
 				setTimestampState("error");
-				setErrorMessage(response.error || "タイムスタンプの取得に失敗しました");
+				setErrorMessage(response.error || "An unexpected error occurred.");
 				return;
 			}
 
@@ -33,7 +33,7 @@ export function useTimestamp(deadlineTimestamp: number) {
 			setErrorMessage(
 				error instanceof Error
 					? error.message
-					: "タイムスタンプの確認中にエラーが発生しました",
+					: "An unexpected error occurred.",
 			);
 		}
 	};

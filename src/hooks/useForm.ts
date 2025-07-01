@@ -54,7 +54,7 @@ export function useForm(initialData: Record<string, string | string[]>) {
 			}
 
 			setSubmissionState("error");
-			setErrorMessage(result.error || "送信に失敗しました");
+			setErrorMessage(result.error || "An unexpected error occurred.");
 			return false;
 		} catch (error) {
 			console.error("Submission error:", error);
@@ -62,7 +62,7 @@ export function useForm(initialData: Record<string, string | string[]>) {
 			setErrorMessage(
 				error instanceof Error
 					? error.message
-					: "ネットワークエラーが発生しました",
+					: "An unexpected error occurred.",
 			);
 			return false;
 		} finally {

@@ -3,7 +3,7 @@ import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import Main from "@/components/layout/Main.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
-import ApplyFormComponent from "./_apply-form.tsx";
+import ApplyForm from "./_apply-form.tsx";
 ---
 
 <FormLayout
@@ -23,7 +23,7 @@ import ApplyFormComponent from "./_apply-form.tsx";
 	</Header>
 
 	<Main>
-		<ApplyFormComponent client:load />
+		<ApplyForm client:load />
 	</Main>
 
 	<Footer>

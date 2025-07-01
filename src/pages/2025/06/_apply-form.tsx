@@ -1,20 +1,13 @@
-import ErrorMessage from "@/components/forms/ErrorMessage.tsx";
-import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
+import FormContainer from "@/components/forms/FormContainer.tsx";
 import FormField from "@/components/forms/FormField.tsx";
 import FormSection from "@/components/forms/FormSection.tsx";
-import LoadingSpinner from "@/components/forms/LoadingSpinner.tsx";
 import RecaptchaNotice from "@/components/forms/RecaptchaNotice.tsx";
-import SubmissionLoader from "@/components/forms/SubmissionLoader.tsx";
-import SuccessMessage from "@/components/forms/SuccessMessage.tsx";
 import Checkbox from "@/components/ui/Checkbox.tsx";
 import Input from "@/components/ui/Input.tsx";
 import RadioGroup from "@/components/ui/RadioGroup.tsx";
 import Select from "@/components/ui/Select.tsx";
 import SubmitButton from "@/components/ui/SubmitButton.tsx";
 import TextArea from "@/components/ui/TextArea.tsx";
-import { useForm } from "@/hooks/useForm";
-import { useTimestamp } from "@/hooks/useTimestamp";
-import { Show } from "solid-js";
 
 const APPLICATION_DEADLINE = new Date("2025-07-28T12:00:00+09:00").getTime();
 
@@ -28,51 +21,20 @@ const initialFormData = {
 	comments: "",
 };
 
-export default function ApplyFormComponent() {
-	const { timestampState, errorMessage: timestampError } =
-		useTimestamp(APPLICATION_DEADLINE);
-	const {
-		formData,
-		isSubmitting,
-		submissionState,
-		errorMessage,
-		handleInputChange,
-		handleCheckboxChange,
-		handleSubmit,
-	} = useForm(initialFormData);
-
+export default function ApplyForm() {
 	return (
-		<>
-			<Show when={timestampState() === "loading"}>
-				<div class="min-h-[50vh] flex items-center justify-center">
-					<LoadingSpinner />
-				</div>
-			</Show>
-
-			<Show when={timestampState() === "expired"}>
-				<ExpiredMessage />
-			</Show>
-
-			<Show when={timestampState() === "error"}>
-				<ErrorMessage>
-					<h2 class="text-2xl font-bold text-red-800 mb-4">
-						接続エラーが発生しました
-					</h2>
-					<p class="text-red-700 mb-4">
-						{timestampError() || "サーバーとの接続に失敗しました。"}
-					</p>
-					<p class="text-red-600 text-sm">
-						しばらく時間をおいて再度お試しください。
-					</p>
-				</ErrorMessage>
-			</Show>
-
-			<Show when={timestampState() === "valid"}>
-				<Show
-					when={
-						submissionState() === "idle" || submissionState() === "submitting"
-					}
-				>
+		<FormContainer
+			initialValues={initialFormData}
+			deadline={APPLICATION_DEADLINE}
+		>
+			{({
+				formData,
+				isSubmitting,
+				handleInputChange,
+				handleCheckboxChange,
+				handleSubmit,
+			}) => (
+				<>
 					<form onSubmit={handleSubmit} class="space-y-4">
 						<FormSection>
 							<h2 class="text-lg font-semibold mb-6">基本情報</h2>
@@ -220,33 +182,8 @@ export default function ApplyFormComponent() {
 
 						<SubmitButton loading={isSubmitting()}>送信する</SubmitButton>
 					</form>
-				</Show>
-
-				<Show when={submissionState() === "success"}>
-					<SuccessMessage>
-						<h2 class="text-2xl font-bold text-green-800 mb-4">
-							申し込みを受け付けました
-						</h2>
-						<p class="text-green-700 mb-4">
-							ご記入いただいたメールアドレスに確認メールを送信いたします。
-						</p>
-					</SuccessMessage>
-				</Show>
-
-				<Show when={submissionState() === "error"}>
-					<ErrorMessage>
-						<h2 class="text-2xl font-bold text-red-800 mb-4">
-							送信に失敗しました
-						</h2>
-						<p class="text-red-700 mb-4">
-							{errorMessage() ||
-								"ネットワークエラーまたは一時的な問題が発生しました。"}
-						</p>
-					</ErrorMessage>
-				</Show>
-
-				<SubmissionLoader isVisible={isSubmitting()} />
-			</Show>
-		</>
+				</>
+			)}
+		</FormContainer>
 	);
 }
