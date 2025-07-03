@@ -113,6 +113,7 @@ export default function ApplyForm() {
 										{ value: "intermediate", label: "中級者" },
 										{ value: "advanced", label: "上級者" },
 									]}
+									orientation="horizontal"
 									value={formData.experience as string}
 									disabled={isSubmitting()}
 									onChange={(e) =>
@@ -122,7 +123,8 @@ export default function ApplyForm() {
 								/>
 							</FormField>
 
-							<FormField label="興味のある分野" description="複数選択可">
+							<FormField label="興味のある分野">
+								<p class="text-sm text-gray-500 mb-2">複数選択可</p>
 								<div class="space-y-2">
 									<Checkbox
 										name="interests"

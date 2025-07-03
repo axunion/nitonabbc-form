@@ -1,11 +1,9 @@
 import type { JSX } from "solid-js";
 
 interface Props {
+	class?: string;
 	label: string;
 	required?: boolean;
-	description?: string;
-	error?: string;
-	class?: string;
 	children: JSX.Element;
 }
 
@@ -21,17 +19,7 @@ export default function FormField(props: Props) {
 				)}
 			</div>
 
-			{props.description && (
-				<p class="text-sm text-gray-500">{props.description}</p>
-			)}
-
-			<div class="relative">{props.children}</div>
-
-			{props.error && (
-				<p class="text-sm text-red-600" role="alert" aria-live="polite">
-					{props.error}
-				</p>
-			)}
+			{props.children}
 		</div>
 	);
 }

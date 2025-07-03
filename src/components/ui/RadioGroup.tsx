@@ -3,6 +3,7 @@ import { For } from "solid-js";
 interface Props {
 	name: string;
 	options: Array<{ value: string; label: string }>;
+	orientation?: "vertical" | "horizontal";
 	required?: boolean;
 	value?: string;
 	disabled?: boolean;
@@ -11,29 +12,36 @@ interface Props {
 }
 
 export default function RadioGroup(props: Props) {
+	const orientationClass =
+		props.orientation === "horizontal"
+			? "flex flex-wrap gap-x-2 gap-y-2"
+			: "space-y-2";
+
 	return (
-		<div class={`space-y-2 ${props.class || ""}`}>
+		<div class={`${orientationClass} ${props.class || ""}`}>
 			<For each={props.options}>
 				{(option) => (
-					<label
-						class={`flex items-center space-x-2 ${
-							props.disabled
-								? "cursor-not-allowed opacity-50"
-								: "cursor-pointer"
-						}`}
-					>
-						<input
-							type="radio"
-							name={props.name}
-							value={option.value}
-							checked={option.value === (props.value || "")}
-							required={props.required || false}
-							disabled={props.disabled || false}
-							onChange={props.onChange}
-							class="w-4 h-4 text-indigo-600 bg-white/70 border-indigo-200 focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
-						/>
-						<span>{option.label}</span>
-					</label>
+					<div>
+						<label
+							class={`inline-flex items-center ${
+								props.disabled
+									? "cursor-not-allowed opacity-50"
+									: "cursor-pointer"
+							}`}
+						>
+							<input
+								type="radio"
+								name={props.name}
+								value={option.value}
+								checked={option.value === (props.value || "")}
+								required={props.required || false}
+								disabled={props.disabled || false}
+								onChange={props.onChange}
+								class="w-4 h-4 text-indigo-600 bg-white/70 border-indigo-200 focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
+							/>
+							<span class="px-2">{option.label}</span>
+						</label>
+					</div>
 				)}
 			</For>
 		</div>
