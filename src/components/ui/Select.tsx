@@ -1,6 +1,6 @@
 import { For } from "solid-js";
 
-interface Props {
+export type SelectProps = {
 	name: string;
 	options: Array<{ value: string; label: string }>;
 	required?: boolean;
@@ -8,9 +8,9 @@ interface Props {
 	disabled?: boolean;
 	class?: string;
 	onChange?: (e: Event & { currentTarget: HTMLSelectElement }) => void;
-}
+};
 
-export default function Select(props: Props) {
+export default function Select(props: SelectProps) {
 	return (
 		<select
 			name={props.name}

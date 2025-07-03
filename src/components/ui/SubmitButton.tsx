@@ -1,15 +1,15 @@
 import type { JSX } from "solid-js";
 
-interface Props {
+export type SubmitButtonProps = {
 	type?: "submit" | "button";
 	variant?: "primary" | "secondary";
 	disabled?: boolean;
 	loading?: boolean;
 	class?: string;
 	children?: JSX.Element;
-}
+};
 
-export default function SubmitButton(props: Props) {
+export default function SubmitButton(props: SubmitButtonProps) {
 	const baseClasses =
 		"w-full px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed";
 

@@ -1,4 +1,4 @@
-interface Props {
+export type TextAreaProps = {
 	name: string;
 	placeholder?: string;
 	required?: boolean;
@@ -7,9 +7,9 @@ interface Props {
 	disabled?: boolean;
 	class?: string;
 	onInput?: (e: InputEvent & { currentTarget: HTMLTextAreaElement }) => void;
-}
+};
 
-export default function TextArea(props: Props) {
+export default function TextArea(props: TextAreaProps) {
 	return (
 		<textarea
 			name={props.name}

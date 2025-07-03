@@ -1,4 +1,4 @@
-interface Props {
+export type InputProps = {
 	type?: "text" | "email" | "tel" | "password" | "url" | "search";
 	name: string;
 	placeholder?: string;
@@ -11,9 +11,9 @@ interface Props {
 	pattern?: string;
 	title?: string;
 	onInput?: (e: InputEvent & { currentTarget: HTMLInputElement }) => void;
-}
+};
 
-export default function Input(props: Props) {
+export default function Input(props: InputProps) {
 	return (
 		<input
 			type={props.type || "text"}

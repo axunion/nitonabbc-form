@@ -1,21 +1,31 @@
 import { For } from "solid-js";
 
-export type RadioGroupProps = {
+export type CheckboxGroupProps = {
 	name: string;
 	options: Array<{ value: string; label: string }>;
-	orientation?: "vertical" | "horizontal";
+	value: string[];
 	required?: boolean;
-	value?: string;
 	disabled?: boolean;
 	class?: string;
-	onChange?: (e: Event & { currentTarget: HTMLInputElement }) => void;
+	orientation?: "vertical" | "horizontal";
+	onChange?: (selected: string[]) => void;
 };
 
-export default function RadioGroup(props: RadioGroupProps) {
+export default function CheckboxGroup(props: CheckboxGroupProps) {
 	const orientationClass =
 		props.orientation === "horizontal"
 			? "flex flex-wrap gap-x-2 gap-y-2"
 			: "space-y-2";
+
+	const handleChange = (checked: boolean, optionValue: string) => {
+		let newValue: string[];
+		if (checked) {
+			newValue = [...props.value, optionValue];
+		} else {
+			newValue = props.value.filter((v) => v !== optionValue);
+		}
+		props.onChange?.(newValue);
+	};
 
 	return (
 		<div class={`${orientationClass} ${props.class || ""}`}>
@@ -30,13 +40,15 @@ export default function RadioGroup(props: RadioGroupProps) {
 							}`}
 						>
 							<input
-								type="radio"
+								type="checkbox"
 								name={props.name}
 								value={option.value}
-								checked={option.value === (props.value || "")}
-								required={props.required || false}
+								checked={props.value.includes(option.value)}
+								required={props.required && props.value.length === 0}
 								disabled={props.disabled || false}
-								onChange={props.onChange}
+								onChange={(e) =>
+									handleChange(e.currentTarget.checked, option.value)
+								}
 								class="w-4 h-4 text-indigo-600 bg-white/70 border-indigo-200 focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
 							/>
 							<span class="px-2">{option.label}</span>
