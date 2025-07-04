@@ -1,11 +1,11 @@
 import type { JSX } from "solid-js";
 
-interface Props {
+export type FormSectionProps = {
 	class?: string;
 	children: JSX.Element;
-}
+};
 
-export default function FormSection(props: Props) {
+export default function FormSection(props: FormSectionProps) {
 	return (
 		<div
 			class={`bg-white/80 backdrop-blur-sm rounded-lg border border-indigo-200 ${

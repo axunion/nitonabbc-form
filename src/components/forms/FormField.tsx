@@ -1,13 +1,13 @@
 import type { JSX } from "solid-js";
 
-interface Props {
+export type FormFieldProps = {
 	class?: string;
 	label: string;
 	required?: boolean;
 	children: JSX.Element;
-}
+};
 
-export default function FormField(props: Props) {
+export default function FormField(props: FormFieldProps) {
 	return (
 		<div class={`space-y-2 ${props.class || ""}`}>
 			<div class="block text-sm font-medium">

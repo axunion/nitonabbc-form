@@ -1,13 +1,17 @@
-import FormContainer from "@/components/forms/FormContainer.tsx";
-import FormField from "@/components/forms/FormField.tsx";
-import FormSection from "@/components/forms/FormSection.tsx";
-import RecaptchaNotice from "@/components/forms/RecaptchaNotice.tsx";
-import CheckboxGroup from "@/components/ui/CheckboxGroup.tsx";
-import Input from "@/components/ui/Input.tsx";
-import RadioGroup from "@/components/ui/RadioGroup.tsx";
-import Select from "@/components/ui/Select.tsx";
-import SubmitButton from "@/components/ui/SubmitButton.tsx";
-import TextArea from "@/components/ui/TextArea.tsx";
+import {
+	FormContainer,
+	FormField,
+	FormSection,
+	RecaptchaNotice,
+} from "@/components/forms/";
+import {
+	CheckboxGroup,
+	Input,
+	RadioGroup,
+	Select,
+	SubmitButton,
+	TextArea,
+} from "@/components/ui/";
 
 const APPLICATION_DEADLINE = new Date("2025-07-28T12:00:00+09:00").getTime();
 

@@ -1,11 +1,11 @@
 import type { JSX } from "solid-js";
 
-interface Props {
+export type SuccessMessageProps = {
 	children: JSX.Element;
 	class?: string;
-}
+};
 
-export default function SuccessMessage(props: Props) {
+export default function SuccessMessage(props: SuccessMessageProps) {
 	return (
 		<div
 			class={`max-w-lg mx-auto ${props.class || ""}`}

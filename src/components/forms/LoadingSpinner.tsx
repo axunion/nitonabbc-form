@@ -1,9 +1,9 @@
-interface Props {
+export type LoadingSpinnerProps = {
 	size?: "sm" | "md" | "lg";
 	class?: string;
-}
+};
 
-export default function LoadingSpinner(props: Props) {
+export default function LoadingSpinner(props: LoadingSpinnerProps) {
 	const sizeClasses = {
 		sm: "w-6 h-6 border-2",
 		md: "w-12 h-12 border-3",

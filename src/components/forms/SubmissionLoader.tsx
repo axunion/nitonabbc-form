@@ -2,11 +2,11 @@ import { useScrollLock } from "@/hooks/useScrollLock";
 import { Show } from "solid-js";
 import { Portal } from "solid-js/web";
 
-interface Props {
+export type SubmissionLoaderProps = {
 	isVisible: boolean;
-}
+};
 
-export default function SubmissionLoader(props: Props) {
+export default function SubmissionLoader(props: SubmissionLoaderProps) {
 	useScrollLock(() => props.isVisible);
 
 	return (
