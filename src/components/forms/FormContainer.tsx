@@ -23,41 +23,19 @@ import { useForm } from "@/hooks/useForm";
 import { useTimestamp } from "@/hooks/useTimestamp";
 import { For, Show } from "solid-js";
 
-type BaseField = { label: string; name: string; required?: boolean };
-type FieldInput = { component: "Input" } & BaseField &
-	Omit<
-		InputProps,
-		"value" | "onInput" | "disabled" | "name" | "required" | "label"
-	>;
-type FieldSelect = { component: "Select" } & BaseField &
-	Omit<
-		SelectProps,
-		"value" | "onChange" | "disabled" | "name" | "required" | "label"
-	>;
-type FieldRadio = { component: "RadioGroup" } & BaseField &
-	Omit<
-		RadioGroupProps,
-		"value" | "onChange" | "disabled" | "name" | "required" | "label"
-	>;
-type FieldTextArea = { component: "TextArea" } & BaseField &
-	Omit<
-		TextAreaProps,
-		"value" | "onInput" | "disabled" | "name" | "required" | "label"
-	>;
-type FieldCheckboxGroup = { component: "CheckboxGroup" } & BaseField &
-	Omit<
-		CheckboxGroupProps,
-		"value" | "onChange" | "disabled" | "name" | "required" | "class"
-	> & {
-		class?: string;
-	};
+type StaticProps<T> = Omit<T, "value" | "onChange" | "onInput" | "disabled">;
+
+type FieldDef<TComponent, TProps> = {
+	component: TComponent;
+	label: string;
+} & StaticProps<TProps>;
 
 export type FormFieldDef =
-	| FieldInput
-	| FieldSelect
-	| FieldRadio
-	| FieldTextArea
-	| FieldCheckboxGroup;
+	| FieldDef<"Input", InputProps>
+	| FieldDef<"Select", SelectProps>
+	| FieldDef<"RadioGroup", RadioGroupProps>
+	| FieldDef<"TextArea", TextAreaProps>
+	| FieldDef<"CheckboxGroup", CheckboxGroupProps>;
 
 export type FormSectionDef = {
 	title?: string;
@@ -85,7 +63,6 @@ export default function FormContainer(props: FormContainerProps) {
 		isSubmitting,
 		submissionState,
 		handleInputChange,
-		handleCheckboxChange,
 		handleSubmit,
 	} = useForm(props.initialValues);
 
@@ -94,11 +71,6 @@ export default function FormContainer(props: FormContainerProps) {
 		return typeof v === "string" ? v : "";
 	};
 
-	const getChecked = (name: string, value: string) =>
-		Array.isArray(formData[name])
-			? (formData[name] as string[]).includes(value)
-			: false;
-
 	const renderField = (field: FormFieldDef) => {
 		const name = field.name;
 		const baseProps = {
@@ -106,6 +78,7 @@ export default function FormContainer(props: FormContainerProps) {
 			required: field.required,
 			disabled: isSubmitting(),
 		};
+
 		switch (field.component) {
 			case "Input": {
 				const { component, label, ...rest } = field;

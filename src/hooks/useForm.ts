@@ -16,20 +16,6 @@ export function useForm(initialData: Record<string, string | string[]>) {
 		setFormData(name, value);
 	};
 
-	const handleCheckboxChange = (
-		name: string,
-		value: string,
-		checked: boolean,
-	) => {
-		const currentValues = Array.isArray(formData[name])
-			? (formData[name] as string[])
-			: [];
-		const newValues = checked
-			? [...currentValues, value]
-			: currentValues.filter((v) => v !== value);
-		setFormData(name, newValues);
-	};
-
 	const handleSubmit = async (e: SubmitEvent) => {
 		e.preventDefault();
 
@@ -80,7 +66,6 @@ export function useForm(initialData: Record<string, string | string[]>) {
 		submissionState,
 		errorMessage,
 		handleInputChange,
-		handleCheckboxChange,
 		handleSubmit,
 		resetForm,
 	};
