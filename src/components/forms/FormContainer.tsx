@@ -1,58 +1,23 @@
 import ErrorMessage from "@/components/forms/ErrorMessage.tsx";
 import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
-import FormField from "@/components/forms/FormField.tsx";
-import FormSection from "@/components/forms/FormSection.tsx";
 import LoadingSpinner from "@/components/forms/LoadingSpinner.tsx";
-import RecaptchaNotice from "@/components/forms/RecaptchaNotice.tsx";
 import SubmissionLoader from "@/components/forms/SubmissionLoader.tsx";
 import SuccessMessage from "@/components/forms/SuccessMessage.tsx";
-import {
-	CheckboxGroup,
-	type CheckboxGroupProps,
-	Input,
-	type InputProps,
-	RadioGroup,
-	type RadioGroupProps,
-	Select,
-	type SelectProps,
-	TextArea,
-	type TextAreaProps,
-} from "@/components/ui";
-import SubmitButton from "@/components/ui/SubmitButton.tsx";
 import { useForm } from "@/hooks/useForm";
 import { useTimestamp } from "@/hooks/useTimestamp";
-import { For, Show } from "solid-js";
-
-type StaticProps<T> = Omit<T, "value" | "onChange" | "onInput" | "disabled">;
-
-type FieldDef<TComponent, TProps> = {
-	component: TComponent;
-	label: string;
-} & StaticProps<TProps>;
-
-export type FormFieldDef =
-	| FieldDef<"Input", InputProps>
-	| FieldDef<"Select", SelectProps>
-	| FieldDef<"RadioGroup", RadioGroupProps>
-	| FieldDef<"TextArea", TextAreaProps>
-	| FieldDef<"CheckboxGroup", CheckboxGroupProps>;
-
-export type FormSectionDef = {
-	title?: string;
-	fields: FormFieldDef[];
-};
-
-export type FormDef = {
-	sections: FormSectionDef[];
-	submitButtonText?: string;
-};
+import { type JSX, Show } from "solid-js";
 
 export type FormContainerProps = {
-	form: FormDef;
 	initialValues: Record<string, string | string[]>;
 	deadline?: number;
 	successMessage?: string;
 	errorMessage?: string;
+	children: (args: {
+		formData: Record<string, string | string[]>;
+		isSubmitting: () => boolean;
+		handleInputChange: (name: string, value: string | string[]) => void;
+		handleSubmit: (e: SubmitEvent) => Promise<boolean>;
+	}) => JSX.Element;
 };
 
 export default function FormContainer(props: FormContainerProps) {
@@ -65,93 +30,6 @@ export default function FormContainer(props: FormContainerProps) {
 		handleInputChange,
 		handleSubmit,
 	} = useForm(props.initialValues);
-
-	const getValue = (name: string) => {
-		const v = formData[name];
-		return typeof v === "string" ? v : "";
-	};
-
-	const renderField = (field: FormFieldDef) => {
-		const name = field.name;
-		const baseProps = {
-			name,
-			required: field.required,
-			disabled: isSubmitting(),
-		};
-
-		switch (field.component) {
-			case "Input": {
-				const { component, label, ...rest } = field;
-				return (
-					<Input
-						{...baseProps}
-						{...rest}
-						value={getValue(name)}
-						onInput={(e) => handleInputChange(name, e.currentTarget.value)}
-					/>
-				);
-			}
-			case "Select": {
-				const { component, label, options, ...rest } = field;
-				return (
-					<Select
-						{...baseProps}
-						{...rest}
-						options={options}
-						value={getValue(name)}
-						onChange={(e) => handleInputChange(name, e.currentTarget.value)}
-					/>
-				);
-			}
-			case "RadioGroup": {
-				const { component, label, options, ...rest } = field;
-				return (
-					<RadioGroup
-						{...baseProps}
-						{...rest}
-						options={options}
-						value={getValue(name)}
-						onChange={(e) => handleInputChange(name, e.currentTarget.value)}
-					/>
-				);
-			}
-			case "CheckboxGroup": {
-				const {
-					component,
-					label,
-					options,
-					orientation,
-					class: className,
-					...rest
-				} = field;
-				return (
-					<CheckboxGroup
-						name={name}
-						options={options}
-						value={
-							Array.isArray(formData[name]) ? (formData[name] as string[]) : []
-						}
-						required={field.required}
-						disabled={isSubmitting()}
-						orientation={orientation}
-						class={className}
-						onChange={(selected: string[]) => handleInputChange(name, selected)}
-					/>
-				);
-			}
-			case "TextArea": {
-				const { component, label, ...rest } = field;
-				return (
-					<TextArea
-						{...baseProps}
-						{...rest}
-						value={getValue(name)}
-						onInput={(e) => handleInputChange(name, e.currentTarget.value)}
-					/>
-				);
-			}
-		}
-	};
 
 	return (
 		<>
@@ -183,26 +61,12 @@ export default function FormContainer(props: FormContainerProps) {
 					}
 				>
 					<form onSubmit={handleSubmit} class="space-y-4" novalidate={false}>
-						<For each={props.form.sections}>
-							{(section) => (
-								<FormSection>
-									{section.title && (
-										<h2 class="text-lg font-semibold mb-6">{section.title}</h2>
-									)}
-									<For each={section.fields}>
-										{(field) => (
-											<FormField label={field.label} required={field.required}>
-												{renderField(field)}
-											</FormField>
-										)}
-									</For>
-								</FormSection>
-							)}
-						</For>
-						<RecaptchaNotice />
-						<SubmitButton loading={isSubmitting()}>
-							{props.form.submitButtonText || "送信する"}
-						</SubmitButton>
+						{props.children({
+							formData,
+							isSubmitting,
+							handleInputChange,
+							handleSubmit,
+						})}
 					</form>
 				</Show>
 

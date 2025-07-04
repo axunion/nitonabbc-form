@@ -1,110 +1,9 @@
 ---
-import FormContainer, {
-	type FormDef,
-} from "@/components/forms/FormContainer.tsx";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import Main from "@/components/layout/Main.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
-
-const APPLICATION_DEADLINE = new Date("2025-07-28T12:00:00+09:00").getTime();
-
-const initialFormData = {
-	fullName: "",
-	email: "",
-	phone: "",
-	occupation: "",
-	experience: "",
-	interests: [],
-	comments: "",
-};
-
-const form: FormDef = {
-	sections: [
-		{
-			title: "基本情報",
-			fields: [
-				{
-					component: "Input",
-					label: "氏名",
-					name: "fullName",
-					type: "text",
-					placeholder: "山田 太郎",
-					required: true,
-					minlength: 2,
-				},
-				{
-					component: "Input",
-					label: "メールアドレス",
-					name: "email",
-					type: "email",
-					placeholder: "example@example.com",
-					required: true,
-				},
-				{
-					component: "Input",
-					label: "電話番号",
-					name: "phone",
-					type: "tel",
-					placeholder: "090-1234-5678",
-					pattern: "[\\d\\-\\+\\(\\)\\s]+",
-					title: "正しい電話番号を入力してください",
-				},
-				{
-					component: "Select",
-					label: "職業",
-					name: "occupation",
-					required: true,
-					options: [
-						{ value: "", label: "選択してください" },
-						{ value: "student", label: "学生" },
-						{ value: "engineer", label: "エンジニア" },
-						{ value: "other", label: "その他" },
-					],
-				},
-			],
-		},
-		{
-			title: "スキル・経験",
-			fields: [
-				{
-					component: "RadioGroup",
-					label: "プログラミング経験",
-					name: "experience",
-					required: true,
-					orientation: "horizontal",
-					options: [
-						{ value: "beginner", label: "初心者" },
-						{ value: "intermediate", label: "中級者" },
-						{ value: "advanced", label: "上級者" },
-					],
-				},
-				{
-					component: "CheckboxGroup",
-					label: "興味のある分野",
-					name: "interests",
-					options: [
-						{ value: "web", label: "Web開発" },
-						{ value: "mobile", label: "モバイルアプリ" },
-						{ value: "ai", label: "AI・機械学習" },
-					],
-				},
-			],
-		},
-		{
-			title: "ご意見・ご要望",
-			fields: [
-				{
-					component: "TextArea",
-					label: "ご意見・ご要望",
-					name: "comments",
-					placeholder: "ご自由にお書きください",
-				},
-			],
-		},
-	],
-	submitButtonText: "送信する",
-};
+import ApplyForm from "./_apply-form.tsx";
 ---
 
 <FormLayout
@@ -124,12 +23,7 @@ const form: FormDef = {
 	</Header>
 
 	<Main>
-		<FormContainer
-			form={form}
-			initialValues={initialFormData}
-			deadline={APPLICATION_DEADLINE}
-			client:load
-		/>
+		<ApplyForm client:load />
 	</Main>
 
 	<Footer>
