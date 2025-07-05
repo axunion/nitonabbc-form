@@ -1,7 +1,7 @@
 import type { FormSubmissionResult, TimestampResponse } from "@/types/api";
 
 export async function submitForm(
-	formData: Record<string, string | string[]>,
+	formData: Record<string, string>,
 	recaptchaToken?: string,
 ): Promise<FormSubmissionResult> {
 	await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -31,7 +31,7 @@ export async function submitForm(
 }
 
 async function submitToGoogleAppsScript(
-	formData: Record<string, string | string[]>,
+	formData: Record<string, string>,
 	recaptchaToken?: string,
 ): Promise<FormSubmissionResult> {
 	const { config } = await import("@/config/env");

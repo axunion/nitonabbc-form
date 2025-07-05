@@ -5,7 +5,7 @@ import {
 	RecaptchaNotice,
 } from "@/components/forms/";
 import {
-	CheckboxGroup,
+	Checkbox,
 	Input,
 	RadioGroup,
 	Select,
@@ -21,7 +21,9 @@ const initialFormData = {
 	phone: "",
 	occupation: "",
 	experience: "",
-	interests: [],
+	webDevelopment: "",
+	dataScience: "",
+	mobileDevelopment: "",
 	comments: "",
 };
 
@@ -41,7 +43,7 @@ export default function ApplyForm() {
 								type="text"
 								name="fullName"
 								placeholder="山田 太郎"
-								value={formData.fullName as string}
+								value={formData.fullName}
 								disabled={isSubmitting()}
 								onInput={(e) =>
 									handleInputChange("fullName", e.currentTarget.value)
@@ -56,7 +58,7 @@ export default function ApplyForm() {
 								type="email"
 								name="email"
 								placeholder="example@example.com"
-								value={formData.email as string}
+								value={formData.email}
 								disabled={isSubmitting()}
 								onInput={(e) =>
 									handleInputChange("email", e.currentTarget.value)
@@ -70,7 +72,7 @@ export default function ApplyForm() {
 								type="tel"
 								name="phone"
 								placeholder="090-1234-5678"
-								value={formData.phone as string}
+								value={formData.phone}
 								disabled={isSubmitting()}
 								onInput={(e) =>
 									handleInputChange("phone", e.currentTarget.value)
@@ -89,7 +91,7 @@ export default function ApplyForm() {
 									{ value: "engineer", label: "エンジニア" },
 									{ value: "other", label: "その他" },
 								]}
-								value={formData.occupation as string}
+								value={formData.occupation}
 								disabled={isSubmitting()}
 								onChange={(e) =>
 									handleInputChange("occupation", e.currentTarget.value)
@@ -111,7 +113,7 @@ export default function ApplyForm() {
 									{ value: "advanced", label: "上級者" },
 								]}
 								orientation="horizontal"
-								value={formData.experience as string}
+								value={formData.experience}
 								disabled={isSubmitting()}
 								onChange={(e) =>
 									handleInputChange("experience", e.currentTarget.value)
@@ -123,18 +125,48 @@ export default function ApplyForm() {
 						<FormField label="興味のある分野">
 							<p class="text-sm text-gray-500 mb-2">複数選択可</p>
 							<div class="space-y-2">
-								<CheckboxGroup
-									name="interests"
-									options={[
-										{ value: "web_development", label: "Web開発" },
-										{ value: "data_science", label: "データサイエンス" },
-										{ value: "mobile_development", label: "モバイル開発" },
-										{ value: "other", label: "その他" },
-									]}
-									value={formData.interests as string[]}
+								<Checkbox
+									name="webDevelopment"
+									value="Web開発"
+									checked={formData.webDevelopment === "Web開発"}
 									disabled={isSubmitting()}
-									onChange={(values) => handleInputChange("interests", values)}
-								/>
+									onChange={(checked) =>
+										handleInputChange(
+											"webDevelopment",
+											checked ? "Web開発" : "",
+										)
+									}
+								>
+									Web開発
+								</Checkbox>
+								<Checkbox
+									name="dataScience"
+									value="データサイエンス"
+									checked={formData.dataScience === "データサイエンス"}
+									disabled={isSubmitting()}
+									onChange={(checked) =>
+										handleInputChange(
+											"dataScience",
+											checked ? "データサイエンス" : "",
+										)
+									}
+								>
+									データサイエンス
+								</Checkbox>
+								<Checkbox
+									name="mobileDevelopment"
+									value="モバイル開発"
+									checked={formData.mobileDevelopment === "モバイル開発"}
+									disabled={isSubmitting()}
+									onChange={(checked) =>
+										handleInputChange(
+											"mobileDevelopment",
+											checked ? "モバイル開発" : "",
+										)
+									}
+								>
+									モバイル開発
+								</Checkbox>
 							</div>
 						</FormField>
 					</FormSection>
@@ -145,7 +177,7 @@ export default function ApplyForm() {
 							<TextArea
 								name="comments"
 								placeholder="ご自由にお書きください"
-								value={formData.comments as string}
+								value={formData.comments}
 								disabled={isSubmitting()}
 								onInput={(e) =>
 									handleInputChange("comments", e.currentTarget.value)

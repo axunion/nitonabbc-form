@@ -8,14 +8,14 @@ import { useTimestamp } from "@/hooks/useTimestamp";
 import { type JSX, Show } from "solid-js";
 
 export type FormContainerProps = {
-	initialValues: Record<string, string | string[]>;
+	initialValues: Record<string, string>;
 	deadline?: number;
 	successMessage?: string;
 	errorMessage?: string;
 	children: (args: {
-		formData: Record<string, string | string[]>;
+		formData: Record<string, string>;
 		isSubmitting: () => boolean;
-		handleInputChange: (name: string, value: string | string[]) => void;
+		handleInputChange: (name: string, value: string) => void;
 		handleSubmit: (e: SubmitEvent) => Promise<boolean>;
 	}) => JSX.Element;
 };

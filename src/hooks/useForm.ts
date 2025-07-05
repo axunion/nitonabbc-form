@@ -5,14 +5,14 @@ import { createStore } from "solid-js/store";
 
 export type SubmissionState = "idle" | "submitting" | "success" | "error";
 
-export function useForm(initialData: Record<string, string | string[]>) {
+export function useForm(initialData: Record<string, string>) {
 	const [formData, setFormData] = createStore(initialData);
 	const [isSubmitting, setIsSubmitting] = createSignal(false);
 	const [submissionState, setSubmissionState] =
 		createSignal<SubmissionState>("idle");
 	const [errorMessage, setErrorMessage] = createSignal("");
 
-	const handleInputChange = (name: string, value: string | string[]) => {
+	const handleInputChange = (name: string, value: string) => {
 		setFormData(name, value);
 	};
 

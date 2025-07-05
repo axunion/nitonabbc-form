@@ -8,5 +8,5 @@ export { default as TextArea } from "./TextArea";
 export type { TextAreaProps } from "./TextArea";
 export { default as SubmitButton } from "./SubmitButton";
 export type { SubmitButtonProps } from "./SubmitButton";
-export { default as CheckboxGroup } from "./CheckboxGroup";
-export type { CheckboxGroupProps } from "./CheckboxGroup";
+export { default as Checkbox } from "./Checkbox";
+export type { CheckboxProps } from "./Checkbox";
