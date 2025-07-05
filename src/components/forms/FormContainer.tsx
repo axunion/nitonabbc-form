@@ -3,33 +3,22 @@ import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 import LoadingSpinner from "@/components/forms/LoadingSpinner.tsx";
 import SubmissionLoader from "@/components/forms/SubmissionLoader.tsx";
 import SuccessMessage from "@/components/forms/SuccessMessage.tsx";
-import { useForm } from "@/hooks/useForm";
+import type { SubmissionState } from "@/hooks/useForm";
 import { useTimestamp } from "@/hooks/useTimestamp";
 import { type JSX, Show } from "solid-js";
 
 export type FormContainerProps = {
-	initialValues: Record<string, string>;
+	isSubmitting: () => boolean;
+	submissionState: () => SubmissionState;
 	deadline?: number;
 	successMessage?: string;
 	errorMessage?: string;
-	children: (args: {
-		formData: Record<string, string>;
-		isSubmitting: () => boolean;
-		handleInputChange: (name: string, value: string) => void;
-		handleSubmit: (e: SubmitEvent) => Promise<boolean>;
-	}) => JSX.Element;
+	children: JSX.Element;
 };
 
 export default function FormContainer(props: FormContainerProps) {
 	const deadline = props.deadline ?? Number.MAX_SAFE_INTEGER;
 	const { timestampState } = useTimestamp(deadline);
-	const {
-		formData,
-		isSubmitting,
-		submissionState,
-		handleInputChange,
-		handleSubmit,
-	} = useForm(props.initialValues);
 
 	return (
 		<>
@@ -57,20 +46,14 @@ export default function FormContainer(props: FormContainerProps) {
 			<Show when={timestampState() === "valid"}>
 				<Show
 					when={
-						submissionState() === "idle" || submissionState() === "submitting"
+						props.submissionState() === "idle" ||
+						props.submissionState() === "submitting"
 					}
 				>
-					<form onSubmit={handleSubmit} class="space-y-4" novalidate={false}>
-						{props.children({
-							formData,
-							isSubmitting,
-							handleInputChange,
-							handleSubmit,
-						})}
-					</form>
+					{props.children}
 				</Show>
 
-				<Show when={submissionState() === "success"}>
+				<Show when={props.submissionState() === "success"}>
 					<SuccessMessage>
 						<h2 class="text-2xl font-bold text-green-800 mb-4">
 							送信が完了しました
@@ -81,7 +64,7 @@ export default function FormContainer(props: FormContainerProps) {
 					</SuccessMessage>
 				</Show>
 
-				<Show when={submissionState() === "error"}>
+				<Show when={props.submissionState() === "error"}>
 					<ErrorMessage>
 						<h2 class="text-2xl font-bold text-red-800 mb-4">
 							送信に失敗しました
@@ -93,7 +76,7 @@ export default function FormContainer(props: FormContainerProps) {
 				</Show>
 			</Show>
 
-			<SubmissionLoader isVisible={isSubmitting()} />
+			<SubmissionLoader isVisible={props.isSubmitting()} />
 		</>
 	);
 }

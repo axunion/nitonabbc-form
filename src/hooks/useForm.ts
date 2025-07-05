@@ -12,9 +12,40 @@ export function useForm(initialData: Record<string, string>) {
 		createSignal<SubmissionState>("idle");
 	const [errorMessage, setErrorMessage] = createSignal("");
 
-	const handleInputChange = (name: string, value: string) => {
-		setFormData(name, value);
+	const resetForm = () => {
+		setFormData(initialData);
 	};
+
+	const bindInput = (name: string) => ({
+		name,
+		value: formData[name],
+		disabled: isSubmitting(),
+		onInput: (
+			e: Event & {
+				currentTarget: HTMLInputElement | HTMLTextAreaElement;
+			},
+		) => setFormData(name, e.currentTarget.value),
+	});
+
+	const bindChange = (name: string) => ({
+		name,
+		value: formData[name],
+		disabled: isSubmitting(),
+		onChange: (
+			e: Event & {
+				currentTarget: HTMLInputElement | HTMLSelectElement;
+			},
+		) => setFormData(name, e.currentTarget.value),
+	});
+
+	const bindCheckbox = (name: string, checkedValue: string) => ({
+		name,
+		value: checkedValue,
+		checked: formData[name] === checkedValue,
+		disabled: isSubmitting(),
+		onChange: (checked: boolean) =>
+			setFormData(name, checked ? checkedValue : ""),
+	});
 
 	const handleSubmit = async (e: SubmitEvent) => {
 		e.preventDefault();
@@ -56,17 +87,16 @@ export function useForm(initialData: Record<string, string>) {
 		}
 	};
 
-	const resetForm = () => {
-		setFormData(initialData);
-	};
-
 	return {
 		formData,
+		setFormData,
 		isSubmitting,
 		submissionState,
 		errorMessage,
-		handleInputChange,
-		handleSubmit,
 		resetForm,
+		bindInput,
+		bindChange,
+		bindCheckbox,
+		handleSubmit,
 	};
 }
