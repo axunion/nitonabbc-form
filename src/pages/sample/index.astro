@@ -3,32 +3,26 @@ import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import Main from "@/components/layout/Main.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
-import ApplyForm from "./_apply-form.tsx";
+import SampleForm from "./_sample-form.tsx";
 ---
 
 <FormLayout
-	title="テクノロジー勉強会 2025年6月"
+	title="テクノロジー勉強会"
 	description="プログラミングとテクノロジーの勉強会への申し込みフォーム"
 >
 	<Header>
 		<h1 slot="title" class="text-3xl md:text-5xl font-bold tracking-tight">
-			テクノロジー勉強会 2025年6月
+			テクノロジー勉強会
 		</h1>
-		<p
-			slot="description"
-			class="text-lg md:text-xl text-blue-100 max-w-2xl mx-auto"
-		>
-			2025年6月28日（土）13:00-17:00 開催
-		</p>
 	</Header>
 
 	<Main>
-		<ApplyForm client:load />
+		<SampleForm client:load />
 	</Main>
 
 	<Footer>
 		<p class="pt-12">
-			<small> © 2025 テクノロジー勉強会実行委員会. </small>
+			<small>© 2025 テクノロジー勉強会実行委員会</small>
 		</p>
 	</Footer>
 </FormLayout>

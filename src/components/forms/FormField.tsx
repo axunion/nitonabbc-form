@@ -2,7 +2,7 @@ import type { JSX } from "solid-js";
 
 export type FormFieldProps = {
 	class?: string;
-	label: string;
+	label?: string;
 	required?: boolean;
 	children: JSX.Element;
 };
@@ -14,16 +14,18 @@ export default function FormField(props: FormFieldProps) {
 				props.class || ""
 			}`}
 		>
-			<div class="text-sm">
-				{props.label}
-				{props.required && (
-					<span class="text-red-400 ml-1" aria-label="required">
-						*
-					</span>
-				)}
-			</div>
+			{props.label && (
+				<div class="text-sm mb-8">
+					{props.label}
+					{props.required && (
+						<span class="text-red-400 ml-1" aria-label="required">
+							*
+						</span>
+					)}
+				</div>
+			)}
 
-			<div class="mt-8">{props.children}</div>
+			{props.children}
 		</div>
 	);
 }
