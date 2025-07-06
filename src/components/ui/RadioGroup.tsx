@@ -14,7 +14,7 @@ export type RadioGroupProps = {
 export default function RadioGroup(props: RadioGroupProps) {
 	const orientationClass =
 		props.orientation === "horizontal"
-			? "flex flex-wrap gap-x-2 gap-y-2"
+			? "flex flex-wrap gap-x-4 gap-y-2"
 			: "space-y-2";
 
 	return (
@@ -37,7 +37,7 @@ export default function RadioGroup(props: RadioGroupProps) {
 								required={props.required || false}
 								disabled={props.disabled || false}
 								onChange={props.onChange}
-								class="w-4 h-4 text-indigo-600 bg-white/70 border-indigo-200 focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
+								class="w-4 h-4 border-indigo-200 focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
 							/>
 							<span class="px-2">{option.label}</span>
 						</label>

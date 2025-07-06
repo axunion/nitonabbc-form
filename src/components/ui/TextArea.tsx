@@ -11,18 +11,20 @@ export type TextAreaProps = {
 
 export default function TextArea(props: TextAreaProps) {
 	return (
-		<textarea
-			name={props.name}
-			placeholder={props.placeholder}
-			required={props.required || false}
-			rows={props.rows || 4}
-			value={props.value || ""}
-			disabled={props.disabled || false}
-			onInput={props.onInput}
-			class={`w-full px-3 py-2 border border-indigo-200 rounded-md bg-white/70 backdrop-blur-sm focus:outline-none focus:border-indigo-400 focus:bg-white transition-colors resize-vertical disabled:opacity-50 disabled:cursor-not-allowed ${
-				props.class || ""
-			}`}
-			aria-describedby={`${props.name}-description`}
-		/>
+		<div class="p-2 rounded-md border border-indigo-200">
+			<textarea
+				name={props.name}
+				placeholder={props.placeholder}
+				required={props.required || false}
+				rows={props.rows || 4}
+				value={props.value || ""}
+				disabled={props.disabled || false}
+				onInput={props.onInput}
+				class={`appearance-none w-full bg-transparent focus:outline-none resize-none disabled:opacity-50 disabled:cursor-not-allowed ${
+					props.class || ""
+				}`}
+				aria-describedby={`${props.name}-description`}
+			/>
+		</div>
 	);
 }

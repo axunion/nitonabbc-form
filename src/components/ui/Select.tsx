@@ -12,20 +12,38 @@ export type SelectProps = {
 
 export default function Select(props: SelectProps) {
 	return (
-		<select
-			name={props.name}
-			required={props.required}
-			value={props.value || ""}
-			disabled={props.disabled}
-			onChange={props.onChange}
-			class={`w-full px-3 py-2 border border-indigo-200 rounded-md bg-white/70 backdrop-blur-sm focus:outline-none focus:border-indigo-400 focus:bg-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-				props.class || ""
-			}`}
-			aria-describedby={`${props.name}-description`}
-		>
-			<For each={props.options}>
-				{(option) => <option value={option.value}>{option.label}</option>}
-			</For>
-		</select>
+		<div class="relative px-2 pb-1 border-b border-indigo-200">
+			<select
+				name={props.name}
+				required={props.required}
+				value={props.value || ""}
+				disabled={props.disabled}
+				onChange={props.onChange}
+				class={`appearance-none w-full border-0 bg-transparent focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
+					props.class || ""
+				}`}
+				aria-describedby={`${props.name}-description`}
+			>
+				<For each={props.options}>
+					{(option) => <option value={option.value}>{option.label}</option>}
+				</For>
+			</select>
+
+			<span
+				class="pointer-events-none absolute right-1 top-1 text-indigo-400"
+				aria-hidden="true"
+			>
+				<svg
+					width="20"
+					height="20"
+					viewBox="0 0 20 20"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<title>Dropdown arrow</title>
+					<polygon points="6,8 10,13 14,8" fill="currentColor" />
+				</svg>
+			</span>
+		</div>
 	);
 }

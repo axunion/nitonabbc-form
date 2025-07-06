@@ -33,7 +33,7 @@ export default function Checkbox(props: CheckboxProps) {
 					required={props.required || false}
 					disabled={props.disabled || false}
 					onChange={handleChange}
-					class="w-4 h-4 text-indigo-600 bg-white/70 border-indigo-200 rounded focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
+					class="w-4 h-4 border-indigo-200 rounded focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
 				/>
 				<span class="px-2">{props.children}</span>
 			</label>

@@ -6,8 +6,6 @@ export { default as FormContainer } from "./FormContainer";
 export type { FormContainerProps } from "./FormContainer";
 export { default as FormField } from "./FormField";
 export type { FormFieldProps } from "./FormField";
-export { default as FormSection } from "./FormSection";
-export type { FormSectionProps } from "./FormSection";
 export { default as LoadingSpinner } from "./LoadingSpinner";
 export type { LoadingSpinnerProps } from "./LoadingSpinner";
 export { default as RecaptchaNotice } from "./RecaptchaNotice";

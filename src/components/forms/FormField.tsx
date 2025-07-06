@@ -9,17 +9,21 @@ export type FormFieldProps = {
 
 export default function FormField(props: FormFieldProps) {
 	return (
-		<div class={`space-y-2 ${props.class || ""}`}>
-			<div class="block text-sm font-medium">
+		<div
+			class={`p-4 md:p-6 bg-white/80 backdrop-blur-sm rounded-sm border border-indigo-200 ${
+				props.class || ""
+			}`}
+		>
+			<div class="text-sm">
 				{props.label}
 				{props.required && (
-					<span class="text-red-500 ml-1" aria-label="必須">
+					<span class="text-red-400 ml-1" aria-label="required">
 						*
 					</span>
 				)}
 			</div>
 
-			{props.children}
+			<div class="mt-8">{props.children}</div>
 		</div>
 	);
 }
