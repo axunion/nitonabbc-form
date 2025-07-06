@@ -8,6 +8,7 @@ import {
 	TextArea,
 } from "@/components/ui/";
 import { useForm } from "@/hooks/useForm";
+import { createSignal, createEffect } from "solid-js";
 
 const APPLICATION_DEADLINE = new Date("2025-08-04T00:00:00+09:00").getTime();
 
@@ -17,19 +18,51 @@ const initialFormData = {
 	kanaName: "",
 	age: "",
 	address: "",
-	gender: "",
-	participantType: "",
-	faithStatus: "",
-	day1Dinner: "",
-	day1Accommodation: "",
-	day2Breakfast: "",
-	day2Lunch: "",
+	gender: "男性",
+	participantType: "一般",
+	faithStatus: "信者",
+	day1Dinner: "true",
+	day1Accommodation: "true",
+	day2Breakfast: "true",
+	day2Lunch: "true",
 	workshop1: "",
 	workshop2: "",
 };
 
+const FEE_MAP = {
+	day1Dinner: 1100,
+	day1Accommodation: 5200,
+	day2Breakfast: 800,
+	day2Lunch: 900,
+};
+
+const WORKSHOP_LIST = [
+	{
+		label: "神様が導かれる結婚への道のり",
+		value: "神様が導かれる結婚への道のり",
+	},
+	{ label: "献身の意味とその歩み", value: "献身の意味とその歩み" },
+	{ label: "神様に喜ばれる働き方", value: "神様に喜ばれる働き方" },
+	{
+		label: "奉仕を通して受ける豊かな祝福",
+		value: "奉仕を通して受ける豊かな祝福",
+	},
+];
+
+const calcTotal = (formData: Record<string, string>) => {
+	return (
+		(formData.participantType === "一般" ? 1500 : 500) +
+		(formData.day1Dinner === "true" ? FEE_MAP.day1Dinner : 0) +
+		(formData.day1Accommodation === "true" ? FEE_MAP.day1Accommodation : 0) +
+		(formData.day2Breakfast === "true" ? FEE_MAP.day2Breakfast : 0) +
+		(formData.day2Lunch === "true" ? FEE_MAP.day2Lunch : 0)
+	);
+};
+
 export default function ApplyForm() {
 	const {
+		formData,
+		setFormData,
 		bindInput,
 		bindChange,
 		bindCheckbox,
@@ -37,6 +70,19 @@ export default function ApplyForm() {
 		submissionState,
 		handleSubmit,
 	} = useForm(initialFormData);
+
+	const [participationType, setParticipationType] = createSignal("full");
+
+	createEffect(() => {
+		if (participationType() === "full") {
+			setFormData({
+				day1Dinner: "true",
+				day1Accommodation: "true",
+				day2Breakfast: "true",
+				day2Lunch: "true",
+			});
+		}
+	});
 
 	return (
 		<FormContainer
@@ -132,40 +178,73 @@ export default function ApplyForm() {
 					/>
 				</FormField>
 
-				<FormField label="参加希望">
-					<Checkbox {...bindCheckbox("day1Dinner", "true")}>1日目夕食</Checkbox>
+				<FormField label="参加形式" required>
+					<RadioGroup
+						options={[
+							{ label: "全日参加", value: "full" },
+							{ label: "部分参加", value: "partial" },
+						]}
+						required
+						orientation="horizontal"
+						name="participationType"
+						value={participationType()}
+						onChange={(e) => setParticipationType(e.currentTarget.value)}
+					/>
 
-					<Checkbox {...bindCheckbox("day1Accommodation", "true")}>
-						1日目宿泊
-					</Checkbox>
+					{participationType() === "partial" && (
+						<div class="mt-4">
+							<div class="px-4 space-y-2">
+								<Checkbox {...bindCheckbox("day1Dinner", "true")}>
+									1日目 夕食
+								</Checkbox>
+								<Checkbox {...bindCheckbox("day1Accommodation", "true")}>
+									1日目 宿泊
+								</Checkbox>
+								<Checkbox {...bindCheckbox("day2Breakfast", "true")}>
+									2日目 朝食
+								</Checkbox>
+								<Checkbox {...bindCheckbox("day2Lunch", "true")}>
+									2日目 昼食
+								</Checkbox>
+							</div>
 
-					<Checkbox {...bindCheckbox("day2Breakfast", "true")}>
-						2日目朝食
-					</Checkbox>
-
-					<Checkbox {...bindCheckbox("day2Lunch", "true")}>2日目昼食</Checkbox>
+							<div class="mt-2 pt-2 pl-12 border-t border-gray-300">
+								&yen; {calcTotal(formData).toLocaleString()} -
+							</div>
+						</div>
+					)}
 				</FormField>
 
 				<FormField label="分科会第1希望" required>
 					<Select
-						options={[
-							{ label: "A: 賛美", value: "a" },
-							{ label: "B: 祈り", value: "b" },
-							{ label: "C: 伝道", value: "c" },
-						]}
-						{...bindChange("workshop1")}
+						options={WORKSHOP_LIST}
+						name="workshop1"
+						value={formData.workshop1}
+						onChange={(e) => {
+							const value = e.currentTarget.value;
+							setFormData({ workshop1: value });
+
+							if (formData.workshop2 === value) {
+								setFormData({ workshop2: "" });
+							}
+						}}
 						required
 					/>
 				</FormField>
 
 				<FormField label="分科会第2希望" required>
 					<Select
-						options={[
-							{ label: "A: 賛美", value: "a" },
-							{ label: "B: 祈り", value: "b" },
-							{ label: "C: 伝道", value: "c" },
-						]}
-						{...bindChange("workshop2")}
+						options={WORKSHOP_LIST}
+						name="workshop2"
+						value={formData.workshop2}
+						onChange={(e) => {
+							const value = e.currentTarget.value;
+							setFormData({ workshop2: value });
+
+							if (formData.workshop1 === value) {
+								setFormData({ workshop1: "" });
+							}
+						}}
 						required
 					/>
 				</FormField>
