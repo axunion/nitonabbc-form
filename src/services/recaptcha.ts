@@ -13,11 +13,6 @@ declare global {
 }
 
 export async function getReCaptchaToken(action = "submit"): Promise<string> {
-	if (!config.recaptcha.siteKey) {
-		console.warn("reCAPTCHA site key not configured");
-		return "";
-	}
-
 	return new Promise((resolve, reject) => {
 		if (typeof window === "undefined" || !window.grecaptcha) {
 			console.warn("reCAPTCHA not loaded");

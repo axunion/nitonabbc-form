@@ -21,8 +21,7 @@ export function useTimestamp(deadlineTimestamp: number) {
 				return;
 			}
 
-			const currentTime = response.timestamp;
-			if (currentTime > deadlineTimestamp) {
+			if (response.timestamp && response.timestamp > deadlineTimestamp) {
 				setTimestampState("expired");
 			} else {
 				setTimestampState("valid");

@@ -116,6 +116,8 @@ export default function ApplyForm() {
 						type="text"
 						minlength="1"
 						maxlength="32"
+						pattern="^[\u3040-\u309F]+$"
+						title="ひらがなで入力してください"
 						required
 						{...bindInput("kanaName")}
 					/>
@@ -126,6 +128,8 @@ export default function ApplyForm() {
 						type="text"
 						minlength="1"
 						maxlength="2"
+						pattern="\d{1,2}"
+						title="1〜2桁の数字を入力してください"
 						required
 						{...bindInput("age")}
 					/>
