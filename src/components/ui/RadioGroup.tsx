@@ -1,13 +1,13 @@
 import { For } from "solid-js";
 
 export type RadioGroupProps = {
+	class?: string;
 	name: string;
 	options: Array<{ value: string; label: string }>;
 	orientation?: "vertical" | "horizontal";
 	required?: boolean;
 	value?: string;
 	disabled?: boolean;
-	class?: string;
 	onChange?: (e: Event & { currentTarget: HTMLInputElement }) => void;
 };
 
@@ -33,9 +33,9 @@ export default function RadioGroup(props: RadioGroupProps) {
 								type="radio"
 								name={props.name}
 								value={option.value}
-								checked={option.value === (props.value || "")}
-								required={props.required || false}
-								disabled={props.disabled || false}
+								checked={option.value === props.value}
+								required={props.required}
+								disabled={props.disabled}
 								onChange={props.onChange}
 								class="w-4 h-4 border-indigo-200 focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
 							/>

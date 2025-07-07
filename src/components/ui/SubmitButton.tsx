@@ -1,11 +1,11 @@
 import type { JSX } from "solid-js";
 
 export type SubmitButtonProps = {
+	class?: string;
 	type?: "submit" | "button";
 	variant?: "primary" | "secondary";
 	disabled?: boolean;
 	loading?: boolean;
-	class?: string;
 	children?: JSX.Element;
 };
 

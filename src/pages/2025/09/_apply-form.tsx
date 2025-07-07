@@ -8,11 +8,12 @@ import {
 	TextArea,
 } from "@/components/ui/";
 import { useForm } from "@/hooks/useForm";
-import { createSignal, createEffect } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 
 const APPLICATION_DEADLINE = new Date("2025-08-04T00:00:00+09:00").getTime();
 
 const initialFormData = {
+	type: "202509a",
 	churchName: "",
 	fullName: "",
 	kanaName: "",
@@ -27,6 +28,7 @@ const initialFormData = {
 	day2Lunch: "true",
 	workshop1: "",
 	workshop2: "",
+	comments: "",
 };
 
 const FEE_MAP = {
@@ -139,7 +141,7 @@ export default function ApplyForm() {
 					<Input
 						type="text"
 						minlength="1"
-						maxlength="128"
+						maxlength="256"
 						required
 						{...bindInput("address")}
 					/>
@@ -254,7 +256,7 @@ export default function ApplyForm() {
 				</FormField>
 
 				<FormField label="備考">
-					<TextArea {...bindInput("comments")} rows={4} />
+					<TextArea maxlength="1024" {...bindInput("comments")} />
 				</FormField>
 
 				<RecaptchaNotice />

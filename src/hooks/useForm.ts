@@ -62,7 +62,7 @@ export function useForm(initialData: Record<string, string>) {
 		setErrorMessage("");
 
 		try {
-			const recaptchaToken = await getReCaptchaToken("form_submit");
+			const recaptchaToken = await getReCaptchaToken();
 			const result = await submitForm(formData, recaptchaToken);
 
 			if (result.result === "done") {

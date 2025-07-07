@@ -1,13 +1,13 @@
 export type InputProps = {
+	class?: string;
 	type?: "text" | "email" | "tel" | "password" | "url" | "search";
 	name: string;
 	placeholder?: string;
 	required?: boolean;
 	value?: string;
 	disabled?: boolean;
-	class?: string;
-	minlength?: string | number;
-	maxlength?: string | number;
+	minlength?: string;
+	maxlength?: string;
 	pattern?: string;
 	title?: string;
 	onInput?: (e: InputEvent & { currentTarget: HTMLInputElement }) => void;

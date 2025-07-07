@@ -1,12 +1,12 @@
 import { For } from "solid-js";
 
 export type SelectProps = {
+	class?: string;
 	name: string;
 	options: Array<{ value: string; label: string }>;
 	required?: boolean;
 	value?: string;
 	disabled?: boolean;
-	class?: string;
 	onChange?: (e: Event & { currentTarget: HTMLSelectElement }) => void;
 };
 
