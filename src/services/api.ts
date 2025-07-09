@@ -19,7 +19,7 @@ export async function submitForm(
 	try {
 		const response = await fetch(config.googleAppsScript.postToSheetUrl, {
 			method: "POST",
-			body: JSON.stringify({ recaptcha: recaptchaToken, ...formData }),
+			body: JSON.stringify({ recaptchaToken, ...formData }),
 		});
 
 		if (!response.ok) {
