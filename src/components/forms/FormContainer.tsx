@@ -23,7 +23,7 @@ export default function FormContainer(props: FormContainerProps) {
 	return (
 		<>
 			<Show when={timestampState() === "loading"}>
-				<div class="min-h-[50vh] flex items-center justify-center">
+				<div class="flex items-center justify-center">
 					<LoadingSpinner />
 				</div>
 			</Show>

@@ -18,6 +18,15 @@
 	background-size: 60px 60px, 90px 90px;
 }
 
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
 @keyframes fadeInUp {
 	from {
 		opacity: 0;

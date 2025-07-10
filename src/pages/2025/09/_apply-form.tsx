@@ -92,7 +92,10 @@ export default function ApplyForm() {
 			submissionState={submissionState}
 			deadline={APPLICATION_DEADLINE}
 		>
-			<form onSubmit={handleSubmit} class="space-y-2">
+			<form
+				onSubmit={handleSubmit}
+				class="space-y-2 animate-[fadeIn_0.3s_ease-out]"
+			>
 				<FormField label="教会名" required>
 					<Input
 						type="text"
