@@ -11,7 +11,7 @@ export type SubmitButtonProps = {
 
 export default function SubmitButton(props: SubmitButtonProps) {
 	const baseClasses =
-		"w-full px-6 py-3 rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed";
+		"w-full p-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed";
 
 	const variantClasses = {
 		primary:

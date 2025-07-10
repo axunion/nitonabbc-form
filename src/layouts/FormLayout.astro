@@ -5,28 +5,29 @@ import "@/styles/global.css";
 export interface Props {
 	title: string;
 	description?: string;
+	useRecaptcha?: boolean;
 }
 
-const { title, description = "" } = Astro.props;
+const { title, description = "", useRecaptcha = false } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="ja" class="bg-indigo-700">
+<html lang="ja" class="">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{title}</title>
 		{
-			config.recaptcha.siteKey && (
+			useRecaptcha && config.recaptcha.siteKey && (
 				<script
 					src={`https://www.google.com/recaptcha/api.js?render=${config.recaptcha.siteKey}`}
 				/>
 			)
 		}
 	</head>
-	<body class="bg-slate-100 text-gray-700 antialiased">
-		<div class="bg-dot-pattern min-h-dvh relative overflow-x-hidden">
+	<body class="bg-indigo-700 antialiased">
+		<div class="bg-slate-100 bg-dot-pattern min-h-dvh text-gray-700">
 			<slot />
 		</div>
 	</body>

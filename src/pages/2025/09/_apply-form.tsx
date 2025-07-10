@@ -7,6 +7,7 @@ import {
 	SubmitButton,
 	TextArea,
 } from "@/components/ui/";
+import { churchNames } from "@/config/keiyo";
 import { useForm } from "@/hooks/useForm";
 import { createEffect, createSignal } from "solid-js";
 
@@ -102,6 +103,7 @@ export default function ApplyForm() {
 						minlength="1"
 						maxlength="32"
 						required
+						autocompleteOptions={churchNames}
 						{...bindInput("churchName")}
 					/>
 				</FormField>
