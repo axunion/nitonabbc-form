@@ -10,7 +10,7 @@ export type FormFieldProps = {
 export default function FormField(props: FormFieldProps) {
 	return (
 		<div
-			class={`p-4 md:p-6 bg-white/80 backdrop-blur-sm rounded-sm border border-indigo-200 ${
+			class={`p-4 md:p-6 bg-white/80 rounded-sm border border-indigo-200 ${
 				props.class || ""
 			}`}
 		>
