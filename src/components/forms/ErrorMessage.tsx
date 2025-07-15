@@ -7,9 +7,9 @@ export type ErrorMessageProps = {
 export default function ErrorMessage(props: ErrorMessageProps) {
 	return (
 		<div class="max-w-lg mx-auto" role="alert" aria-live="assertive">
-			<div class="bg-white/80 rounded-lg p-8 text-center shadow-md opacity-0 translate-y-4 scale-95 animate-[fadeInUp_0.5s_ease-out_forwards]">
+			<div class="bg-white/80 rounded-lg p-8 shadow-md animate-[fadeInUp_0.5s_ease-out_forwards]">
 				<div class="mb-6">
-					<div class="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center animate-[shakeIn_0.7s_0.2s_ease-out_forwards]">
+					<div class="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center animate-[shakeIn_0.7s_ease-out_forwards]">
 						<svg
 							class="w-8 h-8 text-red-600"
 							fill="none"
@@ -26,9 +26,7 @@ export default function ErrorMessage(props: ErrorMessageProps) {
 						</svg>
 					</div>
 				</div>
-				<div class="space-y-4 opacity-0 translate-y-2 animate-[fadeInUp_0.6s_0.3s_ease-out_forwards]">
-					{props.children}
-				</div>
+				<div class="space-y-4 text-center">{props.children}</div>
 			</div>
 		</div>
 	);

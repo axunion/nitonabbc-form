@@ -5,16 +5,16 @@ export async function submitForm(
 	formData: Record<string, string>,
 	recaptchaToken?: string,
 ): Promise<FormSubmissionResult> {
-	// if (import.meta.env.DEV) {
-	// 	await new Promise((resolve) => setTimeout(resolve, 1000));
-	// 	const resultDone = { result: "done" };
-	// 	const resultError = { result: "error", error: "Dummy error message." };
-	// 	const result = Math.random() < 0.5 ? resultDone : resultError;
-	// 	console.log("Development mode: Using dummy response");
-	// 	console.log("Form data:", formData);
-	// 	console.log("Dummy response:", result);
-	// 	return result as FormSubmissionResult;
-	// }
+	if (import.meta.env.DEV) {
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		const resultDone = { result: "done" };
+		const resultError = { result: "error", error: "Dummy error message." };
+		const result = Math.random() < 0.5 ? resultDone : resultError;
+		console.log("Development mode: Using dummy response");
+		console.log("Form data:", formData);
+		console.log("Dummy response:", result);
+		return result as FormSubmissionResult;
+	}
 
 	try {
 		const response = await fetch(config.googleAppsScript.postToSheetUrl, {
@@ -38,13 +38,13 @@ export async function submitForm(
 }
 
 export async function getTimestamp(): Promise<TimestampResponse> {
-	// if (import.meta.env.DEV) {
-	// 	await new Promise((resolve) => setTimeout(resolve, 1000));
-	// 	const dummyResponse = { result: "done", timestamp: Date.now() };
-	// 	console.log("Development mode: Using dummy timestamp");
-	// 	console.log("Dummy timestamp response:", dummyResponse);
-	// 	return dummyResponse as TimestampResponse;
-	// }
+	if (import.meta.env.DEV) {
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		const dummyResponse = { result: "done", timestamp: Date.now() };
+		console.log("Development mode: Using dummy timestamp");
+		console.log("Dummy timestamp response:", dummyResponse);
+		return dummyResponse as TimestampResponse;
+	}
 
 	try {
 		const response = await fetch(config.googleAppsScript.timestampUrl);
