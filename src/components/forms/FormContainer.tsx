@@ -10,10 +10,13 @@ import { type JSX, Show } from "solid-js";
 export type FormContainerProps = {
 	isSubmitting: () => boolean;
 	submissionState: () => SubmissionState;
-	deadline?: number;
-	successMessage?: string;
-	errorMessage?: string;
 	children: JSX.Element;
+	deadline?: number;
+	expiredMessage?: string;
+	successTitle?: string;
+	successMessage?: string;
+	errorTitle?: string;
+	errorMessage?: string;
 };
 
 export default function FormContainer(props: FormContainerProps) {
@@ -29,17 +32,21 @@ export default function FormContainer(props: FormContainerProps) {
 			</Show>
 
 			<Show when={timestampState() === "expired"}>
-				<ExpiredMessage />
+				<ExpiredMessage>
+					<p>{props.expiredMessage || "このフォームは終了しています。"}</p>
+				</ExpiredMessage>
 			</Show>
 
 			<Show when={timestampState() === "error"}>
 				<ErrorMessage>
-					<h2 class="text-2xl font-bold text-red-800 mb-4">
-						接続エラーが発生しました
-					</h2>
-					<p class="text-red-600 text-sm">
-						恐れ入りますが、しばらく時間をおいて再度お試しください。
-					</p>
+					<>
+						<h2 class="text-2xl font-bold text-red-800 mb-4">
+							接続エラーが発生しました
+						</h2>
+						<p class="text-red-600 text-sm">
+							恐れ入りますが、しばらく時間をおいて再度お試しください。
+						</p>
+					</>
 				</ErrorMessage>
 			</Show>
 
@@ -55,23 +62,27 @@ export default function FormContainer(props: FormContainerProps) {
 
 				<Show when={props.submissionState() === "success"}>
 					<SuccessMessage>
-						<h2 class="text-2xl font-bold text-green-800 mb-4">
-							送信が完了しました
-						</h2>
-						<p class="text-green-700 mb-4">
-							{props.successMessage || "ありがとうございました。"}
-						</p>
+						<>
+							<h2 class="text-2xl font-bold text-green-800 mb-4">
+								{props.successTitle || "送信が完了しました"}
+							</h2>
+							<p class="text-green-700 mb-4">
+								{props.successMessage || "ありがとうございました。"}
+							</p>
+						</>
 					</SuccessMessage>
 				</Show>
 
 				<Show when={props.submissionState() === "error"}>
 					<ErrorMessage>
-						<h2 class="text-2xl font-bold text-red-800 mb-4">
-							送信に失敗しました
-						</h2>
-						<p class="text-red-700 mb-4">
-							{props.errorMessage || "恐れ入りますが、再度お試しください。"}
-						</p>
+						<>
+							<h2 class="text-2xl font-bold text-red-800 mb-4">
+								{props.errorTitle || "送信に失敗しました"}
+							</h2>
+							<p class="text-red-700 mb-4">
+								{props.errorMessage || "恐れ入りますが、再度お試しください。"}
+							</p>
+						</>
 					</ErrorMessage>
 				</Show>
 			</Show>
