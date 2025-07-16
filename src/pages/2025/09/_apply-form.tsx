@@ -11,7 +11,8 @@ import { churchNames } from "@/config/keiyo";
 import { useForm } from "@/hooks/useForm";
 import { createEffect, createSignal } from "solid-js";
 
-const APPLICATION_DEADLINE = new Date("2025-08-04T00:00:00+09:00").getTime();
+const APPLICATION_DEADLINE =
+	new Date("2025-08-04T00:00:00+09:00").getTime() / 1000;
 
 const initialFormData = {
 	type: "202509a",
@@ -92,6 +93,9 @@ export default function ApplyForm() {
 			isSubmitting={isSubmitting}
 			submissionState={submissionState}
 			deadline={APPLICATION_DEADLINE}
+			expiredMessage="この申し込みは終了しています。"
+			successTitle="申し込みが完了しました"
+			successMessage="ご参加ありがとうございます。"
 		>
 			<form
 				onSubmit={handleSubmit}

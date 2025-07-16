@@ -3,7 +3,7 @@ import { createSignal, onMount } from "solid-js";
 
 export type TimestampState = "loading" | "valid" | "expired" | "error";
 
-export function useTimestamp(deadlineTimestamp: number) {
+export function useTimestamp(deadlineUnixtime: number) {
 	const [timestampState, setTimestampState] =
 		createSignal<TimestampState>("loading");
 	const [errorMessage, setErrorMessage] = createSignal("");
@@ -21,7 +21,7 @@ export function useTimestamp(deadlineTimestamp: number) {
 				return;
 			}
 
-			if (response.timestamp && response.timestamp > deadlineTimestamp) {
+			if (response.timestamp && response.timestamp > deadlineUnixtime) {
 				setTimestampState("expired");
 			} else {
 				setTimestampState("valid");

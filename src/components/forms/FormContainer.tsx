@@ -40,7 +40,7 @@ export default function FormContainer(props: FormContainerProps) {
 			<Show when={timestampState() === "error"}>
 				<ErrorMessage>
 					<>
-						<h2 class="text-2xl font-bold text-red-800 mb-4">
+						<h2 class="text-xl font-bold text-red-800 mb-4">
 							接続エラーが発生しました
 						</h2>
 						<p class="text-red-600 text-sm">
@@ -63,7 +63,7 @@ export default function FormContainer(props: FormContainerProps) {
 				<Show when={props.submissionState() === "success"}>
 					<SuccessMessage>
 						<>
-							<h2 class="text-2xl font-bold text-green-800 mb-4">
+							<h2 class="text-xl font-bold text-green-800 mb-4">
 								{props.successTitle || "送信が完了しました"}
 							</h2>
 							<p class="text-green-700 mb-4">
@@ -76,7 +76,7 @@ export default function FormContainer(props: FormContainerProps) {
 				<Show when={props.submissionState() === "error"}>
 					<ErrorMessage>
 						<>
-							<h2 class="text-2xl font-bold text-red-800 mb-4">
+							<h2 class="text-xl font-bold text-red-800 mb-4">
 								{props.errorTitle || "送信に失敗しました"}
 							</h2>
 							<p class="text-red-700 mb-4">

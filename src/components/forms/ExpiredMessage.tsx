@@ -6,7 +6,7 @@ export type ExpiredMessageProps = {
 
 export default function ExpiredMessage(props: ExpiredMessageProps) {
 	return (
-		<div class="max-w-lg mx-auto bg-white/80 border border-indigo-200 rounded-md px-8 py-12 animate-[fadeInUp_0.5s_ease-out_forwards]">
+		<div class="max-w-lg mx-auto bg-white/80 border border-indigo-200 rounded-md px-8 py-12 animate-[fadeIn_0.5s_ease-out_forwards]">
 			<div class="flex justify-center mb-4">
 				<svg
 					class="w-12 h-12 text-orange-500"
