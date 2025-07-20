@@ -1,3 +1,4 @@
+import Message from "@/components/forms/Message";
 import type { JSX } from "solid-js";
 
 export type SuccessMessageProps = {
@@ -6,28 +7,27 @@ export type SuccessMessageProps = {
 
 export default function SuccessMessage(props: SuccessMessageProps) {
 	return (
-		<div class="max-w-lg mx-auto" role="alert" aria-live="polite">
-			<div class="bg-white/80 rounded-lg p-8 shadow-md animate-[fadeInUp_0.5s_ease-out_forwards]">
-				<div class="mb-6">
-					<div class="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center animate-[bounceIn_0.7s_ease-out_forwards]">
-						<svg
-							class="w-6 h-6 text-green-600"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							aria-hidden="true"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M5 13l4 4L19 7"
-							/>
-						</svg>
-					</div>
+		<Message>
+			<div class="mb-6">
+				<div class="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center animate-[bounceIn_0.7s_ease-out_forwards]">
+					<svg
+						class="w-6 h-6 text-green-600"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						aria-hidden="true"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M5 13l4 4L19 7"
+						/>
+					</svg>
 				</div>
-				<div class="space-y-4 text-center">{props.children}</div>
 			</div>
-		</div>
+
+			<div class="space-y-4 text-center">{props.children}</div>
+		</Message>
 	);
 }
