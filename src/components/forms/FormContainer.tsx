@@ -1,8 +1,8 @@
-import ErrorMessage from "@/components/forms/ErrorMessage.tsx";
-import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
-import LoadingSpinner from "@/components/forms/LoadingSpinner.tsx";
-import SubmissionLoader from "@/components/forms/SubmissionLoader.tsx";
-import SuccessMessage from "@/components/forms/SuccessMessage.tsx";
+import ErrorMessage from "@/components/forms/ErrorMessage";
+import ExpiredMessage from "@/components/forms/ExpiredMessage";
+import LoadingSpinner from "@/components/forms/LoadingSpinner";
+import SubmissionLoader from "@/components/forms/SubmissionLoader";
+import SuccessMessage from "@/components/forms/SuccessMessage";
 import type { SubmissionState } from "@/hooks/useForm";
 import { useTimestamp } from "@/hooks/useTimestamp";
 import { type JSX, Show } from "solid-js";

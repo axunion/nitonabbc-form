@@ -62,8 +62,11 @@ export function useForm(initialData: Record<string, string>) {
 		setErrorMessage("");
 
 		try {
+			const trimmedData = Object.fromEntries(
+				Object.entries(formData).map(([key, value]) => [key, value.trim()]),
+			);
 			const recaptchaToken = await getReCaptchaToken();
-			const result = await submitForm(formData, recaptchaToken);
+			const result = await submitForm(trimmedData, recaptchaToken);
 
 			if (result.result === "done") {
 				setSubmissionState("success");

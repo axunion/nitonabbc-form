@@ -15,7 +15,7 @@ export default function FormField(props: FormFieldProps) {
 			}`}
 		>
 			{props.label && (
-				<div class="text-sm mb-8">
+				<div class="mb-8 font-bold text-sm">
 					{props.label}
 					{props.required && (
 						<span class="text-red-400 ml-1" aria-label="required">

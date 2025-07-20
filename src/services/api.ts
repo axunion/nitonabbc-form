@@ -4,7 +4,7 @@ import type { FormSubmissionResult, TimestampResponse } from "@/types/api";
 export async function getTimestamp(): Promise<TimestampResponse> {
 	// if (import.meta.env.DEV) {
 	// 	await new Promise((resolve) => setTimeout(resolve, 500));
-	// 	const resultDone = { result: "done", timestamp: Date.now() };
+	// 	const resultDone = { result: "done", timestamp: Date.now() / 1000 };
 	// 	const resultError = { result: "error", error: "Dummy error message." };
 	// 	const result = Math.random() < 0.5 ? resultDone : resultError;
 	// 	console.log("Development mode: Using dummy timestamp");

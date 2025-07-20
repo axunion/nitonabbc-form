@@ -127,8 +127,6 @@ export default function ApplyForm() {
 						type="text"
 						minlength="1"
 						maxlength="32"
-						pattern="^[\u3040-\u309F]+$"
-						title="ひらがなで入力してください"
 						required
 						{...bindInput("kanaName")}
 					/>
@@ -236,31 +234,26 @@ export default function ApplyForm() {
 						name="workshop1"
 						value={formData.workshop1}
 						onChange={(e) => {
-							const value = e.currentTarget.value;
-							setFormData({ workshop1: value });
-
-							if (formData.workshop2 === value) {
-								setFormData({ workshop2: "" });
-							}
+							setFormData({ workshop1: e.currentTarget.value });
 						}}
 					/>
 				</FormField>
 
-				<FormField label="分科会第2希望">
-					<Select
-						options={WORKSHOP_LIST}
-						name="workshop2"
-						value={formData.workshop2}
-						onChange={(e) => {
-							const value = e.currentTarget.value;
-							setFormData({ workshop2: value });
-
-							if (formData.workshop1 === value) {
-								setFormData({ workshop1: "" });
-							}
-						}}
-					/>
-				</FormField>
+				{formData.workshop1 && (
+					<FormField label="分科会第2希望">
+						<Select
+							options={WORKSHOP_LIST.map((option) => ({
+								...option,
+								disabled: option.value === formData.workshop1,
+							}))}
+							name="workshop2"
+							value={formData.workshop2}
+							onChange={(e) => {
+								setFormData({ workshop2: e.currentTarget.value });
+							}}
+						/>
+					</FormField>
+				)}
 
 				<FormField label="備考">
 					<TextArea maxlength="1024" {...bindInput("comments")} />

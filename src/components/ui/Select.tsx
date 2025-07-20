@@ -3,7 +3,7 @@ import { For } from "solid-js";
 export type SelectProps = {
 	class?: string;
 	name: string;
-	options: Array<{ value: string; label: string }>;
+	options: Array<{ value: string; label: string; disabled?: boolean }>;
 	required?: boolean;
 	value?: string;
 	disabled?: boolean;
@@ -12,7 +12,7 @@ export type SelectProps = {
 
 export default function Select(props: SelectProps) {
 	return (
-		<div class="relative px-2 pb-1 border-b border-indigo-200">
+		<div class="relative p-1 border-b border-indigo-200">
 			<select
 				name={props.name}
 				required={props.required}
@@ -25,7 +25,11 @@ export default function Select(props: SelectProps) {
 				aria-describedby={`${props.name}-description`}
 			>
 				<For each={props.options}>
-					{(option) => <option value={option.value}>{option.label}</option>}
+					{(option) => (
+						<option value={option.value} disabled={option.disabled}>
+							{option.label}
+						</option>
+					)}
 				</For>
 			</select>
 

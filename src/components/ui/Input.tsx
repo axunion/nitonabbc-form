@@ -22,7 +22,7 @@ export default function Input(props: InputProps) {
 		: undefined;
 
 	return (
-		<div class="px-2 pb-1 border-b border-indigo-200">
+		<div class="p-1 border-b border-indigo-200">
 			<input
 				type={props.type || "text"}
 				name={props.name}
