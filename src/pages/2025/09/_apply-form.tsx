@@ -230,7 +230,7 @@ export default function ApplyForm() {
 					)}
 				</FormField>
 
-				<FormField label="分科会第1希望" required>
+				<FormField label="分科会第1希望">
 					<Select
 						options={WORKSHOP_LIST}
 						name="workshop1"
@@ -243,11 +243,10 @@ export default function ApplyForm() {
 								setFormData({ workshop2: "" });
 							}
 						}}
-						required
 					/>
 				</FormField>
 
-				<FormField label="分科会第2希望" required>
+				<FormField label="分科会第2希望">
 					<Select
 						options={WORKSHOP_LIST}
 						name="workshop2"
@@ -260,7 +259,6 @@ export default function ApplyForm() {
 								setFormData({ workshop1: "" });
 							}
 						}}
-						required
 					/>
 				</FormField>
 
