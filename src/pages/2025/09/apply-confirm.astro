@@ -1,5 +1,4 @@
 ---
-import Main from "@/components/layout/Main.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
 import ConfirmList from "./_confirm-list";
 ---
@@ -13,7 +12,7 @@ import ConfirmList from "./_confirm-list";
 		</h1>
 	</header>
 
-	<Main>
+	<main class="py-4 max-w-256 m-auto">
 		<ConfirmList client:load />
-	</Main>
+	</main>
 </FormLayout>
