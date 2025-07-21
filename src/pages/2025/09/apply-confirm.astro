@@ -1,0 +1,19 @@
+---
+import Main from "@/components/layout/Main.astro";
+import FormLayout from "@/layouts/FormLayout.astro";
+import ConfirmList from "./_confirm-list";
+---
+
+<FormLayout title="京葉地区青年キャンプ 参加申し込み" useRecaptcha={true}>
+	<header
+		class="bg-gradient-to-br from-indigo-600 via-blue-600 to-purple-700 text-white"
+	>
+		<h1 class="py-6 text-center text-lg font-bold">
+			京葉地区青年キャンプ 参加申し込み確認
+		</h1>
+	</header>
+
+	<Main>
+		<ConfirmList client:load />
+	</Main>
+</FormLayout>
