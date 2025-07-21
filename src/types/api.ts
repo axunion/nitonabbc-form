@@ -1,12 +1,40 @@
-export type SubmissionStatus = "done" | "error";
+export type TimestampSuccessResponse = {
+	result: "done";
+	timestamp: number;
+};
 
-export interface TimestampResponse {
-	result: SubmissionStatus;
-	timestamp?: number;
-	error?: string;
-}
+export type TimestampErrorResponse = {
+	result: "error";
+	error: string;
+};
 
-export interface FormSubmissionResult {
-	result: SubmissionStatus;
-	error?: string;
-}
+export type TimestampResponse =
+	| TimestampSuccessResponse
+	| TimestampErrorResponse;
+
+export type FromSubmissionSuccessResponse = {
+	result: "done";
+};
+
+export type FormSubmissionErrorResponse = {
+	result: "error";
+	error: string;
+};
+
+export type FormSubmissionResult =
+	| FromSubmissionSuccessResponse
+	| FormSubmissionErrorResponse;
+
+export type FetchDataSuccessResponse<T> = {
+	result: "done";
+	data: T[];
+};
+
+export type FetchDataErrorResponse = {
+	result: "error";
+	error: string;
+};
+
+export type FetchDataResponse<T> =
+	| FetchDataSuccessResponse<T>
+	| FetchDataErrorResponse;

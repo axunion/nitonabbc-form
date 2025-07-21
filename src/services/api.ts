@@ -1,5 +1,9 @@
 import { config } from "@/config/env";
-import type { FormSubmissionResult, TimestampResponse } from "@/types/api";
+import type {
+	FetchDataResponse,
+	FormSubmissionResult,
+	TimestampResponse,
+} from "@/types/api";
 
 export async function getTimestamp(): Promise<TimestampResponse> {
 	// if (import.meta.env.DEV) {
@@ -58,6 +62,35 @@ export async function submitForm(
 		return (await response.json()) as FormSubmissionResult;
 	} catch (error) {
 		console.error("Submission error:", error);
+		return {
+			result: "error",
+			error:
+				error instanceof Error ? error.message : "Unexpected error occurred",
+		};
+	}
+}
+
+export async function fetchData<T>(url: string): Promise<FetchDataResponse<T>> {
+	// if (import.meta.env.DEV) {
+	// 	await new Promise((resolve) => setTimeout(resolve, 500));
+	// 	const resultDone = { result: "done", data: [] };
+	// 	const resultError = { result: "error", error: "Dummy error message." };
+	// 	const result = Math.random() < 0.5 ? resultDone : resultError;
+	// 	console.log("Development mode: Using dummy fetch data");
+	// 	console.log("Dummy response:", result);
+	// 	return result as FetchDataResponse<T>;
+	// }
+
+	try {
+		const response = await fetch(url);
+
+		if (!response.ok) {
+			throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+		}
+
+		return (await response.json()) as FetchDataResponse<T>;
+	} catch (error) {
+		console.error("Fetch data error:", error);
 		return {
 			result: "error",
 			error:
