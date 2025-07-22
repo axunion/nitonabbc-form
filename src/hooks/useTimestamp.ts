@@ -1,11 +1,11 @@
 import { getTimestamp } from "@/services/api";
 import { createSignal, onMount } from "solid-js";
 
-export type TimestampState = "loading" | "valid" | "expired" | "error";
+export type TimestampState = "idle" | "loading" | "valid" | "expired" | "error";
 
 export function useTimestamp(deadlineUnixtime: number) {
 	const [timestampState, setTimestampState] =
-		createSignal<TimestampState>("loading");
+		createSignal<TimestampState>("idle");
 	const [errorMessage, setErrorMessage] = createSignal("");
 
 	const checkTimestamp = async () => {

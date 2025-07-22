@@ -70,7 +70,9 @@ export async function submitForm(
 	}
 }
 
-export async function fetchData<T>(url: string): Promise<FetchDataResponse<T>> {
+export async function fetchData<T>(
+	params?: Record<string, string | number | boolean>,
+): Promise<FetchDataResponse<T>> {
 	// if (import.meta.env.DEV) {
 	// 	await new Promise((resolve) => setTimeout(resolve, 500));
 	// 	const resultDone = { result: "done", data: [] };
@@ -82,7 +84,15 @@ export async function fetchData<T>(url: string): Promise<FetchDataResponse<T>> {
 	// }
 
 	try {
-		const response = await fetch(url);
+		const url = new URL(config.googleAppsScript.fetchFromSheetUrl);
+
+		if (params) {
+			for (const [key, value] of Object.entries(params)) {
+				url.searchParams.append(key, `${value}`);
+			}
+		}
+
+		const response = await fetch(url.toString());
 
 		if (!response.ok) {
 			throw new Error(`HTTP ${response.status}: ${response.statusText}`);
