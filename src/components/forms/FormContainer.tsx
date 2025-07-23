@@ -21,23 +21,17 @@ export type FormContainerProps = {
 
 export default function FormContainer(props: FormContainerProps) {
 	const deadline = props.deadline ?? Number.MAX_SAFE_INTEGER;
-	const { timestampState } = useTimestamp(deadline);
+	const { timestampResult } = useTimestamp(deadline);
 
 	return (
 		<>
-			<Show when={timestampState() === "loading"}>
+			<Show when={timestampResult.state === "pending"}>
 				<div class="flex items-center justify-center">
 					<LoadingSpinner />
 				</div>
 			</Show>
 
-			<Show when={timestampState() === "expired"}>
-				<ExpiredMessage>
-					<p>{props.expiredMessage || "このフォームは終了しています。"}</p>
-				</ExpiredMessage>
-			</Show>
-
-			<Show when={timestampState() === "error"}>
+			<Show when={timestampResult.state === "errored"}>
 				<ErrorMessage>
 					<>
 						<h2 class="text-xl font-bold text-red-800 mb-4">
@@ -50,7 +44,21 @@ export default function FormContainer(props: FormContainerProps) {
 				</ErrorMessage>
 			</Show>
 
-			<Show when={timestampState() === "valid"}>
+			<Show
+				when={
+					timestampResult.state === "ready" && timestampResult() === "expired"
+				}
+			>
+				<ExpiredMessage>
+					<p>{props.expiredMessage || "このフォームは終了しています。"}</p>
+				</ExpiredMessage>
+			</Show>
+
+			<Show
+				when={
+					timestampResult.state === "ready" && timestampResult() === "valid"
+				}
+			>
 				<Show
 					when={
 						props.submissionState() === "idle" ||

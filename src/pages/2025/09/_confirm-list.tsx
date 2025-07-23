@@ -12,19 +12,21 @@ export default function ConfirmList() {
 
 	return (
 		<div class="px-4 py-2 overflow-x-auto">
-			<Show when={confirmData.loading}>
+			<Show when={confirmData.state === "pending"}>
 				<div class="min-h-40 flex justify-center items-center">
 					<LoadingSpinner />
 				</div>
 			</Show>
 
-			<Show when={confirmData.error}>
+			<Show when={confirmData.state === "errored"}>
 				<div class="text-center py-8">
-					<p class="text-red-600">{confirmData.error.message}</p>
+					<p class="text-red-600">
+						{confirmData.error?.message || "エラーが発生しました"}
+					</p>
 				</div>
 			</Show>
 
-			<Show when={confirmData() && !confirmData.loading && !confirmData.error}>
+			<Show when={confirmData.state === "ready"}>
 				<Show
 					when={(() => {
 						const data = confirmData();
@@ -51,10 +53,10 @@ export default function ConfirmList() {
 						<tbody>
 							<For each={confirmData()}>
 								{(item) => (
-									<tr class="even:bg-gray-50">
+									<tr class="even:bg-gray-50 text-center">
 										<td class="p-3 text-left">{String(item[0] || "")}</td>
 										<For each={(item as string[]).slice(1, 5)}>
-											{(val) => <td class="text-center">{val ? "○" : ""}</td>}
+											{(val) => <td>{val ? "○" : ""}</td>}
 										</For>
 										<td class="p-3">{String((item as string[])[5] || "-")}</td>
 										<td class="p-3">{String((item as string[])[6] || "-")}</td>

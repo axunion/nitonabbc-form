@@ -1,49 +1,24 @@
 import { getTimestamp } from "@/services/api";
-import { createSignal, onMount } from "solid-js";
+import { createResource } from "solid-js";
 
-export type TimestampState = "idle" | "loading" | "valid" | "expired" | "error";
+export type TimestampResult = "valid" | "expired";
 
 export function useTimestamp(deadlineUnixtime: number) {
-	const [timestampState, setTimestampState] =
-		createSignal<TimestampState>("idle");
-	const [errorMessage, setErrorMessage] = createSignal("");
-
-	const checkTimestamp = async () => {
-		try {
-			setTimestampState("loading");
-			setErrorMessage("");
-
+	const [timestampResult, { refetch }] = createResource(
+		async (): Promise<TimestampResult> => {
 			const response = await getTimestamp();
 
 			if (response.result === "error") {
-				setTimestampState("error");
-				setErrorMessage(response.error || "An unexpected error occurred.");
-				return;
+				throw new Error(response.error || "An unexpected error occurred.");
 			}
 
 			if (response.timestamp && response.timestamp > deadlineUnixtime) {
-				setTimestampState("expired");
-			} else {
-				setTimestampState("valid");
+				return "expired";
 			}
-		} catch (error) {
-			console.error("Timestamp check error:", error);
-			setTimestampState("error");
-			setErrorMessage(
-				error instanceof Error
-					? error.message
-					: "An unexpected error occurred.",
-			);
-		}
-	};
 
-	onMount(() => {
-		checkTimestamp();
-	});
+			return "valid";
+		},
+	);
 
-	return {
-		timestampState,
-		errorMessage,
-		checkTimestamp,
-	};
+	return { timestampResult, refetch };
 }
