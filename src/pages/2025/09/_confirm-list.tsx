@@ -19,8 +19,8 @@ export default function ConfirmList() {
 			</Show>
 
 			<Show when={confirmData.state === "errored"}>
-				<div class="text-center py-8">
-					<p class="text-red-600">
+				<div class="p-8 bg-white/80 rounded shadow animate-[fadeIn_0.5s_ease-out_forwards]">
+					<p class="text-center text-red-600">
 						{confirmData.error?.message || "エラーが発生しました"}
 					</p>
 				</div>
@@ -34,7 +34,7 @@ export default function ConfirmList() {
 					})()}
 					fallback={
 						<div class="p-8 bg-white/80 rounded shadow animate-[fadeIn_0.5s_ease-out_forwards]">
-							<p class="text-center text-gray-600">データがありません</p>
+							<p class="text-center">データがありません</p>
 						</div>
 					}
 				>

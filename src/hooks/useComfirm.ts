@@ -9,11 +9,11 @@ export function useConfirm(params?: Record<string, string>) {
 		async (fetchParams?: Record<string, string>): Promise<ConfirmData> => {
 			const response = await fetchData<ConfirmData>(fetchParams);
 
-			if (response.result === "done") {
-				return response.data;
+			if (response.result === "error") {
+				throw new Error(response.error || "Unknown error occurred");
 			}
 
-			throw new Error(response.error || "Unknown error occurred");
+			return response.data;
 		},
 	);
 

@@ -25,7 +25,6 @@ export async function getTimestamp(): Promise<TimestampResponse> {
 
 		return (await response.json()) as TimestampResponse;
 	} catch (error) {
-		console.error("Timestamp error:", error);
 		return {
 			result: "error",
 			error:
@@ -61,7 +60,6 @@ export async function submitForm(
 
 		return (await response.json()) as FormSubmissionResult;
 	} catch (error) {
-		console.error("Submission error:", error);
 		return {
 			result: "error",
 			error:
@@ -100,7 +98,6 @@ export async function fetchData<T>(
 
 		return (await response.json()) as FetchDataResponse<T>;
 	} catch (error) {
-		console.error("Fetch data error:", error);
 		return {
 			result: "error",
 			error:
