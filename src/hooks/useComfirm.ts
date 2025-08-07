@@ -4,7 +4,7 @@ import { createResource } from "solid-js";
 export function useConfirm<T = unknown[][]>(params?: Record<string, string>) {
 	const [confirmData, { refetch, mutate }] = createResource(
 		() => params,
-		async (fetchParams?: Record<string, string>): Promise<T[]> => {
+		async (fetchParams?: Record<string, string>): Promise<T> => {
 			const response = await fetchData<T>(fetchParams);
 
 			if (response.result === "error") {

@@ -27,7 +27,7 @@ export type FormSubmissionResult =
 
 export type FetchDataSuccessResponse<T> = {
 	result: "done";
-	data: T[];
+	data: T;
 };
 
 export type FetchDataErrorResponse = {
