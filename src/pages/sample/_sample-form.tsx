@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/";
 import { useForm } from "@/hooks/useForm";
 
-const APPLICATION_DEADLINE = new Date("2025-07-28T12:00:00+09:00").getTime();
+const APPLICATION_DEADLINE = new Date("2038-01-19T03:14:07").getTime() / 1000;
 
 const initialFormData = {
 	fullName: "",
