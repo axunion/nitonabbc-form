@@ -1,0 +1,32 @@
+---
+// import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
+import Footer from "@/components/layout/Footer.astro";
+import Header from "@/components/layout/Header.astro";
+import Main from "@/components/layout/Main.astro";
+import FormLayout from "@/layouts/FormLayout.astro";
+import SurveyForm from "./_survey-form.tsx";
+---
+
+<FormLayout title="京葉地区青年キャンプ アンケート" useRecaptcha={true}>
+	<Header>
+		<h1 slot="title" class="text-xl md:text-3xl font-bold tracking-tight">
+			京葉地区青年キャンプ アンケート
+		</h1>
+		<p slot="description" class="text-sm md:text-base text-blue-100">
+			2025年9月14日〜15日
+		</p>
+	</Header>
+
+	<Main>
+		<SurveyForm client:only />
+		<!-- <ExpiredMessage>
+			<p class="my-4">このアンケートは終了しています。</p>
+		</ExpiredMessage> -->
+	</Main>
+
+	<Footer>
+		<p class="pt-12">
+			<small>© 2025 Keiyo Area United Youth Association.</small>
+		</p>
+	</Footer>
+</FormLayout>
