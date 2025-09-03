@@ -11,20 +11,19 @@ const initialFormData = {
 	mealQuality: "",
 	facilityQuality: "",
 	schedulePace: "",
-	feedback: "",
-	comments: "",
-	marriage: "",
 	dedication: "",
+	marriage: "",
 	work: "",
 	worship: "",
 	service: "",
 	praise: "",
 	history: "",
+	feedback: "",
+	additionalComments: "",
 };
 
 export default function SurveyForm() {
 	const {
-		formData,
 		bindInput,
 		bindChange,
 		bindCheckbox,
@@ -102,13 +101,13 @@ export default function SurveyForm() {
 
 				<FormField label="興味のある分科会のテーマがあれば教えてください。">
 					<div class="space-y-2">
-						<Checkbox {...bindCheckbox("dedication", "true")}>献身</Checkbox>
-						<Checkbox {...bindCheckbox("marriage", "true")}>結婚</Checkbox>
-						<Checkbox {...bindCheckbox("work", "true")}>仕事</Checkbox>
-						<Checkbox {...bindCheckbox("worship", "true")}>礼拝</Checkbox>
-						<Checkbox {...bindCheckbox("service", "true")}>奉仕</Checkbox>
-						<Checkbox {...bindCheckbox("praise", "true")}>賛美</Checkbox>
-						<Checkbox {...bindCheckbox("history", "true")}>歴史</Checkbox>
+						<Checkbox {...bindCheckbox("dedication", "献身")}>献身</Checkbox>
+						<Checkbox {...bindCheckbox("marriage", "結婚")}>結婚</Checkbox>
+						<Checkbox {...bindCheckbox("work", "仕事")}>仕事</Checkbox>
+						<Checkbox {...bindCheckbox("worship", "礼拝")}>礼拝</Checkbox>
+						<Checkbox {...bindCheckbox("service", "奉仕")}>奉仕</Checkbox>
+						<Checkbox {...bindCheckbox("praise", "賛美")}>賛美</Checkbox>
+						<Checkbox {...bindCheckbox("history", "歴史")}>歴史</Checkbox>
 					</div>
 				</FormField>
 
