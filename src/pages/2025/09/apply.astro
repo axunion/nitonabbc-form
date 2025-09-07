@@ -1,10 +1,10 @@
 ---
-// import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
+import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import Main from "@/components/layout/Main.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
-import ApplyForm from "./_apply-form";
+// import ApplyForm from "./_apply-form";
 ---
 
 <FormLayout title="京葉地区青年キャンプ 参加申し込み" useRecaptcha={true}>
@@ -18,10 +18,10 @@ import ApplyForm from "./_apply-form";
 	</Header>
 
 	<Main>
-		<ApplyForm client:only />
-		<!-- <ExpiredMessage>
+		<!-- <ApplyForm client:only /> -->
+		<ExpiredMessage>
 			<p class="my-4">この申し込みは終了しています。</p>
-		</ExpiredMessage> -->
+		</ExpiredMessage>
 	</Main>
 
 	<Footer>
