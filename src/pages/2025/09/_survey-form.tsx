@@ -2,9 +2,6 @@ import { FormContainer, FormField, RecaptchaNotice } from "@/components/forms/";
 import { Checkbox, RadioGroup, SubmitButton, TextArea } from "@/components/ui/";
 import { useForm } from "@/hooks/useForm";
 
-const APPLICATION_DEADLINE =
-	new Date("2025-08-22T00:00:00+09:00").getTime() / 1000;
-
 const initialFormData = {
 	type: "202509s",
 	accessibility: "",
@@ -36,7 +33,7 @@ export default function SurveyForm() {
 		<FormContainer
 			isSubmitting={isSubmitting}
 			submissionState={submissionState}
-			deadline={APPLICATION_DEADLINE}
+			type={initialFormData.type}
 			expiredMessage="このアンケートは準備中です。"
 			successTitle="送信が完了しました"
 			successMessage="ご協力ありがとうございます。"

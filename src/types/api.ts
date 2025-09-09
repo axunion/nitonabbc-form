@@ -1,16 +1,16 @@
-export type TimestampSuccessResponse = {
+export type ExpirationStatusSuccessResponse = {
 	result: "done";
-	timestamp: number;
+	expired: boolean;
 };
 
-export type TimestampErrorResponse = {
+export type ExpirationStatusErrorResponse = {
 	result: "error";
 	error: string;
 };
 
-export type TimestampResponse =
-	| TimestampSuccessResponse
-	| TimestampErrorResponse;
+export type ExpirationStatusResponse =
+	| ExpirationStatusSuccessResponse
+	| ExpirationStatusErrorResponse;
 
 export type FromSubmissionSuccessResponse = {
 	result: "done";

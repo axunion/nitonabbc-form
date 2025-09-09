@@ -3,15 +3,15 @@ import ExpiredMessage from "@/components/forms/ExpiredMessage";
 import LoadingSpinner from "@/components/forms/LoadingSpinner";
 import SubmissionLoader from "@/components/forms/SubmissionLoader";
 import SuccessMessage from "@/components/forms/SuccessMessage";
+import { useExpirationStatus } from "@/hooks/useExpirationStatus";
 import type { SubmissionState } from "@/hooks/useForm";
-import { useTimestamp } from "@/hooks/useTimestamp";
 import { type JSX, Show } from "solid-js";
 
 export type FormContainerProps = {
 	isSubmitting: () => boolean;
 	submissionState: () => SubmissionState;
 	children: JSX.Element;
-	deadline?: number;
+	type: string;
 	expiredMessage?: string;
 	successTitle?: string;
 	successMessage?: string;
@@ -20,18 +20,17 @@ export type FormContainerProps = {
 };
 
 export default function FormContainer(props: FormContainerProps) {
-	const deadline = props.deadline ?? Number.MAX_SAFE_INTEGER;
-	const { timestampResult } = useTimestamp(deadline);
+	const { expirationStatus } = useExpirationStatus(props.type);
 
 	return (
 		<>
-			<Show when={timestampResult.state === "pending"}>
+			<Show when={expirationStatus.state === "pending"}>
 				<div class="flex items-center justify-center">
 					<LoadingSpinner />
 				</div>
 			</Show>
 
-			<Show when={timestampResult.state === "errored"}>
+			<Show when={expirationStatus.state === "errored"}>
 				<ErrorMessage>
 					<>
 						<h2 class="text-xl font-bold text-red-800 mb-4">
@@ -46,7 +45,7 @@ export default function FormContainer(props: FormContainerProps) {
 
 			<Show
 				when={
-					timestampResult.state === "ready" && timestampResult() === "expired"
+					expirationStatus.state === "ready" && expirationStatus() === "expired"
 				}
 			>
 				<ExpiredMessage>
@@ -56,7 +55,7 @@ export default function FormContainer(props: FormContainerProps) {
 
 			<Show
 				when={
-					timestampResult.state === "ready" && timestampResult() === "valid"
+					expirationStatus.state === "ready" && expirationStatus() === "valid"
 				}
 			>
 				<Show
