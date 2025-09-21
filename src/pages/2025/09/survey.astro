@@ -1,10 +1,10 @@
 ---
-// import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
+import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
 import Main from "@/components/layout/Main.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
-import SurveyForm from "./_survey-form.tsx";
+// import SurveyForm from "./_survey-form.tsx";
 ---
 
 <FormLayout title="京葉地区青年キャンプ アンケート" useRecaptcha={true}>
@@ -18,10 +18,10 @@ import SurveyForm from "./_survey-form.tsx";
 	</Header>
 
 	<Main>
-		<SurveyForm client:only />
-		<!-- <ExpiredMessage>
+		<!-- <SurveyForm client:only /> -->
+		<ExpiredMessage>
 			<p class="my-4">このアンケートは終了しています。</p>
-		</ExpiredMessage> -->
+		</ExpiredMessage>
 	</Main>
 
 	<Footer>
