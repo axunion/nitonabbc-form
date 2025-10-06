@@ -8,14 +8,15 @@ import type {
 export async function checkExpiration(
 	type: string,
 ): Promise<ExpirationStatusResponse> {
-	// if (import.meta.env.DEV) {
-	// 	await new Promise((resolve) => setTimeout(resolve, 500));
-	// 	const resultDone = { result: "done", expired: false };
-	// 	const resultError = { result: "error", error: "Dummy error message." };
-	// 	const result = Math.random() < 0.5 ? resultDone : resultError;
-	// 	console.log("Dummy response:", result);
-	// 	return result as ExpirationStatusResponse;
-	// }
+	if (import.meta.env.DEV) {
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		const shouldError = false;
+		const resultDone = { result: "done", expired: false };
+		const resultError = { result: "error", error: "Dummy error message." };
+		const result = shouldError ? resultDone : resultError;
+		console.log("Dummy response:", result);
+		return result as ExpirationStatusResponse;
+	}
 
 	try {
 		const response = await fetch(
@@ -40,16 +41,17 @@ export async function submitForm(
 	formData: Record<string, string>,
 	recaptchaToken?: string,
 ): Promise<FormSubmissionResult> {
-	// if (import.meta.env.DEV) {
-	// 	await new Promise((resolve) => setTimeout(resolve, 1000));
-	// 	const resultDone = { result: "done" };
-	// 	const resultError = { result: "error", error: "Dummy error message." };
-	// 	const result = Math.random() < 0.5 ? resultDone : resultError;
-	// 	console.log("Development mode: Using dummy response");
-	// 	console.log("Form data:", formData);
-	// 	console.log("Dummy response:", result);
-	// 	return result as FormSubmissionResult;
-	// }
+	if (import.meta.env.DEV) {
+		await new Promise((resolve) => setTimeout(resolve, 1000));
+		const shouldError = false;
+		const resultDone = { result: "done" };
+		const resultError = { result: "error", error: "Dummy error message." };
+		const result = shouldError ? resultDone : resultError;
+		console.log("Development mode: Using dummy response");
+		console.log("Form data:", formData);
+		console.log("Dummy response:", result);
+		return result as FormSubmissionResult;
+	}
 
 	try {
 		const response = await fetch(config.googleAppsScript.postToSheetUrl, {
@@ -74,15 +76,16 @@ export async function submitForm(
 export async function fetchData<T>(
 	params?: Record<string, string | number | boolean>,
 ): Promise<FetchDataResponse<T>> {
-	// if (import.meta.env.DEV) {
-	// 	await new Promise((resolve) => setTimeout(resolve, 500));
-	// 	const resultDone = { result: "done", data: [] };
-	// 	const resultError = { result: "error", error: "Dummy error message." };
-	// 	const result = Math.random() < 0.5 ? resultDone : resultError;
-	// 	console.log("Development mode: Using dummy fetch data");
-	// 	console.log("Dummy response:", result);
-	// 	return result as FetchDataResponse<T>;
-	// }
+	if (import.meta.env.DEV) {
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		const shouldError = false;
+		const resultDone = { result: "done", data: [] };
+		const resultError = { result: "error", error: "Dummy error message." };
+		const result = shouldError ? resultDone : resultError;
+		console.log("Development mode: Using dummy fetch data");
+		console.log("Dummy response:", result);
+		return result as FetchDataResponse<T>;
+	}
 
 	try {
 		const url = new URL(config.googleAppsScript.fetchFromSheetUrl);

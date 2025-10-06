@@ -1,7 +1,7 @@
 import { fetchData } from "@/services/api";
 import { createResource } from "solid-js";
 
-export function useConfirm<T = unknown[][]>(params?: Record<string, string>) {
+export function useDataFetch<T = unknown[][]>(params?: Record<string, string>) {
 	const [confirmData, { refetch, mutate }] = createResource(
 		() => params,
 		async (fetchParams?: Record<string, string>): Promise<T> => {
