@@ -2,15 +2,15 @@
 
 ## Project Overview
 
-教会イベントの申込フォームとアンケートフォームを作成するプロジェクトです。Google Apps ScriptとGoogle Spreadsheetで管理されます。
+イベントの申込フォームとアンケートフォームを作成するプロジェクトです。Google Apps ScriptとGoogle Spreadsheetで管理されます。
 
 ## Technology Stack
 
-- **フレームワーク**: Astro v5.9.3
-- **UIライブラリ**: SolidJS v5.1.0
-- **スタイリング**: TailwindCSS v4.1.10
-- **コード品質**: Biome v1.9.4
-- **ランタイム**: Node.js v22.16.0 (Volta)
+- **フレームワーク**: Astro (Islands Architecture)
+- **UIライブラリ**: SolidJS
+- **スタイリング**: TailwindCSS
+- **コード品質**: Biome
+- **パッケージ管理**: npm with Volta
 
 ## Development Philosophy
 
@@ -30,20 +30,6 @@
 - カスタムCSSを最小限に
 
 ## Component Design
-
-### Directory Structure
-
-```
-src/
-├── assets/             # 静的ファイル
-├── components/
-│   ├── forms/          # フォーム関連コンポーネント
-│   ├── layout/         # レイアウトコンポーネント
-│   └── ui/             # 再利用可能なUIコンポーネント
-├── layouts/            # ページレイアウト
-├── pages/              # ページファイル
-└── styles/             # グローバルスタイル
-```
 
 ### Design Principles
 - 単一責任の原則
@@ -105,24 +91,54 @@ src/
 - 確実に進めるため、方針を確認しながら順番に進める
 - 各ステップで動作確認を行う
 
+## Environment and Configuration
+
+### Development Mode
+- 開発モードでは、APIコールがダミーレスポンスを返します
+- `import.meta.env.DEV`でモード判定
+- 本番環境では環境変数による設定が必要
+
+### Environment Variables
+- `PUBLIC_RECAPTCHA_SITE_KEY`: reCAPTCHA v3サイトキー
+- `PUBLIC_*_URL`: Google Apps Script関連のエンドポイント
+
+## Project Structure Guidelines
+
+### Page Structure
+- フォームページは`/YYYY/MM/(apply|survey)`パターンで配置
+- 各ページは`FormLayout.astro`を基本レイアウトとして使用
+- フォーム実装は専用TSXコンポーネント（`_*-form.tsx`）として分離
+
+### Component Organization
+- `components/forms/`: フォーム関連の共通コンポーネント
+- `components/ui/`: 再利用可能なUIコンポーネント
+- `components/layout/`: ページレイアウト要素
+- `hooks/`: カスタムフック（状態管理、API呼び出し等）
+- `services/`: 外部API連携
+
+### State Management Pattern
+- フォーム状態は`useForm`フックで管理
+- データ取得は`useDataFetch`、期限チェックは`useExpirationStatus`
+- SolidJSのSignalsとStoreを適切に使い分ける
+
 ## New Form Creation Checklist
 
 ### Structure & Components
 - [ ] `/YYYY/MM/(apply|survey)`パターンで`.astro`ファイル作成
-- [ ] FormLayout.astroと既存コンポーネントを再利用
-- [ ] レスポンシブデザインを実装
+- [ ] `FormLayout.astro`を使用したレイアウト構築
+- [ ] 専用フォームコンポーネント（TSX）の作成
+- [ ] 既存UIコンポーネントの再利用
+- [ ] レスポンシブデザインの実装
 
-### Security & Validation
-- [ ] reCAPTCHA v3統合を設定
-- [ ] クライアント・サーバーサイド検証を追加
-- [ ] CORS設定をテスト
+### Functionality & Integration
+- [ ] `useForm`フックを使用した状態管理
+- [ ] 適切なバリデーション（client/server-side）
+- [ ] reCAPTCHA v3統合の設定
+- [ ] Google Apps Script APIエンドポイント連携
+- [ ] エラーハンドリングとローディング状態
 
 ### Quality Assurance
-- [ ] WCAG 2.1 A/AA準拠を確認
-- [ ] プログレッシブエンハンスメントをテスト
-- [ ] パフォーマンスを最適化
-
-## References
-- [Astro](https://docs.astro.build/) | [SolidJS](https://www.solidjs.com/docs/latest) | [TailwindCSS](https://tailwindcss.com/docs)
-- [WCAG ガイドライン](https://www.w3.org/WAI/WCAG21/quickref/) | [Biome](https://biomejs.dev/)
-- [Google reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3)
+- [ ] WCAG 2.1 A/AA準拠の確認
+- [ ] プログレッシブエンハンスメント対応
+- [ ] 異なるデバイスでの動作確認
+- [ ] パフォーマンスの最適化
