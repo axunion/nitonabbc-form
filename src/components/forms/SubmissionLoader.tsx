@@ -1,6 +1,6 @@
-import { useScrollLock } from "@/hooks/useScrollLock";
 import { Show } from "solid-js";
 import { Portal } from "solid-js/web";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 export type SubmissionLoaderProps = {
 	isVisible: boolean;
@@ -12,11 +12,7 @@ export default function SubmissionLoader(props: SubmissionLoaderProps) {
 	return (
 		<Show when={props.isVisible}>
 			<Portal>
-				<div
-					class="fixed inset-0 bg-black/20 backdrop-blur-sm z-[9999] flex items-center justify-center"
-					aria-live="assertive"
-					aria-label="submitting"
-				>
+				<div class="fixed inset-0 bg-black/20 backdrop-blur-sm z-[9999] flex items-center justify-center">
 					<div class="relative opacity-0 scale-75 animate-[fadeInScale_0.3s_ease-out_forwards]">
 						<div class="flex space-x-3">
 							<div

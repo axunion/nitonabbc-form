@@ -1,5 +1,5 @@
-import { createEffect, onCleanup } from "solid-js";
 import type { Accessor } from "solid-js";
+import { createEffect, onCleanup } from "solid-js";
 
 export function useScrollLock(isLocked: Accessor<boolean> | boolean) {
 	createEffect(() => {

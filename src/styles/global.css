@@ -6,8 +6,12 @@
 
 .bg-pattern {
 	background-image: url("/bg-pattern-1.svg"), url("/bg-pattern-2.svg");
-	background-size: 800px 800px, 1200px 1200px;
-	background-position: 0 0, 180px 250px;
+	background-size:
+		800px 800px,
+		1200px 1200px;
+	background-position:
+		0 0,
+		180px 250px;
 	background-repeat: repeat;
 }
 

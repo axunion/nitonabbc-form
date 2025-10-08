@@ -1,5 +1,5 @@
-import Message from "@/components/forms/Message";
 import type { JSX } from "solid-js";
+import Message from "@/components/forms/Message";
 
 export type ExpiredMessageProps = {
 	children: JSX.Element;

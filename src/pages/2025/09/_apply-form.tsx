@@ -1,3 +1,4 @@
+import { createEffect, createSignal } from "solid-js";
 import { FormContainer, FormField, RecaptchaNotice } from "@/components/forms/";
 import {
 	Checkbox,
@@ -9,7 +10,6 @@ import {
 } from "@/components/ui/";
 import { churchNames } from "@/config/keiyo";
 import { useForm } from "@/hooks/useForm";
-import { createEffect, createSignal } from "solid-js";
 
 const APPLICATION_DEADLINE =
 	new Date("2025-09-04T00:00:00+09:00").getTime() / 1000;

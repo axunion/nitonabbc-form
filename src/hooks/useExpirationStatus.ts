@@ -1,5 +1,5 @@
-import { checkExpiration } from "@/services/api";
 import { createResource } from "solid-js";
+import { checkExpiration } from "@/services/api";
 
 export type ExpirationStatus = "valid" | "expired";
 

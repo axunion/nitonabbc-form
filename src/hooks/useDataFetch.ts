@@ -1,5 +1,5 @@
-import { fetchData } from "@/services/api";
 import { createResource } from "solid-js";
+import { fetchData } from "@/services/api";
 
 export function useDataFetch<T = unknown[][]>(params?: Record<string, string>) {
 	const [confirmData, { refetch, mutate }] = createResource(
