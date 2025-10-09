@@ -1,9 +1,11 @@
 ---
+import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
+import Footer from "@/components/layout/Footer.astro";
 import FormLayout from "@/layouts/FormLayout.astro";
-import ConfirmList from "./_confirm-list";
+// import ConfirmList from "./_confirm-list";
 ---
 
-<FormLayout title="京葉地区青年キャンプ 参加申し込み" useRecaptcha={true}>
+<FormLayout title="京葉地区青年キャンプ 参加申し込み確認">
 	<header
 		class="bg-gradient-to-br from-indigo-600 via-blue-600 to-purple-700 text-white"
 	>
@@ -12,7 +14,10 @@ import ConfirmList from "./_confirm-list";
 		</h1>
 	</header>
 
-	<main class="py-4 max-w-256 m-auto">
-		<ConfirmList client:only />
+	<main class="p-4 mt-4">
+		<!-- <ConfirmList client:only /> -->
+		<ExpiredMessage>
+			<p class="my-8">この申し込みは終了しています。</p>
+		</ExpiredMessage>
 	</main>
 </FormLayout>
