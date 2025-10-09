@@ -5,10 +5,10 @@ import "@/styles/global.css";
 export type Props = {
 	title: string;
 	description?: string;
-	useRecaptcha?: boolean;
+	loadRecaptcha?: boolean;
 };
 
-const { title, description = "", useRecaptcha = false } = Astro.props;
+const { title, description = "", loadRecaptcha = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -21,7 +21,7 @@ const { title, description = "", useRecaptcha = false } = Astro.props;
 		<meta name="description" content={description} />
 		<title>{title}</title>
 		{
-			useRecaptcha && config.recaptcha.siteKey && (
+			loadRecaptcha && config.recaptcha.siteKey && (
 				<script
 					src={`https://www.google.com/recaptcha/api.js?render=${config.recaptcha.siteKey}`}
 				/>
