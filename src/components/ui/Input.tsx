@@ -36,7 +36,7 @@ export default function Input(props: InputProps) {
 				title={props.title}
 				list={listId}
 				onInput={props.onInput}
-				class={`appearance-none w-full borde-0 bg-transparent focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
+				class={`appearance-none w-full border-0 bg-transparent focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
 					props.class || ""
 				}`}
 				aria-describedby={`${props.name}-description`}

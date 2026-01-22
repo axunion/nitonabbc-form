@@ -29,9 +29,6 @@ const I = {
 	WORKSHOP2: 9,
 } as const;
 
-const urlParams = new URLSearchParams(window.location.search);
-const params = { type: "202509a", value: urlParams.get("v") || "" };
-
 const formatCurrency = (amount: number) => {
 	return amount.toLocaleString("ja-JP", {
 		style: "currency",
@@ -40,6 +37,9 @@ const formatCurrency = (amount: number) => {
 };
 
 export default function ConfirmList() {
+	const urlParams = new URLSearchParams(window.location.search);
+	const params = { type: "202509a", value: urlParams.get("v") || "" };
+
 	if (!params.value) return;
 
 	const fadeInClass = "animate-[fadeIn_0.5s_ease-out_forwards]";

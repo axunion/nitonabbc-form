@@ -11,9 +11,6 @@ import {
 import { churchNames } from "@/config/keiyo";
 import { useForm } from "@/hooks/useForm";
 
-const APPLICATION_DEADLINE =
-	new Date("2025-09-04T00:00:00+09:00").getTime() / 1000;
-
 const initialFormData = {
 	type: "202509a",
 	churchName: "",
@@ -72,6 +69,7 @@ export default function ApplyForm() {
 		bindCheckbox,
 		isSubmitting,
 		submissionState,
+		errorMessage,
 		handleSubmit,
 	} = useForm(initialFormData);
 
@@ -92,10 +90,11 @@ export default function ApplyForm() {
 		<FormContainer
 			isSubmitting={isSubmitting}
 			submissionState={submissionState}
-			deadline={APPLICATION_DEADLINE}
+			type={initialFormData.type}
 			expiredMessage="この申し込みは終了しています。"
 			successTitle="申し込みが完了しました"
 			successMessage="ご参加ありがとうございます。"
+			errorMessage={errorMessage}
 		>
 			<form
 				onSubmit={handleSubmit}

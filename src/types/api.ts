@@ -12,7 +12,7 @@ export type ExpirationStatusResponse =
 	| ExpirationStatusSuccessResponse
 	| ExpirationStatusErrorResponse;
 
-export type FromSubmissionSuccessResponse = {
+export type FormSubmissionSuccessResponse = {
 	result: "done";
 };
 
@@ -22,7 +22,7 @@ export type FormSubmissionErrorResponse = {
 };
 
 export type FormSubmissionResult =
-	| FromSubmissionSuccessResponse
+	| FormSubmissionSuccessResponse
 	| FormSubmissionErrorResponse;
 
 export type FetchDataSuccessResponse<T> = {

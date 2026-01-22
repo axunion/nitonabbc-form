@@ -16,7 +16,7 @@ export type FormContainerProps = {
 	successTitle?: string;
 	successMessage?: string;
 	errorTitle?: string;
-	errorMessage?: string;
+	errorMessage?: string | (() => string);
 };
 
 export default function FormContainer(props: FormContainerProps) {
@@ -82,7 +82,9 @@ export default function FormContainer(props: FormContainerProps) {
 							{props.errorTitle || "送信に失敗しました"}
 						</h2>
 						<p class="text-red-700 mb-4">
-							{props.errorMessage || "恐れ入りますが、再度お試しください。"}
+							{(typeof props.errorMessage === "function"
+								? props.errorMessage()
+								: props.errorMessage) || "恐れ入りますが、再度お試しください。"}
 						</p>
 					</ErrorMessage>
 				</Show>

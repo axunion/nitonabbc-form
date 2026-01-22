@@ -26,6 +26,7 @@ export default function SurveyForm() {
 		bindCheckbox,
 		isSubmitting,
 		submissionState,
+		errorMessage,
 		handleSubmit,
 	} = useForm(initialFormData);
 
@@ -37,6 +38,7 @@ export default function SurveyForm() {
 			expiredMessage="このアンケートは準備中です。"
 			successTitle="送信が完了しました"
 			successMessage="ご協力ありがとうございます。"
+			errorMessage={errorMessage}
 		>
 			<form
 				onSubmit={handleSubmit}
@@ -89,7 +91,7 @@ export default function SurveyForm() {
 						options={[
 							{ label: "忙しかった", value: "忙しかった" },
 							{ label: "ちょうどよかった", value: "ちょうどよかった" },
-							{ label: "余裕があった", value: "余裕があったÏ" },
+							{ label: "余裕があった", value: "余裕があった" },
 						]}
 						required
 						{...bindChange("schedulePace")}
