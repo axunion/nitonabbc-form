@@ -1,4 +1,5 @@
 import { config } from "@/config/env";
+import { shouldMockError, shouldUseMockApi } from "@/services/mock-api";
 import type {
 	ExpirationStatusResponse,
 	FetchDataResponse,
@@ -8,13 +9,12 @@ import type {
 export async function checkExpiration(
 	type: string,
 ): Promise<ExpirationStatusResponse> {
-	if (import.meta.env.DEV) {
+	if (import.meta.env.DEV && shouldUseMockApi()) {
 		await new Promise((resolve) => setTimeout(resolve, 500));
-		const shouldError = false;
-		const resultDone = { result: "done", expired: false };
-		const resultError = { result: "error", error: "Dummy error message." };
-		const result = shouldError ? resultDone : resultError;
-		console.log("Dummy response:", result);
+		const result = shouldMockError()
+			? { result: "error", error: "Dummy error message." }
+			: { result: "done", expired: false };
+		console.log("Mock response:", result);
 		return result as ExpirationStatusResponse;
 	}
 
@@ -41,15 +41,13 @@ export async function submitForm(
 	formData: Record<string, string>,
 	recaptchaToken?: string,
 ): Promise<FormSubmissionResult> {
-	if (import.meta.env.DEV) {
+	if (import.meta.env.DEV && shouldUseMockApi()) {
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-		const shouldError = false;
-		const resultDone = { result: "done" };
-		const resultError = { result: "error", error: "Dummy error message." };
-		const result = shouldError ? resultDone : resultError;
-		console.log("Development mode: Using dummy response");
+		const result = shouldMockError()
+			? { result: "error", error: "Dummy error message." }
+			: { result: "done" };
+		console.log("Mock response:", result);
 		console.log("Form data:", formData);
-		console.log("Dummy response:", result);
 		return result as FormSubmissionResult;
 	}
 
@@ -76,14 +74,12 @@ export async function submitForm(
 export async function fetchData<T>(
 	params?: Record<string, string | number | boolean>,
 ): Promise<FetchDataResponse<T>> {
-	if (import.meta.env.DEV) {
+	if (import.meta.env.DEV && shouldUseMockApi()) {
 		await new Promise((resolve) => setTimeout(resolve, 500));
-		const shouldError = false;
-		const resultDone = { result: "done", data: [] };
-		const resultError = { result: "error", error: "Dummy error message." };
-		const result = shouldError ? resultDone : resultError;
-		console.log("Development mode: Using dummy fetch data");
-		console.log("Dummy response:", result);
+		const result = shouldMockError()
+			? { result: "error", error: "Dummy error message." }
+			: { result: "done", data: [] };
+		console.log("Mock response:", result);
 		return result as FetchDataResponse<T>;
 	}
 
