@@ -1,65 +1,61 @@
 # nitonabbc-form
 
-A modern web application for creating event registration and survey forms, built with Astro, SolidJS, and TailwindCSS.
+Astro、SolidJS、TailwindCSS を使用したイベント申込フォームとアンケートフォームを作成するウェブアプリケーションです。
 
-## Features
+## 特徴
 
-- **Modern Stack**: Built with Astro, SolidJS, and TailwindCSS
-- **Islands Architecture**: Minimal client-side JavaScript for optimal performance
-- **Responsive Design**: Mobile-first approach with accessible UI components
-- **Form Validation**: Client and server-side validation with real-time feedback
-- **Google Integration**: Seamless data management via Google Apps Script
-- **Security**: reCAPTCHA v3 protection against spam
-- **Accessibility**: WCAG 2.1 A/AA compliance
+- **モダンな技術スタック**: Astro、SolidJS、TailwindCSS を採用
+- **Islands Architecture**: 最小限のクライアントサイド JavaScript で最適なパフォーマンスを実現
+- **レスポンシブデザイン**: モバイルファーストでアクセシブルな UI コンポーネント
+- **フォームバリデーション**: リアルタイムフィードバックによるクライアント・サーバーサイド検証
+- **Google 連携**: Google Apps Script と Google Spreadsheet によるシームレスなデータ管理
+- **セキュリティ**: reCAPTCHA v3 によるスパム対策
+- **アクセシビリティ**: WCAG 2.1 A/AA 準拠
 
-## Getting Started
+## はじめに
 
-### Prerequisites
+### 必要な環境
 
-- Node.js (latest LTS version recommended)
-- npm or your preferred package manager
+- Node.js 24（Volta でバージョン管理）
+- pnpm
 
-### Installation
+### インストール
 
 ```bash
-# Clone the repository
+# リポジトリをクローン
 git clone https://github.com/your-username/nitonabbc-form.git
 cd nitonabbc-form
 
-# Install dependencies
-npm install
+# 依存関係をインストール
+pnpm install
 
-# Start development server
-npm run dev
+# 開発サーバーを起動
+pnpm dev
 ```
 
-### Development Commands
+### コマンド
 
 ```bash
-# Development
-npm run dev          # Start dev server
-npm run build        # Build for production
-npm run preview      # Preview production build
+# 開発
+pnpm dev          # 開発サーバー起動
+pnpm build        # 本番ビルド
+pnpm preview      # 本番ビルドのプレビュー
 
-# Code Quality
-npm run check        # Check code quality
-npm run check:write  # Fix code quality issues
-npm run format       # Format code
-npm run lint         # Lint code
+# コード品質（Biome）
+pnpm check        # フォーマット・リント・品質チェック
+pnpm check:write  # 上記を自動修正
 ```
 
-## Usage
+## 使い方
 
-### Form Pages
+### フォームページ
 
-Forms are organized by date and type following the pattern `/YYYY/MM/(apply|survey)`:
+フォームは `/YYYY/MM/(apply|survey)` のパターンで日付とタイプ別に整理されています：
 
-- **Registration Forms**: `/YYYY/MM/apply` - For event sign-ups
-- **Survey Forms**: `/YYYY/MM/survey` - For post-event feedback
+- **申込フォーム**: `/YYYY/MM/apply` - イベント参加申込用
+- **アンケートフォーム**: `/YYYY/MM/survey` - イベント後のフィードバック用
 
-### Configuration
-
-Set up your environment variables:
+### 環境変数の設定
 
 ```bash
 # .env
