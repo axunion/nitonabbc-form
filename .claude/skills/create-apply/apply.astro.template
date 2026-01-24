@@ -1,0 +1,28 @@
+---
+import Footer from "@/components/layout/Footer.astro";
+import Header from "@/components/layout/Header.astro";
+import Main from "@/components/layout/Main.astro";
+import FormLayout from "@/layouts/FormLayout.astro";
+import ApplyForm from "./_apply-form";
+---
+
+<FormLayout title="{{EVENT_NAME}} 参加申し込み" loadRecaptcha>
+	<Header>
+		<h1 slot="title" class="text-xl md:text-3xl font-bold">
+			{{EVENT_NAME}} 参加申し込み
+		</h1>
+		<p slot="description" class="mt-12 text-lg text-blue-100">
+			{{EVENT_DATE}}
+		</p>
+	</Header>
+
+	<Main>
+		<ApplyForm client:only="solid-js" />
+	</Main>
+
+	<Footer>
+		<p class="pt-12">
+			<small>© {{YEAR}} Keiyo Area United Youth Association.</small>
+		</p>
+	</Footer>
+</FormLayout>
