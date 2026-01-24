@@ -1,0 +1,28 @@
+---
+import Footer from "@/components/layout/Footer.astro";
+import Header from "@/components/layout/Header.astro";
+import Main from "@/components/layout/Main.astro";
+import FormLayout from "@/layouts/FormLayout.astro";
+import SurveyForm from "./_survey-form.tsx";
+---
+
+<FormLayout title="{{EVENT_NAME}} アンケート" loadRecaptcha>
+	<Header>
+		<h1 slot="title" class="text-xl md:text-3xl font-bold tracking-tight">
+			{{EVENT_NAME}} アンケート
+		</h1>
+		<p slot="description" class="text-sm md:text-base text-blue-100">
+			{{EVENT_DATE}}
+		</p>
+	</Header>
+
+	<Main>
+		<SurveyForm client:only="solid-js" />
+	</Main>
+
+	<Footer>
+		<p class="pt-12">
+			<small>© {{YEAR}} Keiyo Area United Youth Association.</small>
+		</p>
+	</Footer>
+</FormLayout>
