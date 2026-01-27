@@ -1,0 +1,28 @@
+---
+import Footer from "@/components/layout/Footer.astro";
+import Header from "@/components/layout/Header.astro";
+import Main from "@/components/layout/Main.astro";
+import FormLayout from "@/layouts/FormLayout.astro";
+import ApplyForm from "./_apply-form";
+---
+
+<FormLayout title="京葉地区合同青年会 参加申し込み" loadRecaptcha>
+	<Header>
+		<h1 slot="title" class="text-xl md:text-3xl font-bold">
+			京葉地区合同青年会 参加申し込み
+		</h1>
+		<p slot="description" class="mt-8 text-lg text-blue-100">
+			2026年2月22日
+		</p>
+	</Header>
+
+	<Main>
+		<ApplyForm client:only="solid-js" />
+	</Main>
+
+	<Footer>
+		<p class="pt-12">
+			<small>© 2026 Keiyo Area United Youth Association.</small>
+		</p>
+	</Footer>
+</FormLayout>
