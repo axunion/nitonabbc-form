@@ -20,7 +20,6 @@ export default function ApplyForm() {
 		bindChange,
 		isSubmitting,
 		submissionState,
-		errorMessage,
 		handleSubmit,
 	} = useForm(initialFormData);
 
@@ -32,7 +31,6 @@ export default function ApplyForm() {
 			expiredMessage="この申し込みは終了しています。"
 			successTitle="申し込みが完了しました"
 			successMessage="ご参加ありがとうございます。"
-			errorMessage={errorMessage}
 		>
 			<form
 				onSubmit={handleSubmit}
@@ -110,9 +108,9 @@ export default function ApplyForm() {
 					<TextArea maxlength="1024" {...bindInput("comments")} />
 				</FormField>
 
-				<RecaptchaNotice />
-
 				<SubmitButton>申込する</SubmitButton>
+
+				<RecaptchaNotice />
 			</form>
 		</FormContainer>
 	);

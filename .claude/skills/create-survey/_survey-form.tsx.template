@@ -25,7 +25,6 @@ export default function SurveyForm() {
 		bindChange,
 		isSubmitting,
 		submissionState,
-		errorMessage,
 		handleSubmit,
 	} = useForm(initialFormData);
 
@@ -37,7 +36,6 @@ export default function SurveyForm() {
 			expiredMessage="このアンケートは終了しています。"
 			successTitle="送信が完了しました"
 			successMessage="ご協力ありがとうございます。"
-			errorMessage={errorMessage}
 		>
 			<form
 				onSubmit={handleSubmit}

@@ -10,8 +10,6 @@ export function useForm(initialData: Record<string, string>) {
 	const [isSubmitting, setIsSubmitting] = createSignal(false);
 	const [submissionState, setSubmissionState] =
 		createSignal<SubmissionState>("idle");
-	const [errorMessage, setErrorMessage] = createSignal("");
-
 	const resetForm = () => {
 		setFormData(initialData);
 	};
@@ -59,7 +57,6 @@ export function useForm(initialData: Record<string, string>) {
 
 		setIsSubmitting(true);
 		setSubmissionState("submitting");
-		setErrorMessage("");
 
 		try {
 			const trimmedData = Object.fromEntries(
@@ -73,17 +70,14 @@ export function useForm(initialData: Record<string, string>) {
 				return true;
 			}
 
+			if (result.error) {
+				console.error("Submission error:", result.error);
+			}
 			setSubmissionState("error");
-			setErrorMessage(result.error || "An unexpected error occurred.");
 			return false;
 		} catch (error) {
 			console.error("Submission error:", error);
 			setSubmissionState("error");
-			setErrorMessage(
-				error instanceof Error
-					? error.message
-					: "An unexpected error occurred.",
-			);
 			return false;
 		} finally {
 			setIsSubmitting(false);
@@ -95,7 +89,6 @@ export function useForm(initialData: Record<string, string>) {
 		setFormData,
 		isSubmitting,
 		submissionState,
-		errorMessage,
 		resetForm,
 		bindInput,
 		bindChange,
