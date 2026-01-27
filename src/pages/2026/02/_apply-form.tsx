@@ -1,5 +1,11 @@
 import { FormContainer, FormField, RecaptchaNotice } from "@/components/forms/";
-import { Input, RadioGroup, Select, SubmitButton, TextArea } from "@/components/ui/";
+import {
+	Input,
+	RadioGroup,
+	Select,
+	SubmitButton,
+	TextArea,
+} from "@/components/ui/";
 import { churchNames } from "@/config/keiyo";
 import { useForm } from "@/hooks/useForm";
 
@@ -15,14 +21,8 @@ const initialFormData = {
 };
 
 export default function ApplyForm() {
-	const {
-		bindInput,
-		bindChange,
-		isSubmitting,
-		submissionState,
-		errorMessage,
-		handleSubmit,
-	} = useForm(initialFormData);
+	const { bindInput, bindChange, isSubmitting, submissionState, handleSubmit } =
+		useForm(initialFormData);
 
 	return (
 		<FormContainer
@@ -32,7 +32,6 @@ export default function ApplyForm() {
 			expiredMessage="この申し込みは終了しています。"
 			successTitle="申し込みが完了しました"
 			successMessage="ご参加ありがとうございます。"
-			errorMessage={errorMessage}
 		>
 			<form
 				onSubmit={handleSubmit}
@@ -113,7 +112,6 @@ export default function ApplyForm() {
 				<FormField label="備考">
 					<TextArea maxlength="1024" {...bindInput("comments")} />
 				</FormField>
-
 
 				<SubmitButton>申込する</SubmitButton>
 
