@@ -4,9 +4,9 @@ export type TextAreaProps = {
 	placeholder?: string;
 	required?: boolean;
 	value?: string;
-	rows?: string;
+	rows?: number;
 	disabled?: boolean;
-	maxlength?: string;
+	maxlength?: number;
 	onInput?: (e: InputEvent & { currentTarget: HTMLTextAreaElement }) => void;
 };
 

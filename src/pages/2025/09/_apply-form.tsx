@@ -85,8 +85,8 @@ export default function ApplyForm() {
 				<FormField label="教会名" required>
 					<Input
 						type="text"
-						minlength="1"
-						maxlength="32"
+						minlength={1}
+						maxlength={32}
 						required
 						autocompleteOptions={churchNames}
 						{...bindInput("churchName")}
@@ -96,8 +96,8 @@ export default function ApplyForm() {
 				<FormField label="氏名" required>
 					<Input
 						type="text"
-						minlength="1"
-						maxlength="32"
+						minlength={1}
+						maxlength={32}
 						required
 						{...bindInput("fullName")}
 					/>
@@ -106,8 +106,8 @@ export default function ApplyForm() {
 				<FormField label="ふりがな" required>
 					<Input
 						type="text"
-						minlength="1"
-						maxlength="32"
+						minlength={1}
+						maxlength={32}
 						required
 						{...bindInput("kanaName")}
 					/>
@@ -116,8 +116,8 @@ export default function ApplyForm() {
 				<FormField label="年齢" required>
 					<Input
 						type="text"
-						minlength="1"
-						maxlength="2"
+						minlength={1}
+						maxlength={2}
 						pattern="\d{1,2}"
 						title="1〜2桁の数字を入力してください"
 						required
@@ -128,8 +128,8 @@ export default function ApplyForm() {
 				<FormField label="住所" required>
 					<Input
 						type="text"
-						minlength="1"
-						maxlength="256"
+						minlength={1}
+						maxlength={256}
 						required
 						{...bindInput("address")}
 					/>
@@ -237,7 +237,7 @@ export default function ApplyForm() {
 				)}
 
 				<FormField label="備考">
-					<TextArea maxlength="1024" {...bindInput("comments")} />
+					<TextArea maxlength={1024} {...bindInput("comments")} />
 				</FormField>
 
 				<RecaptchaNotice />

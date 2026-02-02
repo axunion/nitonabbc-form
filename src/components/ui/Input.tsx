@@ -8,8 +8,8 @@ export type InputProps = {
 	required?: boolean;
 	value?: string;
 	disabled?: boolean;
-	minlength?: string;
-	maxlength?: string;
+	minlength?: number;
+	maxlength?: number;
 	pattern?: string;
 	title?: string;
 	autocompleteOptions?: string[];
