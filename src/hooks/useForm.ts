@@ -5,8 +5,10 @@ import { getReCaptchaToken } from "@/services/recaptcha";
 
 export type SubmissionState = "idle" | "submitting" | "success" | "error";
 
-export function useForm(initialData: Record<string, string>) {
-	const [formData, setFormData] = createStore(initialData);
+export function useForm<T extends Record<string, string>>(initialData: T) {
+	const [formData, setFormData] = createStore(
+		initialData as Record<string, string>,
+	);
 	const [isSubmitting, setIsSubmitting] = createSignal(false);
 	const [submissionState, setSubmissionState] =
 		createSignal<SubmissionState>("idle");
@@ -14,7 +16,7 @@ export function useForm(initialData: Record<string, string>) {
 		setFormData(initialData);
 	};
 
-	const bindInput = (name: string) => ({
+	const bindInput = (name: keyof T & string) => ({
 		name,
 		value: formData[name],
 		disabled: isSubmitting(),
@@ -25,7 +27,7 @@ export function useForm(initialData: Record<string, string>) {
 		) => setFormData(name, e.currentTarget.value),
 	});
 
-	const bindChange = (name: string) => ({
+	const bindChange = (name: keyof T & string) => ({
 		name,
 		value: formData[name],
 		disabled: isSubmitting(),
@@ -36,7 +38,7 @@ export function useForm(initialData: Record<string, string>) {
 		) => setFormData(name, e.currentTarget.value),
 	});
 
-	const bindCheckbox = (name: string, checkedValue: string) => ({
+	const bindCheckbox = (name: keyof T & string, checkedValue: string) => ({
 		name,
 		value: checkedValue,
 		checked: formData[name] === checkedValue,
@@ -59,7 +61,7 @@ export function useForm(initialData: Record<string, string>) {
 		setSubmissionState("submitting");
 
 		try {
-			const trimmedData = Object.fromEntries(
+			const trimmedData: Record<string, string> = Object.fromEntries(
 				Object.entries(formData).map(([key, value]) => [key, value.trim()]),
 			);
 			const recaptchaToken = await getReCaptchaToken();
