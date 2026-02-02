@@ -16,7 +16,7 @@ export async function getReCaptchaToken(action = "submit"): Promise<string> {
 	return new Promise((resolve, reject) => {
 		if (typeof window === "undefined" || !window.grecaptcha) {
 			console.warn("reCAPTCHA not loaded");
-			resolve("");
+			reject(new Error("reCAPTCHA not loaded"));
 			return;
 		}
 
