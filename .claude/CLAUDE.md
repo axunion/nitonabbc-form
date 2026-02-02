@@ -26,6 +26,10 @@ pnpm preview          # 本番ビルドのプレビュー
 # コード品質（Biome）
 pnpm check            # フォーマット・リント・品質チェック
 pnpm check:write      # 上記を自動修正
+
+# テスト（Vitest）
+pnpm test             # テスト実行
+pnpm test:watch       # ウォッチモード
 ```
 
 ## Architecture
@@ -113,6 +117,15 @@ PUBLIC_POST_TO_SHEET_URL      # フォーム送信エンドポイント
 PUBLIC_FETCH_FROM_SHEET_URL   # データ取得エンドポイント
 PUBLIC_CREATE_SHEET_URL       # シート作成エンドポイント
 ```
+
+## Design Decisions
+
+- **過去ページ残置** - 過去イベントのページは削除せず残す。参加者がURLをブックマークしている可能性がある
+- **indexページなし** - トップページは不要。各フォームURLを直接共有する運用
+- **GAS type mapping** - フォームタイプID（`202509a`, `202509s`）が GAS 側のスプレッドシートに対応
+- **単一エンドポイント** - 送信・期限チェック・データ取得を少数の GAS エンドポイントで処理。`type` パラメータで振り分け
+- **小規模想定** - 数十人規模の申込を扱う。DB やキューは不要で GAS + Spreadsheet で十分
+- **Cloudflare Pages デプロイ** - 静的サイトとして Cloudflare Pages にデプロイ。サーバーサイド処理は GAS に委譲
 
 ## New Form Creation
 
