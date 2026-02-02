@@ -44,6 +44,10 @@ pnpm preview      # 本番ビルドのプレビュー
 # コード品質（Biome）
 pnpm check        # フォーマット・リント・品質チェック
 pnpm check:write  # 上記を自動修正
+
+# テスト（Vitest）
+pnpm test         # テスト実行
+pnpm test:watch   # ウォッチモード
 ```
 
 ## 使い方
