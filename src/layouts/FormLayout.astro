@@ -33,6 +33,6 @@ const { title, description = "", loadRecaptcha = false } = Astro.props;
 		<div class="bg-pattern bg-slate-100 min-h-dvh text-gray-700">
 			<slot />
 		</div>
-		<DevApiToggle client:only="solid-js" />
+		{import.meta.env.DEV && <DevApiToggle client:only="solid-js" />}
 	</body>
 </html>
