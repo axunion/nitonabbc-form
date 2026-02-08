@@ -1,4 +1,4 @@
-import { createSignal, onMount, Show } from "solid-js";
+import { createSignal, onMount } from "solid-js";
 import { type ApiMode, getApiMode, setApiMode } from "@/services/mock-api";
 
 const MODE_CONFIG: Record<
@@ -42,15 +42,13 @@ export default function DevApiToggle() {
 	const config = () => MODE_CONFIG[mode()];
 
 	return (
-		<Show when={import.meta.env.DEV}>
-			<button
-				type="button"
-				onClick={toggle}
-				class={`fixed top-4 right-4 z-50 w-12 h-12 rounded-full shadow-lg text-xs font-bold text-white transition-colors ${config().bg}`}
-				title={config().title}
-			>
-				{config().label}
-			</button>
-		</Show>
+		<button
+			type="button"
+			onClick={toggle}
+			class={`fixed top-4 right-4 z-50 w-12 h-12 rounded-full shadow-lg text-xs font-bold text-white transition-colors ${config().bg}`}
+			title={config().title}
+		>
+			{config().label}
+		</button>
 	);
 }
