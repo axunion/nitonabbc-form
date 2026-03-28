@@ -1,5 +1,6 @@
 import { createSignal, onMount } from "solid-js";
 import { type ApiMode, getApiMode, setApiMode } from "@/services/mock-api";
+import styles from "./DevApiToggle.module.css";
 
 const MODE_CONFIG: Record<
 	ApiMode,
@@ -7,17 +8,17 @@ const MODE_CONFIG: Record<
 > = {
 	"mock-ok": {
 		label: "OK",
-		bg: "bg-emerald-500",
+		bg: "var(--color-emerald-500)",
 		title: "モックAPI(正常) - クリックでエラーに切替",
 	},
 	"mock-err": {
 		label: "ERR",
-		bg: "bg-red-500",
+		bg: "var(--color-red-500)",
 		title: "モックAPI(エラー) - クリックで本番APIに切替",
 	},
 	real: {
 		label: "API",
-		bg: "bg-blue-600",
+		bg: "var(--color-blue-600)",
 		title: "本番API - クリックでモック(正常)に切替",
 	},
 };
@@ -45,7 +46,8 @@ export default function DevApiToggle() {
 		<button
 			type="button"
 			onClick={toggle}
-			class={`fixed top-4 right-4 z-50 w-12 h-12 rounded-full shadow-lg text-xs font-bold text-white transition-colors ${config().bg}`}
+			class={styles.toggle}
+			style={{ "background-color": config().bg }}
 			title={config().title}
 		>
 			{config().label}

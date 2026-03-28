@@ -1,4 +1,6 @@
 import type { JSX } from "solid-js";
+import { cn } from "@/utils/cn";
+import styles from "./FormField.module.css";
 
 export type FormFieldProps = {
 	class?: string;
@@ -9,15 +11,11 @@ export type FormFieldProps = {
 
 export default function FormField(props: FormFieldProps) {
 	return (
-		<div
-			class={`p-4 md:p-6 bg-white/80 rounded-sm border border-indigo-200 ${
-				props.class || ""
-			}`}
-		>
+		<div class={cn(styles.field, props.class)}>
 			{props.label && (
-				<div class="mb-8 font-bold text-sm">
+				<div class={styles.label}>
 					{props.label}
-					{props.required && <span class="text-red-400 ml-1">*</span>}
+					{props.required && <span class={styles.required}>*</span>}
 				</div>
 			)}
 

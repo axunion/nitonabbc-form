@@ -5,18 +5,44 @@ import FormLayout from "@/layouts/FormLayout.astro";
 ---
 
 <FormLayout title="京葉地区青年キャンプ 参加申し込み確認">
-	<header
-		class="bg-linear-to-br from-indigo-600 via-blue-600 to-purple-700 text-white"
-	>
-		<h1 class="py-6 text-center text-lg font-bold">
+	<header class="page-header">
+		<h1 class="page-title">
 			京葉地区青年キャンプ 参加申し込み確認
 		</h1>
 	</header>
 
-	<main class="p-4 mt-4">
+	<main class="page-main">
 		<!-- <ConfirmList client:only /> -->
 		<ExpiredMessage>
-			<p class="my-8">この申し込みは終了しています。</p>
+			<p class="notice">この申し込みは終了しています。</p>
 		</ExpiredMessage>
 	</main>
 </FormLayout>
+
+<style>
+	.page-header {
+		background: linear-gradient(
+			to bottom right,
+			var(--color-indigo-600),
+			var(--color-blue-600),
+			var(--color-purple-700)
+		);
+		color: white;
+	}
+
+	.page-title {
+		padding-block: var(--space-6);
+		text-align: center;
+		font-size: var(--text-lg);
+		font-weight: bold;
+	}
+
+	.page-main {
+		padding: var(--space-4);
+		margin-top: var(--space-4);
+	}
+
+	.notice {
+		margin-block: var(--space-8);
+	}
+</style>

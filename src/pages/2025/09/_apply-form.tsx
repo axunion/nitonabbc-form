@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/";
 import { churchNames } from "@/config/keiyo";
 import { useForm } from "@/hooks/useForm";
+import styles from "./_apply-form.module.css";
 import { calcTotal } from "./_calc-total";
 
 const initialFormData = {
@@ -78,10 +79,7 @@ export default function ApplyForm() {
 			successTitle="申し込みが完了しました"
 			successMessage="ご参加ありがとうございます。"
 		>
-			<form
-				onSubmit={handleSubmit}
-				class="space-y-2 animate-[fadeIn_0.3s_ease-out]"
-			>
+			<form onSubmit={handleSubmit} class={styles.form}>
 				<FormField label="教会名" required>
 					<Input
 						type="text"
@@ -186,8 +184,8 @@ export default function ApplyForm() {
 					/>
 
 					{participationType() === "partial" && (
-						<div class="mt-4">
-							<div class="px-4 space-y-2">
+						<div class={styles.partialOptions}>
+							<div class={styles.checkboxGroup}>
 								<Checkbox {...bindCheckbox("day1Dinner", "true")}>
 									1日目 夕食
 								</Checkbox>
@@ -202,7 +200,7 @@ export default function ApplyForm() {
 								</Checkbox>
 							</div>
 
-							<div class="mt-2 pt-2 pl-12 border-t border-gray-300">
+							<div class={styles.feeDisplay}>
 								&yen; {calcTotal(formData).toLocaleString()} -
 							</div>
 						</div>

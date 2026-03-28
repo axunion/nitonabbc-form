@@ -1,5 +1,6 @@
 import type { JSX } from "solid-js";
 import Message from "@/components/forms/Message";
+import styles from "./ExpiredMessage.module.css";
 
 export type ExpiredMessageProps = {
 	children: JSX.Element;
@@ -8,9 +9,9 @@ export type ExpiredMessageProps = {
 export default function ExpiredMessage(props: ExpiredMessageProps) {
 	return (
 		<Message>
-			<div class="flex justify-center mb-4">
+			<div class={styles.iconWrapper}>
 				<svg
-					class="w-12 h-12 text-orange-500"
+					class={styles.icon}
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
@@ -26,7 +27,7 @@ export default function ExpiredMessage(props: ExpiredMessageProps) {
 				</svg>
 			</div>
 
-			<div class="my-4 text-center">{props.children}</div>
+			<div class={styles.body}>{props.children}</div>
 		</Message>
 	);
 }

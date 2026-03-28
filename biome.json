@@ -18,6 +18,18 @@
 			"recommended": true
 		}
 	},
+	"css": {
+		"formatter": {
+			"enabled": true,
+			"indentStyle": "tab"
+		},
+		"linter": {
+			"enabled": true
+		},
+		"parser": {
+			"cssModules": true
+		}
+	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double"

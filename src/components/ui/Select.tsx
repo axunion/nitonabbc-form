@@ -1,4 +1,6 @@
 import { For } from "solid-js";
+import { cn } from "@/utils/cn";
+import styles from "./Select.module.css";
 
 export type SelectProps = {
 	class?: string;
@@ -12,16 +14,14 @@ export type SelectProps = {
 
 export default function Select(props: SelectProps) {
 	return (
-		<div class="relative p-1 border-b border-indigo-200">
+		<div class={styles.wrapper}>
 			<select
 				name={props.name}
 				required={props.required}
 				value={props.value || ""}
 				disabled={props.disabled}
 				onChange={props.onChange}
-				class={`appearance-none w-full border-0 bg-transparent focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
-					props.class || ""
-				}`}
+				class={cn(styles.select, props.class)}
 				aria-describedby={`${props.name}-description`}
 			>
 				<For each={props.options}>
@@ -33,10 +33,7 @@ export default function Select(props: SelectProps) {
 				</For>
 			</select>
 
-			<span
-				class="pointer-events-none absolute right-1 top-1 text-indigo-400"
-				aria-hidden="true"
-			>
+			<span class={styles.arrow} aria-hidden="true">
 				<svg
 					width="20"
 					height="20"

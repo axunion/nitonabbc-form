@@ -1,0 +1,16 @@
+.iconWrapper {
+	display: flex;
+	justify-content: center;
+	margin-bottom: var(--space-4);
+}
+
+.icon {
+	width: 3rem;
+	height: 3rem;
+	color: var(--color-orange-500);
+}
+
+.body {
+	margin-block: var(--space-4);
+	text-align: center;
+}

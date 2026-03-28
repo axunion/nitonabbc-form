@@ -1,4 +1,6 @@
 import { For } from "solid-js";
+import { cn } from "@/utils/cn";
+import styles from "./Input.module.css";
 
 export type InputProps = {
 	class?: string;
@@ -22,7 +24,7 @@ export default function Input(props: InputProps) {
 		: undefined;
 
 	return (
-		<div class="p-1 border-b border-indigo-200">
+		<div class={styles.wrapper}>
 			<input
 				type={props.type || "text"}
 				name={props.name}
@@ -36,9 +38,7 @@ export default function Input(props: InputProps) {
 				title={props.title}
 				list={listId}
 				onInput={props.onInput}
-				class={`appearance-none w-full border-0 bg-transparent focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed ${
-					props.class || ""
-				}`}
+				class={cn(styles.input, props.class)}
 				aria-describedby={`${props.name}-description`}
 			/>
 

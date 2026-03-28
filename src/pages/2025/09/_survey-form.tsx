@@ -1,6 +1,7 @@
 import { FormContainer, FormField, RecaptchaNotice } from "@/components/forms/";
 import { Checkbox, RadioGroup, SubmitButton, TextArea } from "@/components/ui/";
 import { useForm } from "@/hooks/useForm";
+import styles from "./_survey-form.module.css";
 
 const initialFormData = {
 	type: "202509s",
@@ -38,10 +39,7 @@ export default function SurveyForm() {
 			successTitle="送信が完了しました"
 			successMessage="ご協力ありがとうございます。"
 		>
-			<form
-				onSubmit={handleSubmit}
-				class="space-y-2 animate-[fadeIn_0.3s_ease-out]"
-			>
+			<form onSubmit={handleSubmit} class={styles.form}>
 				<FormField label="施設へのアクセスはいかがでしたか？" required>
 					<RadioGroup
 						options={[
@@ -97,7 +95,7 @@ export default function SurveyForm() {
 				</FormField>
 
 				<FormField label="興味のある分科会のテーマがあれば教えてください。">
-					<div class="space-y-2">
+					<div class={styles.checkboxGroup}>
 						<Checkbox {...bindCheckbox("dedication", "献身")}>献身</Checkbox>
 						<Checkbox {...bindCheckbox("marriage", "結婚")}>結婚</Checkbox>
 						<Checkbox {...bindCheckbox("work", "仕事")}>仕事</Checkbox>

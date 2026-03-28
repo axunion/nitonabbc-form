@@ -1,5 +1,6 @@
 import type { JSX } from "solid-js";
 import Message from "@/components/forms/Message";
+import styles from "./ErrorMessage.module.css";
 
 export type ErrorMessageProps = {
 	children: JSX.Element;
@@ -8,10 +9,10 @@ export type ErrorMessageProps = {
 export default function ErrorMessage(props: ErrorMessageProps) {
 	return (
 		<Message>
-			<div class="mb-6">
-				<div class="mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center animate-[shakeIn_0.7s_ease-out_forwards]">
+			<div class={styles.iconWrapper}>
+				<div class={styles.iconCircle}>
 					<svg
-						class="w-6 h-6 text-red-600"
+						class={styles.icon}
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -27,7 +28,7 @@ export default function ErrorMessage(props: ErrorMessageProps) {
 				</div>
 			</div>
 
-			<div class="space-y-4 text-center">{props.children}</div>
+			<div class={styles.body}>{props.children}</div>
 		</Message>
 	);
 }

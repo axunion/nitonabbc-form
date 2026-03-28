@@ -1,7 +1,26 @@
-<footer class="bg-linear-to-r from-indigo-700 to-purple-800 text-blue-100">
-	<div
-		class="max-w-3xl mx-auto p-4 min-h-[20vh] flex items-center justify-center"
-	>
+<footer>
+	<div class="inner">
 		<slot />
 	</div>
 </footer>
+
+<style>
+	footer {
+		background: linear-gradient(
+			to right,
+			var(--color-indigo-700),
+			var(--color-purple-800)
+		);
+		color: var(--color-blue-100);
+	}
+
+	.inner {
+		max-width: 48rem;
+		margin-inline: auto;
+		padding: var(--space-4);
+		min-height: 20vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+</style>

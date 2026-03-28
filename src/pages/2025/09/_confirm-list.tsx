@@ -1,6 +1,7 @@
 import { createMemo, For, Show } from "solid-js";
 import { LoadingSpinner } from "@/components/forms";
 import { useDataFetch } from "@/hooks/useDataFetch";
+import styles from "./_confirm-list.module.css";
 
 // ステータス,最新,参加費,氏名,①夕食,①宿泊,②朝食,②昼食,分科会 第一希望,分科会 第二希望
 type ConfirmListItem = [
@@ -42,8 +43,6 @@ export default function ConfirmList() {
 
 	if (!params.value) return;
 
-	const fadeInClass = "animate-[fadeIn_0.5s_ease-out_forwards]";
-	const cardClass = `mx-4 p-4 bg-white rounded shadow ${fadeInClass}`;
 	const { confirmData } = useDataFetch<ConfirmListItem[]>(params);
 
 	const validParticipants = createMemo(() => {
@@ -63,16 +62,16 @@ export default function ConfirmList() {
 	});
 
 	return (
-		<div class="py-4">
+		<div class={styles.container}>
 			<Show when={confirmData.state === "pending"}>
-				<div class="min-h-80 flex justify-center items-center">
+				<div class={styles.loadingCenter}>
 					<LoadingSpinner />
 				</div>
 			</Show>
 
 			<Show when={confirmData.state === "errored"}>
-				<div class={cardClass}>
-					<p class="my-8 text-center text-red-600">
+				<div class={styles.card}>
+					<p class={styles.errorText}>
 						{confirmData.error?.message || "エラーが発生しました"}
 					</p>
 				</div>
@@ -82,47 +81,51 @@ export default function ConfirmList() {
 				<Show
 					when={validParticipants().length > 0}
 					fallback={
-						<div class={cardClass}>
-							<p class="my-8 text-center">データがありません</p>
+						<div class={styles.card}>
+							<p class={styles.emptyText}>データがありません</p>
 						</div>
 					}
 				>
-					<div class={cardClass}>
-						<div class="font-bold text-center">
-							<span class="tracking-wider">参加費合計</span>
-							<span class="ml-2">{formatCurrency(totalFee())}</span>
+					<div class={styles.card}>
+						<div class={styles.summary}>
+							<span class={styles.summaryLabel}>参加費合計</span>
+							<span class={styles.summaryValue}>
+								{formatCurrency(totalFee())}
+							</span>
 						</div>
 					</div>
 
-					<div class="p-4 overflow-x-auto">
-						<table
-							class={`w-full min-w-max bg-white rounded shadow text-sm ${fadeInClass}`}
-						>
+					<div class={styles.tableWrapper}>
+						<table class={styles.table}>
 							<thead>
-								<tr class="border-b border-gray-300">
-									<th class="p-3 min-w-max">名前</th>
-									<th class="w-12">夕食</th>
-									<th class="w-12">宿泊</th>
-									<th class="w-12">朝食</th>
-									<th class="w-12">昼食</th>
-									<th class="w-20">参加費</th>
-									<th class="w-60">分科会第一希望</th>
-									<th class="w-60">分科会第二希望</th>
+								<tr class={styles.headerRow}>
+									<th class={styles.headerCell}>名前</th>
+									<th class={styles.headerCellNarrow}>夕食</th>
+									<th class={styles.headerCellNarrow}>宿泊</th>
+									<th class={styles.headerCellNarrow}>朝食</th>
+									<th class={styles.headerCellNarrow}>昼食</th>
+									<th class={styles.headerCellMedium}>参加費</th>
+									<th class={styles.headerCellWide}>分科会第一希望</th>
+									<th class={styles.headerCellWide}>分科会第二希望</th>
 								</tr>
 							</thead>
 							<tbody>
 								<For each={validParticipants()}>
 									{(item) => (
-										<tr class="even:bg-gray-50 text-center">
-											<td class="p-3 text-left">{item[I.FULL_NAME]}</td>
+										<tr class={styles.dataRow}>
+											<td class={styles.nameCell}>{item[I.FULL_NAME]}</td>
 											<For each={item.slice(I.DAY1_DINNER, I.DAY2_LUNCH + 1)}>
 												{(val) => <td>{val ? "○" : ""}</td>}
 											</For>
-											<td class="p-3">
+											<td class={styles.dataCell}>
 												{item[I.FEE] ? formatCurrency(item[I.FEE]) : "-"}
 											</td>
-											<td class="p-3">{item[I.WORKSHOP1] || "-"}</td>
-											<td class="p-3">{item[I.WORKSHOP2] || "-"}</td>
+											<td class={styles.dataCell}>
+												{item[I.WORKSHOP1] || "-"}
+											</td>
+											<td class={styles.dataCell}>
+												{item[I.WORKSHOP2] || "-"}
+											</td>
 										</tr>
 									)}
 								</For>

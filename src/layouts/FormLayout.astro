@@ -13,7 +13,7 @@ const { title, description = "", loadRecaptcha = false } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="ja" class="">
+<html lang="ja">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,10 +29,22 @@ const { title, description = "", loadRecaptcha = false } = Astro.props;
 			)
 		}
 	</head>
-	<body class="bg-indigo-600 antialiased">
-		<div class="bg-pattern bg-slate-100 min-h-dvh text-gray-700">
+	<body>
+		<div class="bg-pattern page-wrapper">
 			<slot />
 		</div>
 		{import.meta.env.DEV && <DevApiToggle client:only="solid-js" />}
 	</body>
 </html>
+
+<style>
+	body {
+		background-color: var(--color-indigo-600);
+	}
+
+	.page-wrapper {
+		background-color: var(--color-slate-100);
+		min-height: 100dvh;
+		color: var(--color-gray-700);
+	}
+</style>

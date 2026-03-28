@@ -9,14 +9,52 @@ import "@/styles/global.css";
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>404 Not Found</title>
 	</head>
-	<body
-		class="min-h-dvh bg-gradient-to-br from-indigo-600 via-blue-600 to-purple-700 flex items-center justify-center text-white antialiased"
-	>
-		<div class="text-center font-mono">
-			<h1 class="text-8xl md:text-9xl font-bold tracking-tight mb-4">
-				404
-			</h1>
-			<p class="text-xl md:text-2xl font-light">Not Found</p>
+	<body>
+		<div class="content">
+			<h1 class="heading">404</h1>
+			<p class="subtext">Not Found</p>
 		</div>
 	</body>
 </html>
+
+<style>
+	body {
+		min-height: 100dvh;
+		background: linear-gradient(
+			to bottom right,
+			var(--color-indigo-600),
+			var(--color-blue-600),
+			var(--color-purple-700)
+		);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.content {
+		text-align: center;
+		font-family: ui-monospace, monospace;
+	}
+
+	.heading {
+		font-size: var(--text-8xl);
+		font-weight: bold;
+		letter-spacing: -0.025em;
+		margin-bottom: var(--space-4);
+
+		@media (min-width: 768px) {
+			font-size: var(--text-9xl);
+		}
+	}
+
+	.subtext {
+		font-size: var(--text-xl);
+		font-weight: 300;
+
+		@media (min-width: 768px) {
+			font-size: var(--text-2xl);
+		}
+	}
+</style>

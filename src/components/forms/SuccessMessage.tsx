@@ -1,5 +1,6 @@
 import type { JSX } from "solid-js";
 import Message from "@/components/forms/Message";
+import styles from "./SuccessMessage.module.css";
 
 export type SuccessMessageProps = {
 	children: JSX.Element;
@@ -8,10 +9,10 @@ export type SuccessMessageProps = {
 export default function SuccessMessage(props: SuccessMessageProps) {
 	return (
 		<Message>
-			<div class="mb-6">
-				<div class="mx-auto w-12 h-12 bg-green-100 rounded-full flex items-center justify-center animate-[bounceIn_0.7s_ease-out_forwards]">
+			<div class={styles.iconWrapper}>
+				<div class={styles.iconCircle}>
 					<svg
-						class="w-6 h-6 text-green-600"
+						class={styles.icon}
 						fill="none"
 						stroke="currentColor"
 						viewBox="0 0 24 24"
@@ -27,7 +28,7 @@ export default function SuccessMessage(props: SuccessMessageProps) {
 				</div>
 			</div>
 
-			<div class="space-y-4 text-center">{props.children}</div>
+			<div class={styles.body}>{props.children}</div>
 		</Message>
 	);
 }

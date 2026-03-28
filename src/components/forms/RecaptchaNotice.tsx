@@ -1,12 +1,14 @@
+import styles from "./RecaptchaNotice.module.css";
+
 export default function RecaptchaNotice() {
 	return (
-		<div class="px-4 text-xs text-gray-400">
+		<div class={styles.notice}>
 			This site is protected by reCAPTCHA and the Google{" "}
 			<a
 				href="https://policies.google.com/privacy"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="text-blue-400"
+				class={styles.link}
 			>
 				Privacy Policy
 			</a>{" "}
@@ -15,7 +17,7 @@ export default function RecaptchaNotice() {
 				href="https://policies.google.com/terms"
 				target="_blank"
 				rel="noopener noreferrer"
-				class="text-blue-400"
+				class={styles.link}
 			>
 				Terms of Service
 			</a>{" "}

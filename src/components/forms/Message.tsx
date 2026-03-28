@@ -1,4 +1,5 @@
 import type { JSX } from "solid-js";
+import styles from "./Message.module.css";
 
 export type MessageProps = {
 	children: JSX.Element;
@@ -6,10 +7,8 @@ export type MessageProps = {
 
 export default function Message(props: MessageProps) {
 	return (
-		<div class="max-w-lg mx-auto" role="alert" aria-live="assertive">
-			<div class="bg-white/80 rounded-lg p-8 shadow-md animate-[fadeInUp_0.5s_ease-out_forwards]">
-				{props.children}
-			</div>
+		<div class={styles.wrapper} role="alert" aria-live="assertive">
+			<div class={styles.content}>{props.children}</div>
 		</div>
 	);
 }

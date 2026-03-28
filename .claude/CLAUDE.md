@@ -10,7 +10,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Astro 5** - Islands Architecture によるスタティックサイトジェネレーター
 - **SolidJS** - 細粒度リアクティビティを持つ UI ライブラリ
-- **TailwindCSS 4** - ユーティリティファースト CSS
+- **LightningCSS** - CSS トランスパイラー/ミニファイアー（Vite 組み込み）
+- **CSS Modules** - スコープド CSS（SolidJS コンポーネントは `.module.css`、Astro コンポーネントはスコープド `<style>`）
 - **Biome** - フォーマッター/リンター（ESLint/Prettier の代替）
 - **pnpm** - パッケージマネージャー
 - **Node.js 24** - Volta でバージョン固定
@@ -97,7 +98,12 @@ src/
 
 - `interface` より `type` を優先
 - コメントは「なぜ」を説明、「何を」は不要
-- インラインスタイル禁止（Tailwind を使用）
+- SolidJS `.tsx` コンポーネントはそれぞれ同名の `.module.css` を持つ
+- Astro コンポーネント/ページはスコープド `<style>` タグを使用
+- デザイントークン（`--color-*`, `--space-*` など）は `src/styles/global.css` の `:root` で定義
+- CSS Modules の `composes` でバリアントパターンを実現（biome.json で `css.parser.cssModules: true` 設定済み）
+- クラス結合には `src/utils/cn.ts` の `cn()` ユーティリティを使用
+- インラインスタイル禁止（動的な CSS 変数値の適用を除く）
 - コンポーネントは 100 行以内を目安に分割
 - パスエイリアス `@/` を使用（`@/components/ui`）
 

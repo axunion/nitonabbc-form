@@ -1,0 +1,21 @@
+.field {
+	padding: var(--space-4);
+	background: rgb(255 255 255 / 0.8);
+	border-radius: var(--radius-sm);
+	border: 1px solid var(--color-indigo-200);
+
+	@media (min-width: 768px) {
+		padding: var(--space-6);
+	}
+}
+
+.label {
+	margin-bottom: var(--space-8);
+	font-weight: bold;
+	font-size: var(--text-sm);
+}
+
+.required {
+	color: var(--color-red-400);
+	margin-left: var(--space-1);
+}

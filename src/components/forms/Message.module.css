@@ -1,0 +1,12 @@
+.wrapper {
+	max-width: 32rem;
+	margin-inline: auto;
+}
+
+.content {
+	background: rgb(255 255 255 / 0.8);
+	border-radius: var(--radius-lg);
+	padding: var(--space-8);
+	box-shadow: var(--shadow-md);
+	animation: fadeInUp 0.5s ease-out forwards;
+}

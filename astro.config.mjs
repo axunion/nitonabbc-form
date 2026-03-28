@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import tailwindcss from "@tailwindcss/vite";
 import solidJs from "@astrojs/solid-js";
 import { fileURLToPath, URL } from "node:url";
 
@@ -8,11 +7,21 @@ import { fileURLToPath, URL } from "node:url";
 export default defineConfig({
 	integrations: [solidJs()],
 	vite: {
-		plugins: [tailwindcss()],
 		resolve: {
 			alias: {
 				"@": fileURLToPath(new URL("./src", import.meta.url)),
 			},
+		},
+		css: {
+			transformer: "lightningcss",
+			lightningcss: {
+				drafts: {
+					customMedia: true,
+				},
+			},
+		},
+		build: {
+			cssMinify: "lightningcss",
 		},
 	},
 });

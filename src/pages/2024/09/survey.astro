@@ -8,11 +8,11 @@ import FormLayout from "@/layouts/FormLayout.astro";
 
 <FormLayout title="京葉地区一泊お泊まり会アンケート">
 	<Header>
-		<h1 slot="title" class="text-xl md:text-2xl font-bold tracking-tight">
+		<h1 slot="title" class="title">
 			京葉地区一泊お泊まり会アンケート<br />
 			Keiyo Area Retreat Survey
 		</h1>
-		<p slot="description" class="text-sm md:text-base text-blue-100">
+		<p slot="description" class="description">
 			開催日：2024年9月22日〜23日<br />
 			Event Dates: September 22-23, 2024
 		</p>
@@ -29,8 +29,33 @@ import FormLayout from "@/layouts/FormLayout.astro";
 	</Main>
 
 	<Footer>
-		<p class="pt-12">
+		<p class="footer-note">
 			<small>© 2024 Keiyo Area United Youth Association.</small>
 		</p>
 	</Footer>
 </FormLayout>
+
+<style>
+	.title {
+		font-size: var(--text-xl);
+		font-weight: bold;
+		letter-spacing: -0.025em;
+
+		@media (min-width: 768px) {
+			font-size: var(--text-2xl);
+		}
+	}
+
+	.description {
+		font-size: var(--text-sm);
+		color: var(--color-blue-100);
+
+		@media (min-width: 768px) {
+			font-size: var(--text-base);
+		}
+	}
+
+	.footer-note {
+		padding-top: var(--space-12);
+	}
+</style>

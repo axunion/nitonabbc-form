@@ -1,3 +1,6 @@
+import { cn } from "@/utils/cn";
+import styles from "./TextArea.module.css";
+
 export type TextAreaProps = {
 	class?: string;
 	name: string;
@@ -12,7 +15,7 @@ export type TextAreaProps = {
 
 export default function TextArea(props: TextAreaProps) {
 	return (
-		<div class="p-2 rounded-md border border-indigo-200">
+		<div class={styles.wrapper}>
 			<textarea
 				name={props.name}
 				placeholder={props.placeholder}
@@ -22,9 +25,7 @@ export default function TextArea(props: TextAreaProps) {
 				disabled={props.disabled}
 				maxlength={props.maxlength}
 				onInput={props.onInput}
-				class={`appearance-none w-full bg-transparent focus:outline-none resize-none disabled:opacity-50 disabled:cursor-not-allowed ${
-					props.class || ""
-				}`}
+				class={cn(styles.textarea, props.class)}
 				aria-describedby={`${props.name}-description`}
 			/>
 		</div>

@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/";
 import { churchNames } from "@/config/keiyo";
 import { useForm } from "@/hooks/useForm";
+import styles from "./_apply-form.module.css";
 
 const initialFormData = {
 	type: "202602a",
@@ -33,10 +34,7 @@ export default function ApplyForm() {
 			successTitle="申し込みが完了しました"
 			successMessage="ご参加ありがとうございます。"
 		>
-			<form
-				onSubmit={handleSubmit}
-				class="space-y-2 animate-[fadeIn_0.3s_ease-out]"
-			>
+			<form onSubmit={handleSubmit} class={styles.form}>
 				<FormField label="教会名" required>
 					<Input
 						type="text"

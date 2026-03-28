@@ -6,6 +6,7 @@ import SubmissionLoader from "@/components/forms/SubmissionLoader";
 import SuccessMessage from "@/components/forms/SuccessMessage";
 import { useExpirationStatus } from "@/hooks/useExpirationStatus";
 import type { SubmissionState } from "@/hooks/useForm";
+import styles from "./FormContainer.module.css";
 
 export type FormContainerProps = {
 	isSubmitting: () => boolean;
@@ -24,17 +25,15 @@ export default function FormContainer(props: FormContainerProps) {
 	return (
 		<>
 			<Show when={expirationStatus.state === "pending"}>
-				<div class="flex items-center justify-center">
+				<div class={styles.centerLoader}>
 					<LoadingSpinner />
 				</div>
 			</Show>
 
 			<Show when={expirationStatus.state === "errored"}>
 				<ErrorMessage>
-					<h2 class="text-xl font-bold text-red-800 mb-4">
-						接続エラーが発生しました
-					</h2>
-					<p class="text-red-600 text-sm">
+					<h2 class={styles.errorTitle}>接続エラーが発生しました</h2>
+					<p class={styles.errorText}>
 						恐れ入りますが、しばらく時間をおいて再度お試しください。
 					</p>
 				</ErrorMessage>
@@ -66,10 +65,10 @@ export default function FormContainer(props: FormContainerProps) {
 
 				<Show when={props.submissionState() === "success"}>
 					<SuccessMessage>
-						<h2 class="text-xl font-bold text-green-800 mb-4">
+						<h2 class={styles.successTitle}>
 							{props.successTitle || "送信が完了しました"}
 						</h2>
-						<p class="text-green-700 mb-4">
+						<p class={styles.successText}>
 							{props.successMessage || "ありがとうございました。"}
 						</p>
 					</SuccessMessage>
@@ -77,10 +76,10 @@ export default function FormContainer(props: FormContainerProps) {
 
 				<Show when={props.submissionState() === "error"}>
 					<ErrorMessage>
-						<h2 class="text-xl font-bold text-red-800 mb-4">
+						<h2 class={styles.errorResultTitle}>
 							{props.errorTitle || "送信に失敗しました"}
 						</h2>
-						<p class="text-red-700 mb-4">
+						<p class={styles.errorResultText}>
 							恐れ入りますが、再度お試しください。
 						</p>
 					</ErrorMessage>

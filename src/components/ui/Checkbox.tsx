@@ -1,4 +1,6 @@
 import type { JSX } from "solid-js";
+import { cn } from "@/utils/cn";
+import styles from "./Checkbox.module.css";
 
 export type CheckboxProps = {
 	class?: string;
@@ -21,9 +23,10 @@ export default function Checkbox(props: CheckboxProps) {
 	return (
 		<div>
 			<label
-				class={`inline-flex items-center ${
-					props.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
-				} ${props.class || ""}`}
+				class={cn(
+					props.disabled ? styles.labelDisabled : styles.label,
+					props.class,
+				)}
 			>
 				<input
 					type="checkbox"
@@ -33,9 +36,9 @@ export default function Checkbox(props: CheckboxProps) {
 					required={props.required}
 					disabled={props.disabled}
 					onChange={handleChange}
-					class="w-4 h-4 border-indigo-200 rounded focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
+					class={styles.checkbox}
 				/>
-				<span class="px-2">{props.children}</span>
+				<span class={styles.labelText}>{props.children}</span>
 			</label>
 		</div>
 	);

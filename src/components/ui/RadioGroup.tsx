@@ -1,4 +1,6 @@
 import { For } from "solid-js";
+import { cn } from "@/utils/cn";
+import styles from "./RadioGroup.module.css";
 
 export type RadioGroupProps = {
 	class?: string;
@@ -13,22 +15,14 @@ export type RadioGroupProps = {
 
 export default function RadioGroup(props: RadioGroupProps) {
 	const orientationClass =
-		props.orientation === "horizontal"
-			? "flex flex-wrap gap-x-4 gap-y-2"
-			: "space-y-2";
+		props.orientation === "horizontal" ? styles.horizontal : styles.vertical;
 
 	return (
-		<div class={`${orientationClass} ${props.class || ""}`}>
+		<div class={cn(orientationClass, props.class)}>
 			<For each={props.options}>
 				{(option) => (
 					<div>
-						<label
-							class={`inline-flex items-center ${
-								props.disabled
-									? "cursor-not-allowed opacity-50"
-									: "cursor-pointer"
-							}`}
-						>
+						<label class={props.disabled ? styles.labelDisabled : styles.label}>
 							<input
 								type="radio"
 								name={props.name}
@@ -37,9 +31,9 @@ export default function RadioGroup(props: RadioGroupProps) {
 								required={props.required}
 								disabled={props.disabled}
 								onChange={props.onChange}
-								class="w-4 h-4 border-indigo-200 focus:ring-indigo-300 focus:ring-2 disabled:opacity-50 disabled:cursor-not-allowed"
+								class={styles.radio}
 							/>
-							<span class="px-2">{option.label}</span>
+							<span class={styles.labelText}>{option.label}</span>
 						</label>
 					</div>
 				)}

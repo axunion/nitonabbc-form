@@ -1,15 +1,11 @@
-<header
-	class="relative bg-linear-to-br from-indigo-600 via-blue-600 to-purple-700 text-white"
->
-	<div
-		class="max-w-3xl mx-auto p-4 min-h-[35vh] flex items-center justify-center"
-	>
-		<div class="text-center">
-			<div class="mb-4">
+<header>
+	<div class="container">
+		<div class="content">
+			<div class="title-slot">
 				<slot name="title" />
 			</div>
 
-			<div class="mb-6">
+			<div class="desc-slot">
 				<slot name="description" />
 			</div>
 
@@ -18,9 +14,8 @@
 	</div>
 
 	<!-- Bottom Wave matching background -->
-	<div class="absolute bottom-0 left-0 right-0">
+	<div class="wave">
 		<svg
-			class="w-full h-8 md:h-12"
 			viewBox="0 0 1200 120"
 			preserveAspectRatio="none"
 		>
@@ -30,3 +25,54 @@
 		</svg>
 	</div>
 </header>
+
+<style>
+	header {
+		position: relative;
+		background: linear-gradient(
+			to bottom right,
+			var(--color-indigo-600),
+			var(--color-blue-600),
+			var(--color-purple-700)
+		);
+		color: white;
+	}
+
+	.container {
+		max-width: 48rem;
+		margin-inline: auto;
+		padding: var(--space-4);
+		min-height: 35vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.content {
+		text-align: center;
+	}
+
+	.title-slot {
+		margin-bottom: var(--space-4);
+	}
+
+	.desc-slot {
+		margin-bottom: var(--space-6);
+	}
+
+	.wave {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+
+	.wave svg {
+		width: 100%;
+		height: 2rem;
+
+		@media (min-width: 768px) {
+			height: 3rem;
+		}
+	}
+</style>
