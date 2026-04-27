@@ -35,6 +35,7 @@ disable-model-invocation: true
 2. 以下のファイルをテンプレートから作成:
    - `survey.astro` - アンケートページ
    - `_survey-form.tsx` - アンケートフォームコンポーネント
+   - `_survey-form.module.css` - フォームスタイル
 3. 読み取った情報でプレースホルダーを置換
 
 ## テンプレート
@@ -43,6 +44,7 @@ disable-model-invocation: true
 
 - `survey.astro.template`
 - `_survey-form.tsx.template`
+- `_survey-form.module.css.template`
 
 テンプレート内のプレースホルダー:
 - `{{YEAR}}` - 年（4桁）

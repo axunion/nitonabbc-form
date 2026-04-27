@@ -1,6 +1,7 @@
 import { FormContainer, FormField, RecaptchaNotice } from "@/components/forms/";
 import { RadioGroup, SubmitButton, TextArea } from "@/components/ui/";
 import { useForm } from "@/hooks/useForm";
+import styles from "./_survey-form.module.css";
 
 const initialFormData = {
 	type: "{{FORM_TYPE}}",
@@ -39,7 +40,7 @@ export default function SurveyForm() {
 		>
 			<form
 				onSubmit={handleSubmit}
-				class="space-y-2 animate-[fadeIn_0.3s_ease-out]"
+				class={styles.form}
 			>
 				<FormField label="全体的な満足度はいかがでしたか？" required>
 					<RadioGroup

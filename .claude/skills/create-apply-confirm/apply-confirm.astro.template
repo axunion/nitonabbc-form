@@ -1,0 +1,41 @@
+---
+import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
+import FormLayout from "@/layouts/FormLayout.astro";
+import ConfirmList from "./_confirm-list";
+---
+
+<FormLayout title="{{EVENT_NAME}} 参加申し込み確認">
+	<header class="page-header">
+		<h1 class="page-title">
+			{{EVENT_NAME}} 参加申し込み確認
+		</h1>
+	</header>
+
+	<main class="page-main">
+		<ConfirmList client:only="solid-js" />
+	</main>
+</FormLayout>
+
+<style>
+	.page-header {
+		background: linear-gradient(
+			to bottom right,
+			var(--color-indigo-600),
+			var(--color-blue-600),
+			var(--color-purple-700)
+		);
+		color: white;
+	}
+
+	.page-title {
+		padding-block: var(--space-6);
+		text-align: center;
+		font-size: var(--text-lg);
+		font-weight: bold;
+	}
+
+	.page-main {
+		padding: var(--space-4);
+		margin-top: var(--space-4);
+	}
+</style>

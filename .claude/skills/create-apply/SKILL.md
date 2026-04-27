@@ -33,6 +33,7 @@ disable-model-invocation: true
 2. 以下のファイルをテンプレートから作成:
    - `apply.astro` - 申込ページ
    - `_apply-form.tsx` - 申込フォームコンポーネント
+   - `_apply-form.module.css` - フォームスタイル
 3. 引数に応じて以下を置換:
    - イベント名
    - 開催日
@@ -45,6 +46,7 @@ disable-model-invocation: true
 
 - `apply.astro.template`
 - `_apply-form.tsx.template`
+- `_apply-form.module.css.template`
 
 テンプレート内のプレースホルダー:
 - `{{YEAR}}` - 年（4桁）

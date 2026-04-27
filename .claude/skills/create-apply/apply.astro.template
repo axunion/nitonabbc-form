@@ -8,10 +8,10 @@ import ApplyForm from "./_apply-form";
 
 <FormLayout title="{{EVENT_NAME}} 参加申し込み" loadRecaptcha>
 	<Header>
-		<h1 slot="title" class="text-xl md:text-3xl font-bold">
+		<h1 slot="title" class="title">
 			{{EVENT_NAME}} 参加申し込み
 		</h1>
-		<p slot="description" class="mt-12 text-lg text-blue-100">
+		<p slot="description" class="description">
 			{{EVENT_DATE}}
 		</p>
 	</Header>
@@ -21,8 +21,29 @@ import ApplyForm from "./_apply-form";
 	</Main>
 
 	<Footer>
-		<p class="pt-12">
+		<p class="footer-note">
 			<small>© {{YEAR}} Keiyo Area United Youth Association.</small>
 		</p>
 	</Footer>
 </FormLayout>
+
+<style>
+	.title {
+		font-size: var(--text-xl);
+		font-weight: bold;
+
+		@media (min-width: 768px) {
+			font-size: var(--text-3xl);
+		}
+	}
+
+	.description {
+		margin-top: var(--space-8);
+		font-size: var(--text-lg);
+		color: var(--color-blue-100);
+	}
+
+	.footer-note {
+		padding-top: var(--space-12);
+	}
+</style>
