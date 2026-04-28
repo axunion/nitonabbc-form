@@ -1,0 +1,644 @@
+/*
+ * Design Reference: form-desktop.html (PC 1440px)
+ * このファイルは定義のみ。各コンポーネントへの適用は別途確認しながら行う。
+ * 実際のコンポーネントCSSへは @import せず、参照・コピー元として使う。
+ */
+
+/* ==========================================================
+   1. Design Tokens
+   ========================================================== */
+
+:root {
+	/* --- Colors --- */
+	--d-bg: oklch(97% 0.012 75); /* ページ背景（クリーム） */
+	--d-bg-card: oklch(99.5% 0.004 75); /* カード・サクセス画面背景 */
+	--d-ink: oklch(18% 0.01 60); /* メインテキスト（ディープチャコール） */
+	--d-ink-mid: oklch(42% 0.01 60); /* サブテキスト */
+	--d-ink-soft: oklch(62% 0.01 60); /* プレースホルダー・ラベル */
+	--d-gold: oklch(62% 0.08 75); /* ゴールドアクセント */
+	--d-gold-lite: oklch(90% 0.04 75); /* ゴールド薄め（hover border） */
+	--d-gold-deep: oklch(50% 0.1 72); /* ゴールド濃い（ボタンhover bg） */
+	--d-line: oklch(88% 0.008 75); /* 区切り線・非フォーカス下線 */
+	--d-panel-bg: oklch(20% 0.015 60); /* 左パネル背景（ダークチャコール） */
+	--d-panel-ink: oklch(94% 0.008 75); /* 左パネルテキスト */
+
+	/* --- Typography --- */
+	--d-font-serif: "Noto Serif JP", "Yu Mincho", "游明朝", serif;
+	--d-font-sans:
+		"Noto Sans JP", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN", sans-serif;
+
+	/* --- Animation --- */
+	--d-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================
+   2. Keyframes
+   ========================================================== */
+
+@keyframes d-rise {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* ==========================================================
+   3. Layout — 2カラムグリッド
+   ========================================================== */
+
+/*
+ * 対象: FormLayout.astro > .page-wrapper
+ * body の background は --d-panel-bg（左パネル色）にしてはみ出しを防ぐ
+ */
+.d-page {
+	min-height: 100vh;
+	display: grid;
+	grid-template-columns: 380px 1fr;
+	background: var(--d-bg);
+	font-family: var(--d-font-sans);
+	color: var(--d-ink);
+	-webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================
+   4. Left Panel — Header
+   ========================================================== */
+
+/*
+ * 対象: Header.astro <header>
+ * デスクトップのみ sticky + 100vh の左パネル
+ */
+.d-panel {
+	background: var(--d-panel-bg);
+	position: sticky;
+	top: 0;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	padding: 60px 52px;
+	overflow: hidden;
+}
+
+/* テクスチャ overlay（::before） */
+.d-panel::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image:
+		radial-gradient(
+			ellipse 80% 60% at 20% 80%,
+			oklch(62% 0.08 75 / 0.08) 0%,
+			transparent 60%
+		),
+		radial-gradient(
+			ellipse 60% 40% at 80% 20%,
+			oklch(62% 0.08 75 / 0.05) 0%,
+			transparent 55%
+		);
+	pointer-events: none;
+}
+
+/* ロゴマーク（ひし形） */
+.d-panel__logo {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: auto;
+	position: relative;
+}
+
+.d-panel__logo-mark {
+	width: 28px;
+	height: 28px;
+	border: 1px solid var(--d-gold);
+	transform: rotate(45deg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.d-panel__logo-mark::after {
+	content: "";
+	width: 10px;
+	height: 10px;
+	background: var(--d-gold);
+}
+
+.d-panel__logo-text {
+	font-family: var(--d-font-serif);
+	font-size: 16px;
+	font-weight: 400;
+	color: var(--d-panel-ink);
+	letter-spacing: 0.05em;
+}
+
+/* パネル本文（ロゴ以外：画面下寄せ） */
+.d-panel__body {
+	position: relative;
+	margin-top: auto;
+	padding-top: 60px;
+}
+
+/* eyebrow（小さい大文字） */
+.d-panel__eyebrow {
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: var(--d-gold);
+	margin-bottom: 20px;
+}
+
+/* タイトル（明朝、大） */
+.d-panel__title {
+	font-family: var(--d-font-serif);
+	font-size: 36px;
+	font-weight: 300;
+	line-height: 1.3;
+	color: var(--d-panel-ink);
+	letter-spacing: 0.02em;
+	margin-bottom: 20px;
+}
+
+/* 装飾ライン */
+.d-panel__line {
+	width: 40px;
+	height: 1px;
+	background: var(--d-gold);
+	opacity: 0.6;
+	margin-bottom: 28px;
+}
+
+/* 説明文 */
+.d-panel__desc {
+	font-size: 14px;
+	font-weight: 300;
+	color: oklch(70% 0.008 70);
+	line-height: 1.8;
+	max-width: 280px;
+}
+
+/* ==========================================================
+   5. Right Area — Main
+   ========================================================== */
+
+/*
+ * 対象: Main.astro <main>
+ */
+.d-form-area {
+	background: var(--d-bg);
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	padding: 72px 80px;
+	min-height: 100vh;
+}
+
+.d-form-wrap {
+	width: 100%;
+	max-width: 620px;
+}
+
+/* フォームヘッダー */
+.d-form-header__step {
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: var(--d-gold);
+	margin-bottom: 6px;
+}
+
+.d-form-header__title {
+	font-family: var(--d-font-serif);
+	font-size: 32px;
+	font-weight: 300;
+	color: var(--d-ink);
+	letter-spacing: 0.02em;
+}
+
+/* プログレスバー */
+.d-progress-track {
+	height: 1px;
+	background: var(--d-line);
+	margin-top: 24px;
+	position: relative;
+}
+
+.d-progress-fill {
+	height: 1px;
+	background: var(--d-gold);
+	transition: width 0.5s var(--d-ease);
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.d-progress-dot {
+	width: 5px;
+	height: 5px;
+	background: var(--d-gold);
+	border-radius: 50%;
+	position: absolute;
+	top: -2px;
+	margin-left: -2.5px;
+	transition: left 0.5s var(--d-ease);
+}
+
+/* ==========================================================
+   6. FormField（ラベル + 子コンポーネントのラッパー）
+   ========================================================== */
+
+/*
+ * 対象: FormField.module.css
+ * カード廃止 → 下余白のみ。ラベルはfocus-withinでゴールドに変色。
+ */
+.d-field {
+	margin-bottom: 32px;
+	position: relative;
+	opacity: 0;
+	animation: d-rise 0.6s var(--d-ease) both;
+}
+
+.d-field__label {
+	display: block;
+	font-size: 10px;
+	font-weight: 500;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--d-ink-soft);
+	margin-bottom: 10px;
+	transition: color 0.2s;
+}
+
+.d-field:focus-within .d-field__label {
+	color: var(--d-gold);
+}
+
+.d-field__required {
+	color: var(--d-gold);
+	margin-left: 2px;
+}
+
+/* 2カラムグリッド（姓名・メール電話など） */
+.d-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0 48px;
+}
+
+/* ==========================================================
+   7. Input / TextArea 共通：ボトムライン underline
+   ========================================================== */
+
+/*
+ * Input と TextArea の両ラッパーに適用する共通パターン。
+ * CSS Modules では composes: d-underline; で参照する。
+ * ::before = 静的グレー線、::after = フォーカス時にゴールド伸長。
+ */
+.d-underline {
+	position: relative;
+}
+
+.d-underline::before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 1px;
+	background: var(--d-line);
+}
+
+.d-underline::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 1px;
+	background: var(--d-gold);
+	transition: width 0.45s var(--d-ease);
+}
+
+.d-underline:focus-within::after {
+	width: 100%;
+}
+
+/* Input / Select / TextArea の共通 disabled スタイル */
+.d-field-control:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* ==========================================================
+   8. Input
+   ========================================================== */
+
+/*
+ * 対象: Input.module.css
+ * wrapper は d-underline を composes。
+ */
+.d-input-wrapper {
+	composes: d-underline;
+}
+
+.d-input {
+	composes: d-field-control;
+	width: 100%;
+	background: transparent;
+	border: none;
+	padding: 10px 0 14px;
+	font-family: var(--d-font-sans);
+	font-size: 16px;
+	font-weight: 300;
+	color: var(--d-ink);
+	outline: none;
+	-webkit-appearance: none;
+	caret-color: var(--d-gold);
+}
+
+.d-input::placeholder {
+	color: var(--d-line);
+	font-weight: 300;
+}
+
+/* ==========================================================
+   9. Select
+   ========================================================== */
+
+/*
+ * 対象: Select.module.css
+ * ::after を矢印 span が占有するため underline アニメーションは使えない。
+ * border-color transition で代替。
+ */
+.d-select-wrapper {
+	position: relative;
+	border-bottom: 1px solid var(--d-line);
+	transition: border-color 0.3s;
+}
+
+.d-select-wrapper:focus-within {
+	border-bottom-color: var(--d-gold);
+}
+
+.d-select {
+	composes: d-field-control;
+	width: 100%;
+	background: transparent;
+	border: none;
+	padding: 10px 24px 14px 0;
+	font-family: var(--d-font-sans);
+	font-size: 16px;
+	font-weight: 300;
+	color: var(--d-ink);
+	outline: none;
+	-webkit-appearance: none;
+	caret-color: var(--d-gold);
+}
+
+/* 矢印（Select.tsx の既存 .arrow span を流用） */
+.d-select-arrow {
+	pointer-events: none;
+	position: absolute;
+	right: 4px;
+	top: 50%;
+	transform: translateY(-55%);
+	color: var(--d-ink-soft);
+}
+
+/* ==========================================================
+   10. TextArea
+   ========================================================== */
+
+/*
+ * 対象: TextArea.module.css
+ * wrapper は d-underline を composes。
+ */
+.d-textarea-wrapper {
+	composes: d-underline;
+}
+
+.d-textarea {
+	composes: d-field-control;
+	width: 100%;
+	background: transparent;
+	border: none;
+	resize: none;
+	height: 110px;
+	line-height: 1.75;
+	padding: 10px 0 24px;
+	font-family: var(--d-font-sans);
+	font-size: 16px;
+	font-weight: 300;
+	color: var(--d-ink);
+	outline: none;
+	caret-color: var(--d-gold);
+}
+
+.d-textarea::placeholder {
+	color: var(--d-line);
+}
+
+/* ==========================================================
+   11. RadioGroup — チップスタイル
+   ========================================================== */
+
+/*
+ * 対象: RadioGroup.module.css
+ * ラジオ input を非表示にし、label をピル型チップとして表示。
+ * チェック判定は :has() を使用（モダンブラウザ対応）。
+ */
+.d-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 4px 0;
+}
+
+.d-chip-label {
+	display: inline-flex;
+	align-items: center;
+	padding: 9px 20px;
+	border: 1px solid var(--d-line);
+	border-radius: 100px;
+	font-size: 13px;
+	font-weight: 400;
+	color: var(--d-ink-mid);
+	cursor: pointer;
+	transition: all 0.2s;
+	user-select: none;
+	white-space: nowrap;
+}
+
+.d-chip-label:hover {
+	border-color: var(--d-gold-lite);
+	color: var(--d-ink);
+}
+
+.d-chip-label:has(input:checked) {
+	background: var(--d-ink);
+	border-color: var(--d-ink);
+	color: var(--d-bg-card);
+}
+
+.d-chip-radio {
+	display: none;
+}
+
+/* ==========================================================
+   12. Checkbox — カスタムスタイル
+   ========================================================== */
+
+/*
+ * 対象: Checkbox.module.css + Checkbox.tsx（checkIcon span 追加が必要）
+ */
+.d-check-label {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	cursor: pointer;
+}
+
+.d-check-input {
+	display: none;
+}
+
+/* カスタムチェックボックス（TSXに <span class="checkIcon"> を追加する） */
+.d-check-icon {
+	width: 20px;
+	height: 20px;
+	min-width: 20px;
+	border: 1px solid var(--d-line);
+	border-radius: 4px;
+	margin-top: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	transition: all 0.2s;
+}
+
+.d-check-label:hover .d-check-icon {
+	border-color: var(--d-gold-lite);
+}
+
+.d-check-input:checked + .d-check-icon {
+	background: var(--d-ink);
+	border-color: var(--d-ink);
+}
+
+.d-check-icon::after {
+	content: "";
+	width: 4px;
+	height: 7px;
+	border-right: 1.5px solid var(--d-bg-card);
+	border-bottom: 1.5px solid var(--d-bg-card);
+	transform: rotate(45deg) translateY(-1px);
+	opacity: 0;
+	transition: opacity 0.15s;
+}
+
+.d-check-input:checked + .d-check-icon::after {
+	opacity: 1;
+}
+
+.d-check-text {
+	font-size: 13px;
+	font-weight: 300;
+	color: var(--d-ink-mid);
+	line-height: 1.7;
+	padding-top: 2px;
+}
+
+/* ==========================================================
+   13. SubmitButton
+   ========================================================== */
+
+/*
+ * 対象: SubmitButton.module.css + SubmitButton.tsx（children を <span> でラップ）
+ * width: auto（全幅でない）、ゴールドスライドイン hover エフェクト。
+ */
+.d-submit-btn {
+	padding: 16px 48px;
+	background: var(--d-ink);
+	color: var(--d-bg);
+	border: none;
+	border-radius: 3px;
+	font-family: var(--d-font-sans);
+	font-size: 11px;
+	font-weight: 500;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+	transition: transform 0.15s;
+	width: auto;
+}
+
+.d-submit-btn::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--d-gold-deep);
+	transform: translateX(-101%);
+	transition: transform 0.5s var(--d-ease);
+}
+
+.d-submit-btn:hover::before {
+	transform: translateX(0);
+}
+
+.d-submit-btn:active {
+	transform: scale(0.98);
+}
+
+.d-submit-btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* テキストが ::before の上に来るよう z-index を確保 */
+.d-submit-btn__inner {
+	position: relative;
+	z-index: 1;
+}
+
+/* ==========================================================
+   14. Message / SuccessMessage
+   ========================================================== */
+
+/*
+ * 対象: Message.module.css、SuccessMessage.module.css
+ * サクセス時は固定オーバーレイ（フルスクリーン）、ゴールドアイコン。
+ */
+.d-message-content {
+	background: var(--d-bg-card);
+	border-radius: 0;
+	padding: var(--space-8);
+	box-shadow: none;
+	animation: d-rise 0.5s var(--d-ease) forwards;
+}
+
+.d-success-icon-circle {
+	width: 72px;
+	height: 72px;
+	border: 1px solid var(--d-gold);
+	border-radius: 50%;
+	background: transparent;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 32px;
+	margin-inline: auto;
+}
+
+.d-success-icon {
+	color: var(--d-gold);
+}
