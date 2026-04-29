@@ -1,7 +1,10 @@
 import { FormContainer, FormField, RecaptchaNotice } from "@/components/forms/";
-import { Input, RadioGroup, SubmitButton, TextArea } from "@/components/ui/";
 import { churchNames } from "@/config/keiyo";
 import { useForm } from "@/hooks/useForm";
+import Input from "./_input";
+import RadioGroup from "./_radio-group";
+import SubmitButton from "./_submit-button";
+import TextArea from "./_textarea";
 import styles from "./_apply-form.module.css";
 
 const initialFormData = {

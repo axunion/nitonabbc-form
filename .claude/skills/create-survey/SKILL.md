@@ -36,6 +36,12 @@ disable-model-invocation: true
    - `survey.astro` - アンケートページ
    - `_survey-form.tsx` - アンケートフォームコンポーネント
    - `_survey-form.module.css` - フォームスタイル
+   - `_radio-group.tsx` - ラジオグループコンポーネント
+   - `_radio-group.module.css` - ラジオグループスタイル
+   - `_submit-button.tsx` - 送信ボタンコンポーネント
+   - `_submit-button.module.css` - 送信ボタンスタイル
+   - `_textarea.tsx` - テキストエリアコンポーネント
+   - `_textarea.module.css` - テキストエリアスタイル
 3. 読み取った情報でプレースホルダーを置換
 
 ## テンプレート
@@ -45,6 +51,12 @@ disable-model-invocation: true
 - `survey.astro.template`
 - `_survey-form.tsx.template`
 - `_survey-form.module.css.template`
+- `_radio-group.tsx.template`
+- `_radio-group.module.css.template`
+- `_submit-button.tsx.template`
+- `_submit-button.module.css.template`
+- `_textarea.tsx.template`
+- `_textarea.module.css.template`
 
 テンプレート内のプレースホルダー:
 - `{{YEAR}}` - 年（4桁）

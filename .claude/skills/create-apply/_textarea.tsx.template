@@ -1,0 +1,8 @@
+import type { JSX } from "solid-js";
+import styles from "./_textarea.module.css";
+
+type Props = JSX.TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+export default function TextArea(props: Props) {
+	return <textarea class={styles.textarea} rows={4} {...props} />;
+}

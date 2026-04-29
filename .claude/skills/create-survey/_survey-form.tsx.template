@@ -1,6 +1,8 @@
 import { FormContainer, FormField, RecaptchaNotice } from "@/components/forms/";
-import { RadioGroup, SubmitButton, TextArea } from "@/components/ui/";
 import { useForm } from "@/hooks/useForm";
+import RadioGroup from "./_radio-group";
+import SubmitButton from "./_submit-button";
+import TextArea from "./_textarea";
 import styles from "./_survey-form.module.css";
 
 const initialFormData = {

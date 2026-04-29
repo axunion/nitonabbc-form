@@ -30,21 +30,7 @@ const { title, description = "", loadRecaptcha = false } = Astro.props;
 		}
 	</head>
 	<body>
-		<div class="bg-pattern page-wrapper">
-			<slot />
-		</div>
+		<slot />
 		{import.meta.env.DEV && <DevApiToggle client:only="solid-js" />}
 	</body>
 </html>
-
-<style>
-	body {
-		background-color: var(--color-indigo-600);
-	}
-
-	.page-wrapper {
-		background-color: var(--color-slate-100);
-		min-height: 100dvh;
-		color: var(--color-gray-700);
-	}
-</style>

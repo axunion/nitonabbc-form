@@ -1,580 +1,83 @@
 /*
- * Design Reference: 既存デザイン（Indigo テーマ）
- * 各コンポーネントの現行スタイルをここに集約する。
- * ゆくゆくはテーマシステムの一つとして design-desktop.css / design-mobile.css と並列させる。
+ * Indigo テーマのデザイントークン定義。
+ * global.css から @import で読み込まれる。
  *
- * 参照元:
- *   global.css (:root)
- *   FormLayout.astro
- *   Header.astro / Main.astro / Footer.astro
- *   Input / Select / TextArea / RadioGroup / Checkbox / SubmitButton (.module.css)
- *   FormField / Message / SuccessMessage / ErrorMessage / ExpiredMessage (.module.css)
- *
- * 依存:
- *   スペーシング（--space-*）・タイポグラフィ（--text-*）は global.css で定義。
- *   このファイル単独では動作せず、必ず global.css とともに使う。
+ * 別テーマに差し替える場合は global.css の @import を変更する。
+ * 依存: なし（単独で動作する）
  */
-
-/* ==========================================================
-   1. Design Tokens
-   ========================================================== */
 
 :root {
-	/* --- Brand: Indigo --- */
-	--i-indigo-200: #c7d2fe;
-	--i-indigo-300: #a5b4fc;
-	--i-indigo-400: #818cf8;
-	--i-indigo-500: #6366f1;
-	--i-indigo-600: #4f46e5;
-	--i-indigo-700: #4338ca;
+	/* Brand - Indigo */
+	--color-indigo-200: #c7d2fe;
+	--color-indigo-300: #a5b4fc;
+	--color-indigo-400: #818cf8;
+	--color-indigo-500: #6366f1;
+	--color-indigo-600: #4f46e5;
+	--color-indigo-700: #4338ca;
 
-	/* --- Brand: Purple / Blue --- */
-	--i-purple-700: #7e22ce;
-	--i-purple-800: #6b21a8;
-	--i-blue-100: #dbeafe;
-	--i-blue-400: #60a5fa;
-	--i-blue-600: #2563eb;
+	/* Brand - Purple / Blue */
+	--color-purple-700: #7e22ce;
+	--color-purple-800: #6b21a8;
+	--color-blue-100: #dbeafe;
+	--color-blue-400: #60a5fa;
+	--color-blue-600: #2563eb;
 
-	/* --- Semantic: Success --- */
-	--i-green-100: #dcfce7;
-	--i-green-600: #16a34a;
-	--i-green-700: #15803d;
-	--i-green-800: #166534;
+	/* Success */
+	--color-green-100: #dcfce7;
+	--color-green-600: #16a34a;
+	--color-green-700: #15803d;
+	--color-green-800: #166534;
 
-	/* --- Semantic: Error --- */
-	--i-red-100: #fee2e2;
-	--i-red-400: #f87171;
-	--i-red-500: #ef4444;
-	--i-red-600: #dc2626;
-	--i-red-700: #b91c1c;
-	--i-red-800: #991b1b;
+	/* Error */
+	--color-red-100: #fee2e2;
+	--color-red-400: #f87171;
+	--color-red-500: #ef4444;
+	--color-red-600: #dc2626;
+	--color-red-700: #b91c1c;
+	--color-red-800: #991b1b;
 
-	/* --- Semantic: Warning --- */
-	--i-orange-500: #f97316;
+	/* Warning */
+	--color-orange-500: #f97316;
 
-	/* --- Neutral --- */
-	--i-gray-50: #f9fafb;
-	--i-gray-300: #d1d5db;
-	--i-gray-400: #9ca3af;
-	--i-gray-700: #374151;
-	--i-slate-100: #f1f5f9;
-	--i-white: #ffffff;
-	--i-emerald-500: #10b981;
+	/* Neutral */
+	--color-gray-50: #f9fafb;
+	--color-gray-300: #d1d5db;
+	--color-gray-400: #9ca3af;
+	--color-gray-700: #374151;
+	--color-slate-100: #f1f5f9;
+	--color-white: #ffffff;
+	--color-emerald-500: #10b981;
 
-	/* --- Typography --- */
-	/* フォント指定なし（system-ui 継承） */
+	/* Spacing (Tailwind default scale) */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-6: 1.5rem;
+	--space-8: 2rem;
+	--space-10: 2.5rem;
+	--space-12: 3rem;
+	--space-20: 5rem;
 
-	/* --- Shadows --- */
-	--i-shadow-md:
-		0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-	--i-shadow-lg:
+	/* Typography */
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: 1.25rem;
+	--text-2xl: 1.5rem;
+	--text-3xl: 1.875rem;
+	--text-8xl: 6rem;
+	--text-9xl: 8rem;
+
+	/* Shadows */
+	--shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+	--shadow-lg:
 		0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
-	/* --- Border Radius --- */
-	--i-radius-sm: 0.125rem;
-	--i-radius-md: 0.375rem;
-	--i-radius-lg: 0.5rem;
-	--i-radius-full: 9999px;
-}
-
-/* ==========================================================
-   2. Layout — FormLayout.astro
-   ========================================================== */
-
-/*
- * body: インジゴ背景（スクロール余白に表示）
- * .page-wrapper: スレートホワイト + 背景パターン + 全高
- */
-.i-body {
-	background-color: var(--i-indigo-600);
-}
-
-.i-page-wrapper {
-	background-color: var(--i-slate-100);
-	min-height: 100dvh;
-	color: var(--i-gray-700);
-	/* 背景パターン（SVG 2枚重ね） */
-	background-image: url("/bg-pattern-1.svg"), url("/bg-pattern-2.svg");
-	background-size:
-		800px 800px,
-		1200px 1200px;
-	background-position:
-		0 0,
-		180px 250px;
-	background-repeat: repeat;
-}
-
-/* ==========================================================
-   3. Header.astro
-   ========================================================== */
-
-/*
- * インジゴ→ブルー→パープルのグラデーション。
- * ボトムに波形 SVG（ページ背景と繋げる）。
- */
-.i-header {
-	position: relative;
-	background: linear-gradient(
-		to bottom right,
-		var(--i-indigo-600),
-		var(--i-blue-600),
-		var(--i-purple-700)
-	);
-	color: white;
-}
-
-.i-header__container {
-	max-width: 48rem;
-	margin-inline: auto;
-	padding: var(--space-4);
-	min-height: 35vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.i-header__content {
-	text-align: center;
-}
-
-/* Wave（下端のスレートホワイト波形） */
-.i-header__wave {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-}
-
-/* wave SVG: fill="#f0f4ff" ≒ --i-slate-100 に近い色 */
-
-/* ==========================================================
-   4. Main.astro
-   ========================================================== */
-
-/*
- * 中央寄せ、縦方向にも中央揃え。コンテンツは max-width: 32rem。
- */
-.i-main {
-	margin-inline: auto;
-	min-height: 45vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.i-main__inner {
-	width: 32rem;
-	max-width: 100%;
-	margin-inline: auto;
-	padding-top: var(--space-10);
-	padding-bottom: var(--space-20);
-	padding-inline: var(--space-4);
-}
-
-/* ==========================================================
-   5. Footer.astro
-   ========================================================== */
-
-/*
- * インジゴ→パープルのグラデーション（Header より暗め）。
- */
-.i-footer {
-	background: linear-gradient(
-		to right,
-		var(--i-indigo-700),
-		var(--i-purple-800)
-	);
-	color: var(--i-blue-100);
-}
-
-.i-footer__inner {
-	max-width: 48rem;
-	margin-inline: auto;
-	padding: var(--space-4);
-	min-height: 20vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-/* ==========================================================
-   6. FormField.module.css
-   ========================================================== */
-
-/*
- * 白背景のカード型フィールド。ラベルは太字の小テキスト。
- */
-.i-field {
-	padding: var(--space-4);
-	background: rgb(255 255 255 / 0.8);
-	border-radius: var(--i-radius-sm);
-	border: 1px solid var(--i-indigo-200);
-
-	@media (min-width: 768px) {
-		padding: var(--space-6);
-	}
-}
-
-.i-field__label {
-	margin-bottom: var(--space-8);
-	font-weight: bold;
-	font-size: var(--text-sm);
-}
-
-.i-field__required {
-	color: var(--i-red-400);
-	margin-left: var(--space-1);
-}
-
-/* ==========================================================
-   7. Input.module.css
-   ========================================================== */
-
-/*
- * ラッパーにインジゴ下線。input 本体はボーダーなし・背景なし。
- */
-.i-input-wrapper {
-	padding: var(--space-1);
-	border-bottom: 1px solid var(--i-indigo-200);
-}
-
-.i-input {
-	appearance: none;
-	width: 100%;
-	border: 0;
-	background: transparent;
-}
-
-.i-input:focus {
-	outline: none;
-}
-
-.i-input:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
-/* ==========================================================
-   8. Select.module.css
-   ========================================================== */
-
-.i-select-wrapper {
-	position: relative;
-	padding: var(--space-1);
-	border-bottom: 1px solid var(--i-indigo-200);
-}
-
-.i-select {
-	appearance: none;
-	width: 100%;
-	border: 0;
-	background: transparent;
-}
-
-.i-select:focus {
-	outline: none;
-}
-
-.i-select:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
-/* ドロップダウン矢印 */
-.i-select-arrow {
-	pointer-events: none;
-	position: absolute;
-	right: var(--space-1);
-	top: var(--space-1);
-	color: var(--i-indigo-400);
-}
-
-/* ==========================================================
-   9. TextArea.module.css
-   ========================================================== */
-
-/*
- * ボーダーありのラッパー（Input と異なり四方）。
- */
-.i-textarea-wrapper {
-	padding: var(--space-2);
-	border-radius: var(--i-radius-md);
-	border: 1px solid var(--i-indigo-200);
-}
-
-.i-textarea {
-	appearance: none;
-	width: 100%;
-	background: transparent;
-	resize: none;
-}
-
-.i-textarea:focus {
-	outline: none;
-}
-
-.i-textarea:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
-/* ==========================================================
-   10. RadioGroup.module.css
-   ========================================================== */
-
-.i-radio-horizontal {
-	display: flex;
-	flex-wrap: wrap;
-	column-gap: var(--space-4);
-	row-gap: var(--space-2);
-}
-
-.i-radio-vertical {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-2);
-}
-
-.i-radio-label {
-	display: inline-flex;
-	align-items: center;
-	cursor: pointer;
-}
-
-.i-radio-label--disabled {
-	cursor: not-allowed;
-	opacity: 0.5;
-}
-
-.i-radio-input {
-	width: 1rem;
-	height: 1rem;
-	border-color: var(--i-indigo-200);
-	accent-color: var(--i-indigo-600);
-}
-
-.i-radio-input:focus {
-	outline: 2px solid var(--i-indigo-300);
-	outline-offset: 2px;
-}
-
-.i-radio-input:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
-.i-radio-label-text {
-	padding-inline: var(--space-2);
-}
-
-/* ==========================================================
-   11. Checkbox.module.css
-   ========================================================== */
-
-.i-check-label {
-	display: inline-flex;
-	align-items: center;
-	cursor: pointer;
-}
-
-.i-check-label--disabled {
-	cursor: not-allowed;
-	opacity: 0.5;
-}
-
-.i-check-input {
-	width: 1rem;
-	height: 1rem;
-	border-color: var(--i-indigo-200);
-	border-radius: var(--i-radius-sm);
-	accent-color: var(--i-indigo-600);
-}
-
-.i-check-input:focus {
-	outline: 2px solid var(--i-indigo-300);
-	outline-offset: 2px;
-}
-
-.i-check-input:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
-.i-check-label-text {
-	padding-inline: var(--space-2);
-}
-
-/* ==========================================================
-   12. SubmitButton.module.css
-   ========================================================== */
-
-.i-submit-base {
-	width: 100%;
-	padding: var(--space-4);
-	border-radius: var(--i-radius-md);
-	cursor: pointer;
-}
-
-.i-submit-base:focus {
-	outline: none;
-	box-shadow:
-		0 0 0 1px white,
-		0 0 0 3px var(--i-indigo-300);
-}
-
-.i-submit-base:disabled {
-	opacity: 0.5;
-	cursor: not-allowed;
-}
-
-.i-submit-primary {
-	background-color: var(--i-indigo-600);
-	color: white;
-	border: 1px solid var(--i-indigo-500);
-}
-
-.i-submit-primary:hover:not(:disabled) {
-	background-color: var(--i-indigo-700);
-}
-
-.i-submit-secondary {
-	background-color: rgb(255 255 255 / 0.7);
-	color: var(--i-indigo-700);
-	border: 1px solid var(--i-indigo-200);
-}
-
-.i-submit-secondary:hover:not(:disabled) {
-	background-color: white;
-}
-
-/* ==========================================================
-   13. Message.module.css
-   ========================================================== */
-
-.i-message-wrapper {
-	max-width: 32rem;
-	margin-inline: auto;
-}
-
-.i-message-content {
-	background: rgb(255 255 255 / 0.8);
-	border-radius: var(--i-radius-lg);
-	padding: var(--space-8);
-	box-shadow: var(--i-shadow-md);
-	animation: fadeInUp 0.5s ease-out forwards;
-}
-
-/* ==========================================================
-   14. SuccessMessage.module.css
-   ========================================================== */
-
-.i-success-icon-wrapper {
-	margin-bottom: var(--space-6);
-}
-
-.i-success-icon-circle {
-	margin-inline: auto;
-	width: 3rem;
-	height: 3rem;
-	background: var(--i-green-100);
-	border-radius: var(--i-radius-full);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	animation: bounceIn 0.7s ease-out forwards;
-}
-
-.i-success-icon {
-	width: 1.5rem;
-	height: 1.5rem;
-	color: var(--i-green-600);
-}
-
-.i-success-body {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-4);
-	text-align: center;
-}
-
-/* ==========================================================
-   15. ErrorMessage.module.css
-   ========================================================== */
-
-.i-error-icon-wrapper {
-	margin-bottom: var(--space-6);
-}
-
-.i-error-icon-circle {
-	margin-inline: auto;
-	width: 3rem;
-	height: 3rem;
-	background: var(--i-red-100);
-	border-radius: var(--i-radius-full);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	animation: shakeIn 0.7s ease-out forwards;
-}
-
-.i-error-icon {
-	width: 1.5rem;
-	height: 1.5rem;
-	color: var(--i-red-600);
-}
-
-.i-error-body {
-	display: flex;
-	flex-direction: column;
-	gap: var(--space-4);
-	text-align: center;
-}
-
-/* ==========================================================
-   16. ExpiredMessage.module.css
-   ========================================================== */
-
-.i-expired-icon-wrapper {
-	display: flex;
-	justify-content: center;
-	margin-bottom: var(--space-4);
-}
-
-.i-expired-icon {
-	width: 3rem;
-	height: 3rem;
-	color: var(--i-orange-500);
-}
-
-.i-expired-body {
-	margin-block: var(--space-4);
-	text-align: center;
-}
-
-/* ==========================================================
-   17. FormContainer.module.css（メッセージタイトル・テキスト）
-   ========================================================== */
-
-.i-fc-error-title {
-	font-size: var(--text-xl);
-	font-weight: bold;
-	color: var(--i-red-800);
-	margin-bottom: var(--space-4);
-}
-
-.i-fc-error-text {
-	color: var(--i-red-600);
-	font-size: var(--text-sm);
-}
-
-.i-fc-success-title {
-	font-size: var(--text-xl);
-	font-weight: bold;
-	color: var(--i-green-800);
-	margin-bottom: var(--space-4);
-}
-
-.i-fc-success-text {
-	color: var(--i-green-700);
-	margin-bottom: var(--space-4);
+	/* Border Radius */
+	--radius-sm: 0.125rem;
+	--radius-md: 0.375rem;
+	--radius-lg: 0.5rem;
+	--radius-full: 9999px;
 }

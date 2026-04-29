@@ -1,22 +1,37 @@
 ---
-import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
+import "@/styles/design-indigo.css";
 import FormLayout from "@/layouts/FormLayout.astro";
 import ConfirmList from "./_confirm-list";
 ---
 
 <FormLayout title="{{EVENT_NAME}} 参加申し込み確認">
-	<header class="page-header">
-		<h1 class="page-title">
-			{{EVENT_NAME}} 参加申し込み確認
-		</h1>
-	</header>
+	<div class="page">
+		<header class="page-header">
+			<h1 class="page-title">
+				{{EVENT_NAME}} 参加申し込み確認
+			</h1>
+		</header>
 
-	<main class="page-main">
-		<ConfirmList client:only="solid-js" />
-	</main>
+		<main class="page-main">
+			<ConfirmList client:only="solid-js" />
+		</main>
+	</div>
 </FormLayout>
 
 <style>
+	:global(body) {
+		background-color: var(--color-indigo-600);
+	}
+
+	.page {
+		background-color: var(--color-slate-100);
+		background-image: url("/bg-pattern-1.svg"), url("/bg-pattern-2.svg");
+		background-size: 800px 800px, 1200px 1200px;
+		background-position: 0 0, 180px 250px;
+		min-height: 100dvh;
+		color: var(--color-gray-700);
+	}
+
 	.page-header {
 		background: linear-gradient(
 			to bottom right,

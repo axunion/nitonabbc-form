@@ -34,6 +34,14 @@ disable-model-invocation: true
    - `apply.astro` - 申込ページ
    - `_apply-form.tsx` - 申込フォームコンポーネント
    - `_apply-form.module.css` - フォームスタイル
+   - `_input.tsx` - 入力コンポーネント
+   - `_input.module.css` - 入力スタイル
+   - `_radio-group.tsx` - ラジオグループコンポーネント
+   - `_radio-group.module.css` - ラジオグループスタイル
+   - `_submit-button.tsx` - 送信ボタンコンポーネント
+   - `_submit-button.module.css` - 送信ボタンスタイル
+   - `_textarea.tsx` - テキストエリアコンポーネント
+   - `_textarea.module.css` - テキストエリアスタイル
 3. 引数に応じて以下を置換:
    - イベント名
    - 開催日
@@ -47,6 +55,14 @@ disable-model-invocation: true
 - `apply.astro.template`
 - `_apply-form.tsx.template`
 - `_apply-form.module.css.template`
+- `_input.tsx.template`
+- `_input.module.css.template`
+- `_radio-group.tsx.template`
+- `_radio-group.module.css.template`
+- `_submit-button.tsx.template`
+- `_submit-button.module.css.template`
+- `_textarea.tsx.template`
+- `_textarea.module.css.template`
 
 テンプレート内のプレースホルダー:
 - `{{YEAR}}` - 年（4桁）

@@ -1,0 +1,25 @@
+.wrapper {
+	position: relative;
+}
+
+.input {
+	width: 100%;
+	padding: var(--space-2) var(--space-3);
+	border: 1px solid var(--color-gray-300);
+	border-radius: 0.375rem;
+	font-size: var(--text-base);
+	color: var(--color-gray-700);
+	background-color: white;
+	transition: border-color 0.15s ease;
+
+	&:focus {
+		outline: none;
+		border-color: var(--color-indigo-500);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-indigo-500) 20%, transparent);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+}

@@ -25,7 +25,26 @@ HTML シェルとしてのみ使用する。
 
 ### `src/styles/global.css`
 
-CSS リセットとデザイントークン（CSS 変数）を定義する。デザイントークンはパレットとして提供するもので、各ページが必要に応じて参照する。強制ではない。
+CSS リセットとベーススタイル（`body`、keyframes 等）のみを定義する。デザイントークンは含まない。
+
+### `src/styles/design-*.css`（テーマファイル）
+
+デザイントークン（CSS 変数）を定義するテーマファイル。`FormLayout.astro` からは読み込まず、**各ページのフロントマターで個別に import する**。
+
+```astro
+---
+import "@/styles/design-indigo.css";
+import FormLayout from "@/layouts/FormLayout.astro";
+---
+```
+
+現在提供しているテーマ:
+
+| ファイル | 説明 |
+|---|---|
+| `design-indigo.css` | Indigo テーマ（`--color-*` / `--space-*` / `--text-*` 等） |
+
+ページごとに異なるテーマを使用したい場合は、別のテーマファイルを import すればよい。テーマを使わず値をハードコードすることも許容する（`404.astro` がこの方式）。
 
 ### `src/components/forms/`
 
@@ -97,7 +116,7 @@ src/pages/YYYY/MM/
 ## 新規ページ作成の流れ
 
 1. `src/pages/YYYY/MM/` にディレクトリを作成
-2. `apply.astro` を作成し `FormLayout.astro` を使用
+2. `apply.astro` を作成し、フロントマターでテーマ CSS と `FormLayout.astro` を import
 3. ページ固有のデザインを `<style>` で定義（他のページを参考にしない）
 4. 必要な UI コンポーネントをページディレクトリに `_` prefix で作成
 5. `_apply-form.tsx` + `_apply-form.module.css` でフォームを実装
@@ -105,13 +124,13 @@ src/pages/YYYY/MM/
 
 ---
 
-## 削除対象
+## 削除済み
 
-この方針への移行に伴い、以下は削除する。
+この方針への移行に伴い、以下を削除した（移行完了: 2026-04-29）。
 
 | 対象 | 理由 |
 |---|---|
-| `src/components/layout/Header.astro` | 既存ページをインライン化後に削除 |
+| `src/components/layout/Header.astro` | 全ページをインライン化済み |
 | `src/components/layout/Main.astro` | 同上 |
 | `src/components/layout/Footer.astro` | 同上 |
-| `src/components/ui/` | 新規ページはページ内に持つ。既存ページ移行後に削除 |
+| `src/components/ui/` | 新規ページはページ内に持つ方針に変更済み |

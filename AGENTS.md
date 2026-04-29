@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 
 ## Project Overview
 
@@ -31,7 +31,7 @@ pnpm check:write      # 上記を自動修正
 # テスト（Vitest）
 pnpm test             # テスト実行
 pnpm test:watch       # ウォッチモード
-pnpm test src/pages/2025/09/_calc-total.test.ts  # 単一ファイル実行例
+pnpm test src/pages/YYYY/MM/_calc-total.test.ts  # 単一ファイル実行例
 ```
 
 ## Architecture
@@ -120,12 +120,14 @@ src/
 - コメントは「なぜ」を説明、「何を」は不要
 - SolidJS `.tsx` コンポーネントはそれぞれ同名の `.module.css` を持つ
 - Astro コンポーネント/ページはスコープド `<style>` タグを使用
-- デザイントークン（`--color-*`, `--space-*` など）は `src/styles/global.css` の `:root` で定義
+- デザイントークン（`--color-*`, `--space-*` など）は `src/styles/design-*.css` で定義し、各ページのフロントマターで個別に import する（例: `import "@/styles/design-indigo.css"`）
+- `src/styles/global.css` はリセット＋ベーススタイルのみ。トークンは含まない
 - CSS Modules の `composes` でバリアントパターンを実現（biome.json で `css.parser.cssModules: true` 設定済み）
 - クラス結合には `src/utils/cn.ts` の `cn()` ユーティリティを使用
 - インラインスタイル禁止（動的な CSS 変数値の適用を除く）
 - コンポーネントは 100 行以内を目安に分割
-- パスエイリアス `@/` を使用（`@/components/ui`）
+- パスエイリアス `@/` を使用（`@/components/forms`, `@/hooks` など）
+- `src/components/ui/` は存在しない。Input/RadioGroup 等の UI コンポーネントはページ専用ファイル（`_input.tsx` 等）として各ページディレクトリに作成する
 
 ### SolidJS Patterns
 
@@ -165,7 +167,8 @@ PUBLIC_CREATE_SHEET_URL       # シート作成エンドポイント
 
 手動で作成する場合：
 1. `/src/pages/YYYY/MM/` にディレクトリ作成
-2. `apply.astro` - `FormLayout.astro` を使用したページ（Astro スコープド `<style>` でスタイリング）
+2. `apply.astro` - フロントマターで `import "@/styles/design-indigo.css"` と `FormLayout.astro` を import。`<style>` ブロック内でレイアウト全体（header/main/footer/wave SVG）を定義し、`:global(body)` で背景色も指定する
 3. `_apply-form.tsx` + `_apply-form.module.css` - `useForm` フックでフォーム実装
-4. `FormContainer` に `type`（フォームタイプID）を渡す（例: `202603a`）
-5. reCAPTCHA v3 統合（`FormLayout` の `loadRecaptcha` prop）
+4. `_input.tsx`, `_radio-group.tsx`, `_submit-button.tsx` 等の UI コンポーネントをページ専用ファイルとして同ディレクトリに作成
+5. `FormContainer` に `type`（フォームタイプID）を渡す（例: `202603a`）
+6. reCAPTCHA v3 統合（`FormLayout` の `loadRecaptcha` prop）

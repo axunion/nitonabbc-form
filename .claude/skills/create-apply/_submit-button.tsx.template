@@ -1,0 +1,15 @@
+import type { JSX } from "solid-js";
+import styles from "./_submit-button.module.css";
+
+type Props = {
+	children: JSX.Element;
+	disabled?: boolean;
+};
+
+export default function SubmitButton(props: Props) {
+	return (
+		<button type="submit" class={styles.button} disabled={props.disabled}>
+			{props.children}
+		</button>
+	);
+}

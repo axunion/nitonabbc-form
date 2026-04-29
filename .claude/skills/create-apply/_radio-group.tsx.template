@@ -1,0 +1,39 @@
+import { For } from "solid-js";
+import type { JSX } from "solid-js";
+import styles from "./_radio-group.module.css";
+
+type Option = { label: string; value: string };
+
+type Props = {
+	options: Option[];
+	name?: string;
+	value?: string;
+	required?: boolean;
+	disabled?: boolean;
+	orientation?: "horizontal" | "vertical";
+	onChange?: JSX.EventHandler<HTMLInputElement, Event>;
+};
+
+export default function RadioGroup(props: Props) {
+	return (
+		<div class={props.orientation === "horizontal" ? styles.horizontal : styles.vertical}>
+			<For each={props.options}>
+				{(opt) => (
+					<label class={styles.label}>
+						<input
+							type="radio"
+							class={styles.radio}
+							name={props.name}
+							value={opt.value}
+							checked={props.value === opt.value}
+							required={props.required}
+							disabled={props.disabled}
+							onChange={props.onChange}
+						/>
+						{opt.label}
+					</label>
+				)}
+			</For>
+		</div>
+	);
+}
