@@ -1,16 +1,14 @@
 # nitonabbc-form
 
-Astro、SolidJS、TailwindCSS を使用したイベント申込フォームとアンケートフォームを作成するウェブアプリケーションです。
+Astro と SolidJS を使用したイベント申込フォームとアンケートフォームを作成するウェブアプリケーションです。
 
 ## 特徴
 
-- **モダンな技術スタック**: Astro、SolidJS、TailwindCSS を採用
+- **モダンな技術スタック**: Astro 5、SolidJS、LightningCSS + CSS Modules を採用
 - **Islands Architecture**: 最小限のクライアントサイド JavaScript で最適なパフォーマンスを実現
-- **レスポンシブデザイン**: モバイルファーストでアクセシブルな UI コンポーネント
-- **フォームバリデーション**: リアルタイムフィードバックによるクライアント・サーバーサイド検証
+- **ページ独立デザイン**: 各イベントページは独立したサイトとして扱い、イベントごとに固有のデザインを持つ
 - **Google 連携**: Google Apps Script と Google Spreadsheet によるシームレスなデータ管理
 - **セキュリティ**: reCAPTCHA v3 によるスパム対策
-- **アクセシビリティ**: WCAG 2.1 A/AA 準拠
 
 ## はじめに
 
@@ -66,4 +64,5 @@ pnpm test:watch   # ウォッチモード
 PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
 PUBLIC_POST_TO_SHEET_URL=your_google_apps_script_url
 PUBLIC_FETCH_FROM_SHEET_URL=your_fetch_endpoint
+PUBLIC_CREATE_SHEET_URL=your_create_sheet_endpoint
 ```

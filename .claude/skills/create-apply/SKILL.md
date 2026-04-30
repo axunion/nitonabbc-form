@@ -73,5 +73,7 @@ disable-model-invocation: true
 
 ## 注意事項
 
+- テンプレートの CSS はあくまで出発点。**他のページのデザインを参考にせず**、イベントごとに独自のスタイルを `<style>` で定義すること（`docs/design-policy.md` 参照）
+- `_input.tsx` / `_submit-button.tsx` 等の UI コンポーネントはページ専用。他ページのものを共有しない
 - survey（アンケート）は申込終了後に `/create-survey` で別途作成してください
 - 作成後、フォームフィールドは必要に応じてカスタマイズしてください

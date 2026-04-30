@@ -68,4 +68,6 @@ disable-model-invocation: true
 ## 注意事項
 
 - 申込フォーム（apply）が存在しない場合はエラー
+- テンプレートの CSS はあくまで出発点。**他のページのデザインを参考にせず**、イベントごとに独自のスタイルを `<style>` で定義すること（`docs/design-policy.md` 参照）
+- `_radio-group.tsx` / `_submit-button.tsx` 等の UI コンポーネントはページ専用。他ページのものを共有しない
 - 作成後、アンケート項目は必要に応じてカスタマイズしてください

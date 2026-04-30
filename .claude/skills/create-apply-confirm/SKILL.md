@@ -55,5 +55,6 @@ disable-model-invocation: true
 ## 注意事項
 
 - 申込フォーム（apply）が存在しない場合はエラー
+- テンプレートの CSS はあくまで出発点。**他のページのデザインを参考にせず**、イベントごとに独自のスタイルを `<style>` で定義すること（`docs/design-policy.md` 参照）
 - `_confirm-list.tsx` の列定義（`ConfirmListItem` 型と `I` オブジェクト）はイベントごとの申込項目に合わせてカスタマイズが必要
 - イベント終了後は `apply-confirm.astro` の `<ConfirmList>` を `<ExpiredMessage>` に差し替えることを推奨（過去ページは削除せず残す運用のため）

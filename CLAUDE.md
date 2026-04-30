@@ -120,12 +120,12 @@ src/
 - コメントは「なぜ」を説明、「何を」は不要
 - SolidJS `.tsx` コンポーネントはそれぞれ同名の `.module.css` を持つ
 - Astro コンポーネント/ページはスコープド `<style>` タグを使用
-- デザイントークン（`--color-*`, `--space-*` など）は `src/styles/global.css` の `:root` で定義
+- デザイントークン（`--color-*`, `--space-*` など）は `src/styles/design-*.css` テーマファイルで定義。各ページのフロントマターで `import "@/styles/design-indigo.css"` のように個別に読み込む（`global.css` は CSS リセットのみ）
 - CSS Modules の `composes` でバリアントパターンを実現（biome.json で `css.parser.cssModules: true` 設定済み）
 - クラス結合には `src/utils/cn.ts` の `cn()` ユーティリティを使用
 - インラインスタイル禁止（動的な CSS 変数値の適用を除く）
 - コンポーネントは 100 行以内を目安に分割
-- パスエイリアス `@/` を使用（`@/components/ui`）
+- パスエイリアス `@/` を使用（例: `@/components/forms`, `@/hooks`）
 
 ### SolidJS Patterns
 
@@ -146,7 +146,8 @@ PUBLIC_CREATE_SHEET_URL       # シート作成エンドポイント
 
 ## Design Decisions
 
-- **過去ページ残置** - 過去イベントのページは削除せず残す。参加者がURLをブックマークしている可能性がある
+- **ページ独立デザイン** - 各イベントページのデザインは完全に独立したサイトとして扱う。`Header.astro` / `Main.astro` / `Footer.astro` などの共有レイアウトコンポーネントは持たない。`Input` / `SubmitButton` などの UI コンポーネントも共有せず、各ページディレクトリに `_` prefix のページ専用ファイルとして配置する。詳細は `docs/design-policy.md` を参照
+- **過去ページ残置** - 過去イベントのページは削除せず残す。参加者がURLをブックマークしている可能性がある。期限切れページは `_apply-form.tsx` 等の form パーツを取り除き `ExpiredMessage` コンポーネントのみ使用する
 - **indexページなし** - トップページは不要。各フォームURLを直接共有する運用
 - **GAS type mapping** - フォームタイプID（`202509a`, `202509s`）が GAS 側のスプレッドシートに対応
 - **単一エンドポイント** - 送信・期限チェック・データ取得を少数の GAS エンドポイントで処理。`type` パラメータで振り分け
@@ -165,7 +166,8 @@ PUBLIC_CREATE_SHEET_URL       # シート作成エンドポイント
 
 手動で作成する場合：
 1. `/src/pages/YYYY/MM/` にディレクトリ作成
-2. `apply.astro` - `FormLayout.astro` を使用したページ（Astro スコープド `<style>` でスタイリング）
-3. `_apply-form.tsx` + `_apply-form.module.css` - `useForm` フックでフォーム実装
-4. `FormContainer` に `type`（フォームタイプID）を渡す（例: `202603a`）
-5. reCAPTCHA v3 統合（`FormLayout` の `loadRecaptcha` prop）
+2. `apply.astro` - フロントマターでテーマ CSS（`design-*.css`）と `FormLayout.astro` を import し、`<style>` でページ独自のデザインを定義（他のページのデザインを参考にしない）
+3. `_input.tsx` / `_submit-button.tsx` 等の UI コンポーネントをページ専用で作成（共有コンポーネントは使わない）
+4. `_apply-form.tsx` + `_apply-form.module.css` - `useForm` フックでフォーム実装
+5. `FormContainer` に `type`（フォームタイプID）を渡す（例: `202603a`）
+6. reCAPTCHA v3 統合（`FormLayout` の `loadRecaptcha` prop）
