@@ -1,26 +1,13 @@
 {
+	"enableAllProjectMcpServers": true,
+	"enabledMcpjsonServers": [
+		"context7"
+	],
+	"sandbox": {
+		"enabled": true,
+		"autoAllowBashIfSandboxed": true
+	},
 	"permissions": {
-		"allow": [
-			"Bash(git *)",
-			"Bash(gh *)",
-			"Bash(ls)",
-			"Bash(ls *)",
-			"Bash(pwd)",
-			"Bash(which *)",
-			"Bash(wc *)",
-			"Bash(file *)",
-			"Bash(tree *)",
-			"Bash(grep *)",
-			"Bash(head *)",
-			"Bash(tail *)",
-			"Bash(echo *)",
-			"Bash(pnpm *)",
-			"Bash(mkdir *)",
-			"Bash(find *)",
-			"Bash(rg *)",
-			"Bash(jq *)",
-			"WebSearch"
-		],
 		"deny": [
 			"Bash(git push --force *)",
 			"Bash(git push -f *)",

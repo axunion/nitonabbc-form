@@ -24,9 +24,9 @@ pnpm dev              # 開発サーバー起動
 pnpm build            # 本番ビルド
 pnpm preview          # 本番ビルドのプレビュー
 
-# コード品質（Biome）
-pnpm check            # フォーマット・リント・品質チェック
-pnpm check:write      # 上記を自動修正
+# コード品質
+pnpm check            # Biome リント・フォーマット + Astro 型チェック
+pnpm fix              # Biome 自動修正
 
 # テスト（Vitest）
 pnpm test             # テスト実行
