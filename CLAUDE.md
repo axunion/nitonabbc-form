@@ -122,7 +122,7 @@ src/
 - コメントは「なぜ」を説明、「何を」は不要
 - SolidJS `.tsx` コンポーネントはそれぞれ同名の `.module.css` を持つ
 - Astro コンポーネント/ページはスコープド `<style>` タグを使用
-- デザイントークン（`--color-*`, `--space-*` など）は `src/styles/design-*.css` テーマファイルで定義。各ページのフロントマターで `import "@/styles/design-indigo.css"` のように個別に読み込む（`global.css` は CSS リセットのみ）
+- デザイントークン（`--color-*`, `--space-*` など）は `src/styles/themes/` テーマファイルで定義。各ページのフロントマターで `import "@/styles/themes/indigo.css"` のように個別に読み込む（`global.css` は CSS リセットのみ）。`src/styles/refs/` はデザイン原稿の参照ファイルで import しない
 - CSS Modules の `composes` でバリアントパターンを実現（biome.json で `css.parser.cssModules: true` 設定済み）
 - クラス結合には `src/utils/cn.ts` の `cn()` ユーティリティを使用
 - インラインスタイル禁止（動的な CSS 変数値の適用を除く）
@@ -168,7 +168,7 @@ PUBLIC_CREATE_SHEET_URL       # シート作成エンドポイント
 
 手動で作成する場合：
 1. `/src/pages/YYYY/MM/` にディレクトリ作成
-2. `apply.astro` - フロントマターでテーマ CSS（`design-*.css`）と `FormLayout.astro` を import し、`<style>` でページ独自のデザインを定義（他のページのデザインを参考にしない）
+2. `apply.astro` - フロントマターでテーマ CSS（`src/styles/themes/*.css`）と `FormLayout.astro` を import し、`<style>` でページ独自のデザインを定義（他のページのデザインを参考にしない）
 3. `_input.tsx` / `_submit-button.tsx` 等の UI コンポーネントをページ専用で作成（共有コンポーネントは使わない）
 4. `_apply-form.tsx` + `_apply-form.module.css` - `useForm` フックでフォーム実装
 5. `FormContainer` に `type`（フォームタイプID）を渡す（例: `202603a`）

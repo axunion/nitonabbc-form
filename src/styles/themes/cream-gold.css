@@ -1,0 +1,41 @@
+/*
+ * Cream-Gold テーマのデザイントークン定義。
+ * 各ページのフロントマターで個別に import する（global.css からは読み込まない）。
+ * 依存: なし（単独で動作する）
+ */
+
+:root {
+	/* --- Colors --- */
+	--color-bg: oklch(97% 0.012 75);
+	--color-bg-card: oklch(99.5% 0.004 75);
+	--color-ink: oklch(18% 0.01 60);
+	--color-ink-mid: oklch(42% 0.01 60);
+	--color-ink-soft: oklch(62% 0.01 60);
+	--color-gold: oklch(62% 0.08 75);
+	--color-gold-lite: oklch(90% 0.04 75);
+	--color-gold-deep: oklch(50% 0.1 72);
+	--color-line: oklch(88% 0.008 75);
+	--color-panel-bg: oklch(20% 0.015 60);
+	--color-panel-ink: oklch(94% 0.008 75);
+
+	/* --- Typography --- */
+	--font-serif: "Noto Serif JP", "Yu Mincho", "游明朝", serif;
+	--font-sans:
+		"Noto Sans JP", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN", sans-serif;
+
+	/* --- Safe Area --- */
+	--safe-area-top: env(safe-area-inset-top, 0px);
+	--safe-area-bottom: env(safe-area-inset-bottom, 0px);
+
+	/* --- Animation --- */
+	--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* モバイル幅では desktop と微差のある値を上書き */
+@media (max-width: 768px) {
+	:root {
+		--color-bg-card: oklch(99% 0.006 75);
+		--color-ink-soft: oklch(65% 0.01 60);
+		--color-gold-lite: oklch(92% 0.04 75);
+	}
+}

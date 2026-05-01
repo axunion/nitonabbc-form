@@ -27,13 +27,13 @@ HTML シェルとしてのみ使用する。
 
 CSS リセットとベーススタイル（`body`、keyframes 等）のみを定義する。デザイントークンは含まない。
 
-### `src/styles/design-*.css`（テーマファイル）
+### `src/styles/themes/`（テーマファイル）
 
 デザイントークン（CSS 変数）を定義するテーマファイル。`FormLayout.astro` からは読み込まず、**各ページのフロントマターで個別に import する**。
 
 ```astro
 ---
-import "@/styles/design-indigo.css";
+import "@/styles/themes/indigo.css";
 import FormLayout from "@/layouts/FormLayout.astro";
 ---
 ```
@@ -42,9 +42,19 @@ import FormLayout from "@/layouts/FormLayout.astro";
 
 | ファイル | 説明 |
 |---|---|
-| `design-indigo.css` | Indigo テーマ（`--color-*` / `--space-*` / `--text-*` 等） |
+| `themes/indigo.css` | Indigo テーマ（`--color-*` / `--space-*` / `--text-*` 等） |
+| `themes/cream-gold.css` | Cream-Gold テーマ（`refs/desktop.css` / `refs/mobile.css` 由来。クリーム背景 + ゴールドアクセント） |
 
 ページごとに異なるテーマを使用したい場合は、別のテーマファイルを import すればよい。テーマを使わず値をハードコードすることも許容する（`404.astro` がこの方式）。
+
+### `src/styles/refs/`（デザイン参照）
+
+デザイン原稿から抽出したトークン定義の参照ファイル。ビルドには含まれず、**直接 import しない**。新規テーマを `themes/` に作成する際のコピー元として使用する。
+
+| ファイル | 説明 |
+|---|---|
+| `refs/desktop.css` | PC（1440px）デザイン原稿のトークン定義 |
+| `refs/mobile.css` | モバイル（390px）デザイン原稿のトークン定義 |
 
 ### `src/components/forms/`
 
@@ -77,6 +87,8 @@ import FormLayout from "@/layouts/FormLayout.astro";
 
 - Astro ページ（`.astro`）: `<style>` タグでページ全体のデザインを定義
 - SolidJS コンポーネント（`.tsx`）: ページと同階層に `.module.css` を配置
+
+**`:global()` について**: 各ページの `<style>` 内で `:global(body) { background-color: ... }` を使い、iOS のオーバースクロール領域などにもテーマ色を適用している。Astro は SSG であり各ページが独立した HTML として出力されるため、ページをまたいだスコープ漏れは起こらない。`FormLayout` に視覚的責務を持たせないためにも、body 色はページ側で宣言する方針とする。
 
 ### UI コンポーネント
 
