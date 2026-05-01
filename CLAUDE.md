@@ -61,6 +61,8 @@ src/
 ├── components/
 │   ├── forms/           # フォーム状態管理コンポーネント（全ページ共有）
 │   └── dev/             # 開発用ツール
+├── dev/                 # 開発時のみ有効な資材（本番ビルド対象外）
+│   └── index.astro      # dev時の `/` ページ一覧（astro.config.mjs から injectRoute）
 ├── hooks/               # SolidJS カスタムフック
 ├── services/            # 外部 API 連携
 ├── layouts/             # Astro レイアウトテンプレート（HTML シェルのみ）
@@ -148,7 +150,7 @@ PUBLIC_CREATE_SHEET_URL       # シート作成エンドポイント
 
 - **ページ独立デザイン** - 各イベントページのデザインは完全に独立したサイトとして扱う。`Header.astro` / `Main.astro` / `Footer.astro` などの共有レイアウトコンポーネントは持たない。`Input` / `SubmitButton` などの UI コンポーネントも共有せず、各ページディレクトリに `_` prefix のページ専用ファイルとして配置する。詳細は `docs/design-policy.md` を参照
 - **過去ページ残置** - 過去イベントのページは削除せず残す。参加者がURLをブックマークしている可能性がある。期限切れページは `_apply-form.tsx` 等の form パーツを取り除き `ExpiredMessage` コンポーネントのみ使用する
-- **indexページなし** - トップページは不要。各フォームURLを直接共有する運用
+- **indexページなし（本番）** - 本番のトップページは存在せず `/` は 404。各フォームURLを直接共有する運用。dev時のみ `astro.config.mjs` の `devPagesIndex` integration が `/` にページ一覧を inject する（`src/dev/index.astro`）。エントリは `src/pages/` の外にあるため本番ビルドには含まれない
 - **GAS type mapping** - フォームタイプID（`202509a`, `202509s`）が GAS 側のスプレッドシートに対応
 - **単一エンドポイント** - 送信・期限チェック・データ取得を少数の GAS エンドポイントで処理。`type` パラメータで振り分け
 - **小規模想定** - 数十人規模の申込を扱う。DB やキューは不要で GAS + Spreadsheet で十分

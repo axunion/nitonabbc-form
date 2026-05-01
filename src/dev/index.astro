@@ -1,0 +1,80 @@
+---
+import { readdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
+const pages = readdirSync(
+	fileURLToPath(new URL("../../pages", import.meta.url)),
+	{
+		recursive: true,
+		encoding: "utf8",
+	},
+)
+	.filter((f) => f.endsWith(".astro"))
+	.map((f) => `/${f.replace(/\\/g, "/").replace(/\.astro$/, "")}`)
+	.filter((p) => p !== "/404")
+	.sort();
+---
+
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="robots" content="noindex" />
+		<title>Dev: Pages Index</title>
+	</head>
+	<body>
+		<main>
+			<h1>Pages (dev only)</h1>
+			<p class="note">
+				このページは <code>pnpm dev</code> 時のみ表示されます。本番ビルドには含まれません。
+			</p>
+			<ul>
+				{pages.map((url) => (
+					<li><a href={url}>{url}</a></li>
+				))}
+			</ul>
+		</main>
+		<style>
+			body {
+				margin: 0;
+				font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+				background: #0f172a;
+				color: #e2e8f0;
+				min-height: 100dvh;
+				padding: 2rem;
+			}
+			main {
+				max-width: 720px;
+				margin: 0 auto;
+			}
+			h1 {
+				font-size: 1.25rem;
+				margin: 0 0 0.5rem;
+			}
+			.note {
+				font-size: 0.85rem;
+				color: #94a3b8;
+				margin: 0 0 1.5rem;
+			}
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: grid;
+				gap: 0.25rem;
+			}
+			li a {
+				display: block;
+				padding: 0.5rem 0.75rem;
+				color: #93c5fd;
+				text-decoration: none;
+				border-radius: 4px;
+			}
+			li a:hover {
+				background: #1e293b;
+				color: #bfdbfe;
+			}
+		</style>
+	</body>
+</html>

@@ -48,6 +48,10 @@ pnpm test         # テスト実行
 pnpm test:watch   # ウォッチモード
 ```
 
+### 開発用ページ一覧
+
+開発サーバー (`pnpm dev`) 起動時のみ、ルート `/` で全ページの一覧が表示されます。`src/pages/**/*.astro` を自動収集するため、ページを追加すると自動で反映されます。本番ビルドには含まれません（`src/dev/index.astro` と `astro.config.mjs` の `devPagesIndex` integration を参照）。
+
 ## 使い方
 
 ### フォームページ
