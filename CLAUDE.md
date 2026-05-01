@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **CSS Modules** - スコープド CSS（SolidJS コンポーネントは `.module.css`、Astro コンポーネントはスコープド `<style>`）
 - **Biome** - フォーマッター/リンター（ESLint/Prettier の代替）
 - **pnpm** - パッケージマネージャー
-- **Node.js 24** - Volta でバージョン固定
+- **Node.js 24+**
 
 ## Commands
 
