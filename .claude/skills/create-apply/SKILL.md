@@ -1,7 +1,6 @@
 ---
 name: create-apply
 description: 新しいイベントの申込フォームを作成する
-disable-model-invocation: true
 ---
 
 # 申込フォーム作成スキル
@@ -50,19 +49,19 @@ disable-model-invocation: true
 
 ## テンプレート
 
-このディレクトリ内の以下のファイルをテンプレートとして使用:
+`templates/` ディレクトリ内の以下のファイルをテンプレートとして使用:
 
-- `apply.astro.template`
-- `_apply-form.tsx.template`
-- `_apply-form.module.css.template`
-- `_input.tsx.template`
-- `_input.module.css.template`
-- `_radio-group.tsx.template`
-- `_radio-group.module.css.template`
-- `_submit-button.tsx.template`
-- `_submit-button.module.css.template`
-- `_textarea.tsx.template`
-- `_textarea.module.css.template`
+- `templates/apply.astro.template`
+- `templates/_apply-form.tsx.template`
+- `templates/_apply-form.module.css.template`
+- `templates/_input.tsx.template`
+- `templates/_input.module.css.template`
+- `templates/_radio-group.tsx.template`
+- `templates/_radio-group.module.css.template`
+- `templates/_submit-button.tsx.template`
+- `templates/_submit-button.module.css.template`
+- `templates/_textarea.tsx.template`
+- `templates/_textarea.module.css.template`
 
 テンプレート内のプレースホルダー:
 - `{{YEAR}}` - 年（4桁）
@@ -75,5 +74,6 @@ disable-model-invocation: true
 
 - テンプレートの CSS はあくまで出発点。**他のページのデザインを参考にせず**、イベントごとに独自のスタイルを `<style>` で定義すること（`docs/design-policy.md` 参照）
 - `_input.tsx` / `_submit-button.tsx` 等の UI コンポーネントはページ専用。他ページのものを共有しない
+- `_radio-group` / `_submit-button` / `_textarea` のテンプレートは `create-survey` スキルにも同一内容で存在する。片方を変更した場合はもう片方も同期すること
 - survey（アンケート）は申込終了後に `/create-survey` で別途作成してください
 - 作成後、フォームフィールドは必要に応じてカスタマイズしてください

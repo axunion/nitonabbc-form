@@ -76,9 +76,9 @@ export default function SurveyForm() {
 					<TextArea maxlength={1024} {...bindInput("additionalComments")} />
 				</FormField>
 
-				<RecaptchaNotice />
-
 				<SubmitButton>送信する</SubmitButton>
+
+				<RecaptchaNotice />
 			</form>
 		</FormContainer>
 	);

@@ -1,7 +1,6 @@
 ---
 name: create-apply-confirm
 description: 既存イベントの参加者確認リストページを作成する
-disable-model-invocation: true
 ---
 
 # 参加者確認リスト作成スキル
@@ -40,11 +39,11 @@ disable-model-invocation: true
 
 ## テンプレート
 
-このディレクトリ内の以下のファイルをテンプレートとして使用:
+`templates/` ディレクトリ内の以下のファイルをテンプレートとして使用:
 
-- `apply-confirm.astro.template`
-- `_confirm-list.tsx.template`
-- `_confirm-list.module.css.template`
+- `templates/apply-confirm.astro.template`
+- `templates/_confirm-list.tsx.template`
+- `templates/_confirm-list.module.css.template`
 
 テンプレート内のプレースホルダー:
 - `{{YEAR}}` - 年（4桁）
