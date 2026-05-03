@@ -1,30 +1,30 @@
 {
-	"name": "nitonabbc-form",
-	"type": "module",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"astro": "astro",
-		"check": "biome check ./src && astro check",
-		"fix": "biome check --write ./src",
-		"test": "vitest run",
-		"test:watch": "vitest"
-	},
-	"dependencies": {
-		"@astrojs/solid-js": "^6.0.1",
-		"astro": "^6.2.1",
-		"solid-js": "^1.9.10"
-	},
-	"devDependencies": {
-		"@astrojs/check": "^0.9.9",
-		"@biomejs/biome": "2.4.9",
-		"@solidjs/testing-library": "^0.8.10",
-		"jsdom": "^27.4.0",
-		"lightningcss": "^1.32.0",
-		"typescript": "~5.8.3",
-		"vite-plugin-solid": "^2.11.10",
-		"vitest": "^4.0.18"
-	}
+  "name": "nitonabbc-form",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "biome check ./src && astro check",
+    "fix": "biome check --write ./src",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@astrojs/solid-js": "^6.0.1",
+    "astro": "^6.2.1",
+    "solid-js": "^1.9.10"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@biomejs/biome": "2.4.9",
+    "@solidjs/testing-library": "^0.8.10",
+    "jsdom": "^27.4.0",
+    "lightningcss": "^1.32.0",
+    "typescript": "~5.8.3",
+    "vite-plugin-solid": "^2.11.10",
+    "vitest": "^4.0.18"
+  }
 }
