@@ -71,3 +71,12 @@ description: 既存イベントのアンケートフォームを作成する
 - `_radio-group.tsx` / `_submit-button.tsx` 等の UI コンポーネントはページ専用。他ページのものを共有しない
 - `_radio-group` / `_submit-button` / `_textarea` のテンプレートは `create-apply` スキルにも同一内容で存在する。片方を変更した場合はもう片方も同期すること
 - 作成後、アンケート項目は必要に応じてカスタマイズしてください
+- 計算・条件分岐など `if` / `switch` / `reduce` を含むロジックは `_calc-<feature>.ts` にエクスポートし、JSX からは関数呼び出しのみにすること（`form-test-writer` でテスト生成の対象になる）
+
+## 生成後の次ステップ
+
+フォームに集計・条件分岐ロジックが含まれる場合は、生成後に以下を実行してください：
+
+```
+/form-test-writer
+```

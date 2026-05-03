@@ -4,9 +4,9 @@ import { config } from "@/config/env";
 import "@/styles/global.css";
 
 export type Props = {
-	title: string;
-	description?: string;
-	loadRecaptcha?: boolean;
+  title: string;
+  description?: string;
+  loadRecaptcha?: boolean;
 };
 
 const { title, description = "", loadRecaptcha = false } = Astro.props;

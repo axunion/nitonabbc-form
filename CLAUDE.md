@@ -116,6 +116,13 @@ src/
 - ページ専用ファイル: アンダースコア prefix（`_apply-form.tsx`, `_calc-total.ts`）
 - テスト: ページ専用ファイルと同階層に `_name.test.ts`（例: `_calc-total.test.ts`）
 
+### Testing Policy
+
+- **テスト対象**: `src/services/`, `src/hooks/`, `src/utils/` の純関数・フック、および計算ロジックを分離した `_calc-*.ts`
+- **テスト対象外**: `ExpiredMessage` 等の表示専用スタブ、Astro ページ、CSS Modules
+- **ページの計算ロジック**: `if` / `switch` / `reduce` を含む処理は JSX から分離して `_calc-<feature>.ts` にエクスポートし、テスト可能な純関数にすること
+- **カバレッジ**: `pnpm test --coverage` で計測。共有層（services/hooks/utils）の閾値: lines/functions/statements ≥ 80%、branches ≥ 70%
+
 ### Code Style
 
 - `interface` より `type` を優先
