@@ -68,7 +68,7 @@ import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 1. 対象ディレクトリ（例: `src/pages/2025/09/`）の全ファイルを確認
 2. `apply.astro` の現在の内容を Read して、タイトル・日付・テーマ・スタイルを把握
 3. 削除対象の `_*.tsx` / `_*.module.css` をリストアップしてユーザーに確認
-4. 確認後、削除対象ファイルを削除（`Bash: rm` は使用不可のため Edit/Write で空ファイル化 → 削除不可の場合はユーザーに手動削除を依頼）
+4. 確認後、削除対象ファイルを `rm <file>` で削除する（再帰削除 `rm -r` は禁止されているが単一ファイルの `rm` は許可されている）
 5. `apply.astro` を `ExpiredMessage` のみを表示するページに書き換え
 6. `survey.astro` が存在する場合は同様に書き換え
 7. `pnpm build` で型エラーがないか確認
@@ -77,4 +77,4 @@ import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 
 - `ExpiredMessage` は `@/components/forms/ExpiredMessage.tsx` から import する
 - `client:only` ディレクティブや reCAPTCHA 関連の設定は削除される（期限切れページには不要）
-- ファイル削除は `rm` コマンドが許可されていないため、ユーザーに個別ファイルの手動削除を依頼するか、内容を最小化する
+- ファイル削除は `rm <file>` で直接実行できる（再帰削除 `rm -r` は禁止）

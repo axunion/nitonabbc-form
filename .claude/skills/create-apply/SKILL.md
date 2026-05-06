@@ -28,8 +28,11 @@ description: 新しいイベントの申込フォームを作成する
 
 ## 実行手順
 
-1. `src/pages/$ARGUMENTS/` ディレクトリを作成
-2. 以下のファイルをテンプレートから作成:
+1. `git switch -c page/{{YEAR}}-{{MONTH}}-apply` でブランチを作成する。
+   同名ブランチが既に存在する場合は `git switch page/{{YEAR}}-{{MONTH}}-apply` で切り替える。
+   （`{{YEAR}}` / `{{MONTH}}` は引数から展開する）
+2. `src/pages/$ARGUMENTS/` ディレクトリを作成
+3. 以下のファイルをテンプレートから作成:
    - `apply.astro` - 申込ページ
    - `_apply-form.tsx` - 申込フォームコンポーネント
    - `_apply-form.module.css` - フォームスタイル
@@ -41,7 +44,7 @@ description: 新しいイベントの申込フォームを作成する
    - `_submit-button.module.css` - 送信ボタンスタイル
    - `_textarea.tsx` - テキストエリアコンポーネント
    - `_textarea.module.css` - テキストエリアスタイル
-3. 引数に応じて以下を置換:
+4. 引数に応じて以下を置換:
    - イベント名
    - 開催日
    - フォームタイプID（例: `202603a`）
@@ -72,9 +75,9 @@ description: 新しいイベントの申込フォームを作成する
 
 ## 注意事項
 
-- テンプレートの CSS はあくまで出発点。**他のページのデザインを参考にせず**、イベントごとに独自のスタイルを `<style>` で定義すること（`docs/design-policy.md` 参照）
+- **テーマとデザインの選択**: `apply.astro.template` は `indigo.css` をデフォルトとしているが、そのまま使わないこと。利用可能なテーマは `src/styles/themes/` を確認し、イベントの雰囲気に合うものを選ぶか、新テーマを作成する。`<style>` もテンプレートをそのまま流用せず、**このイベント固有のデザインを設計すること**（`docs/design-policy.md` 参照）
 - `_input.tsx` / `_submit-button.tsx` 等の UI コンポーネントはページ専用。他ページのものを共有しない
-- `_radio-group` / `_submit-button` / `_textarea` のテンプレートは `create-survey` スキルにも同一内容で存在する。片方を変更した場合はもう片方も同期すること
+- `_radio-group` / `_submit-button` / `_textarea` のテンプレートは `create-survey` スキルにも存在する。`create-survey` は既存ファイルをスキップするので同期不要
 - survey（アンケート）は申込終了後に `/create-survey` で別途作成してください
 - 作成後、フォームフィールドは必要に応じてカスタマイズしてください
 - 計算・条件分岐など `if` / `switch` / `reduce` を含むロジックは `_calc-<feature>.ts` にエクスポートし、JSX からは関数呼び出しのみにすること（`form-test-writer` でテスト生成の対象になる）

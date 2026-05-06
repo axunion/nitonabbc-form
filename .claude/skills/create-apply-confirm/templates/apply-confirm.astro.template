@@ -1,5 +1,5 @@
 ---
-import "@/styles/themes/indigo.css";
+{{THEME_IMPORT}}
 import FormLayout from "@/layouts/FormLayout.astro";
 import ConfirmList from "./_confirm-list";
 ---
@@ -18,39 +18,4 @@ import ConfirmList from "./_confirm-list";
 	</div>
 </FormLayout>
 
-<style>
-	:global(body) {
-		background-color: var(--color-indigo-600);
-	}
-
-	.page {
-		background-color: var(--color-slate-100);
-		background-image: url("/bg-pattern-1.svg"), url("/bg-pattern-2.svg");
-		background-size: 800px 800px, 1200px 1200px;
-		background-position: 0 0, 180px 250px;
-		min-height: 100dvh;
-		color: var(--color-gray-700);
-	}
-
-	.page-header {
-		background: linear-gradient(
-			to bottom right,
-			var(--color-indigo-600),
-			var(--color-blue-600),
-			var(--color-purple-700)
-		);
-		color: white;
-	}
-
-	.page-title {
-		padding-block: var(--space-6);
-		text-align: center;
-		font-size: var(--text-lg);
-		font-weight: bold;
-	}
-
-	.page-main {
-		padding: var(--space-4);
-		margin-top: var(--space-4);
-	}
-</style>
+{{PAGE_STYLES}}

@@ -31,16 +31,10 @@ pnpm fix              # Biome 自動修正
 # テスト（Vitest）
 pnpm test             # テスト実行
 pnpm test:watch       # ウォッチモード
-pnpm test src/pages/2025/09/_calc-total.test.ts  # 単一ファイル実行例
+pnpm test src/pages/YYYY/MM/_calc-feature.test.ts  # 単一ファイル実行例
 ```
 
 ## Architecture
-
-### Islands Architecture
-
-- ページは静的 HTML、インタラクティブな部分のみ SolidJS でハイドレーション
-- フォームコンポーネントは `client:only="solid-js"` ディレクティブを使用
-- クライアントサイド JS を最小限に抑える設計
 
 ### URL Pattern
 
@@ -100,11 +94,7 @@ src/
 
 - `services/api.ts` - 全ての外部 API コール（`checkExpiration` / `submitForm` / `fetchData`）
 - 全 GAS レスポンスは `{ result: "done" | "error", ...data }` の判別共用体
-- 開発時は `DevApiToggle` コンポーネント（画面右下）で API モードを切り替え可能
-  - `mock-ok` - 成功レスポンスをシミュレート（デフォルト）
-  - `mock-err` - エラーレスポンスをシミュレート
-  - `real` - 実際の GAS エンドポイントを使用
-  - 選択は `localStorage` に保存される
+- 開発時は `DevApiToggle`（画面右下）で mock / real を切り替え可能
 - `FormLayout.astro` は `noindex` メタを付与（外部公開不要なページのため）
 
 ## Conventions
@@ -126,7 +116,7 @@ src/
 ### Code Style
 
 - `interface` より `type` を優先
-- コメントは「なぜ」を説明、「何を」は不要
+- コメントは「なぜ」を説明、「何を」は不要。**コード内コメントは英語で記述する**
 - SolidJS `.tsx` コンポーネントはそれぞれ同名の `.module.css` を持つ
 - Astro コンポーネント/ページはスコープド `<style>` タグを使用
 - デザイントークン（`--color-*`, `--space-*` など）は `src/styles/themes/` テーマファイルで定義。各ページのフロントマターで `import "@/styles/themes/indigo.css"` のように個別に読み込む（`global.css` は CSS リセットのみ）。`src/styles/refs/` はデザイン原稿の参照ファイルで import しない
@@ -136,26 +126,13 @@ src/
 - コンポーネントは 100 行以内を目安に分割
 - パスエイリアス `@/` を使用（例: `@/components/forms`, `@/hooks`）
 
-### SolidJS Patterns
-
-- `createSignal` - 単純なリアクティブ値
-- `createStore` - 複雑なオブジェクト
-- `createResource` - 非同期データ
-- `Show` - 条件付きレンダリング
-- `For` - リストレンダリング
-
 ## Environment Variables
 
-```bash
-PUBLIC_RECAPTCHA_SITE_KEY     # reCAPTCHA v3 サイトキー
-PUBLIC_POST_TO_SHEET_URL      # フォーム送信エンドポイント
-PUBLIC_FETCH_FROM_SHEET_URL   # データ取得エンドポイント
-PUBLIC_CREATE_SHEET_URL       # シート作成エンドポイント
-```
+詳細は `.env.example` を参照。
 
 ## Design Decisions
 
-- **ページ独立デザイン** - 各イベントページのデザインは完全に独立したサイトとして扱う。`Header.astro` / `Main.astro` / `Footer.astro` などの共有レイアウトコンポーネントは持たない。`Input` / `SubmitButton` などの UI コンポーネントも共有せず、各ページディレクトリに `_` prefix のページ専用ファイルとして配置する。詳細は `docs/design-policy.md` を参照
+- **ページ独立デザイン** - 各イベントページは独立したサイトとして扱い、UI コンポーネント・スタイルは共有しない。詳細は `docs/design-policy.md` を参照
 - **過去ページ残置** - 過去イベントのページは削除せず残す。参加者がURLをブックマークしている可能性がある。期限切れページは `_apply-form.tsx` 等の form パーツを取り除き `ExpiredMessage` コンポーネントのみ使用する
 - **indexページなし（本番）** - 本番のトップページは存在せず `/` は 404。各フォームURLを直接共有する運用。dev時のみ `astro.config.mjs` の `devPagesIndex` integration が `/` にページ一覧を inject する（`src/dev/index.astro`）。エントリは `src/pages/` の外にあるため本番ビルドには含まれない
 - **GAS type mapping** - フォームタイプID（`202509a`, `202509s`）が GAS 側のスプレッドシートに対応
@@ -172,6 +149,8 @@ PUBLIC_CREATE_SHEET_URL       # シート作成エンドポイント
 /create-survey YYYY/MM                        # アンケートフォーム（apply 作成後）
 /create-apply-confirm YYYY/MM                 # 参加者確認リスト
 ```
+
+各スキルはファイル生成前に `page/YYYY-MM-<type>` ブランチを自動作成します（例: `page/2026-06-apply`）。生成後は `/commit-push-pr` でそのまま PR を立てられます。
 
 手動で作成する場合：
 1. `/src/pages/YYYY/MM/` にディレクトリ作成
