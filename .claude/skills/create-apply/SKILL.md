@@ -1,58 +1,59 @@
 ---
 name: create-apply
-description: 新しいイベントの申込フォームを作成する
+description: Creates a new event application form with SolidJS components, CSS modules, and a git branch. Use when the user invokes /create-apply with a YYYY/MM argument to scaffold a new event registration page.
+disable-model-invocation: true
 ---
 
-# 申込フォーム作成スキル
+# Create Apply Skill
 
-イベントの参加申込フォームを作成します。
+Creates a participation application form for an event.
 
-## 使い方
+## Usage
 
 ```
-/create-apply YYYY/MM [イベント名] [開催日]
+/create-apply YYYY/MM [event-name] [event-date]
 ```
 
-### 引数
+### Arguments
 
-- `YYYY/MM`: 必須。イベントの年月（例: 2026/03）
-- `イベント名`: 任意。デフォルト: 京葉地区合同青年会
-- `開催日`: 任意。デフォルト: YYYY年M月（日付未定）
+- `YYYY/MM`: Required. Year and month of the event (e.g. 2026/03)
+- `event-name`: Optional. Default: 京葉地区合同青年会
+- `event-date`: Optional. Default: YYYY年M月（日付未定）
 
-### 例
+### Examples
 
 ```
 /create-apply 2026/03
 /create-apply 2026/03 京葉地区青年キャンプ 2026年3月15日〜16日
 ```
 
-## 実行手順
+## Steps
 
-1. `git switch -c page/{{YEAR}}-{{MONTH}}-apply` でブランチを作成する。
-   同名ブランチが既に存在する場合は `git switch page/{{YEAR}}-{{MONTH}}-apply` で切り替える。
-   （`{{YEAR}}` / `{{MONTH}}` は引数から展開する）
-2. `src/pages/$ARGUMENTS/` ディレクトリを作成
-3. 以下のファイルをテンプレートから作成:
-   - `apply.astro` - 申込ページ
-   - `_apply-form.tsx` - 申込フォームコンポーネント
-   - `_apply-form.module.css` - フォームスタイル
-   - `_input.tsx` - 入力コンポーネント
-   - `_input.module.css` - 入力スタイル
-   - `_radio-group.tsx` - ラジオグループコンポーネント
-   - `_radio-group.module.css` - ラジオグループスタイル
-   - `_submit-button.tsx` - 送信ボタンコンポーネント
-   - `_submit-button.module.css` - 送信ボタンスタイル
-   - `_textarea.tsx` - テキストエリアコンポーネント
-   - `_textarea.module.css` - テキストエリアスタイル
-4. 引数に応じて以下を置換:
-   - イベント名
-   - 開催日
-   - フォームタイプID（例: `202603a`）
-   - 著作権年
+1. Create a branch with `git switch -c page/{{YEAR}}-{{MONTH}}-apply`.
+   If the branch already exists, switch to it with `git switch page/{{YEAR}}-{{MONTH}}-apply`.
+   (`{{YEAR}}` / `{{MONTH}}` are expanded from the arguments)
+2. Create directory `src/pages/$ARGUMENTS/`
+3. Generate the following files from templates:
+   - `apply.astro` — application page
+   - `_apply-form.tsx` — application form component
+   - `_apply-form.module.css` — form styles
+   - `_input.tsx` — input component
+   - `_input.module.css` — input styles
+   - `_radio-group.tsx` — radio group component
+   - `_radio-group.module.css` — radio group styles
+   - `_submit-button.tsx` — submit button component
+   - `_submit-button.module.css` — submit button styles
+   - `_textarea.tsx` — textarea component
+   - `_textarea.module.css` — textarea styles
+4. Replace placeholders based on arguments:
+   - Event name
+   - Event date
+   - Form type ID (e.g. `202603a`)
+   - Copyright year
 
-## テンプレート
+## Templates
 
-`templates/` ディレクトリ内の以下のファイルをテンプレートとして使用:
+Use the following files from the `templates/` directory:
 
 - `templates/apply.astro.template`
 - `templates/_apply-form.tsx.template`
@@ -66,25 +67,25 @@ description: 新しいイベントの申込フォームを作成する
 - `templates/_textarea.tsx.template`
 - `templates/_textarea.module.css.template`
 
-テンプレート内のプレースホルダー:
-- `{{YEAR}}` - 年（4桁）
-- `{{MONTH}}` - 月（2桁、ゼロ埋め）
-- `{{EVENT_NAME}}` - イベント名
-- `{{EVENT_DATE}}` - 開催日
-- `{{FORM_TYPE}}` - フォームタイプID（YYYYMMa形式）
+Template placeholders:
+- `{{YEAR}}` — year (4 digits)
+- `{{MONTH}}` — month (2 digits, zero-padded)
+- `{{EVENT_NAME}}` — event name
+- `{{EVENT_DATE}}` — event date
+- `{{FORM_TYPE}}` — form type ID (YYYYMMa format)
 
-## 注意事項
+## Notes
 
-- **テーマとデザインの選択**: `apply.astro.template` は `indigo.css` をデフォルトとしているが、そのまま使わないこと。利用可能なテーマは `src/styles/themes/` を確認し、イベントの雰囲気に合うものを選ぶか、新テーマを作成する。`<style>` もテンプレートをそのまま流用せず、**このイベント固有のデザインを設計すること**（`docs/design-policy.md` 参照）
-- `_input.tsx` / `_submit-button.tsx` 等の UI コンポーネントはページ専用。他ページのものを共有しない
-- `_radio-group` / `_submit-button` / `_textarea` のテンプレートは `create-survey` スキルにも存在する。`create-survey` は既存ファイルをスキップするので同期不要
-- survey（アンケート）は申込終了後に `/create-survey` で別途作成してください
-- 作成後、フォームフィールドは必要に応じてカスタマイズしてください
-- 計算・条件分岐など `if` / `switch` / `reduce` を含むロジックは `_calc-<feature>.ts` にエクスポートし、JSX からは関数呼び出しのみにすること（`form-test-writer` でテスト生成の対象になる）
+- **Theme and design**: `apply.astro.template` defaults to `indigo.css`, but do not use it as-is. Check `src/styles/themes/` for available themes and choose one that fits the event's atmosphere, or create a new theme. Also redesign the `<style>` block from scratch — do not copy the template as-is. Design something unique for this event (see `docs/design-policy.md`).
+- UI components such as `_input.tsx` / `_submit-button.tsx` are page-specific. Do not share them across pages.
+- The templates for `_radio-group`, `_submit-button`, and `_textarea` also exist in the `create-survey` skill. Since `create-survey` skips existing files, no synchronization is needed.
+- Survey forms should be created separately with `/create-survey` after the application period ends.
+- Customize the form fields as needed after generation.
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by `form-test-writer`).
 
-## 生成後の次ステップ
+## Next Steps After Generation
 
-フォームに計算ロジック（参加費計算・人数による条件分岐など）が含まれる場合は、生成後に以下を実行してください：
+If the form includes calculation logic (fee calculation, participant count conditions, etc.), run the following after generation:
 
 ```
 /form-test-writer

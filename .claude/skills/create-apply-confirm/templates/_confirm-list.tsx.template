@@ -3,14 +3,14 @@ import { LoadingSpinner } from "@/components/forms";
 import { useDataFetch } from "@/hooks/useDataFetch";
 import styles from "./_confirm-list.module.css";
 
-// カラム定義: GASのスプレッドシートの列順に合わせて調整してください
-// 例: ステータス,最新,参加費,氏名,...
+// Column definitions: adjust to match the column order in the GAS spreadsheet
+// e.g. status, latest, fee, fullName, ...
 type ConfirmListItem = [
 	string, // STATUS
 	boolean, // LATEST
 	number, // FEE
 	string, // FULL_NAME
-	// TODO: イベントの申込項目に合わせて追加
+	// TODO: add columns to match the event's application fields
 ];
 
 const I = {
@@ -18,7 +18,7 @@ const I = {
 	LATEST: 1,
 	FEE: 2,
 	FULL_NAME: 3,
-	// TODO: イベントの申込項目に合わせて追加
+	// TODO: add fields to match the event's application fields
 } as const;
 
 const formatCurrency = (amount: number) => {
@@ -91,7 +91,7 @@ export default function ConfirmList() {
 							<thead>
 								<tr class={styles.headerRow}>
 									<th class={styles.headerCell}>名前</th>
-									{/* TODO: イベントの申込項目に合わせてヘッダーを追加 */}
+									{/* TODO: add header cells to match the event's application fields */}
 									<th class={styles.headerCellMedium}>参加費</th>
 								</tr>
 							</thead>
@@ -100,7 +100,7 @@ export default function ConfirmList() {
 									{(item) => (
 										<tr class={styles.dataRow}>
 											<td class={styles.nameCell}>{item[I.FULL_NAME]}</td>
-											{/* TODO: イベントの申込項目に合わせてセルを追加 */}
+											{/* TODO: add data cells to match the event's application fields */}
 											<td class={styles.dataCell}>
 												{item[I.FEE] ? formatCurrency(item[I.FEE]) : "-"}
 											</td>

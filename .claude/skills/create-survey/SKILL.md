@@ -1,58 +1,59 @@
 ---
 name: create-survey
-description: 既存イベントのアンケートフォームを作成する
+description: Creates a post-event survey form from an existing apply page. Use when the user invokes /create-survey with a YYYY/MM argument after an apply form exists for that date.
+disable-model-invocation: true
 ---
 
-# アンケートフォーム作成スキル
+# Create Survey Skill
 
-イベント終了後のアンケートフォームを作成します。
+Creates a post-event survey form.
 
-## 前提条件
+## Prerequisites
 
-- 対象の `YYYY/MM` ディレクトリに `apply.astro` が既に存在すること
-- 申込フォームからイベント名・開催日・テーマ CSS・ページスタイルを自動取得します
+- An `apply.astro` must already exist in the target `YYYY/MM` directory
+- Event name, event date, theme CSS, and page styles are automatically retrieved from the application form
 
-## 使い方
+## Usage
 
 ```
 /create-survey YYYY/MM
 ```
 
-### 引数
+### Arguments
 
-- `YYYY/MM`: 必須。既存イベントの年月（例: 2026/03）
+- `YYYY/MM`: Required. Year and month of the existing event (e.g. 2026/03)
 
-### 例
+### Examples
 
 ```
 /create-survey 2026/03
 ```
 
-## 実行手順
+## Steps
 
-1. `git switch -c page/{{YEAR}}-{{MONTH}}-survey` でブランチを作成する。
-   同名ブランチが既に存在する場合は `git switch page/{{YEAR}}-{{MONTH}}-survey` で切り替える。
-   （`{{YEAR}}` / `{{MONTH}}` は引数から展開する）
-2. `src/pages/$ARGUMENTS/apply.astro` から以下の情報を読み取る
-   - イベント名（`<h1>` タグ等から）
-   - 開催日
-   - テーマ CSS の import 行（`import "@/styles/themes/...css"` の行をそのまま抽出する）
-   - `<style>...</style>` ブロック全体をそのまま抽出する
-3. 以下のファイルをテンプレートから作成:
-   - `survey.astro` - アンケートページ
-   - `_survey-form.tsx` - アンケートフォームコンポーネント
-   - `_survey-form.module.css` - フォームスタイル
-   - `_radio-group.tsx` - ラジオグループコンポーネント（**既に存在する場合はスキップ**）
-   - `_radio-group.module.css` - ラジオグループスタイル（**既に存在する場合はスキップ**）
-   - `_submit-button.tsx` - 送信ボタンコンポーネント（**既に存在する場合はスキップ**）
-   - `_submit-button.module.css` - 送信ボタンスタイル（**既に存在する場合はスキップ**）
-   - `_textarea.tsx` - テキストエリアコンポーネント（**既に存在する場合はスキップ**）
-   - `_textarea.module.css` - テキストエリアスタイル（**既に存在する場合はスキップ**）
-4. 読み取った情報でプレースホルダーを置換
+1. Create a branch with `git switch -c page/{{YEAR}}-{{MONTH}}-survey`.
+   If the branch already exists, switch to it with `git switch page/{{YEAR}}-{{MONTH}}-survey`.
+   (`{{YEAR}}` / `{{MONTH}}` are expanded from the arguments)
+2. Read the following from `src/pages/$ARGUMENTS/apply.astro`:
+   - Event name (from `<h1>` tag etc.)
+   - Event date
+   - Theme CSS import line (extract the `import "@/styles/themes/...css"` line as-is)
+   - The entire `<style>...</style>` block as-is
+3. Generate the following files from templates:
+   - `survey.astro` — survey page
+   - `_survey-form.tsx` — survey form component
+   - `_survey-form.module.css` — form styles
+   - `_radio-group.tsx` — radio group component (**skip if already exists**)
+   - `_radio-group.module.css` — radio group styles (**skip if already exists**)
+   - `_submit-button.tsx` — submit button component (**skip if already exists**)
+   - `_submit-button.module.css` — submit button styles (**skip if already exists**)
+   - `_textarea.tsx` — textarea component (**skip if already exists**)
+   - `_textarea.module.css` — textarea styles (**skip if already exists**)
+4. Replace placeholders with the retrieved information
 
-## テンプレート
+## Templates
 
-`templates/` ディレクトリ内の以下のファイルをテンプレートとして使用:
+Use the following files from the `templates/` directory:
 
 - `templates/survey.astro.template`
 - `templates/_survey-form.tsx.template`
@@ -64,27 +65,27 @@ description: 既存イベントのアンケートフォームを作成する
 - `templates/_textarea.tsx.template`
 - `templates/_textarea.module.css.template`
 
-テンプレート内のプレースホルダー:
-- `{{YEAR}}` - 年（4桁）
-- `{{MONTH}}` - 月（2桁、ゼロ埋め）
-- `{{EVENT_NAME}}` - イベント名（apply.astroから取得）
-- `{{EVENT_DATE}}` - 開催日（apply.astroから取得）
-- `{{FORM_TYPE}}` - フォームタイプID（YYYYMMs形式）
-- `{{THEME_IMPORT}}` - テーマ CSS の import 行（apply.astroから抽出した行そのまま）
-- `{{PAGE_STYLES}}` - `<style>...</style>` ブロック全体（apply.astroから抽出してそのまま貼り付ける）
+Template placeholders:
+- `{{YEAR}}` — year (4 digits)
+- `{{MONTH}}` — month (2 digits, zero-padded)
+- `{{EVENT_NAME}}` — event name (retrieved from apply.astro)
+- `{{EVENT_DATE}}` — event date (retrieved from apply.astro)
+- `{{FORM_TYPE}}` — form type ID (YYYYMMs format)
+- `{{THEME_IMPORT}}` — theme CSS import line (extracted from apply.astro as-is)
+- `{{PAGE_STYLES}}` — the entire `<style>...</style>` block (extracted from apply.astro and inserted as-is)
 
-## 注意事項
+## Notes
 
-- 申込フォーム（apply）が存在しない場合はエラー
-- `survey.astro` の `<style>` は apply.astro から `{{PAGE_STYLES}}` としてそのまま引き継ぐ。HTML 構造の差異（クラス名の追加・削除など）がある場合のみ最小限の調整を行うこと（`docs/design-policy.md` 参照）
-- `_radio-group.tsx` / `_submit-button.tsx` 等の UI コンポーネントはページ専用。他ページのものを共有しない
-- `_radio-group` / `_submit-button` / `_textarea` は `create-apply` が先に実行されている場合に既存ファイルが存在する。その場合はスキップし、上書きしないこと
-- 作成後、アンケート項目は必要に応じてカスタマイズしてください
-- 計算・条件分岐など `if` / `switch` / `reduce` を含むロジックは `_calc-<feature>.ts` にエクスポートし、JSX からは関数呼び出しのみにすること（`form-test-writer` でテスト生成の対象になる）
+- Error if the application form (apply) does not exist
+- The `<style>` in `survey.astro` is inherited as-is via `{{PAGE_STYLES}}` from apply.astro. Make minimal adjustments only where HTML structure differs (e.g. added/removed class names) (see `docs/design-policy.md`)
+- UI components such as `_radio-group.tsx` / `_submit-button.tsx` are page-specific. Do not share them across pages.
+- If `create-apply` was run first, `_radio-group`, `_submit-button`, and `_textarea` files may already exist. In that case, skip them — do not overwrite.
+- Customize survey questions as needed after generation.
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by `form-test-writer`).
 
-## 生成後の次ステップ
+## Next Steps After Generation
 
-フォームに集計・条件分岐ロジックが含まれる場合は、生成後に以下を実行してください：
+If the form includes aggregation or conditional logic, run the following after generation:
 
 ```
 /form-test-writer

@@ -1,57 +1,57 @@
 ---
 name: form-reviewer
-description: 新規フォームページの品質チェック。既存フォームとの一貫性、バリデーション、アクセシビリティを確認する。
+description: Quality check for new form pages. Verifies consistency with existing forms, validation, and accessibility.
 ---
 
 # Form Reviewer
 
-新しく作成されたフォームページ（apply / survey / apply-confirm）を確認し、以下の観点でレビューしてください。
+Review newly created form pages (apply / survey / apply-confirm) from the following perspectives.
 
-## チェック項目
+## Checklist
 
-### 1. ページ自己完結性（design-policy.md 準拠）
-- `Header.astro` / `Main.astro` / `Footer.astro` などの共有レイアウトコンポーネントを使用していないか
-- フロントマターでテーマ CSS（`@/styles/themes/indigo.css` 等）を import しているか
-- `<style>` タグでページ全体のレイアウト（header/main/footer/wave SVG）を定義しているか
-- `:global(body)` で背景色を指定しているか
-- `src/components/ui/` を参照していないか（このディレクトリは存在しない）
-- UI コンポーネント（Input, RadioGroup, SubmitButton, TextArea 等）がページディレクトリの `_` prefix ファイルとして定義されているか
+### 1. Page Self-Containment (design-policy.md compliance)
+- Does it avoid using shared layout components like `Header.astro` / `Main.astro` / `Footer.astro`?
+- Does the frontmatter import a theme CSS (e.g. `@/styles/themes/indigo.css`)?
+- Does the `<style>` tag define the full page layout (header/main/footer/wave SVG)?
+- Is the background color set via `:global(body)`?
+- Does it avoid referencing `src/components/ui/` (this directory does not exist)?
+- Are UI components (Input, RadioGroup, SubmitButton, TextArea, etc.) defined as `_` prefix files in the page directory?
 
-### 2. 構造的一貫性
-- `FormLayout.astro` を使用しているか（HTML シェルとしてのみ）
-- `client:only="solid-js"` ディレクティブが正しく設定されているか
-- ページ専用コンポーネントのファイル名がアンダースコア prefix（`_form.tsx`）になっているか
+### 2. Structural Consistency
+- Is `FormLayout.astro` used (as an HTML shell only)?
+- Is the `client:only="solid-js"` directive set correctly?
+- Do page-specific component filenames use the underscore prefix (e.g. `_form.tsx`)?
 
-### 3. フォームコンポーネント（apply / survey）
-- `useForm` フックを正しく使用しているか
-- `FormContainer` の `type` プロパティに正しいフォームタイプID（YYYYMMa / YYYYMMs）が設定されているか
-- `expiredMessage`・`successTitle`・`successMessage` が日本語で適切に設定されているか
-- 必須フィールドに `required` 属性があるか
+### 3. Form Components (apply / survey)
+- Is the `useForm` hook used correctly?
+- Is the correct form type ID (YYYYMMa / YYYYMMs) set in the `type` property of `FormContainer`?
+- Are `expiredMessage`, `successTitle`, and `successMessage` set appropriately in Japanese?
+- Do required fields have the `required` attribute?
 
-### 4. reCAPTCHA 統合（apply / survey）
-- `FormLayout` に `loadRecaptcha` prop が設定されているか
+### 4. reCAPTCHA Integration (apply / survey)
+- Is the `loadRecaptcha` prop set on `FormLayout`?
 
 ### 5. CSS Modules
-- `.module.css` ファイルが同名で存在するか
-- インラインスタイルを使用していないか（CSS 変数の動的適用を除く）
+- Does a `.module.css` file with the same name exist?
+- Are inline styles avoided (except for dynamic CSS variable values)?
 
 ### 6. TypeScript
-- 型エラーがないか（`pnpm check` で確認）
-- `interface` ではなく `type` を使用しているか
+- Are there type errors? (verify with `pnpm check`)
+- Is `type` used instead of `interface`?
 
-## 出力形式
+## Output Format
 
-以下の形式でレビュー結果を報告してください：
+Report the review result in the following format:
 
 ```
-## フォームレビュー結果: [ファイルパス]
+## Form Review Result: [file path]
 
-### ✅ 問題なし
-- [項目]
+### ✅ No Issues
+- [item]
 
-### ⚠️ 要確認
-- [項目]: [理由]
+### ⚠️ Needs Attention
+- [item]: [reason]
 
-### ❌ 修正必要
-- [項目]: [問題点と修正方法]
+### ❌ Requires Fix
+- [item]: [problem and how to fix]
 ```

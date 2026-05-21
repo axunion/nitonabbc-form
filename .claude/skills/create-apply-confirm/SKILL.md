@@ -1,76 +1,77 @@
 ---
 name: create-apply-confirm
-description: 既存イベントの参加者確認リストページを作成する
+description: Creates an applicant confirmation list page from an existing apply page. Use when the user invokes /create-apply-confirm with a YYYY/MM argument after an apply form exists for that date.
+disable-model-invocation: true
 ---
 
-# 参加者確認リスト作成スキル
+# Create Apply Confirm Skill
 
-イベントの参加申込確認リストページを作成します。
+Creates an applicant confirmation list page for an event.
 
-## 前提条件
+## Prerequisites
 
-- 対象の `YYYY/MM` ディレクトリに `apply.astro` が既に存在すること
-- 申込フォームからイベント名・フォームタイプID・テーマ CSS・ページスタイルを自動取得します
+- An `apply.astro` must already exist in the target `YYYY/MM` directory
+- Event name, form type ID, theme CSS, and page styles are automatically retrieved from the application form
 
-## 使い方
+## Usage
 
 ```
 /create-apply-confirm YYYY/MM
 ```
 
-### 引数
+### Arguments
 
-- `YYYY/MM`: 必須。既存イベントの年月（例: 2026/03）
+- `YYYY/MM`: Required. Year and month of the existing event (e.g. 2026/03)
 
-### 例
+### Examples
 
 ```
 /create-apply-confirm 2026/03
 ```
 
-## 実行手順
+## Steps
 
-1. `git switch -c page/{{YEAR}}-{{MONTH}}-apply-confirm` でブランチを作成する。
-   同名ブランチが既に存在する場合は `git switch page/{{YEAR}}-{{MONTH}}-apply-confirm` で切り替える。
-   （`{{YEAR}}` / `{{MONTH}}` は引数から展開する）
-2. `src/pages/$ARGUMENTS/apply.astro` から以下の情報を読み取る
-   - イベント名
-   - フォームタイプID
-   - テーマ CSS の import 行（`import "@/styles/themes/...css"` の行をそのまま抽出する）
-   - `<style>...</style>` ブロック全体をそのまま抽出する
-3. 以下のファイルをテンプレートから作成:
-   - `apply-confirm.astro` - 確認リストページ
-   - `_confirm-list.tsx` - 確認リストコンポーネント
-   - `_confirm-list.module.css` - スタイル
-4. 読み取った情報でプレースホルダーを置換
+1. Create a branch with `git switch -c page/{{YEAR}}-{{MONTH}}-apply-confirm`.
+   If the branch already exists, switch to it with `git switch page/{{YEAR}}-{{MONTH}}-apply-confirm`.
+   (`{{YEAR}}` / `{{MONTH}}` are expanded from the arguments)
+2. Read the following from `src/pages/$ARGUMENTS/apply.astro`:
+   - Event name
+   - Form type ID
+   - Theme CSS import line (extract the `import "@/styles/themes/...css"` line as-is)
+   - The entire `<style>...</style>` block as-is
+3. Generate the following files from templates:
+   - `apply-confirm.astro` — confirmation list page
+   - `_confirm-list.tsx` — confirmation list component
+   - `_confirm-list.module.css` — styles
+4. Replace placeholders with the retrieved information
 
-## テンプレート
+## Templates
 
-`templates/` ディレクトリ内の以下のファイルをテンプレートとして使用:
+Use the following files from the `templates/` directory:
 
 - `templates/apply-confirm.astro.template`
 - `templates/_confirm-list.tsx.template`
 - `templates/_confirm-list.module.css.template`
 
-テンプレート内のプレースホルダー:
-- `{{YEAR}}` - 年（4桁）
-- `{{MONTH}}` - 月（2桁、ゼロ埋め）
-- `{{EVENT_NAME}}` - イベント名（apply.astroから取得）
-- `{{FORM_TYPE}}` - フォームタイプID（YYYYMMa形式）
-- `{{THEME_IMPORT}}` - テーマ CSS の import 行（apply.astroから抽出した行そのまま）
-- `{{PAGE_STYLES}}` - `<style>...</style>` ブロック全体（apply.astroから抽出してそのまま貼り付ける）
+Template placeholders:
+- `{{YEAR}}` — year (4 digits)
+- `{{MONTH}}` — month (2 digits, zero-padded)
+- `{{EVENT_NAME}}` — event name (retrieved from apply.astro)
+- `{{FORM_TYPE}}` — form type ID (YYYYMMa format)
+- `{{THEME_IMPORT}}` — theme CSS import line (extracted from apply.astro as-is)
+- `{{PAGE_STYLES}}` — the entire `<style>...</style>` block (extracted from apply.astro and inserted as-is)
 
-## 注意事項
+## Notes
 
-- 申込フォーム（apply）が存在しない場合はエラー
-- `apply-confirm.astro` の `<style>` は apply.astro から `{{PAGE_STYLES}}` としてそのまま引き継ぐ。HTML 構造の差異（クラス名の追加・削除など）がある場合のみ最小限の調整を行うこと（`docs/design-policy.md` 参照）
-- `_confirm-list.tsx` の列定義（`ConfirmListItem` 型と `I` オブジェクト）はイベントごとの申込項目に合わせてカスタマイズが必要
-- イベント終了後は `apply-confirm.astro` の `<ConfirmList>` を `<ExpiredMessage>` に差し替えることを推奨（過去ページは削除せず残す運用のため）
-- 計算・条件分岐など `if` / `switch` / `reduce` を含むロジックは `_calc-<feature>.ts` にエクスポートし、JSX からは関数呼び出しのみにすること（`form-test-writer` でテスト生成の対象になる）
+- Error if the application form (apply) does not exist
+- The `<style>` in `apply-confirm.astro` is inherited as-is via `{{PAGE_STYLES}}` from apply.astro. Make minimal adjustments only where HTML structure differs (see `docs/design-policy.md`)
+- The column definitions (`ConfirmListItem` type and `I` object) in `_confirm-list.tsx` must be customized to match each event's application fields
+- After the event ends, it is recommended to replace `<ConfirmList>` in `apply-confirm.astro` with `<ExpiredMessage>` (pages are retained, not deleted)
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by `form-test-writer`)
 
-## 生成後の次ステップ
+## Next Steps After Generation
 
-フォームに集計・条件分岐ロジックが含まれる場合は、生成後に以下を実行してください：
+If the form includes aggregation or conditional logic, run the following after generation:
 
 ```
 /form-test-writer

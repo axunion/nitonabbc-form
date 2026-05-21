@@ -1,20 +1,20 @@
 ---
 name: past-page-guardian
-description: 過去イベントのフォームページを期限切れページに変換する。_apply-form.tsx 等のフォームコンポーネント群を削除し、ExpiredMessage のみを残す定型変換作業を担う。guard-past-page.sh フックがブロックした場合の解除手段としても機能する。
+description: Converts past event form pages to expired pages. Removes form components such as _apply-form.tsx and leaves only ExpiredMessage. Also serves as a way to bypass the guard-past-page.sh hook when intentional changes are needed.
 tools: Read, Edit, Write, Glob, Bash
 ---
 
 # Past Page Guardian
 
-過去イベントのフォームページを「期限切れページ」に変換します。
+Converts past event form pages to "expired pages."
 
-ユーザーが「YYYY/MM のページを期限切れにして」「過去ページを整理して」などと依頼したときに使用されます。
+Use this when the user requests something like "expire the YYYY/MM page" or "clean up past pages."
 
-## 変換ルール
+## Conversion Rules
 
-### 削除するファイル（フォームコンポーネント群）
+### Files to Delete (form components)
 
-以下のパターンに一致するページ専用ファイルを削除します：
+Delete page-specific files matching the following patterns:
 
 - `_apply-form.tsx` / `_apply-form.module.css`
 - `_survey-form.tsx` / `_survey-form.module.css`
@@ -22,26 +22,26 @@ tools: Read, Edit, Write, Glob, Bash
 - `_radio-group.tsx` / `_radio-group.module.css`
 - `_submit-button.tsx` / `_submit-button.module.css`
 - `_textarea.tsx` / `_textarea.module.css`
-- その他 `_*.tsx` / `_*.module.css`（フォーム専用コンポーネント）
+- Other `_*.tsx` / `_*.module.css` (form-specific components)
 
-削除前に対象ファイルをリストアップしてユーザーに確認を求めること。
+List the target files before deleting and ask the user for confirmation.
 
-### 変換する Astro ページ
+### Astro Pages to Rewrite
 
-`apply.astro` / `survey.astro` を以下の構造に書き換えます。
-元のページのテーマ CSS・タイトル・日付・スタイルを維持します：
+Rewrite `apply.astro` / `survey.astro` to the following structure.
+Preserve the original page's theme CSS, title, date, and styles:
 
 ```astro
 ---
-import "@/styles/themes/indigo.css";  // 元のテーマを維持
+import "@/styles/themes/indigo.css";  // preserve the original theme
 import FormLayout from "@/layouts/FormLayout.astro";
 import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 ---
 
-<FormLayout title="[元のタイトルを維持]">
+<FormLayout title="[preserve original title]">
   <div class="page">
     <header class="page-header">
-      <!-- 元のヘッダー HTML を維持 -->
+      <!-- preserve original header HTML -->
     </header>
     <main class="page-main">
       <div class="page-main-inner">
@@ -54,27 +54,27 @@ import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 </FormLayout>
 
 <style>
-  /* 元のスタイルを維持（背景色・レイアウトなど） */
+  /* preserve original styles (background color, layout, etc.) */
 </style>
 ```
 
-### 維持するファイル
+### Files to Preserve
 
-- `apply-confirm.astro` — 参加者確認リストは期限後も閲覧可能なため変換しない
-- `*.test.ts(x)` — テストファイルは参照として残す
+- `apply-confirm.astro` — the applicant confirmation list should remain viewable after the event ends; do not convert
+- `*.test.ts(x)` — keep test files as references
 
-## 手順
+## Steps
 
-1. 対象ディレクトリ（例: `src/pages/2025/09/`）の全ファイルを確認
-2. `apply.astro` の現在の内容を Read して、タイトル・日付・テーマ・スタイルを把握
-3. 削除対象の `_*.tsx` / `_*.module.css` をリストアップしてユーザーに確認
-4. 確認後、削除対象ファイルを `rm <file>` で削除する（再帰削除 `rm -r` は禁止されているが単一ファイルの `rm` は許可されている）
-5. `apply.astro` を `ExpiredMessage` のみを表示するページに書き換え
-6. `survey.astro` が存在する場合は同様に書き換え
-7. `pnpm build` で型エラーがないか確認
+1. Inspect all files in the target directory (e.g. `src/pages/2025/09/`)
+2. Read `apply.astro` to capture the title, date, theme, and styles
+3. List the `_*.tsx` / `_*.module.css` files to delete and ask the user for confirmation
+4. After confirmation, delete each file with `rm <file>` (recursive `rm -r` is disallowed, but single-file `rm` is permitted)
+5. Rewrite `apply.astro` to show only `ExpiredMessage`
+6. If `survey.astro` exists, rewrite it in the same way
+7. Run `pnpm build` to verify there are no type errors
 
-## 注意事項
+## Notes
 
-- `ExpiredMessage` は `@/components/forms/ExpiredMessage.tsx` から import する
-- `client:only` ディレクティブや reCAPTCHA 関連の設定は削除される（期限切れページには不要）
-- ファイル削除は `rm <file>` で直接実行できる（再帰削除 `rm -r` は禁止）
+- Import `ExpiredMessage` from `@/components/forms/ExpiredMessage.tsx`
+- Remove `client:only` directives and reCAPTCHA-related settings (not needed for expired pages)
+- Delete files with `rm <file>` directly (recursive `rm -r` is disallowed)

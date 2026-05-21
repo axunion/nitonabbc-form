@@ -1,25 +1,27 @@
 #!/bin/sh
-# PreToolUse hook: 過去イベントページへの Edit/Write をブロック（過去ページ残置ポリシー）
-# exit 2 でツール呼び出しをブロックし、stderr に理由を出力する
+# PreToolUse hook: blocks Edit/Write to past event pages (past-page retention policy)
+# exit 2 blocks the tool call; the reason is written to stderr
+# Note: path is pre-filtered to src/pages/*/*/** by the `if` condition in settings.json
 
 f=$(jq -r '.tool_input.file_path // empty')
 [ -z "$f" ] && exit 0
 
-# src/pages/YYYY/MM/ パターン以外は対象外
-echo "$f" | grep -qE 'src/pages/[0-9]{4}/[0-9]{2}/' || exit 0
-
 year=$(echo "$f" | sed -E 's|.*src/pages/([0-9]{4})/([0-9]{2})/.*|\1|')
 month=$(echo "$f" | sed -E 's|.*src/pages/([0-9]{4})/([0-9]{2})/.*|\2|')
+
+# if path doesn't match YYYY/MM pattern, sed returns the input unchanged
+[ ${#year} -ne 4 ] && exit 0
+
 page_ym="${year}${month}"
 current_ym=$(date +%Y%m)
 
 if [ "$page_ym" -lt "$current_ym" ]; then
   cat >&2 <<MSG
-[過去ページ残置ポリシー] 編集対象: $f
-このファイルは過去イベント（${year}/${month}）のページです。
+[Past Page Retention Policy] Target file: $f
+This file belongs to a past event (${year}/${month}).
 
-意図的な変更（期限切れページへの変換など）の場合のみ続行してください。
-期限切れ変換には past-page-guardian サブエージェントが利用できます。
+Proceed only if the change is intentional (e.g., converting to an expired page).
+Use the past-page-guardian subagent for expired-page conversion.
 MSG
   exit 2
 fi

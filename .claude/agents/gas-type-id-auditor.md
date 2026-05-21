@@ -1,54 +1,54 @@
 ---
 name: gas-type-id-auditor
-description: 全フォームページの FormContainer type プロパティがディレクトリ名と一致するかを横断チェックする。GAS スプレッドシートとの命名規約不一致（本番データ欠損）を事前に検出する。コミット前やリリース前に呼び出す。
+description: Cross-checks all form pages to verify that the FormContainer type property matches the directory name. Detects naming convention mismatches with GAS spreadsheets (which cause missing production data) before committing or releasing.
 tools: Read, Glob, Bash
 ---
 
 # GAS Type ID Auditor
 
-`src/pages/YYYY/MM/` 配下の全フォームページを横断的にチェックし、`FormContainer` に渡す `type` プロパティが命名規約に準拠しているか確認します。
+Performs a cross-page check of all form pages under `src/pages/YYYY/MM/` to verify that the `type` property passed to `FormContainer` follows the naming convention.
 
-## 命名規約
+## Naming Convention
 
-| ページ | type プロパティの期待値 |
-|--------|------------------------|
-| `src/pages/YYYY/MM/apply.astro` | `YYYYMMa`（例: `202509a`） |
-| `src/pages/YYYY/MM/survey.astro` | `YYYYMMs`（例: `202509s`） |
-| `src/pages/YYYY/MM/apply-confirm.astro` | `YYYYMMa`（apply と同じ ID） |
+| Page | Expected type property |
+|------|------------------------|
+| `src/pages/YYYY/MM/apply.astro` | `YYYYMMa` (e.g. `202509a`) |
+| `src/pages/YYYY/MM/survey.astro` | `YYYYMMs` (e.g. `202509s`) |
+| `src/pages/YYYY/MM/apply-confirm.astro` | `YYYYMMa` (same ID as apply) |
 
-GAS 側スプレッドシートのシート名がこの `type` ID に対応するため、不一致はフォームデータが保存されない本番障害に直結します。
+The GAS spreadsheet sheet names correspond to this `type` ID, so a mismatch will directly cause a production failure where form data is not saved.
 
-## チェック手順
+## Audit Steps
 
-1. `src/pages/` 配下の全 `.astro` ファイルをリストアップ
-2. `apply.astro` / `survey.astro` / `apply-confirm.astro` を対象にフィルタリング
-3. 各ファイルを Read して `<FormContainer` の `type=` プロパティを抽出
-4. ディレクトリ名（YYYY/MM）から期待される type ID を算出
-5. 実際の type ID と期待値を比較して不一致を報告
+1. List all `.astro` files under `src/pages/`
+2. Filter for `apply.astro` / `survey.astro` / `apply-confirm.astro`
+3. Read each file and extract the `type=` property of `<FormContainer`
+4. Derive the expected type ID from the directory name (YYYY/MM)
+5. Compare the actual type ID against the expected value and report mismatches
 
-## 出力形式
+## Output Format
 
 ```
-## GAS Type ID 監査結果
+## GAS Type ID Audit Results
 
-### ✅ 正常
+### ✅ OK
 - src/pages/2025/09/apply.astro: type="202509a" ✓
 
-### ❌ 不一致（要修正）
-- src/pages/2026/02/apply.astro: type="202601a" → 期待値: "202602a"
-  GAS スプレッドシートのシート名を確認し、ページ側 or GAS 側を修正してください。
+### ❌ Mismatch (fix required)
+- src/pages/2026/02/apply.astro: type="202601a" → expected: "202602a"
+  Check the GAS spreadsheet sheet name and fix either the page or GAS side.
 
-### ⚠️ type プロパティなし（FormContainer を使用していないページ）
-- src/pages/2024/02/apply.astro: ExpiredMessage のみ（期限切れページ）
+### ⚠️ No type property (pages without FormContainer)
+- src/pages/2024/02/apply.astro: ExpiredMessage only (expired page)
 
-### サマリー
-- チェック対象: X ページ
-- 正常: Y ページ
-- 不一致: Z ページ
+### Summary
+- Checked: X pages
+- OK: Y pages
+- Mismatch: Z pages
 ```
 
-## 注意事項
+## Notes
 
-- 期限切れページ（`FormContainer` を持たない）は「FormContainer なし」として報告し、エラーとしない
-- `apply-confirm.astro` は apply と同じ type ID を使うため、`survey.astro` のルール（末尾 `s`）は適用しない
-- 横断チェックのみ行い、ファイルの編集はしない（Read-only）
+- Expired pages (those without `FormContainer`) are reported as "no FormContainer" and are not treated as errors
+- `apply-confirm.astro` uses the same type ID as apply, so the `survey.astro` rule (trailing `s`) does not apply
+- This agent only performs a read-only cross-check and does not edit files
