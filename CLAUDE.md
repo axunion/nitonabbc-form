@@ -128,7 +128,7 @@ src/
 
 ## Environment Variables
 
-詳細は `.env.example` を参照。
+詳細は `README.md` の「環境変数の設定」を参照。
 
 ## Design Decisions
 
