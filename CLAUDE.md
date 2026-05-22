@@ -13,7 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **LightningCSS** - CSS トランスパイラー/ミニファイアー（Vite 組み込み）
 - **CSS Modules** - スコープド CSS（SolidJS コンポーネントは `.module.css`、Astro コンポーネントはスコープド `<style>`）
 - **Biome** - フォーマッター/リンター（ESLint/Prettier の代替）
-- **pnpm** - パッケージマネージャー
+- **pnpm 11+** - パッケージマネージャー（`pnpm-workspace.yaml` の `allowBuilds` で esbuild・sharp のビルドスクリプトを明示許可済み）
 - **Node.js 24+**
 
 ## Commands

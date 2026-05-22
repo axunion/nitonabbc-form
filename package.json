@@ -2,6 +2,18 @@
   "name": "nitonabbc-form",
   "type": "module",
   "version": "0.0.1",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": ">=24",
+      "onFail": "warn"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": ">=11.0.0",
+      "onFail": "warn"
+    }
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -14,12 +26,12 @@
   },
   "dependencies": {
     "@astrojs/solid-js": "^6.0.1",
-    "astro": "^6.2.1",
+    "astro": "^6.3.7",
     "solid-js": "^1.9.10"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
-    "@biomejs/biome": "2.4.9",
+    "@biomejs/biome": "2.4.15",
     "@solidjs/testing-library": "^0.8.10",
     "@vitest/coverage-v8": "^4.0.18",
     "jsdom": "^27.4.0",
