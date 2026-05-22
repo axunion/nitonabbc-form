@@ -1,4 +1,4 @@
-import { type JSX, Show } from "solid-js";
+import { type JSX, Match, Show, Switch } from "solid-js";
 import ErrorMessage from "@/components/forms/ErrorMessage";
 import ExpiredMessage from "@/components/forms/ExpiredMessage";
 import LoadingSpinner from "@/components/forms/LoadingSpinner";
@@ -54,36 +54,38 @@ export default function FormContainer(props: FormContainerProps) {
           expirationStatus.state === "ready" && expirationStatus() === "valid"
         }
       >
-        <Show
-          when={
-            props.submissionState() === "idle" ||
-            props.submissionState() === "submitting"
-          }
-        >
-          {props.children}
-        </Show>
+        <Switch>
+          <Match
+            when={
+              props.submissionState() === "idle" ||
+              props.submissionState() === "submitting"
+            }
+          >
+            {props.children}
+          </Match>
 
-        <Show when={props.submissionState() === "success"}>
-          <SuccessMessage>
-            <h2 class={styles.successTitle}>
-              {props.successTitle || "送信が完了しました"}
-            </h2>
-            <p class={styles.successText}>
-              {props.successMessage || "ありがとうございました。"}
-            </p>
-          </SuccessMessage>
-        </Show>
+          <Match when={props.submissionState() === "success"}>
+            <SuccessMessage>
+              <h2 class={styles.successTitle}>
+                {props.successTitle || "送信が完了しました"}
+              </h2>
+              <p class={styles.successText}>
+                {props.successMessage || "ありがとうございました。"}
+              </p>
+            </SuccessMessage>
+          </Match>
 
-        <Show when={props.submissionState() === "error"}>
-          <ErrorMessage>
-            <h2 class={styles.errorResultTitle}>
-              {props.errorTitle || "送信に失敗しました"}
-            </h2>
-            <p class={styles.errorResultText}>
-              恐れ入りますが、再度お試しください。
-            </p>
-          </ErrorMessage>
-        </Show>
+          <Match when={props.submissionState() === "error"}>
+            <ErrorMessage>
+              <h2 class={styles.errorResultTitle}>
+                {props.errorTitle || "送信に失敗しました"}
+              </h2>
+              <p class={styles.errorResultText}>
+                恐れ入りますが、再度お試しください。
+              </p>
+            </ErrorMessage>
+          </Match>
+        </Switch>
       </Show>
 
       <SubmissionLoader isVisible={props.isSubmitting()} />

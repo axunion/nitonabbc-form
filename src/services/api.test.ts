@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { shouldMockError, shouldUseMockApi } from "@/services/mock-api";
+import { getApiMode } from "@/services/mock-api";
 import { checkExpiration, fetchData, submitForm } from "./api";
 
 vi.mock("@/config/env", () => ({
@@ -14,28 +14,26 @@ vi.mock("@/config/env", () => ({
 }));
 
 vi.mock("@/services/mock-api", () => ({
-  shouldUseMockApi: vi.fn(),
-  shouldMockError: vi.fn(),
+  getApiMode: vi.fn(),
 }));
 
 describe("checkExpiration", () => {
   describe("mock path", () => {
     beforeEach(() => {
-      vi.mocked(shouldUseMockApi).mockReturnValue(true);
+      vi.mocked(getApiMode).mockReturnValue("mock-ok");
       vi.useFakeTimers();
     });
     afterEach(() => vi.useRealTimers());
 
-    it("shouldMockError=false のとき done + expired:false を返す", async () => {
-      vi.mocked(shouldMockError).mockReturnValue(false);
+    it("mock-ok のとき done + expired:false を返す", async () => {
       const promise = checkExpiration("202506a");
       await vi.runAllTimersAsync();
       const result = await promise;
       expect(result).toEqual({ result: "done", expired: false });
     });
 
-    it("shouldMockError=true のとき error を返す", async () => {
-      vi.mocked(shouldMockError).mockReturnValue(true);
+    it("mock-err のとき error を返す", async () => {
+      vi.mocked(getApiMode).mockReturnValue("mock-err");
       const promise = checkExpiration("202506a");
       await vi.runAllTimersAsync();
       const result = await promise;
@@ -45,7 +43,7 @@ describe("checkExpiration", () => {
 
   describe("real path", () => {
     beforeEach(() => {
-      vi.mocked(shouldUseMockApi).mockReturnValue(false);
+      vi.mocked(getApiMode).mockReturnValue("real");
     });
 
     it("fetch 成功時は JSON を返す", async () => {
@@ -102,20 +100,19 @@ describe("checkExpiration", () => {
 describe("submitForm", () => {
   describe("mock path", () => {
     beforeEach(() => {
-      vi.mocked(shouldUseMockApi).mockReturnValue(true);
+      vi.mocked(getApiMode).mockReturnValue("mock-ok");
       vi.useFakeTimers();
     });
     afterEach(() => vi.useRealTimers());
 
-    it("shouldMockError=false のとき { result: 'done' } を返す", async () => {
-      vi.mocked(shouldMockError).mockReturnValue(false);
+    it("mock-ok のとき { result: 'done' } を返す", async () => {
       const promise = submitForm({ name: "テスト" }, "token");
       await vi.runAllTimersAsync();
       expect(await promise).toEqual({ result: "done" });
     });
 
-    it("shouldMockError=true のとき error を返す", async () => {
-      vi.mocked(shouldMockError).mockReturnValue(true);
+    it("mock-err のとき error を返す", async () => {
+      vi.mocked(getApiMode).mockReturnValue("mock-err");
       const promise = submitForm({ name: "テスト" }, "token");
       await vi.runAllTimersAsync();
       const result = await promise;
@@ -125,7 +122,7 @@ describe("submitForm", () => {
 
   describe("real path", () => {
     beforeEach(() => {
-      vi.mocked(shouldUseMockApi).mockReturnValue(false);
+      vi.mocked(getApiMode).mockReturnValue("real");
     });
 
     it("POST body に recaptchaToken と formData を含む", async () => {
@@ -171,13 +168,12 @@ describe("submitForm", () => {
 describe("fetchData", () => {
   describe("mock path", () => {
     beforeEach(() => {
-      vi.mocked(shouldUseMockApi).mockReturnValue(true);
+      vi.mocked(getApiMode).mockReturnValue("mock-ok");
       vi.useFakeTimers();
     });
     afterEach(() => vi.useRealTimers());
 
-    it("shouldMockError=false のとき { result: 'done', data: [] } を返す", async () => {
-      vi.mocked(shouldMockError).mockReturnValue(false);
+    it("mock-ok のとき { result: 'done', data: [] } を返す", async () => {
       const promise = fetchData();
       await vi.runAllTimersAsync();
       expect(await promise).toEqual({ result: "done", data: [] });
@@ -186,7 +182,7 @@ describe("fetchData", () => {
 
   describe("real path", () => {
     beforeEach(() => {
-      vi.mocked(shouldUseMockApi).mockReturnValue(false);
+      vi.mocked(getApiMode).mockReturnValue("real");
     });
 
     it("params が URL クエリに付与される", async () => {

@@ -6,7 +6,7 @@ import { getReCaptchaToken } from "@/services/recaptcha";
 export type SubmissionState = "idle" | "submitting" | "success" | "error";
 
 export function useForm<T extends Record<string, string>>(initialData: T) {
-  // createStore が initialData を直接変異させるため
+  // createStore mutates its argument in place, so snapshot before passing
   const initialSnapshot = { ...initialData } as Record<string, string>;
   const [formData, setFormData] = createStore(
     initialData as Record<string, string>,

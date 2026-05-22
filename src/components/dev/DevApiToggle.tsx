@@ -1,4 +1,4 @@
-import { createSignal, onMount } from "solid-js";
+import { createSignal } from "solid-js";
 import { type ApiMode, getApiMode, setApiMode } from "@/services/mock-api";
 import styles from "./DevApiToggle.module.css";
 
@@ -26,11 +26,7 @@ const MODE_CONFIG: Record<
 const MODE_CYCLE: ApiMode[] = ["mock-ok", "mock-err", "real"];
 
 export default function DevApiToggle() {
-  const [mode, setMode] = createSignal<ApiMode>("mock-ok");
-
-  onMount(() => {
-    setMode(getApiMode());
-  });
+  const [mode, setMode] = createSignal<ApiMode>(getApiMode());
 
   const toggle = () => {
     const currentIndex = MODE_CYCLE.indexOf(mode());
@@ -40,17 +36,17 @@ export default function DevApiToggle() {
     setApiMode(nextMode);
   };
 
-  const config = () => MODE_CONFIG[mode()];
+  const modeConfig = () => MODE_CONFIG[mode()];
 
   return (
     <button
       type="button"
       onClick={toggle}
       class={styles.toggle}
-      style={{ "background-color": config().bg }}
-      title={config().title}
+      style={{ "background-color": modeConfig().bg }}
+      title={modeConfig().title}
     >
-      {config().label}
+      {modeConfig().label}
     </button>
   );
 }
