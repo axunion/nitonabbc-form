@@ -4,158 +4,96 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-イベント申込フォームとアンケートフォームを作成するプロジェクト。Google Apps Script と Google Spreadsheet でデータを管理する。
+Event signup and post-event survey forms managed by Google Apps Script and Google Spreadsheet.
 
 ## Tech Stack
 
-- **Astro 5** - Islands Architecture によるスタティックサイトジェネレーター
-- **SolidJS** - 細粒度リアクティビティを持つ UI ライブラリ
-- **LightningCSS** - CSS トランスパイラー/ミニファイアー（Vite 組み込み）
-- **CSS Modules** - スコープド CSS（SolidJS コンポーネントは `.module.css`、Astro コンポーネントはスコープド `<style>`）
-- **Biome** - フォーマッター/リンター（ESLint/Prettier の代替）
-- **pnpm 11+** - パッケージマネージャー（`pnpm-workspace.yaml` の `allowBuilds` で esbuild・sharp のビルドスクリプトを明示許可済み）
-- **Node.js 24+**
+- **Astro 6** — Islands Architecture static site generator
+- **SolidJS** — fine-grained reactive UI library
+- **LightningCSS + CSS Modules** — `.module.css` for SolidJS components, scoped `<style>` for Astro
+- **Biome 2** — formatter/linter (replaces ESLint/Prettier)
+- **Vitest 4** — test runner (`@vitest/coverage-v8`, `@solidjs/testing-library`, `jsdom`)
+- **pnpm 11+**, **Node.js 24+**
 
-## Commands
-
-```bash
-# 開発
-pnpm dev              # 開発サーバー起動
-pnpm build            # 本番ビルド
-pnpm preview          # 本番ビルドのプレビュー
-
-# コード品質
-pnpm check            # Biome リント・フォーマット + Astro 型チェック
-pnpm fix              # Biome 自動修正
-
-# テスト（Vitest）
-pnpm test             # テスト実行
-pnpm test:watch       # ウォッチモード
-pnpm test src/pages/YYYY/MM/_calc-feature.test.ts  # 単一ファイル実行例
-```
+Run `pnpm` to list all available scripts.
 
 ## Architecture
 
 ### URL Pattern
 
-`/YYYY/MM/(apply|survey|apply-confirm)`
-- `apply` - イベント申込フォーム
-- `survey` - イベント後アンケート
-- `apply-confirm` - 参加者確認リスト
+`/YYYY/MM/(apply|survey|apply-confirm)` — each form lives in its own date-based directory and is fully self-contained.
 
 ### Key Directories
 
-```
-src/
-├── pages/YYYY/MM/       # 日付ベースのフォームページ（各ページが自己完結）
-│   ├── apply.astro      # 申込ページ（Astro、レイアウト CSS を <style> で完全定義）
-│   ├── _apply-form.tsx  # フォーム実装（SolidJS、_ prefix = ページ専用）
-│   ├── _input.tsx       # ページ固有 UI コンポーネント（_ prefix）
-│   └── ...              # その他ページ専用ファイル
-├── components/
-│   ├── forms/           # フォーム状態管理コンポーネント（全ページ共有）
-│   └── dev/             # 開発用ツール
-├── dev/                 # 開発時のみ有効な資材（本番ビルド対象外）
-│   └── index.astro      # dev時の `/` ページ一覧（astro.config.mjs から injectRoute）
-├── hooks/               # SolidJS カスタムフック
-├── services/            # 外部 API 連携
-├── layouts/             # Astro レイアウトテンプレート（HTML シェルのみ）
-└── config/              # 設定ファイル
-```
-
-### State Management
-
-- `useForm` - フォーム状態管理（createStore + createSignal）
-- `useExpirationStatus` - フォーム期限チェック（createResource）
-- `useDataFetch` - 確認データ取得（createResource）
-- `useScrollLock` - 送信中のスクロール防止
-
-### Data Flow
-
-1. ページ読み込み（静的 Astro）
-2. `useExpirationStatus` で期限チェック
-3. `useForm` でフォーム状態管理
-4. 送信時: バリデーション → reCAPTCHA トークン取得 → Google Apps Script へ POST
-5. 成功/エラーメッセージ表示
+- `src/pages/YYYY/MM/` — Date-based form pages. Files prefixed `_` are page-private (`_apply-form.tsx`, `_calc-*.ts`, etc.).
+- `src/components/forms/` — Shared form orchestration (`FormContainer`, `SubmissionLoader`).
+- `src/components/dev/` — Dev-only tools (`DevApiToggle`).
+- `src/hooks/` — Shared hooks: `useForm`, `useExpirationStatus`, `useDataFetch`, `useScrollLock`.
+- `src/services/api.ts` — All GAS API calls (`checkExpiration`, `submitForm`, `fetchData`).
+- `src/utils/` — Shared utilities (e.g. `cn.ts`).
+- `src/styles/themes/` — Design tokens; one CSS file per page theme. `src/styles/refs/` holds design reference files (do not import).
+- `src/layouts/`, `src/types/`, `src/assets/`, `src/config/`, `src/test-setup.ts` — Supporting files.
+- `src/dev/index.astro` — Dev-time page index injected at `/` (excluded from production builds).
 
 ### FormContainer
 
-全フォームページの共通オーケストレーター。`FormContainer` が `useExpirationStatus` を内部で呼び出し、以下の状態を自動的に制御する：
+Shared orchestrator for every form page. Internally calls `useExpirationStatus` and renders one of five states: loading → connection error → expired (GAS returns `expired: true`) → form (valid) → success or failure (driven by `submissionState`). Scroll lock during submission is owned by `useScrollLock`.
 
-1. **ローディング** - 期限チェック中
-2. **接続エラー** - GAS への疎通失敗時
-3. **期限切れ** - GAS が `expired: true` を返した場合
-4. **フォーム表示** - 有効期間中
-5. **送信成功/失敗** - `submissionState` に基づく切り替え
+### Data Flow
 
-`SubmissionLoader`（全画面オーバーレイ）は送信中のスクロール防止も担う。
+Static Astro page boots → `useExpirationStatus` checks GAS expiry → `useForm` manages state → on submit: validation + reCAPTCHA token + POST to GAS → success/error swap.
 
 ### API Integration
 
-- `services/api.ts` - 全ての外部 API コール（`checkExpiration` / `submitForm` / `fetchData`）
-- 全 GAS レスポンスは `{ result: "done" | "error", ...data }` の判別共用体
-- 開発時は `DevApiToggle`（画面右下）で mock / real を切り替え可能
-- `FormLayout.astro` は `noindex` メタを付与（外部公開不要なページのため）
+- All GAS calls live in `services/api.ts`; every response is `{ result: "done" | "error", ...data }`.
+- `FormLayout.astro` sets `noindex`. In dev, `DevApiToggle` (bottom-right) switches between mock and real GAS.
 
 ## Conventions
 
 ### File Naming
 
-- コンポーネント: PascalCase（`.tsx`, `.astro`）
-- ユーティリティ/サービス: kebab-case（`.ts`）
-- ページ専用ファイル: アンダースコア prefix（`_apply-form.tsx`, `_calc-total.ts`）
-- テスト: ページ専用ファイルと同階層に `_name.test.ts`（例: `_calc-total.test.ts`）
+- Components: PascalCase (`.tsx`, `.astro`).
+- Utilities/services: kebab-case (`.ts`).
+- Page-private files: leading underscore (`_apply-form.tsx`, `_calc-total.ts`).
+- Tests: colocated as `_name.test.ts` next to the subject file.
 
 ### Testing Policy
 
-- **テスト対象**: `src/services/`, `src/hooks/`, `src/utils/` の純関数・フック、および計算ロジックを分離した `_calc-*.ts`
-- **テスト対象外**: `ExpiredMessage` 等の表示専用スタブ、Astro ページ、CSS Modules
-- **ページの計算ロジック**: `if` / `switch` / `reduce` を含む処理は JSX から分離して `_calc-<feature>.ts` にエクスポートし、テスト可能な純関数にすること
-- **カバレッジ**: `pnpm test --coverage` で計測。共有層（services/hooks/utils）の閾値: lines/functions/statements ≥ 80%、branches ≥ 70%
+- **In scope**: pure functions and hooks in `src/services/`, `src/hooks/`, `src/utils/`, plus `_calc-*.ts` extracted from page JSX.
+- **Out of scope**: display-only stubs (`ExpiredMessage`), `.astro` pages, CSS Modules.
+- Extract any `if` / `switch` / `reduce` logic from JSX into a `_calc-<feature>.ts` export so it can be unit-tested.
+- Coverage targets for the shared layer: lines/functions/statements ≥ 80%, branches ≥ 70% (`pnpm test --coverage`).
 
 ### Code Style
 
-- `interface` より `type` を優先
-- コメントは「なぜ」を説明、「何を」は不要。**コード内コメントは英語で記述する**
-- SolidJS `.tsx` コンポーネントはそれぞれ同名の `.module.css` を持つ
-- Astro コンポーネント/ページはスコープド `<style>` タグを使用
-- デザイントークン（`--color-*`, `--space-*` など）は `src/styles/themes/` テーマファイルで定義。各ページのフロントマターで `import "@/styles/themes/indigo.css"` のように個別に読み込む（`global.css` は CSS リセットのみ）。`src/styles/refs/` はデザイン原稿の参照ファイルで import しない
-- CSS Modules の `composes` でバリアントパターンを実現（biome.json で `css.parser.cssModules: true` 設定済み）
-- クラス結合には `src/utils/cn.ts` の `cn()` ユーティリティを使用
-- インラインスタイル禁止（動的な CSS 変数値の適用を除く）
-- コンポーネントは 100 行以内を目安に分割
-- パスエイリアス `@/` を使用（例: `@/components/forms`, `@/hooks`）
+- Prefer `type` over `interface`.
+- Comments explain **why**, not what. **Write all code comments in English.**
+- One `.module.css` per `.tsx`; Astro components use scoped `<style>`.
+- Design tokens live in `src/styles/themes/*.css`; import the theme in each page's frontmatter. `global.css` is reset-only.
+- Use `composes` for CSS Modules variants; merge classes with `cn()` from `src/utils/cn.ts`.
+- No inline styles (dynamic CSS variable values are the only exception).
+- Keep components under ~100 lines; use the `@/` path alias.
 
 ## Environment Variables
 
-詳細は `README.md` の「環境変数の設定」を参照。
+See README → "環境変数の設定" for variable reference and local/Cloudflare Pages setup instructions.
 
 ## Design Decisions
 
-- **ページ独立デザイン** - 各イベントページは独立したサイトとして扱い、UI コンポーネント・スタイルは共有しない。詳細は `docs/design-policy.md` を参照
-- **過去ページ残置** - 過去イベントのページは削除せず残す。参加者がURLをブックマークしている可能性がある。期限切れページは `_apply-form.tsx` 等の form パーツを取り除き `ExpiredMessage` コンポーネントのみ使用する
-- **indexページなし（本番）** - 本番のトップページは存在せず `/` は 404。各フォームURLを直接共有する運用。dev時のみ `astro.config.mjs` の `devPagesIndex` integration が `/` にページ一覧を inject する（`src/dev/index.astro`）。エントリは `src/pages/` の外にあるため本番ビルドには含まれない
-- **GAS type mapping** - フォームタイプID（`202509a`, `202509s`）が GAS 側のスプレッドシートに対応
-- **単一エンドポイント** - 送信・期限チェック・データ取得を少数の GAS エンドポイントで処理。`type` パラメータで振り分け
-- **小規模想定** - 数十人規模の申込を扱う。DB やキューは不要で GAS + Spreadsheet で十分
-- **Cloudflare Pages デプロイ** - 静的サイトとして Cloudflare Pages にデプロイ。サーバーサイド処理は GAS に委譲
+- **Independent page design** — Each event page is a standalone site; UI components and styles are not shared across pages. See `docs/design-policy.md`.
+- **Keep past pages** — Past event pages are never deleted (participants may have bookmarked them). Expired pages retain only `ExpiredMessage`, removing all form parts.
+- **No production index** — `/` returns 404 in production. Dev mode injects a page list at `/` via the `devPagesIndex` integration in `astro.config.mjs`; `src/dev/index.astro` is outside `src/pages/` and excluded from production builds.
+- **GAS type mapping** — Form type IDs (e.g. `202509a`, `202509s`) map 1-to-1 to GAS spreadsheet targets.
+- **Single endpoint** — Submission, expiry check, and data fetch share a small set of GAS endpoints dispatched by a `type` parameter.
+- **Small scale** — Tens of participants per event; GAS + Spreadsheet is sufficient, no DB or queue needed.
+- **Cloudflare Pages** — Deployed as a static site; all server-side logic lives in GAS.
 
 ## New Form Creation
 
-スキルを使うと自動生成できる：
+Use skills to scaffold (each skill auto-creates a `page/YYYY-MM-<type>` branch before generating files):
 
 ```bash
-/create-apply YYYY/MM [イベント名] [開催日]   # 申込フォーム
-/create-survey YYYY/MM                        # アンケートフォーム（apply 作成後）
-/create-apply-confirm YYYY/MM                 # 参加者確認リスト
+/create-apply YYYY/MM [event-name] [event-date]   # signup form
+/create-survey YYYY/MM                            # post-event survey (create apply first)
+/create-apply-confirm YYYY/MM                     # participant confirmation list
 ```
-
-各スキルはファイル生成前に `page/YYYY-MM-<type>` ブランチを自動作成します（例: `page/2026-06-apply`）。生成後は `/commit-push-pr` でそのまま PR を立てられます。
-
-手動で作成する場合：
-1. `/src/pages/YYYY/MM/` にディレクトリ作成
-2. `apply.astro` - フロントマターでテーマ CSS（`src/styles/themes/*.css`）と `FormLayout.astro` を import し、`<style>` でページ独自のデザインを定義（他のページのデザインを参考にしない）
-3. `_input.tsx` / `_submit-button.tsx` 等の UI コンポーネントをページ専用で作成（共有コンポーネントは使わない）
-4. `_apply-form.tsx` + `_apply-form.module.css` - `useForm` フックでフォーム実装
-5. `FormContainer` に `type`（フォームタイプID）を渡す（例: `202603a`）
-6. reCAPTCHA v3 統合（`FormLayout` の `loadRecaptcha` prop）
