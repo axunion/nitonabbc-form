@@ -1,6 +1,8 @@
 ---
 name: form-reviewer
 description: Quality check for new form pages. Verifies consistency with existing forms, validation, and accessibility.
+tools: Read, Glob, Grep, Bash
+model: sonnet
 ---
 
 # Form Reviewer

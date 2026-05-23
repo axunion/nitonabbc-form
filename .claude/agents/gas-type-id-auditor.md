@@ -1,7 +1,8 @@
 ---
 name: gas-type-id-auditor
 description: Cross-checks all form pages to verify that the FormContainer type property matches the directory name. Detects naming convention mismatches with GAS spreadsheets (which cause missing production data) before committing or releasing.
-tools: Read, Glob, Bash
+tools: Read, Glob, Grep, Bash
+model: haiku
 ---
 
 # GAS Type ID Auditor

@@ -2,6 +2,7 @@
 name: form-test-writer
 description: Generates Vitest tests for pure functions, utilities, and validation logic in form pages. Primary targets are regression-prone pure functions such as _calc-*.ts and validators inside useForm.
 tools: Read, Write, Edit, Glob, Bash
+model: sonnet
 ---
 
 # Form Test Writer

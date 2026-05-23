@@ -2,6 +2,7 @@
 name: past-page-guardian
 description: Converts past event form pages to expired pages. Removes form components such as _apply-form.tsx and leaves only ExpiredMessage. Also serves as a way to bypass the guard-past-page.sh hook when intentional changes are needed.
 tools: Read, Edit, Write, Glob, Bash
+model: sonnet
 ---
 
 # Past Page Guardian
