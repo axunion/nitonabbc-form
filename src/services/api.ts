@@ -30,15 +30,19 @@ export async function checkExpiration(
   }
 
   try {
-    const response = await fetch(
-      `${config.googleAppsScript.postToSheetUrl}?type=${encodeURIComponent(type)}`,
-    );
+    const url = new URL(config.googleAppsScript.postToSheetUrl);
+    url.searchParams.set("type", type);
+    const response = await fetch(url.toString());
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
-    return (await response.json()) as ExpirationStatusResponse;
+    const json = await response.json();
+    if (typeof json?.result !== "string") {
+      throw new Error("Malformed server response.");
+    }
+    return json as ExpirationStatusResponse;
   } catch (error) {
     return toApiError(error);
   }
@@ -65,7 +69,7 @@ export async function submitForm(
   try {
     const response = await fetch(config.googleAppsScript.postToSheetUrl, {
       method: "POST",
-      body: JSON.stringify({ recaptchaToken, ...formData }),
+      body: JSON.stringify({ ...formData, recaptchaToken }),
     });
 
     if (!response.ok) {
@@ -109,7 +113,14 @@ export async function fetchData<T>(
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
-    return (await response.json()) as FetchDataResponse<T>;
+    const json = await response.json();
+    if (typeof json?.result !== "string") {
+      throw new Error("Malformed server response.");
+    }
+    if (json.result === "done" && !Object.hasOwn(json, "data")) {
+      throw new Error("Server response missing data field.");
+    }
+    return json as FetchDataResponse<T>;
   } catch (error) {
     return toApiError(error);
   }

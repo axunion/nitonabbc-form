@@ -24,7 +24,12 @@ export default function FormContainer(props: FormContainerProps) {
 
   return (
     <>
-      <Show when={expirationStatus.state === "pending"}>
+      <Show
+        when={
+          expirationStatus.state === "pending" ||
+          expirationStatus.state === "refreshing"
+        }
+      >
         <div class={styles.centerLoader}>
           <LoadingSpinner />
         </div>

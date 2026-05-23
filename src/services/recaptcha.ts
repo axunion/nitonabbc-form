@@ -12,6 +12,8 @@ declare global {
   }
 }
 
+const READY_TIMEOUT_MS = 10_000;
+
 export async function getReCaptchaToken(action = "submit"): Promise<string> {
   return new Promise((resolve, reject) => {
     if (typeof window === "undefined" || !window.grecaptcha) {
@@ -20,7 +22,13 @@ export async function getReCaptchaToken(action = "submit"): Promise<string> {
       return;
     }
 
+    // Reject if reCAPTCHA's ready callback never fires (e.g. partially blocked by network policy)
+    const timer = setTimeout(() => {
+      reject(new Error("reCAPTCHA initialization timed out"));
+    }, READY_TIMEOUT_MS);
+
     window.grecaptcha.ready(() => {
+      clearTimeout(timer);
       window.grecaptcha
         .execute(config.recaptcha.siteKey, { action })
         .then(resolve)

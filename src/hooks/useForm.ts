@@ -16,6 +16,7 @@ export function useForm<T extends Record<string, string>>(initialData: T) {
     createSignal<SubmissionState>("idle");
   const resetForm = () => {
     setFormData(initialSnapshot);
+    setSubmissionState("idle");
   };
 
   const bindInput = (name: keyof T & string) => ({
