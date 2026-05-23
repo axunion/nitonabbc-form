@@ -171,6 +171,50 @@ describe("useForm", () => {
       dispose();
     });
 
+    it("reCAPTCHA エラー時は submissionError が 'recaptcha' になる", async () => {
+      vi.mocked(getReCaptchaToken).mockRejectedValue(
+        new Error("reCAPTCHA initialization timed out"),
+      );
+
+      const [{ handleSubmit, submissionError }, dispose] = createRoot((d) => {
+        return [useForm({ name: "テスト" }), d] as const;
+      });
+      await handleSubmit(makeSubmitEvent(true));
+      expect(submissionError()).toBe("recaptcha");
+      dispose();
+    });
+
+    it("送信 API エラー時は submissionError が 'server' になる", async () => {
+      vi.mocked(getReCaptchaToken).mockResolvedValue("token");
+      vi.mocked(submitForm).mockResolvedValue({
+        result: "error",
+        error: "Server error",
+      });
+
+      const [{ handleSubmit, submissionError }, dispose] = createRoot((d) => {
+        return [useForm({ name: "テスト" }), d] as const;
+      });
+      await handleSubmit(makeSubmitEvent(true));
+      expect(submissionError()).toBe("server");
+      dispose();
+    });
+
+    it("resetForm で submissionError が null に戻る", async () => {
+      vi.mocked(getReCaptchaToken).mockRejectedValue(
+        new Error("reCAPTCHA not loaded"),
+      );
+
+      const [{ handleSubmit, submissionError, resetForm }, dispose] =
+        createRoot((d) => {
+          return [useForm({ name: "テスト" }), d] as const;
+        });
+      await handleSubmit(makeSubmitEvent(true));
+      expect(submissionError()).toBe("recaptcha");
+      resetForm();
+      expect(submissionError()).toBeNull();
+      dispose();
+    });
+
     it("送信前に値をトリムして API に渡す", async () => {
       vi.mocked(getReCaptchaToken).mockResolvedValue("token");
       vi.mocked(submitForm).mockResolvedValue({ result: "done" });

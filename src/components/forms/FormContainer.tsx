@@ -17,6 +17,7 @@ export type FormContainerProps = {
   successTitle?: string;
   successMessage?: string;
   errorTitle?: string;
+  errorMessage?: string;
 };
 
 export default function FormContainer(props: FormContainerProps) {
@@ -86,7 +87,7 @@ export default function FormContainer(props: FormContainerProps) {
                 {props.errorTitle || "送信に失敗しました"}
               </h2>
               <p class={styles.errorResultText}>
-                恐れ入りますが、再度お試しください。
+                {props.errorMessage || "恐れ入りますが、再度お試しください。"}
               </p>
             </ErrorMessage>
           </Match>

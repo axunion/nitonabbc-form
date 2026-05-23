@@ -4,6 +4,7 @@ import { submitForm } from "@/services/api";
 import { getReCaptchaToken } from "@/services/recaptcha";
 
 export type SubmissionState = "idle" | "submitting" | "success" | "error";
+export type SubmissionError = "recaptcha" | "server" | null;
 
 export function useForm<T extends Record<string, string>>(initialData: T) {
   // createStore mutates its argument in place, so snapshot before passing
@@ -14,9 +15,12 @@ export function useForm<T extends Record<string, string>>(initialData: T) {
   const [isSubmitting, setIsSubmitting] = createSignal(false);
   const [submissionState, setSubmissionState] =
     createSignal<SubmissionState>("idle");
+  const [submissionError, setSubmissionError] =
+    createSignal<SubmissionError>(null);
   const resetForm = () => {
     setFormData(initialSnapshot);
     setSubmissionState("idle");
+    setSubmissionError(null);
   };
 
   const bindInput = (name: keyof T & string) => ({
@@ -62,12 +66,23 @@ export function useForm<T extends Record<string, string>>(initialData: T) {
 
     setIsSubmitting(true);
     setSubmissionState("submitting");
+    setSubmissionError(null);
 
     try {
       const trimmedData: Record<string, string> = Object.fromEntries(
         Object.entries(formData).map(([key, value]) => [key, value.trim()]),
       );
-      const recaptchaToken = await getReCaptchaToken();
+
+      let recaptchaToken: string;
+      try {
+        recaptchaToken = await getReCaptchaToken();
+      } catch (error) {
+        console.error("reCAPTCHA error:", error);
+        setSubmissionError("recaptcha");
+        setSubmissionState("error");
+        return false;
+      }
+
       const result = await submitForm(trimmedData, recaptchaToken);
 
       if (result.result === "done") {
@@ -78,10 +93,12 @@ export function useForm<T extends Record<string, string>>(initialData: T) {
       if (result.error) {
         console.error("Submission error:", result.error);
       }
+      setSubmissionError("server");
       setSubmissionState("error");
       return false;
     } catch (error) {
       console.error("Submission error:", error);
+      setSubmissionError("server");
       setSubmissionState("error");
       return false;
     } finally {
@@ -94,6 +111,7 @@ export function useForm<T extends Record<string, string>>(initialData: T) {
     setFormData,
     isSubmitting,
     submissionState,
+    submissionError,
     resetForm,
     bindInput,
     bindChange,
