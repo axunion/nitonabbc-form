@@ -21,7 +21,7 @@
   "css": {
     "formatter": {
       "enabled": true,
-      "indentStyle": "tab"
+      "indentStyle": "space"
     },
     "linter": {
       "enabled": true
