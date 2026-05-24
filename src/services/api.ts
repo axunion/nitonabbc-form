@@ -1,12 +1,10 @@
 import { config } from "@/config/env";
-import { getApiMode } from "@/services/mock-api";
+import { getApiMode, tryMockResponse } from "@/services/mock-api";
 import type {
   ExpirationStatusResponse,
   FetchDataResponse,
   FormSubmissionResult,
 } from "@/types/api";
-
-const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
 const toApiError = (e: unknown) => ({
   result: "error" as const,
@@ -16,18 +14,13 @@ const toApiError = (e: unknown) => ({
 export async function checkExpiration(
   type: string,
 ): Promise<ExpirationStatusResponse> {
-  if (import.meta.env.DEV) {
-    const mode = getApiMode();
-    if (mode !== "real") {
-      await sleep(500);
-      const result =
-        mode === "mock-err"
-          ? { result: "error", error: "Dummy error message." }
-          : { result: "done", expired: false };
-      console.log("Mock response:", result);
-      return result as ExpirationStatusResponse;
-    }
-  }
+  const mock = await tryMockResponse<ExpirationStatusResponse>(
+    getApiMode(),
+    { result: "done", expired: false },
+    { result: "error", error: "Dummy error message." },
+    500,
+  );
+  if (mock) return mock;
 
   try {
     const url = new URL(config.googleAppsScript.postToSheetUrl);
@@ -52,19 +45,14 @@ export async function submitForm(
   formData: Record<string, string>,
   recaptchaToken?: string,
 ): Promise<FormSubmissionResult> {
-  if (import.meta.env.DEV) {
-    const mode = getApiMode();
-    if (mode !== "real") {
-      await sleep(1000);
-      const result =
-        mode === "mock-err"
-          ? { result: "error", error: "Dummy error message." }
-          : { result: "done" };
-      console.log("Mock response:", result);
-      console.log("Form data:", formData);
-      return result as FormSubmissionResult;
-    }
-  }
+  const mock = await tryMockResponse<FormSubmissionResult>(
+    getApiMode(),
+    { result: "done" },
+    { result: "error", error: "Dummy error message." },
+    1000,
+    { "Form data": formData },
+  );
+  if (mock) return mock;
 
   try {
     const response = await fetch(config.googleAppsScript.postToSheetUrl, {
@@ -85,18 +73,13 @@ export async function submitForm(
 export async function fetchData<T>(
   params?: Record<string, string | number | boolean>,
 ): Promise<FetchDataResponse<T>> {
-  if (import.meta.env.DEV) {
-    const mode = getApiMode();
-    if (mode !== "real") {
-      await sleep(500);
-      const result =
-        mode === "mock-err"
-          ? { result: "error", error: "Dummy error message." }
-          : { result: "done", data: [] };
-      console.log("Mock response:", result);
-      return result as FetchDataResponse<T>;
-    }
-  }
+  const mock = await tryMockResponse<FetchDataResponse<T>>(
+    getApiMode(),
+    { result: "done", data: [] as unknown as T },
+    { result: "error", error: "Dummy error message." },
+    500,
+  );
+  if (mock) return mock;
 
   try {
     const url = new URL(config.googleAppsScript.fetchFromSheetUrl);

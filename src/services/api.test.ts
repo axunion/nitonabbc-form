@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { getApiMode } from "@/services/mock-api";
+import type { ApiMode } from "@/services/mock-api";
+import { getApiMode, tryMockResponse } from "@/services/mock-api";
 import { checkExpiration, fetchData, submitForm } from "./api";
 
 vi.mock("@/config/env", () => ({
@@ -15,7 +16,24 @@ vi.mock("@/config/env", () => ({
 
 vi.mock("@/services/mock-api", () => ({
   getApiMode: vi.fn(),
+  tryMockResponse: vi.fn(),
 }));
+
+// Default implementation mirrors real tryMockResponse: delegates to the mode arg.
+beforeEach(() => {
+  vi.mocked(tryMockResponse).mockImplementation(
+    async <T>(
+      mode: ApiMode,
+      okPayload: T,
+      errPayload: T,
+      delayMs: number,
+    ): Promise<T | null> => {
+      if (mode === "real") return null;
+      await new Promise<void>((r) => setTimeout(r, delayMs));
+      return mode === "mock-err" ? errPayload : okPayload;
+    },
+  );
+});
 
 describe("checkExpiration", () => {
   describe("mock path", () => {

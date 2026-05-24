@@ -1,9 +1,10 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   getApiMode,
   setApiMode,
   shouldMockError,
   shouldUseMockApi,
+  tryMockResponse,
 } from "./mock-api";
 
 const STORAGE_KEY = "dev:apiMode";
@@ -70,5 +71,50 @@ describe("shouldMockError", () => {
   it("real では false を返す", () => {
     localStorage.setItem(STORAGE_KEY, "real");
     expect(shouldMockError()).toBe(false);
+  });
+});
+
+describe("tryMockResponse", () => {
+  type Payload =
+    | { result: "done"; value: number }
+    | { result: "error"; error: string };
+  const ok: Payload = { result: "done", value: 1 };
+  const err: Payload = { result: "error", error: "fail" };
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("mock-ok のとき okPayload を返す", async () => {
+    const promise = tryMockResponse<Payload>("mock-ok", ok, err, 500);
+    await vi.runAllTimersAsync();
+    expect(await promise).toEqual(ok);
+  });
+
+  it("mock-err のとき errPayload を返す", async () => {
+    const promise = tryMockResponse<Payload>("mock-err", ok, err, 500);
+    await vi.runAllTimersAsync();
+    expect(await promise).toEqual(err);
+  });
+
+  it("real のとき null を返す（sleep しない）", async () => {
+    const promise = tryMockResponse<Payload>("real", ok, err, 500);
+    await vi.runAllTimersAsync();
+    expect(await promise).toBeNull();
+  });
+
+  it("extraLog が渡されたとき console.log を追加出力する", async () => {
+    const spy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const promise = tryMockResponse<Payload>("mock-ok", ok, err, 0, {
+      payload: "x",
+    });
+    await vi.runAllTimersAsync();
+    await promise;
+    const logs = spy.mock.calls.map((c) => c[0]);
+    expect(logs).toContain("payload:");
+    spy.mockRestore();
   });
 });
