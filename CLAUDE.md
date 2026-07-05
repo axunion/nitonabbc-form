@@ -8,9 +8,9 @@ Event signup and post-event survey forms managed by Google Apps Script and Googl
 
 ## Tech Stack
 
-- **Astro 6** — Islands Architecture static site generator
+- **Astro 7** — Islands Architecture static site generator (Vite 8 / Rolldown)
 - **SolidJS** — fine-grained reactive UI library
-- **LightningCSS + CSS Modules** — `.module.css` for SolidJS components, scoped `<style>` for Astro
+- **LightningCSS + CSS Modules** — `.module.css` for SolidJS components, scoped `<style>` for Astro. LightningCSS ships with Vite 8 (no direct dependency); enabled via `css.transformer` in `astro.config.mjs`
 - **Biome 2** — formatter/linter (replaces ESLint/Prettier)
 - **Vitest 4** — test runner (`@vitest/coverage-v8`, `@solidjs/testing-library`, `jsdom`)
 - **pnpm 11+**, **Node.js 24+**
