@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 Guidance for AI coding agents in this repository. Bias toward caution over speed; on trivial tasks, use judgment.
 
