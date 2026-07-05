@@ -37,6 +37,7 @@ Creates a participation application form for an event.
    - `apply.astro` — application page
    - `_apply-form.tsx` — application form component
    - `_apply-form.module.css` — form styles
+   - `_church-names.ts` — church-name autocomplete list (page-local copy)
    - `_input.tsx` — input component
    - `_input.module.css` — input styles
    - `_radio-group.tsx` — radio group component
@@ -58,6 +59,7 @@ Use the following files from the `templates/` directory:
 - `templates/apply.astro.template`
 - `templates/_apply-form.tsx.template`
 - `templates/_apply-form.module.css.template`
+- `templates/_church-names.ts.template`
 - `templates/_input.tsx.template`
 - `templates/_input.module.css.template`
 - `templates/_radio-group.tsx.template`

@@ -32,7 +32,7 @@ Run `pnpm` to list all available scripts.
 - `src/services/api.ts` — All GAS API calls (`checkExpiration`, `submitForm`, `fetchData`).
 - `src/utils/` — Shared utilities (e.g. `cn.ts`).
 - `src/styles/themes/` — Design tokens; one CSS file per page theme. `src/styles/refs/` holds design reference files (do not import).
-- `src/layouts/`, `src/types/`, `src/assets/`, `src/config/`, `src/test-setup.ts` — Supporting files.
+- `src/layouts/`, `src/types/`, `src/config/`, `src/test-setup.ts` — Supporting files.
 - `src/dev/index.astro` — Dev-time page index injected at `/` (excluded from production builds).
 
 ### FormContainer

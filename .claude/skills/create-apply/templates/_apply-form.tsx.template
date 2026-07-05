@@ -1,6 +1,6 @@
 import { FormContainer, FormField, RecaptchaNotice } from "@/components/forms/";
-import { churchNames } from "@/config/keiyo";
 import { useForm } from "@/hooks/useForm";
+import { churchNames } from "./_church-names";
 import Input from "./_input";
 import RadioGroup from "./_radio-group";
 import SubmitButton from "./_submit-button";

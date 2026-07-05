@@ -7,7 +7,6 @@ vi.mock("@/config/env", () => ({
     googleAppsScript: {
       postToSheetUrl: "",
       fetchFromSheetUrl: "",
-      createSheetUrl: "",
     },
   },
 }));

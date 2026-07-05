@@ -23,15 +23,6 @@ export function setApiMode(mode: ApiMode): void {
   }
 }
 
-export function shouldUseMockApi(): boolean {
-  const mode = getApiMode();
-  return mode === "mock-ok" || mode === "mock-err";
-}
-
-export function shouldMockError(): boolean {
-  return getApiMode() === "mock-err";
-}
-
 // Accepts the already-resolved mode so callers can use their own (mockable) getApiMode import.
 export async function tryMockResponse<T>(
   mode: ApiMode,

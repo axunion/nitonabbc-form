@@ -68,7 +68,6 @@ pnpm test:watch   # ウォッチモード
 | `PUBLIC_RECAPTCHA_SITE_KEY` | reCAPTCHA v3 のサイトキー（Google reCAPTCHA 管理画面で取得） |
 | `PUBLIC_POST_TO_SHEET_URL` | フォーム送信用 GAS エンドポイント URL |
 | `PUBLIC_FETCH_FROM_SHEET_URL` | 参加者データ取得用 GAS エンドポイント URL |
-| `PUBLIC_CREATE_SHEET_URL` | シート作成用 GAS エンドポイント URL |
 
 #### ローカル開発
 
@@ -79,7 +78,6 @@ pnpm test:watch   # ウォッチモード
 PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key
 PUBLIC_POST_TO_SHEET_URL=your_google_apps_script_url
 PUBLIC_FETCH_FROM_SHEET_URL=your_fetch_endpoint
-PUBLIC_CREATE_SHEET_URL=your_create_sheet_endpoint
 ```
 
 #### Cloudflare Pages デプロイ
