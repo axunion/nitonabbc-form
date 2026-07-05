@@ -83,3 +83,11 @@ PUBLIC_FETCH_FROM_SHEET_URL=your_fetch_endpoint
 #### Cloudflare Pages デプロイ
 
 `.env` ファイルはデプロイ時には使用されない。Cloudflare Pages ダッシュボードの **Settings > Environment variables** に同じキーと値を登録する。
+
+ビルド設定:
+
+| 項目 | 値 |
+| --- | --- |
+| ビルドコマンド | `pnpm build` |
+| 出力ディレクトリ | `dist` |
+| Node.js バージョン | ルートの `.node-version` で指定（Cloudflare Pages が自動で読み取る） |
