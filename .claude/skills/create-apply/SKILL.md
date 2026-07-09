@@ -69,9 +69,8 @@ Use the following files from the `templates/` directory:
 - `templates/_textarea.tsx.template`
 - `templates/_textarea.module.css.template`
 
-Template placeholders:
-- `{{YEAR}}` — year (4 digits)
-- `{{MONTH}}` — month (2 digits, zero-padded)
+Template placeholders (`{{MONTH}}` is used only for the branch name in Steps, not in templates):
+- `{{YEAR}}` — year (4 digits, copyright year)
 - `{{EVENT_NAME}}` — event name
 - `{{EVENT_DATE}}` — event date
 - `{{FORM_TYPE}}` — form type ID (YYYYMMa format)
@@ -80,15 +79,12 @@ Template placeholders:
 
 - **Theme and design**: `apply.astro.template` defaults to `indigo.css`, but do not use it as-is. Check `src/styles/themes/` for available themes and choose one that fits the event's atmosphere, or create a new theme. Also redesign the `<style>` block from scratch — do not copy the template as-is. Design something unique for this event (see `docs/design-policy.md`).
 - UI components such as `_input.tsx` / `_submit-button.tsx` are page-specific. Do not share them across pages.
-- The templates for `_radio-group`, `_submit-button`, and `_textarea` also exist in the `create-survey` skill. Since `create-survey` skips existing files, no synchronization is needed.
+- The templates for `_radio-group`, `_submit-button`, and `_textarea` are also used by the `create-survey` skill (referenced from this skill's `templates/` directory) — keep them generic enough for both apply and survey pages.
 - Survey forms should be created separately with `/create-survey` after the application period ends.
 - Customize the form fields as needed after generation.
-- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by `form-test-writer`).
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `form-test-writer` agent).
 
 ## Next Steps After Generation
 
-If the form includes calculation logic (fee calculation, participant count conditions, etc.), run the following after generation:
-
-```
-/form-test-writer
-```
+- If the form includes calculation logic (fee calculation, participant count conditions, etc.), generate tests with the `form-test-writer` agent.
+- Review the finished page with the `form-reviewer` agent.

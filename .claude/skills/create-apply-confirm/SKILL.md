@@ -53,9 +53,7 @@ Use the following files from the `templates/` directory:
 - `templates/_confirm-list.tsx.template`
 - `templates/_confirm-list.module.css.template`
 
-Template placeholders:
-- `{{YEAR}}` — year (4 digits)
-- `{{MONTH}}` — month (2 digits, zero-padded)
+Template placeholders (`{{YEAR}}` / `{{MONTH}}` are used only for the branch name in Steps, not in templates):
 - `{{EVENT_NAME}}` — event name (retrieved from apply.astro)
 - `{{FORM_TYPE}}` — form type ID (YYYYMMa format)
 - `{{THEME_IMPORT}}` — theme CSS import line (extracted from apply.astro as-is)
@@ -67,12 +65,9 @@ Template placeholders:
 - The `<style>` in `apply-confirm.astro` is inherited as-is via `{{PAGE_STYLES}}` from apply.astro. Make minimal adjustments only where HTML structure differs (see `docs/design-policy.md`)
 - The column definitions (`ConfirmListItem` type and `I` object) in `_confirm-list.tsx` must be customized to match each event's application fields
 - After the event ends, it is recommended to replace `<ConfirmList>` in `apply-confirm.astro` with `<ExpiredMessage>` (pages are retained, not deleted)
-- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by `form-test-writer`)
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `form-test-writer` agent)
 
 ## Next Steps After Generation
 
-If the form includes aggregation or conditional logic, run the following after generation:
-
-```
-/form-test-writer
-```
+- If the page includes aggregation or conditional logic, generate tests with the `form-test-writer` agent.
+- Review the finished page with the `form-reviewer` agent.

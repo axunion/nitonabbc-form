@@ -53,21 +53,20 @@ Creates a post-event survey form.
 
 ## Templates
 
-Use the following files from the `templates/` directory:
+Survey-specific templates live in this skill's `templates/` directory; shared UI component templates are maintained in the `create-apply` skill and referenced from there:
 
 - `templates/survey.astro.template`
 - `templates/_survey-form.tsx.template`
 - `templates/_survey-form.module.css.template`
-- `templates/_radio-group.tsx.template`
-- `templates/_radio-group.module.css.template`
-- `templates/_submit-button.tsx.template`
-- `templates/_submit-button.module.css.template`
-- `templates/_textarea.tsx.template`
-- `templates/_textarea.module.css.template`
+- `../create-apply/templates/_radio-group.tsx.template`
+- `../create-apply/templates/_radio-group.module.css.template`
+- `../create-apply/templates/_submit-button.tsx.template`
+- `../create-apply/templates/_submit-button.module.css.template`
+- `../create-apply/templates/_textarea.tsx.template`
+- `../create-apply/templates/_textarea.module.css.template`
 
-Template placeholders:
-- `{{YEAR}}` — year (4 digits)
-- `{{MONTH}}` — month (2 digits, zero-padded)
+Template placeholders (`{{MONTH}}` is used only for the branch name in Steps, not in templates):
+- `{{YEAR}}` — year (4 digits, copyright year)
 - `{{EVENT_NAME}}` — event name (retrieved from apply.astro)
 - `{{EVENT_DATE}}` — event date (retrieved from apply.astro)
 - `{{FORM_TYPE}}` — form type ID (YYYYMMs format)
@@ -81,12 +80,9 @@ Template placeholders:
 - UI components such as `_radio-group.tsx` / `_submit-button.tsx` are page-specific. Do not share them across pages.
 - If `create-apply` was run first, `_radio-group`, `_submit-button`, and `_textarea` files may already exist. In that case, skip them — do not overwrite.
 - Customize survey questions as needed after generation.
-- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by `form-test-writer`).
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `form-test-writer` agent).
 
 ## Next Steps After Generation
 
-If the form includes aggregation or conditional logic, run the following after generation:
-
-```
-/form-test-writer
-```
+- If the form includes aggregation or conditional logic, generate tests with the `form-test-writer` agent.
+- Review the finished page with the `form-reviewer` agent.
