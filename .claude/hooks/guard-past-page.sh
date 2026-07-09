@@ -1,6 +1,8 @@
 #!/bin/sh
-# PreToolUse hook: blocks Edit/Write to past event pages (past-page retention policy)
-# exit 2 blocks the tool call; the reason is written to stderr
+# PreToolUse hook: asks for user confirmation before Edit/Write to past event pages
+# (past-page retention policy). Past pages are frozen by convention, but intentional
+# changes (fixing a mistake, expired-page conversion) are fine — so this emits a
+# permissionDecision "ask" (JSON on stdout, exit 0) instead of hard-blocking.
 # Note: path is pre-filtered to src/pages/*/*/** by the `if` condition in settings.json
 
 f=$(jq -r '.tool_input.file_path // empty')
@@ -16,12 +18,7 @@ page_ym="${year}${month}"
 current_ym=$(date +%Y%m)
 
 if [ "$page_ym" -lt "$current_ym" ]; then
-  cat >&2 <<MSG
-[Past Page Retention Policy] Target file: $f
-This file belongs to a past event (${year}/${month}).
-
-Proceed only if the change is intentional (e.g., converting to an expired page).
-Use the past-page-guardian subagent for expired-page conversion.
-MSG
-  exit 2
+  reason="[Past Page Retention Policy] $f belongs to a past event (${year}/${month}). Past pages are kept frozen for bookmarked participants — approve only if this change is intentional (e.g. fixing a mistake or converting to an expired page)."
+  jq -n --arg reason "$reason" '{hookSpecificOutput: {hookEventName: "PreToolUse", permissionDecision: "ask", permissionDecisionReason: $reason}}'
 fi
+exit 0

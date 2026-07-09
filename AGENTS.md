@@ -24,7 +24,7 @@ English only in code and AI-readable files: comments, console output, error/log 
 ## Invariants (do not break)
 
 - **Independent pages** — each event page (`src/pages/YYYY/MM/`) is a standalone site. UI components and styles are never shared across pages; duplication between pages is accepted. Shared code is technical infrastructure only. See `docs/design-policy.md`.
-- **Keep past pages** — never delete past event pages (participants may have bookmarked them). Expired pages keep only `ExpiredMessage`, with all form parts removed. A hook blocks edits to past pages; use the `past-page-guardian` agent for intentional changes.
+- **Keep past pages** — never delete past event pages (participants may have bookmarked them). Expired pages keep only `ExpiredMessage`, with all form parts removed. A hook asks for user confirmation before edits to past pages; use the `past-page-guardian` agent for expired-page conversion.
 - **GAS type mapping** — form type IDs (e.g. `202509a`, `202509s`) map 1-to-1 to GAS spreadsheet targets and must match the page directory (`gas-type-id-auditor` agent verifies this).
 - **No production index** — `/` returns 404 in production. The dev-only page list comes from the `devPagesIndex` integration (`src/dev/index.astro`, kept outside `src/pages/`).
 

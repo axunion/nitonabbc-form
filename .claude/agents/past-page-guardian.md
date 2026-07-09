@@ -1,6 +1,6 @@
 ---
 name: past-page-guardian
-description: Converts past event form pages to expired pages. Removes form components such as _apply-form.tsx and leaves only ExpiredMessage. Also serves as a way to bypass the guard-past-page.sh hook when intentional changes are needed.
+description: Converts past event form pages to expired pages. Removes form components such as _apply-form.tsx and leaves only ExpiredMessage.
 tools: Read, Edit, Write, Glob, Bash
 model: sonnet
 ---
@@ -76,6 +76,7 @@ import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 
 ## Notes
 
+- The `guard-past-page.sh` PreToolUse hook asks the user to confirm each Write/Edit to a past page — this is expected during conversion; the user approves the prompts
 - Import `ExpiredMessage` from `@/components/forms/ExpiredMessage.tsx`
 - Remove `client:only` directives and reCAPTCHA-related settings (not needed for expired pages)
 - Delete files with `rm <file>` directly (recursive `rm -r` is disallowed)
