@@ -9,7 +9,7 @@ export type FeeItemKey =
 
 type FeePrice = number | { general: number; youth: number };
 
-export const PARTICIPATION_FEE = 3000;
+export const PARTICIPATION_FEE = 2000;
 const YOUTH_LABEL = "青年";
 const ACCOMMODATION_FEE = { general: 4550, youth: 3400 };
 
