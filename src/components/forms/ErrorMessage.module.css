@@ -1,3 +1,25 @@
+/* Duplicated from global.css: CSS Modules scope animation idents locally,
+   so referencing global.css's @keyframes by name here wouldn't resolve. */
+@keyframes shakeIn {
+  0% {
+    transform: scale(0.5) rotate(-3deg);
+    opacity: 0.5;
+  }
+  25% {
+    transform: scale(1.1) rotate(2deg);
+  }
+  50% {
+    transform: scale(0.9) rotate(-1deg);
+  }
+  75% {
+    transform: scale(1.05) rotate(1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
 .iconWrapper {
   margin-bottom: var(--space-6);
 }
