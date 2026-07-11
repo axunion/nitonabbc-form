@@ -1,3 +1,22 @@
+/* Duplicated from global.css: CSS Modules scope animation idents locally,
+   so referencing global.css's @keyframes by name here wouldn't resolve. */
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
 .iconWrapper {
   margin-bottom: var(--space-6);
 }

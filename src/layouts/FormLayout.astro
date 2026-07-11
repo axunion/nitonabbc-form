@@ -24,6 +24,8 @@ const { title, description = "", loadRecaptcha = false } = Astro.props;
 		{
 			loadRecaptcha && config.recaptcha.siteKey && (
 				<script
+					is:inline
+					defer
 					src={`https://www.google.com/recaptcha/api.js?render=${config.recaptcha.siteKey}`}
 				/>
 			)

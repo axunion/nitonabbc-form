@@ -1,19 +1,19 @@
 ---
-import "@/styles/themes/indigo.css";
+import "@/styles/themes/forest.css";
 import FormLayout from "@/layouts/FormLayout.astro";
 import ApplyForm from "./_components/apply-form";
 ---
 
-<FormLayout title="{{EVENT_NAME}} 参加申し込み" loadRecaptcha>
+<FormLayout title="京葉地区青年キャンプ 参加申し込み" loadRecaptcha>
 	<div class="page">
 		<header class="page-header">
 			<div class="page-header-inner">
-				<h1 class="title">{{EVENT_NAME}} 参加申し込み</h1>
-				<p class="description">{{EVENT_DATE}}</p>
+				<h1 class="title">京葉地区青年キャンプ 参加申し込み</h1>
+				<p class="description">2026.9.20（日）-9.22（火）</p>
 			</div>
-			<div class="wave">
+			<div class="ridge">
 				<svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-					<path d="M0,60 C300,30 900,90 1200,60 L1200,120 L0,120 Z"></path>
+					<path d="M0,120 L0,80 C150,20 350,20 500,70 C650,120 850,30 1000,60 C1100,80 1150,55 1200,65 L1200,120 Z"></path>
 				</svg>
 			</div>
 		</header>
@@ -27,7 +27,7 @@ import ApplyForm from "./_components/apply-form";
 		<footer class="page-footer">
 			<div class="page-footer-inner">
 				<p class="footer-note">
-					<small>© {{YEAR}} Keiyo Area United Youth Association.</small>
+					<small>© 2026 Keiyo Area United Youth Association.</small>
 				</p>
 			</div>
 		</footer>
@@ -36,14 +36,11 @@ import ApplyForm from "./_components/apply-form";
 
 <style>
 	:global(body) {
-		background-color: var(--color-indigo-600);
+		background-color: var(--color-purple-800);
 	}
 
 	.page {
 		background-color: var(--color-slate-100);
-		background-image: url("/bg-pattern-1.svg"), url("/bg-pattern-2.svg");
-		background-size: 800px 800px, 1200px 1200px;
-		background-position: 0 0, 180px 250px;
 		min-height: 100dvh;
 		color: var(--color-gray-700);
 	}
@@ -52,9 +49,9 @@ import ApplyForm from "./_components/apply-form";
 		position: relative;
 		background: linear-gradient(
 			to bottom right,
-			var(--color-indigo-600),
-			var(--color-blue-600),
-			var(--color-purple-700)
+			var(--color-purple-800),
+			var(--color-indigo-700),
+			var(--color-indigo-600)
 		);
 		color: white;
 	}
@@ -63,7 +60,7 @@ import ApplyForm from "./_components/apply-form";
 		max-width: 48rem;
 		margin-inline: auto;
 		padding: var(--space-4);
-		min-height: 35vh;
+		min-height: 32vh;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -71,23 +68,23 @@ import ApplyForm from "./_components/apply-form";
 		text-align: center;
 	}
 
-	.wave {
+	.ridge {
 		position: absolute;
 		bottom: 0;
 		left: 0;
 		right: 0;
 	}
 
-	.wave path {
+	.ridge path {
 		fill: var(--color-slate-100);
 	}
 
-	.wave svg {
+	.ridge svg {
 		width: 100%;
-		height: 2rem;
+		height: 2.5rem;
 
 		@media (min-width: 768px) {
-			height: 3rem;
+			height: 3.5rem;
 		}
 	}
 
@@ -110,8 +107,8 @@ import ApplyForm from "./_components/apply-form";
 	.page-footer {
 		background: linear-gradient(
 			to right,
-			var(--color-indigo-700),
-			var(--color-purple-800)
+			var(--color-purple-800),
+			var(--color-indigo-700)
 		);
 		color: var(--color-blue-100);
 	}

@@ -1,0 +1,10 @@
+.label {
+  composes: label from "./radio-group.module.css";
+}
+
+.checkbox {
+  accent-color: var(--color-indigo-600);
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
