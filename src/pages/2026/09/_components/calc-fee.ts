@@ -15,13 +15,13 @@ const ACCOMMODATION_FEE = { general: 4550, youth: 3400 };
 
 export const FEE_ITEMS: { key: FeeItemKey; label: string; price: FeePrice }[] =
   [
-    { key: "day1Dinner", label: "①夕食", price: 1600 },
-    { key: "day1Accommodation", label: "①宿泊", price: ACCOMMODATION_FEE },
-    { key: "day2Breakfast", label: "②朝食", price: 900 },
-    { key: "day2Lunch", label: "②昼食", price: 1500 },
-    { key: "day2Dinner", label: "②夕食", price: 1600 },
-    { key: "day2Accommodation", label: "②宿泊", price: ACCOMMODATION_FEE },
-    { key: "day3Breakfast", label: "③朝食", price: 900 },
+    { key: "day1Dinner", label: "1日目夕食", price: 1600 },
+    { key: "day1Accommodation", label: "1日目宿泊", price: ACCOMMODATION_FEE },
+    { key: "day2Breakfast", label: "2日目朝食", price: 900 },
+    { key: "day2Lunch", label: "2日目昼食", price: 1500 },
+    { key: "day2Dinner", label: "2日目夕食", price: 1600 },
+    { key: "day2Accommodation", label: "2日目宿泊", price: ACCOMMODATION_FEE },
+    { key: "day3Breakfast", label: "3日目朝食", price: 900 },
   ];
 
 export function resolveFeePrice(price: FeePrice, ageCategory: string): number {

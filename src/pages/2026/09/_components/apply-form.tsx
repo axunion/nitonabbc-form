@@ -158,12 +158,6 @@ export default function ApplyForm() {
               {isAllFeeItemsChecked() ? "すべて解除" : "すべて選択"}
             </button>
             <div class={styles.feeList}>
-              <div class={styles.feeRow}>
-                <span>参加費</span>
-                <span class={styles.feePrice}>
-                  ¥{PARTICIPATION_FEE.toLocaleString()}
-                </span>
-              </div>
               <For each={FEE_ITEMS}>
                 {(item) => (
                   <div class={styles.feeRow}>
@@ -180,6 +174,14 @@ export default function ApplyForm() {
                   </div>
                 )}
               </For>
+              <div class={styles.feeRow}>
+                <Checkbox checked disabled>
+                  全日程共通
+                </Checkbox>
+                <span class={styles.feePrice}>
+                  ¥{PARTICIPATION_FEE.toLocaleString()}
+                </span>
+              </div>
             </div>
             <p class={styles.feeAmount}>
               ¥{calcTotalFee(formData).toLocaleString()}
@@ -213,7 +215,7 @@ export default function ApplyForm() {
 
           {formData.recreation === "お台場観光" && (
             <p class={styles.warningNote}>
-              お台場観光を選ぶと施設で昼食を食べないため、「②昼食」のチェックを外してください。
+              お台場観光を選ぶと施設で昼食を食べないため、「2日目昼食」のチェックを外してください。
             </p>
           )}
         </FormField>
