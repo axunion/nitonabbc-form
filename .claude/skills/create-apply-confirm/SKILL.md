@@ -31,29 +31,49 @@ Creates an applicant confirmation list page for an event.
 
 ## Steps
 
-1. Create a branch with `git switch -c page/{{YEAR}}-{{MONTH}}-apply-confirm`.
-   If the branch already exists, switch to it with `git switch page/{{YEAR}}-{{MONTH}}-apply-confirm`.
-   (`{{YEAR}}` / `{{MONTH}}` are expanded from the arguments)
-2. Read the following from `src/pages/$ARGUMENTS/apply.astro`:
-   - Event name
-   - Form type ID
-   - Theme CSS import line (extract the `import "@/styles/themes/...css"` line as-is)
-   - The entire `<style>...</style>` block as-is
-3. Generate the following files from templates:
-   - `apply-confirm.astro` — confirmation list page
-   - `_confirm-list.tsx` — confirmation list component
-   - `_confirm-list.module.css` — styles
-4. Replace placeholders with the retrieved information
+### 1. Read the existing apply page
 
-## Templates
+Error if `src/pages/$ARGUMENTS/apply.astro` does not exist. Read from it:
 
-Use the following files from the `templates/` directory:
+- Event name
+- Form type ID
+- Theme CSS import line (extract the `import "@/styles/themes/...css"` line as-is)
+- The entire `<style>...</style>` block as-is
 
-- `templates/apply-confirm.astro.template`
-- `templates/_confirm-list.tsx.template`
-- `templates/_confirm-list.module.css.template`
+Also detect the page layout: new pages keep components in `_components/`; older pages use flat `_`-prefixed files next to `apply.astro`.
 
-Template placeholders (`{{YEAR}}` / `{{MONTH}}` are used only for the branch name in Steps, not in templates):
+### 2. Confirm the plan with the user (required, before creating anything)
+
+Present the following and get explicit approval **before** creating the branch or any file:
+
+- Extracted event name
+- Form type ID (`YYYYMMa`, taken from the apply page — this page reads the same GAS spreadsheet target that apply submissions are written to)
+- Branch name: `page/YYYY-MM-apply-confirm`
+
+The type ID is sent to GAS as the `type` parameter to fetch the applicant list; if it does not match the apply page's ID, the list shows nothing in production.
+
+### 3. Create the branch
+
+`git switch -c page/{{YEAR}}-{{MONTH}}-apply-confirm`. If the branch already exists, switch to it with `git switch page/{{YEAR}}-{{MONTH}}-apply-confirm`. (`{{YEAR}}` / `{{MONTH}}` are expanded from the arguments)
+
+### 4. Generate files
+
+Place components in `_components/` inside the page directory (the leading underscore excludes it from Astro routing). If the existing apply page uses the legacy flat layout (`_apply-form.tsx` etc. next to `apply.astro`), follow that flat layout instead — with `_`-prefixed filenames and matching imports — so the page stays internally consistent.
+
+| Template | Destination in `src/pages/YYYY/MM/` |
+|---|---|
+| `templates/apply-confirm.astro.template` | `apply-confirm.astro` |
+| `templates/confirm-list.tsx.template` | `_components/confirm-list.tsx` |
+| `templates/confirm-list.module.css.template` | `_components/confirm-list.module.css` |
+
+### 5. Replace placeholders
+
+Replace placeholders with the information confirmed in Step 2.
+
+## Template placeholders
+
+(`{{YEAR}}` / `{{MONTH}}` are used only for the branch name in Steps, not in templates)
+
 - `{{EVENT_NAME}}` — event name (retrieved from apply.astro)
 - `{{FORM_TYPE}}` — form type ID (YYYYMMa format)
 - `{{THEME_IMPORT}}` — theme CSS import line (extracted from apply.astro as-is)
@@ -61,11 +81,10 @@ Template placeholders (`{{YEAR}}` / `{{MONTH}}` are used only for the branch nam
 
 ## Notes
 
-- Error if the application form (apply) does not exist
-- The `<style>` in `apply-confirm.astro` is inherited as-is via `{{PAGE_STYLES}}` from apply.astro. Make minimal adjustments only where HTML structure differs (see `docs/design-policy.md`)
-- The column definitions (`ConfirmListItem` type and `I` object) in `_confirm-list.tsx` must be customized to match each event's application fields
-- After the event ends, it is recommended to replace `<ConfirmList>` in `apply-confirm.astro` with `<ExpiredMessage>` (pages are retained, not deleted)
-- Any logic containing `if` / `switch` / `reduce` should be exported to `_calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `form-test-writer` agent)
+- The `<style>` in `apply-confirm.astro` is inherited as-is via `{{PAGE_STYLES}}` from apply.astro — it belongs to the same event, so it intentionally keeps the apply page's design. Make minimal adjustments only where HTML structure differs.
+- The column definitions (`ConfirmListItem` type and `I` object) in `confirm-list.tsx` must be customized to match each event's application fields.
+- After the event ends, it is recommended to replace `<ConfirmList>` in `apply-confirm.astro` with `<ExpiredMessage>` (pages are retained, not deleted).
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_components/calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `form-test-writer` agent).
 
 ## Next Steps After Generation
 

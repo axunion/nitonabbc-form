@@ -1,7 +1,7 @@
 ---
 {{THEME_IMPORT}}
 import FormLayout from "@/layouts/FormLayout.astro";
-import ConfirmList from "./_confirm-list";
+import ConfirmList from "./_components/confirm-list";
 ---
 
 <FormLayout title="{{EVENT_NAME}} 参加申し込み確認">

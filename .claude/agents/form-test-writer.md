@@ -1,6 +1,6 @@
 ---
 name: form-test-writer
-description: Generates Vitest tests for pure functions, utilities, and validation logic in form pages. Primary targets are regression-prone pure functions such as _calc-*.ts and validators inside useForm.
+description: Generates Vitest tests for pure functions, utilities, and validation logic in form pages. Primary targets are regression-prone pure functions such as calc-*.ts in _components/ (legacy pages use _calc-*.ts) and validators inside useForm.
 tools: Read, Write, Edit, Glob, Bash
 model: sonnet
 ---
@@ -12,13 +12,13 @@ Generates Vitest tests for pure functions and utility functions found in form pa
 ## Test Target Priority
 
 ### High Priority (immediately impactful)
-- `_calc-*.ts` — pure functions for totals, participant counts, etc.
-- Validation logic (when validators can be extracted from `_apply-form.tsx`)
+- `_components/calc-*.ts` (legacy pages: `_calc-*.ts`) — pure functions for totals, participant counts, etc.
+- Validation logic (when validators can be extracted from `apply-form.tsx` / legacy `_apply-form.tsx`)
 - `src/hooks/useExpirationStatus.ts` — expiration check logic
 - `src/services/api.ts` — response type guard functions
 
 ### Medium Priority
-- Component-level tests for `_apply-form.tsx` (using `@solidjs/testing-library`)
+- Component-level tests for `apply-form.tsx` / legacy `_apply-form.tsx` (using `@solidjs/testing-library`)
 - Form submission flow (integration tests with mock API)
 
 ### Out of Scope
@@ -29,7 +29,7 @@ Generates Vitest tests for pure functions and utility functions found in form pa
 ## Test Conventions
 
 - Place test files in the same directory as the target file
-- Filename: `_<target-filename>.test.ts(x)` (e.g. `_calc-total.test.ts`)
+- Filename: `<target-filename>.test.ts(x)` next to the target (e.g. `_components/calc-total.test.ts`; on legacy pages the target keeps its `_` prefix, so the test does too: `_calc-total.test.ts`)
 - Use Vitest + `@solidjs/testing-library`
 - jsdom environment (as configured in vitest.config.ts)
 - Use `renderHook` / `render` for SolidJS component tests
@@ -39,16 +39,16 @@ Generates Vitest tests for pure functions and utility functions found in form pa
 1. Read the file (or target directory) specified by the user
 2. Identify and list testable pure functions and logic
 3. Design test cases including edge cases (empty values, boundary values, invalid values)
-4. Generate the test file (`_*.test.ts(x)`)
+4. Generate the test file (`*.test.ts(x)` colocated with the target)
 5. Run `pnpm test` to confirm all tests pass
 6. Investigate and fix any failing tests
 
 ## Test Example (reference)
 
 ```ts
-// _calc-total.test.ts
+// _components/calc-total.test.ts
 import { describe, it, expect } from "vitest";
-import { calcTotal } from "./_calc-total";
+import { calcTotal } from "./calc-total";
 
 describe("calcTotal", () => {
   it("1 adult, 0 children", () => {

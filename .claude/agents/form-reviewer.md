@@ -11,18 +11,18 @@ Review newly created form pages (apply / survey / apply-confirm) from the follow
 
 ## Checklist
 
-### 1. Page Self-Containment (design-policy.md compliance)
+### 1. Page Self-Containment (independent-pages policy — see README →「設計方針」)
 - Does it avoid using shared layout components like `Header.astro` / `Main.astro` / `Footer.astro`?
 - Does the frontmatter import a theme CSS (e.g. `@/styles/themes/indigo.css`)?
 - Does the `<style>` tag define the full page layout (header/main/footer/wave SVG)?
 - Is the background color set via `:global(body)`?
 - Does it avoid referencing `src/components/ui/` (this directory does not exist)?
-- Are UI components (Input, RadioGroup, SubmitButton, TextArea, etc.) defined as `_` prefix files in the page directory?
+- Are UI components (Input, RadioGroup, SubmitButton, TextArea, etc.) defined inside the page's `_components/` directory (legacy pages: flat `_`-prefixed files)?
 
 ### 2. Structural Consistency
 - Is `FormLayout.astro` used (as an HTML shell only)?
 - Is the `client:only="solid-js"` directive set correctly?
-- Do page-specific component filenames use the underscore prefix (e.g. `_form.tsx`)?
+- Is all page-private code excluded from Astro routing — colocated in `_components/` / `_assets/` (or `_`-prefixed flat files on legacy pages), with no mixing of the two layouts within one page?
 
 ### 3. Form Components (apply / survey)
 - Is the `useForm` hook used correctly?

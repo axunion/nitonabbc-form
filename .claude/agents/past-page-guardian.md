@@ -15,15 +15,17 @@ Use this when the user requests something like "expire the YYYY/MM page" or "cle
 
 ### Files to Delete (form components)
 
-Delete page-specific files matching the following patterns:
+New-layout pages keep page-private code in `_components/` (and images in `_assets/`); legacy pages use flat `_`-prefixed files next to the `.astro` pages. Delete the form-specific files for whichever layout the page uses:
 
-- `_apply-form.tsx` / `_apply-form.module.css`
-- `_survey-form.tsx` / `_survey-form.module.css`
-- `_input.tsx` / `_input.module.css`
-- `_radio-group.tsx` / `_radio-group.module.css`
-- `_submit-button.tsx` / `_submit-button.module.css`
-- `_textarea.tsx` / `_textarea.module.css`
-- Other `_*.tsx` / `_*.module.css` (form-specific components)
+- New layout: everything in `_components/` **except** `confirm-list.*` (see Files to Preserve), plus `_assets/` files that were only used by the form
+- Legacy layout:
+  - `_apply-form.tsx` / `_apply-form.module.css`
+  - `_survey-form.tsx` / `_survey-form.module.css`
+  - `_input.tsx` / `_input.module.css`
+  - `_radio-group.tsx` / `_radio-group.module.css`
+  - `_submit-button.tsx` / `_submit-button.module.css`
+  - `_textarea.tsx` / `_textarea.module.css`
+  - Other `_*.tsx` / `_*.module.css` (form-specific components)
 
 List the target files before deleting and ask the user for confirmation.
 
@@ -62,14 +64,15 @@ import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 ### Files to Preserve
 
 - `apply-confirm.astro` — the applicant confirmation list should remain viewable after the event ends; do not convert
+- The confirm-list component it imports (`_components/confirm-list.*` or legacy `_confirm-list.*`) — deleting it breaks `apply-confirm.astro`
 - `*.test.ts(x)` — keep test files as references
 
 ## Steps
 
 1. Inspect all files in the target directory (e.g. `src/pages/2025/09/`)
 2. Read `apply.astro` to capture the title, date, theme, and styles
-3. List the `_*.tsx` / `_*.module.css` files to delete and ask the user for confirmation
-4. After confirmation, delete each file with `rm <file>` (recursive `rm -r` is disallowed, but single-file `rm` is permitted)
+3. List the files to delete (per the layout-specific rules above) and ask the user for confirmation
+4. After confirmation, delete each file with `rm <file>` (recursive `rm -r` is disallowed, but single-file `rm` is permitted); remove an emptied `_components/` / `_assets/` directory with `rmdir`
 5. Rewrite `apply.astro` to show only `ExpiredMessage`
 6. If `survey.astro` exists, rewrite it in the same way
 7. Run `pnpm build` to verify there are no type errors

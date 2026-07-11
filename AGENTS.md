@@ -23,24 +23,24 @@ English only in code and AI-readable files: comments, console output, error/log 
 
 ## Invariants (do not break)
 
-- **Independent pages** — each event page (`src/pages/YYYY/MM/`) is a standalone site. UI components and styles are never shared across pages; duplication between pages is accepted. Shared code is technical infrastructure only. See `docs/design-policy.md`.
+- **Independent pages** — each event page (`src/pages/YYYY/MM/`) is a standalone site. UI components and styles are never shared across pages; duplication between pages is accepted. Shared code is technical infrastructure only. See README →「設計方針」.
 - **Keep past pages** — never delete past event pages (participants may have bookmarked them). Expired pages keep only `ExpiredMessage`, with all form parts removed. A hook asks for user confirmation before edits to past pages; use the `past-page-guardian` agent for expired-page conversion.
 - **GAS type mapping** — form type IDs (e.g. `202509a`, `202509s`) map 1-to-1 to GAS spreadsheet targets and must match the page directory (`gas-type-id-auditor` agent verifies this).
 - **No production index** — `/` returns 404 in production. The dev-only page list comes from the `devPagesIndex` integration (`src/dev/index.astro`, kept outside `src/pages/`).
 
 ## Architecture
 
-- URL pattern: `/YYYY/MM/(apply|survey|apply-confirm)`. Page-private files use a leading underscore (`_apply-form.tsx`, `_calc-*.ts`).
+- URL pattern: `/YYYY/MM/(apply|survey|apply-confirm)`. Page-private code is colocated in underscore-prefixed directories excluded from routing: `_components/` (UI, styles, `calc-*.ts` logic) and `_assets/` (images, created only when needed). Legacy pages instead use flat `_`-prefixed files (`_apply-form.tsx`, `_calc-*.ts`); keep each page internally consistent.
 - Shared layer (no visual opinions):
   - `src/components/forms/` — form orchestration. `FormContainer` checks expiry and renders loading → connection error → expired → form → success/failure.
   - `src/hooks/` — `useForm`, `useExpirationStatus`, `useDataFetch`, `useScrollLock`.
   - `src/services/api.ts` — all GAS calls; every response is `{ result: "done" | "error", ...data }`, dispatched by a `type` parameter over a small set of shared endpoints.
-  - `src/styles/themes/` — design tokens, one CSS file per page theme, imported in each page's frontmatter (`global.css` is reset-only; `src/styles/refs/` is reference-only, do not import).
+  - `src/styles/themes/` — design tokens, one CSS file per page theme, imported in each page's frontmatter. Token contract: shared form components rely on `--color-*` / `--space-*` / `--text-*` / `--radius-*` / `--shadow-*`; a new theme must define the full token set of `indigo.css` (`global.css` is reset-only; `src/styles/refs/` is reference-only, do not import).
   - `src/layouts/FormLayout.astro` — HTML shell with noindex; in dev it mounts `DevApiToggle` to switch between mock and real GAS.
 
 ## Conventions
 
-- Naming communicates intent. Components PascalCase; utilities/services kebab-case; page-private files `_`-prefixed; tests colocated as `*.test.ts` next to the subject.
+- Naming communicates intent. Components PascalCase; utilities/services kebab-case; page-private code under `_components/` (no extra `_` prefix on files inside; legacy pages use `_`-prefixed flat files); tests colocated as `*.test.ts` next to the subject.
 - One concern per file; keep components under ~100 lines. Extract a helper only when used in 3+ places; otherwise inline it.
 - Delete dead code you create; never comment it out.
 - Prefer `type` over `interface`. Comments explain **why**, not what.
@@ -50,8 +50,8 @@ English only in code and AI-readable files: comments, console output, error/log 
 ## Testing
 
 - Write tests before or alongside implementation — they are your success criteria. Test observable outcomes and edge cases, not implementation details. Each test is self-contained; no shared mutable state.
-- In scope: `src/services/`, `src/hooks/`, `src/utils/`, and `_calc-*.ts`. Out of scope: display-only stubs, `.astro` pages, CSS Modules.
-- Extract any `if` / `switch` / `reduce` logic from JSX into a `_calc-<feature>.ts` export so it can be unit-tested.
+- In scope: `src/services/`, `src/hooks/`, `src/utils/`, and `calc-*.ts` (legacy `_calc-*.ts`). Out of scope: display-only stubs, `.astro` pages, CSS Modules.
+- Extract any `if` / `switch` / `reduce` logic from JSX into a `_components/calc-<feature>.ts` export so it can be unit-tested.
 - Shared-layer coverage: lines/functions/statements ≥ 80%, branches ≥ 70% (`pnpm test --coverage`).
 
 ## Commits

@@ -1,11 +1,11 @@
 import { FormContainer, FormField, RecaptchaNotice } from "@/components/forms/";
 import { useForm } from "@/hooks/useForm";
-import { churchNames } from "./_church-names";
-import Input from "./_input";
-import RadioGroup from "./_radio-group";
-import SubmitButton from "./_submit-button";
-import TextArea from "./_textarea";
-import styles from "./_apply-form.module.css";
+import { churchNames } from "./church-names";
+import Input from "./input";
+import RadioGroup from "./radio-group";
+import SubmitButton from "./submit-button";
+import TextArea from "./textarea";
+import styles from "./apply-form.module.css";
 
 const initialFormData = {
 	type: "{{FORM_TYPE}}",

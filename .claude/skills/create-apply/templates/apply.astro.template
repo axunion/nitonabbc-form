@@ -1,7 +1,7 @@
 ---
 import "@/styles/themes/indigo.css";
 import FormLayout from "@/layouts/FormLayout.astro";
-import ApplyForm from "./_apply-form";
+import ApplyForm from "./_components/apply-form";
 ---
 
 <FormLayout title="{{EVENT_NAME}} 参加申し込み" loadRecaptcha>

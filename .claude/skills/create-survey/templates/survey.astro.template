@@ -1,7 +1,7 @@
 ---
 {{THEME_IMPORT}}
 import FormLayout from "@/layouts/FormLayout.astro";
-import SurveyForm from "./_survey-form";
+import SurveyForm from "./_components/survey-form";
 ---
 
 <FormLayout title="{{EVENT_NAME}} アンケート" loadRecaptcha>

@@ -1,6 +1,6 @@
 import { splitProps } from "solid-js";
 import type { JSX } from "solid-js";
-import styles from "./_input.module.css";
+import styles from "./input.module.css";
 
 type Props = JSX.InputHTMLAttributes<HTMLInputElement> & {
 	autocompleteOptions?: readonly string[];

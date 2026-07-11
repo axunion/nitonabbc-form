@@ -1,6 +1,6 @@
 import { For } from "solid-js";
 import type { JSX } from "solid-js";
-import styles from "./_radio-group.module.css";
+import styles from "./radio-group.module.css";
 
 type Option = { label: string; value: string };
 

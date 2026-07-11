@@ -1,5 +1,5 @@
 import type { JSX } from "solid-js";
-import styles from "./_submit-button.module.css";
+import styles from "./submit-button.module.css";
 
 type Props = {
 	children: JSX.Element;

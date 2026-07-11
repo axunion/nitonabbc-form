@@ -23,7 +23,7 @@ The GAS spreadsheet sheet names correspond to this `type` ID, so a mismatch will
 
 1. List all `.astro` files under `src/pages/`
 2. Filter for `apply.astro` / `survey.astro` / `apply-confirm.astro`
-3. Read each file and extract the `type=` property of `<FormContainer`
+3. Read each file and follow its form-component import (`_components/*.tsx` on new pages, `_*.tsx` on legacy pages) to extract the `type=` property passed to `<FormContainer` (or to `useDataFetch` in confirm pages)
 4. Derive the expected type ID from the directory name (YYYY/MM)
 5. Compare the actual type ID against the expected value and report mismatches
 
