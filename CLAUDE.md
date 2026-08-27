@@ -2,8 +2,6 @@
 
 Guidance for AI coding agents in this repository. Bias toward caution over speed; on trivial tasks, use judgment.
 
-> **Sync note**: `CLAUDE.md` and `AGENTS.md` must stay identical (except for their titles). When you update one, apply the same change to the other.
-
 ## Project
 
 Event signup and post-event survey forms, deployed as a static Astro site on Cloudflare Pages. All server-side logic lives in Google Apps Script (GAS) + Google Spreadsheet; small scale, no DB or queue.
@@ -53,6 +51,44 @@ English only in code and AI-readable files: comments, console output, error/log 
 - In scope: `src/services/`, `src/hooks/`, `src/utils/`, and `calc-*.ts` (legacy `_calc-*.ts`). Out of scope: display-only stubs, `.astro` pages, CSS Modules.
 - Extract any `if` / `switch` / `reduce` logic from JSX into a `_components/calc-<feature>.ts` export so it can be unit-tested.
 - Shared-layer coverage: lines/functions/statements ≥ 80%, branches ≥ 70% (`pnpm test --coverage`).
+- Structural correctness (state/output, `pnpm test` + `pnpm check`) is scripted and objective. Visual/UX judgment ("does this look right") is not — no assertion can reliably check it; verify it by looking at the running app, or via the `inspector` agent for layout/viewport-sensitive changes (see Subagents below). Don't try to automate this away.
+
+## Subagents
+
+Three tiers govern how much agent scaffolding a change gets. The main conversation
+writes the code at every tier — only the scaffolding around it changes.
+
+- **Trivial** (typos, config tweaks, copy edits): implement directly, no agents.
+- **Non-trivial but contained** (a self-contained change in one area): implement
+  directly. Optionally run the built-in `Explore` agent first to confirm an existing
+  convention. Afterward, run `reviewer` and `tester` in parallel automatically,
+  without asking first — both are read-only/test-only, so the cost of running them is
+  low, and they exist specifically to catch the blind spot of reviewing your own work.
+- **Large, ambiguous, or high-risk** (spans many pages, touches an Invariant above
+  substantially, or the task itself is genuinely ambiguous): propose driving it with
+  the built-in `/goal` command, with a completion condition that explicitly requires
+  `reviewer` and `tester` passing (and `inspector`, see below, when the change is
+  UI-affecting) — e.g. "implement X; done when reviewer reports no findings and
+  tester passes," not just "implement X."
+
+Visual verification is a separate axis, not a fourth tier: no rendered surface
+touched → skip; a small, isolated, single-property tweak → a quick manual glance at
+the running app is enough; layout that can vary by viewport, a change spanning
+multiple components sharing styles, or chasing a reported visual bug → run
+`inspector`. This needs no confirmation to run, but also isn't automatic for every UI
+change — it costs real time (dev server + browser), so invoking it is a judgment call
+against these cases. It stays out of a `/goal` completion condition — "does this
+render correctly" is a human/live-check judgment, not something a scripted evaluator
+should gate on.
+
+`gas-type-id-auditor` and `past-page-guardian` are separate, task-specific agents
+tied to the Invariants above — run them directly when their situation applies (a
+pre-release cross-page GAS ID audit, or converting a page to expired), not as part of
+the tier policy.
+
+No agent writes implementation code, at any tier — that stays in the main
+conversation, since fixing review/test findings needs the context of the code just
+written, and each subagent invocation starts fresh with no memory of it.
 
 ## Commits
 
