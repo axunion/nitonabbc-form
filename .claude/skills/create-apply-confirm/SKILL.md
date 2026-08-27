@@ -84,9 +84,9 @@ Replace placeholders with the information confirmed in Step 2.
 - The `<style>` in `apply-confirm.astro` is inherited as-is via `{{PAGE_STYLES}}` from apply.astro — it belongs to the same event, so it intentionally keeps the apply page's design. Make minimal adjustments only where HTML structure differs.
 - The column definitions (`ConfirmListItem` type and `I` object) in `confirm-list.tsx` must be customized to match each event's application fields.
 - After the event ends, it is recommended to replace `<ConfirmList>` in `apply-confirm.astro` with `<ExpiredMessage>` (pages are retained, not deleted).
-- Any logic containing `if` / `switch` / `reduce` should be exported to `_components/calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `form-test-writer` agent).
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_components/calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `tester` agent).
 
 ## Next Steps After Generation
 
-- If the page includes aggregation or conditional logic, generate tests with the `form-test-writer` agent.
-- Review the finished page with the `form-reviewer` agent.
+- If the page includes aggregation or conditional logic, generate tests with the `tester` agent.
+- Review the finished page with the `reviewer` agent.

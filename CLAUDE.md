@@ -10,14 +10,14 @@ Stack: Astro 7 (Vite 8 / Rolldown) + SolidJS, LightningCSS + CSS Modules, Biome 
 
 ## Approach
 
-- **Think before coding.** State assumptions; if uncertain, ask. When multiple interpretations exist, surface them rather than silently picking one. If a simpler path exists, say so and push back when warranted.
-- **Simplest thing that works.** Write the minimum code that solves the stated problem — nothing speculative. No unasked-for abstractions, flexibility, or error handling for impossible cases. If 200 lines could be 50, rewrite it.
+- **Think before coding.** State assumptions. Make routine judgment calls yourself and note them; ask only when different interpretations would lead to materially different work. If a simpler path exists, say so and push back when warranted.
+- **Simplest thing that works.** If 200 lines could be 50, rewrite it.
 - **Surgical changes.** Every changed line should trace to the request. Don't refactor, reformat, or "improve" adjacent code that isn't broken; match the surrounding style. Remove only the imports and symbols your change orphaned; leave unrelated dead code alone and mention it.
-- **Goal-driven.** Turn each task into a verifiable outcome ("fix the bug" → "write a failing test that reproduces it, then make it pass"). For multi-step work, state a brief plan with a verification check per step, then loop until it passes.
+- **Goal-driven.** Turn each task into a verifiable outcome ("fix the bug" → "write a failing test that reproduces it, then make it pass"). For multi-step work, state a brief plan before starting.
 
 ## Language
 
-English only in code and AI-readable files: comments, console output, error/log messages, CLAUDE.md. User-facing UI text and README are Japanese.
+Default to the user's language for everything interactive — chat replies, plan proposals, clarifying questions. Switch to English for durable artifacts other people or tools will read afterward: in-code comments, console/log/error output, and AI-readable instruction files like this one. Exception: user-facing UI text and README stay Japanese — the product's audience is Japanese event participants, so those two are carved out of the durable-artifact default.
 
 ## Invariants (do not break)
 
@@ -39,7 +39,7 @@ English only in code and AI-readable files: comments, console output, error/log 
 ## Conventions
 
 - Naming communicates intent. Components PascalCase; utilities/services kebab-case; page-private code under `_components/` (no extra `_` prefix on files inside; legacy pages use `_`-prefixed flat files); tests colocated as `*.test.ts` next to the subject.
-- One concern per file; keep components under ~100 lines. Extract a helper only when used in 3+ places; otherwise inline it.
+- One concern per file. Keep components under ~100 lines; split other new code once it passes ~300 lines. Don't split existing files unless asked. Extract a helper only when used in 3+ places; otherwise inline it.
 - Delete dead code you create; never comment it out.
 - Prefer `type` over `interface`. Comments explain **why**, not what.
 - One `.module.css` per `.tsx` (variants via `composes`, merged with `cn()` from `src/utils/cn.ts`); Astro pages use scoped `<style>`. No inline styles (dynamic CSS variable values are the only exception).
@@ -92,6 +92,8 @@ written, and each subagent invocation starts fresh with no memory of it.
 
 ## Commits
 
+Format — plain prose, no prefixes or labels (`feat:`, `fix:`, etc.):
+
 ```
 <one-line summary>
 
@@ -101,10 +103,10 @@ written, and each subagent invocation starts fresh with no memory of it.
 - <change 2>
 ```
 
-- Summary: imperative mood, ≤70 chars, no trailing period, no prefix tags (`feat:`, `fix:`, etc.).
+- Summary: imperative mood, ≤70 chars, no trailing period.
 - Why line: only when the motivation is not evident from the diff alone. Bullets: only for 2+ distinct changes.
 - Never commit secrets (`*.key`, `*.pem`, `credentials*`).
-- Never use `--no-verify` or `--amend`; always create a new commit.
+- Never use `--no-verify`. Use `--amend` only when explicitly asked; default to a new commit.
 
 ## Scaffolding
 

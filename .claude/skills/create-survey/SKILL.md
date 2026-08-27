@@ -95,9 +95,9 @@ Replace placeholders with the information confirmed in Step 2.
 - UI components such as `radio-group.tsx` / `submit-button.tsx` are page-specific. Do not share them across pages.
 - If `create-apply` was run first, `radio-group`, `submit-button`, and `textarea` files may already exist. In that case, skip them — do not overwrite.
 - Customize survey questions as needed after generation.
-- Any logic containing `if` / `switch` / `reduce` should be exported to `_components/calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `form-test-writer` agent).
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_components/calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `tester` agent).
 
 ## Next Steps After Generation
 
-- If the form includes aggregation or conditional logic, generate tests with the `form-test-writer` agent.
-- Review the finished page with the `form-reviewer` agent.
+- If the form includes aggregation or conditional logic, generate tests with the `tester` agent.
+- Review the finished page with the `reviewer` agent.
