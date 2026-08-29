@@ -1,0 +1,128 @@
+---
+import "@/styles/themes/forest.css";
+import FormLayout from "@/layouts/FormLayout.astro";
+import ConfirmList from "./_components/confirm-list";
+---
+
+<FormLayout title="京葉地区青年キャンプ 参加申し込み確認">
+	<div class="page">
+		<header class="page-header">
+			<div class="page-header-inner">
+				<h1 class="title">京葉地区青年キャンプ 参加申し込み確認</h1>
+			</div>
+			<div class="ridge">
+				<svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+					<path d="M0,120 L0,80 C150,20 350,20 500,70 C650,120 850,30 1000,60 C1100,80 1150,55 1200,65 L1200,120 Z"></path>
+				</svg>
+			</div>
+		</header>
+
+		<main class="page-main">
+			<ConfirmList client:only="solid-js" />
+		</main>
+
+		<footer class="page-footer">
+			<div class="page-footer-inner">
+				<p class="footer-note">
+					<small>© 2026 Keiyo Area United Youth Association.</small>
+				</p>
+			</div>
+		</footer>
+	</div>
+</FormLayout>
+
+<style>
+	:global(body) {
+		background-color: var(--color-purple-800);
+	}
+
+	.page {
+		background-color: var(--color-slate-100);
+		min-height: 100dvh;
+		color: var(--color-gray-700);
+	}
+
+	.page-header {
+		position: relative;
+		background: linear-gradient(
+			to bottom right,
+			var(--color-purple-800),
+			var(--color-indigo-700),
+			var(--color-indigo-600)
+		);
+		color: white;
+	}
+
+	.page-header-inner {
+		max-width: 48rem;
+		margin-inline: auto;
+		padding: var(--space-4);
+		min-height: 32vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+
+	.ridge {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+
+	.ridge path {
+		fill: var(--color-slate-100);
+	}
+
+	.ridge svg {
+		width: 100%;
+		height: 2.5rem;
+
+		@media (min-width: 768px) {
+			height: 3.5rem;
+		}
+	}
+
+	.page-main {
+		min-height: 45vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.page-footer {
+		background: linear-gradient(
+			to right,
+			var(--color-purple-800),
+			var(--color-indigo-700)
+		);
+		color: var(--color-blue-100);
+	}
+
+	.page-footer-inner {
+		max-width: 48rem;
+		margin-inline: auto;
+		padding: var(--space-4);
+		min-height: 20vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.title {
+		font-size: var(--text-2xl);
+		font-weight: bold;
+		letter-spacing: -0.025em;
+		margin-bottom: var(--space-4);
+
+		@media (min-width: 768px) {
+			font-size: var(--text-3xl);
+		}
+	}
+
+	.footer-note {
+		padding-top: var(--space-12);
+	}
+</style>
