@@ -1,35 +1,28 @@
 import { describe, expect, it } from "vitest";
 import {
   type ConfirmListItem,
-  calcItemFee,
   filterValidParticipants,
-  formatParticipationDays,
+  formatCheck,
   I,
 } from "./calc-confirm-list";
 
 function makeItem(
-  overrides: Partial<Record<keyof typeof I, string | boolean>> = {},
+  overrides: Partial<Record<keyof typeof I, string | number | boolean>> = {},
 ): ConfirmListItem {
   const base: ConfirmListItem = [
     "申し込み完了", // STATUS
     true, // LATEST
-    "教会", // CHURCH_NAME
+    2000, // FEE
     "山田太郎", // FULL_NAME
-    "ヤマダタロウ", // KANA_NAME
-    "20", // AGE
-    "男性", // GENDER
-    "信徒", // FAITH_STATUS
-    "一般", // AGE_CATEGORY
-    "false", // DAY1_DINNER
-    "false", // DAY1_ACCOMMODATION
-    "false", // DAY2_BREAKFAST
-    "false", // DAY2_LUNCH
-    "false", // DAY2_DINNER
-    "false", // DAY2_ACCOMMODATION
-    "false", // DAY3_BREAKFAST
+    false, // DAY1_DINNER
+    false, // DAY1_ACCOMMODATION
+    false, // DAY2_BREAKFAST
+    false, // DAY2_LUNCH
+    false, // DAY2_DINNER
+    false, // DAY2_ACCOMMODATION
+    false, // DAY3_BREAKFAST
     "", // WORKSHOP
     "", // RECREATION
-    "", // COMMENTS
   ];
 
   const result = [...base] as ConfirmListItem;
@@ -63,54 +56,12 @@ describe("filterValidParticipants", () => {
   });
 });
 
-describe("calcItemFee", () => {
-  it("calcTotalFee に必要なフィールドをマッピングして委譲する", () => {
-    const item = makeItem({
-      AGE_CATEGORY: "一般",
-      DAY1_DINNER: "true",
-      DAY1_ACCOMMODATION: "true",
-    });
-
-    expect(calcItemFee(item)).toBe(2000 + 1600 + 4550);
+describe("formatCheck", () => {
+  it("true の場合はチェックマークを返す", () => {
+    expect(formatCheck(true)).toBe("✓");
   });
 
-  it("年齢区分によって宿泊費が変わる", () => {
-    const item = makeItem({
-      AGE_CATEGORY: "青年",
-      DAY2_ACCOMMODATION: "true",
-    });
-
-    expect(calcItemFee(item)).toBe(2000 + 3400);
-  });
-});
-
-describe("formatParticipationDays", () => {
-  it("チェックした項目がない場合は「-」を返す", () => {
-    expect(formatParticipationDays(makeItem())).toBe("-");
-  });
-
-  it("一部の項目をチェックした場合は該当ラベルを「、」で連結する", () => {
-    const item = makeItem({
-      DAY1_DINNER: "true",
-      DAY2_LUNCH: "true",
-    });
-
-    expect(formatParticipationDays(item)).toBe("1日目夕食、2日目昼食");
-  });
-
-  it("すべての項目をチェックした場合は全ラベルを連結する", () => {
-    const item = makeItem({
-      DAY1_DINNER: "true",
-      DAY1_ACCOMMODATION: "true",
-      DAY2_BREAKFAST: "true",
-      DAY2_LUNCH: "true",
-      DAY2_DINNER: "true",
-      DAY2_ACCOMMODATION: "true",
-      DAY3_BREAKFAST: "true",
-    });
-
-    expect(formatParticipationDays(item)).toBe(
-      "1日目夕食、1日目宿泊、2日目朝食、2日目昼食、2日目夕食、2日目宿泊、3日目朝食",
-    );
+  it("false の場合は空文字を返す", () => {
+    expect(formatCheck(false)).toBe("");
   });
 });

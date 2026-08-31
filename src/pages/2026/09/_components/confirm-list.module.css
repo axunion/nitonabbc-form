@@ -85,11 +85,6 @@
   width: 5rem;
 }
 
-.headerCellWide {
-  composes: headerCell;
-  width: 15rem;
-}
-
 .dataRow {
   text-align: center;
 

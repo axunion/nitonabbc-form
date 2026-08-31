@@ -3,9 +3,8 @@ import { ErrorMessage, LoadingSpinner } from "@/components/forms";
 import { useDataFetch } from "@/hooks/useDataFetch";
 import {
   type ConfirmListItem,
-  calcItemFee,
   filterValidParticipants,
-  formatParticipationDays,
+  formatCheck,
   I,
 } from "./calc-confirm-list";
 import styles from "./confirm-list.module.css";
@@ -24,10 +23,8 @@ export default function ConfirmList() {
     filterValidParticipants(confirmData() ?? []),
   );
 
-  const itemFees = createMemo(() => validParticipants().map(calcItemFee));
-
   const totalFee = createMemo(() =>
-    itemFees().reduce((sum, fee) => sum + fee, 0),
+    validParticipants().reduce((sum, item) => sum + item[I.FEE], 0),
   );
 
   return (
@@ -70,39 +67,51 @@ export default function ConfirmList() {
             <table class={styles.table}>
               <thead>
                 <tr class={styles.headerRow}>
-                  <th class={styles.headerCell}>教会名</th>
+                  <th class={styles.headerCellMedium}>参加費</th>
                   <th class={styles.headerCell}>氏名</th>
-                  <th class={styles.headerCell}>ふりがな</th>
-                  <th class={styles.headerCellNarrow}>年齢</th>
-                  <th class={styles.headerCellNarrow}>性別</th>
-                  <th class={styles.headerCellNarrow}>立場</th>
-                  <th class={styles.headerCellNarrow}>区分</th>
-                  <th class={styles.headerCellWide}>参加日程</th>
+                  <th class={styles.headerCellNarrow}>①夕食</th>
+                  <th class={styles.headerCellNarrow}>①宿泊</th>
+                  <th class={styles.headerCellNarrow}>②朝食</th>
+                  <th class={styles.headerCellNarrow}>②昼食</th>
+                  <th class={styles.headerCellNarrow}>②夕食</th>
+                  <th class={styles.headerCellNarrow}>②宿泊</th>
+                  <th class={styles.headerCellNarrow}>③朝食</th>
                   <th class={styles.headerCell}>分科会</th>
                   <th class={styles.headerCell}>レクリエーション</th>
-                  <th class={styles.headerCellMedium}>参加費</th>
                 </tr>
               </thead>
               <tbody>
                 <For each={validParticipants()}>
-                  {(item, index) => (
+                  {(item) => (
                     <tr class={styles.dataRow}>
-                      <td class={styles.nameCell}>{item[I.CHURCH_NAME]}</td>
-                      <td class={styles.nameCell}>{item[I.FULL_NAME]}</td>
-                      <td class={styles.nameCell}>{item[I.KANA_NAME]}</td>
-                      <td class={styles.dataCell}>{item[I.AGE]}</td>
-                      <td class={styles.dataCell}>{item[I.GENDER]}</td>
-                      <td class={styles.dataCell}>{item[I.FAITH_STATUS]}</td>
-                      <td class={styles.dataCell}>{item[I.AGE_CATEGORY]}</td>
                       <td class={styles.dataCell}>
-                        {formatParticipationDays(item)}
+                        {formatCurrency(item[I.FEE])}
+                      </td>
+                      <td class={styles.nameCell}>{item[I.FULL_NAME]}</td>
+                      <td class={styles.dataCell}>
+                        {formatCheck(item[I.DAY1_DINNER])}
+                      </td>
+                      <td class={styles.dataCell}>
+                        {formatCheck(item[I.DAY1_ACCOMMODATION])}
+                      </td>
+                      <td class={styles.dataCell}>
+                        {formatCheck(item[I.DAY2_BREAKFAST])}
+                      </td>
+                      <td class={styles.dataCell}>
+                        {formatCheck(item[I.DAY2_LUNCH])}
+                      </td>
+                      <td class={styles.dataCell}>
+                        {formatCheck(item[I.DAY2_DINNER])}
+                      </td>
+                      <td class={styles.dataCell}>
+                        {formatCheck(item[I.DAY2_ACCOMMODATION])}
+                      </td>
+                      <td class={styles.dataCell}>
+                        {formatCheck(item[I.DAY3_BREAKFAST])}
                       </td>
                       <td class={styles.dataCell}>{item[I.WORKSHOP] || "-"}</td>
                       <td class={styles.dataCell}>
                         {item[I.RECREATION] || "-"}
-                      </td>
-                      <td class={styles.dataCell}>
-                        {formatCurrency(itemFees()[index()])}
                       </td>
                     </tr>
                   )}
