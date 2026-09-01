@@ -44,3 +44,17 @@ export function filterValidParticipants(
 export function formatCheck(value: boolean): string {
   return value ? "✓" : "";
 }
+
+export function formatCurrency(amount: number): string {
+  return `¥${amount.toLocaleString()}`;
+}
+
+export const CHECK_COLUMNS = [
+  ["①夕食", I.DAY1_DINNER],
+  ["①宿泊", I.DAY1_ACCOMMODATION],
+  ["②朝食", I.DAY2_BREAKFAST],
+  ["②昼食", I.DAY2_LUNCH],
+  ["②夕食", I.DAY2_DINNER],
+  ["②宿泊", I.DAY2_ACCOMMODATION],
+  ["③朝食", I.DAY3_BREAKFAST],
+] as const satisfies ReadonlyArray<[string, number]>;

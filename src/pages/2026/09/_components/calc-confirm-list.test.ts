@@ -3,15 +3,12 @@ import {
   type ConfirmListItem,
   filterValidParticipants,
   formatCheck,
-  I,
 } from "./calc-confirm-list";
 
-function makeItem(
-  overrides: Partial<Record<keyof typeof I, string | number | boolean>> = {},
-): ConfirmListItem {
-  const base: ConfirmListItem = [
-    "申し込み完了", // STATUS
-    true, // LATEST
+function makeItem(status: string, latest: boolean): ConfirmListItem {
+  return [
+    status,
+    latest,
     2000, // FEE
     "山田太郎", // FULL_NAME
     false, // DAY1_DINNER
@@ -24,23 +21,14 @@ function makeItem(
     "", // WORKSHOP
     "", // RECREATION
   ];
-
-  const result = [...base] as ConfirmListItem;
-
-  for (const [key, value] of Object.entries(overrides)) {
-    // biome-ignore lint/suspicious/noExplicitAny: tuple index assignment via helper
-    (result as any)[I[key as keyof typeof I]] = value;
-  }
-
-  return result;
 }
 
 describe("filterValidParticipants", () => {
   it("STATUS が「申し込み完了」かつ LATEST が true の行だけを残す", () => {
     const data = [
-      makeItem({ STATUS: "申し込み完了", LATEST: true }),
-      makeItem({ STATUS: "キャンセル", LATEST: true }),
-      makeItem({ STATUS: "申し込み完了", LATEST: false }),
+      makeItem("申し込み完了", true),
+      makeItem("キャンセル", true),
+      makeItem("申し込み完了", false),
     ];
 
     expect(filterValidParticipants(data)).toEqual([data[0]]);
@@ -48,8 +36,8 @@ describe("filterValidParticipants", () => {
 
   it("該当する行がない場合は空配列を返す", () => {
     const data = [
-      makeItem({ STATUS: "キャンセル", LATEST: true }),
-      makeItem({ STATUS: "申し込み完了", LATEST: false }),
+      makeItem("キャンセル", true),
+      makeItem("申し込み完了", false),
     ];
 
     expect(filterValidParticipants(data)).toEqual([]);

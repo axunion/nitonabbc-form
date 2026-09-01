@@ -2,14 +2,14 @@ import { createMemo, For, Show } from "solid-js";
 import { ErrorMessage, LoadingSpinner } from "@/components/forms";
 import { useDataFetch } from "@/hooks/useDataFetch";
 import {
+  CHECK_COLUMNS,
   type ConfirmListItem,
   filterValidParticipants,
   formatCheck,
+  formatCurrency,
   I,
 } from "./calc-confirm-list";
 import styles from "./confirm-list.module.css";
-
-const formatCurrency = (amount: number) => `¥${amount.toLocaleString()}`;
 
 export default function ConfirmList() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -75,13 +75,11 @@ export default function ConfirmList() {
                 <tr class={styles.headerRow}>
                   <th class={styles.headerCellMedium}>参加費</th>
                   <th class={styles.headerCell}>氏名</th>
-                  <th class={styles.headerCellNarrow}>①夕食</th>
-                  <th class={styles.headerCellNarrow}>①宿泊</th>
-                  <th class={styles.headerCellNarrow}>②朝食</th>
-                  <th class={styles.headerCellNarrow}>②昼食</th>
-                  <th class={styles.headerCellNarrow}>②夕食</th>
-                  <th class={styles.headerCellNarrow}>②宿泊</th>
-                  <th class={styles.headerCellNarrow}>③朝食</th>
+                  <For each={CHECK_COLUMNS}>
+                    {([label]) => (
+                      <th class={styles.headerCellNarrow}>{label}</th>
+                    )}
+                  </For>
                   <th class={styles.headerCell}>分科会</th>
                   <th class={styles.headerCell}>レクリエーション</th>
                 </tr>
@@ -94,27 +92,13 @@ export default function ConfirmList() {
                         {formatCurrency(item[I.FEE])}
                       </td>
                       <td class={styles.nameCell}>{item[I.FULL_NAME]}</td>
-                      <td class={styles.dataCell}>
-                        {formatCheck(item[I.DAY1_DINNER])}
-                      </td>
-                      <td class={styles.dataCell}>
-                        {formatCheck(item[I.DAY1_ACCOMMODATION])}
-                      </td>
-                      <td class={styles.dataCell}>
-                        {formatCheck(item[I.DAY2_BREAKFAST])}
-                      </td>
-                      <td class={styles.dataCell}>
-                        {formatCheck(item[I.DAY2_LUNCH])}
-                      </td>
-                      <td class={styles.dataCell}>
-                        {formatCheck(item[I.DAY2_DINNER])}
-                      </td>
-                      <td class={styles.dataCell}>
-                        {formatCheck(item[I.DAY2_ACCOMMODATION])}
-                      </td>
-                      <td class={styles.dataCell}>
-                        {formatCheck(item[I.DAY3_BREAKFAST])}
-                      </td>
+                      <For each={CHECK_COLUMNS}>
+                        {([, index]) => (
+                          <td class={styles.dataCell}>
+                            {formatCheck(item[index])}
+                          </td>
+                        )}
+                      </For>
                       <td class={styles.dataCell}>{item[I.WORKSHOP] || "-"}</td>
                       <td class={styles.dataCell}>
                         {item[I.RECREATION] || "-"}
