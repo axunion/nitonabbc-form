@@ -82,4 +82,3 @@ import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 - The `guard-past-page.sh` PreToolUse hook asks the user to confirm each Write/Edit to a past page — this is expected during conversion; the user approves the prompts
 - Import `ExpiredMessage` from `@/components/forms/ExpiredMessage.tsx`
 - Remove `client:only` directives and reCAPTCHA-related settings (not needed for expired pages)
-- Delete files with `rm <file>` directly (recursive `rm -r` is disallowed)

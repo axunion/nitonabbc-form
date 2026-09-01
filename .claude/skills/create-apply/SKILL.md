@@ -109,9 +109,9 @@ The templates are a functional wireframe, not a finished design. Using the direc
 - The templates for `radio-group`, `submit-button`, and `textarea` are also used by the `create-survey` skill (referenced from this skill's `templates/` directory) — keep them generic enough for both apply and survey pages.
 - Survey forms should be created separately with `/create-survey` after the application period ends.
 - Customize the form fields as needed after generation.
-- Any logic containing `if` / `switch` / `reduce` should be exported to `_components/calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `form-test-writer` agent).
+- Any logic containing `if` / `switch` / `reduce` should be exported to `_components/calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `tester` agent).
 
 ## Next Steps After Generation
 
-- If the form includes calculation logic (fee calculation, participant count conditions, etc.), generate tests with the `form-test-writer` agent.
-- Review the finished page with the `form-reviewer` agent.
+- If the form includes calculation logic (fee calculation, participant count conditions, etc.), generate tests with the `tester` agent.
+- Review the finished page with the `reviewer` agent.
