@@ -37,17 +37,40 @@
 }
 
 .summary {
-  font-weight: bold;
-  text-align: center;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.summaryDivider {
+  width: 1px;
+  background: var(--color-gray-300);
 }
 
 .summaryLabel {
+  font-size: var(--text-sm);
+  color: var(--color-gray-400);
   letter-spacing: 0.05em;
 }
 
 .summaryValue {
-  margin-left: var(--space-2);
-  margin-right: var(--space-4);
+  font-size: var(--text-2xl);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.summaryUnit {
+  font-size: var(--text-base);
+  font-weight: normal;
+  margin-left: 0.125em;
 }
 
 .tableWrapper {

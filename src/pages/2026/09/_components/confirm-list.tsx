@@ -52,14 +52,20 @@ export default function ConfirmList() {
         >
           <div class={styles.card}>
             <div class={styles.summary}>
-              <span class={styles.summaryLabel}>参加人数</span>
-              <span class={styles.summaryValue}>
-                {validParticipants().length}名
-              </span>
-              <span class={styles.summaryLabel}>参加費合計</span>
-              <span class={styles.summaryValue}>
-                {formatCurrency(totalFee())}
-              </span>
+              <div class={styles.summaryItem}>
+                <span class={styles.summaryLabel}>参加人数</span>
+                <span class={styles.summaryValue}>
+                  {validParticipants().length}
+                  <span class={styles.summaryUnit}>名</span>
+                </span>
+              </div>
+              <div class={styles.summaryDivider} />
+              <div class={styles.summaryItem}>
+                <span class={styles.summaryLabel}>参加費合計</span>
+                <span class={styles.summaryValue}>
+                  {formatCurrency(totalFee())}
+                </span>
+              </div>
             </div>
           </div>
 
