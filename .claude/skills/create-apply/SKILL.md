@@ -47,16 +47,18 @@ distinct from recent event pages — not just a different accent color on the sa
 layout. This step is never skipped and never defaults silently to a previous page's
 look.
 
-1. Look up the theme import and overall `<style>` shape of the last 1–2 event pages
-   under `src/pages/` (`grep` their `apply.astro` for the theme import and read the
-   `<style>` block). This is context for the next step, not something to copy.
+1. Look up the last 1–2 event pages under `src/pages/`: read their
+   `_components/theme.css` (the brand color values) and their `apply.astro`
+   `<style>` block (the layout/decoration). This is context for the next step, not
+   something to copy — there's no shared theme file to grep for anymore, every page
+   already has its own.
 2. Invoke the `frontend-design` skill (an installed plugin skill, not part of this
    repo — if it's unavailable in the current environment, tell the user before
    falling back to writing the brief yourself) to produce a design brief for this event —
    color/token direction, mood, and a layout concept (its own process already screens
    out generic "AI template" defaults). Give it the event name, event date/month, and
-   the note from step 1 with an explicit instruction: reusing the same theme file or
-   the same decorative layout pattern as the last 1–2 events is not allowed unless
+   the note from step 1 with an explicit instruction: reusing the same brand palette
+   or the same decorative layout pattern as the last 1–2 events is not allowed unless
    there's a concrete reason (e.g. a themed series), and that reason must be stated.
 3. Summarize the resulting brief (palette, mood, layout concept) and confirm it with
    the user via `AskUserQuestion` — combine with Step 1's confirmation in a single
@@ -85,10 +87,11 @@ work, independent of visual design — and are copied as-is (placeholders replac
 | `templates/submit-button.tsx.template` | `_components/submit-button.tsx` |
 | `templates/textarea.tsx.template` | `_components/textarea.tsx` |
 
-There are deliberately no `.module.css` templates and `apply.astro.template` has no
-`<style>` block — the visual layer is authored fresh in Step 5 from the design brief,
-not copied from boilerplate. See "CSS Modules contract" below for what that fresh CSS
-must satisfy structurally.
+There are deliberately no `.module.css` templates, no `theme.css` template, and
+`apply.astro.template` has no `<style>` block — the visual layer (including
+`_components/theme.css`) is authored fresh in Step 5 from the design brief, not
+copied from boilerplate or from any other page. See "CSS Modules contract" below for
+what that fresh CSS must satisfy structurally.
 
 Images and other static assets go in `_assets/` inside the page directory, imported from `.astro` / `.tsx` files. Create `_assets/` only when an asset actually exists — never preemptively.
 
@@ -121,29 +124,47 @@ restructured freely along with the `<style>` block itself.
 Using the brief confirmed in Step 2, write the visual layer fresh — do not reuse a
 previous event's CSS values as a starting point beyond what the brief calls for:
 
-1. **Theme file**: reuse an existing `src/styles/themes/*.css` file only if the brief
-   deliberately calls for that exact look; otherwise create a new one. Either way it
-   must define the same custom-property *names* as `indigo.css` — same `--color-*`
-   count/roles, `--space-*`, `--text-*`, `--radius-*`, `--shadow-*`. Verify by diffing
-   property names: `grep -oE -- '--[a-zA-Z0-9-]+' src/styles/themes/indigo.css | sort -u`
-   against the same command on your new file — any name present in one but not the
-   other must be fixed before moving on. This is what would have caught
-   `cream-gold.css`'s previous incompatible token vocabulary (shared components
-   silently lost their styling on any page that used it).
+1. **Theme file** (`_components/theme.css`): there is no shared theme directory to
+   pick from — always author this fresh for the event (pages never share a theme file;
+   see README →「設計方針」). It must define exactly these custom-property names
+   (values are yours to choose for the brand group; see the split below):
+   - **Brand — reinterpret freely per event, this is where the event's identity
+     lives**: `--color-brand-200/300/400/500/600/700`, `--color-brand-deep-700/800`,
+     `--color-accent-100/400/600`
+   - **Status/neutral — keep these exact literal values on every page** (shared
+     components read them for a fixed meaning, e.g. `ErrorMessage`/`ExpiredMessage`,
+     and recoloring them — an error message in gold — breaks that meaning site-wide,
+     not just for this page):
+     ```
+     --color-green-100: #dcfce7;   --color-green-600: #16a34a;
+     --color-green-700: #15803d;   --color-green-800: #166534;
+     --color-red-100: #fee2e2;     --color-red-400: #f87171;
+     --color-red-500: #ef4444;     --color-red-600: #dc2626;
+     --color-red-700: #b91c1c;     --color-red-800: #991b1b;
+     --color-orange-500: #f97316;
+     --color-gray-50: #f9fafb;     --color-gray-300: #d1d5db;
+     --color-gray-400: #9ca3af;    --color-gray-700: #374151;
+     --color-slate-100: #f1f5f9;   --color-white: #ffffff;
+     --color-emerald-500: #10b981;
+     ```
+   - **Scale — names required, values normally reused as-is** so shared components
+     render at a predictable size (deviate only if the brief specifically calls for a
+     different rhythm):
+     ```
+     --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
+     --space-4: 1rem;     --space-6: 1.5rem;   --space-8: 2rem;
+     --space-10: 2.5rem;  --space-12: 3rem;    --space-20: 5rem;
+     --text-xs: 0.75rem;  --text-sm: 0.875rem; --text-base: 1rem;
+     --text-lg: 1.125rem; --text-xl: 1.25rem;  --text-2xl: 1.5rem;
+     --text-3xl: 1.875rem; --text-8xl: 6rem;   --text-9xl: 8rem;
+     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+     --radius-sm: 0.125rem; --radius-md: 0.375rem;
+     --radius-lg: 0.5rem;   --radius-full: 9999px;
+     ```
 
-   Not every name is free to reassign a value to, though. Shared components
-   (`src/components/forms/`) read some of these tokens directly for meanings that must
-   stay consistent across every theme:
-   - **Brand — yours to reinterpret per event**: `--color-indigo-*`, `--color-purple-*`,
-     `--color-blue-*`. `forest.css` is the worked example — it remaps all three groups
-     to a green/teal palette while keeping everything below unchanged.
-   - **Status/neutral — keep the literal color indigo.css uses, only reuse the exact
-     values**: `--color-green-*` (success), `--color-red-*` (error), `--color-orange-*`
-     (warning/expired — see `ExpiredMessage`), `--color-gray-*`, `--color-slate-*`,
-     `--color-white`, `--color-emerald-*` (dev-only mock indicator). Recoloring these
-     (e.g. making an error message gold) breaks their meaning across the whole shared
-     layer, not just this page. Neutrals may still shift in tone (e.g. warmer grays) —
-     what must not change is that red still reads as an error and green as success.
+   Missing a required name is a real bug, not a style nit — `.tsx`/`.module.css` code
+   elsewhere references these directly and silently loses its styling if one is absent.
 2. **Component CSS**: write `_components/*.module.css` for each file listed in the
    contract table above, satisfying the required class names, reflecting the chosen
    direction (not the shape of any previous event's CSS).
@@ -158,13 +179,12 @@ previous event's CSS values as a starting point beyond what the brief calls for:
 
 ### 6. Replace placeholders
 
-Based on the confirmed values from Step 1 and the theme authored/chosen in Step 5:
+Based on the confirmed values from Step 1:
 
 - Event name
 - Event date
 - Form type ID (e.g. `202603a`)
 - Copyright year
-- `{{THEME_IMPORT}}` — the theme CSS import path
 
 ## Template placeholders
 
@@ -174,7 +194,6 @@ Based on the confirmed values from Step 1 and the theme authored/chosen in Step 
 - `{{EVENT_NAME}}` — event name
 - `{{EVENT_DATE}}` — event date
 - `{{FORM_TYPE}}` — form type ID (YYYYMMa format)
-- `{{THEME_IMPORT}}` — the full theme CSS import line (e.g. `import "@/styles/themes/forest.css";`)
 
 ## Notes
 

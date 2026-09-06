@@ -1,24 +1,24 @@
 /*
- * Indigo テーマのデザイントークン定義。
- * 各ページのフロントマターで個別に import する（global.css からは読み込まない）。
- * 依存: なし（単独で動作する）
+ * このページ専有のデザイントークン定義。
+ * このディレクトリの各 .astro エントリから個別に import する
+ * （global.css からは読み込まない。他ページとは共有しない）。
  */
 
 :root {
-  /* Brand - Indigo */
-  --color-indigo-200: #c7d2fe;
-  --color-indigo-300: #a5b4fc;
-  --color-indigo-400: #818cf8;
-  --color-indigo-500: #6366f1;
-  --color-indigo-600: #4f46e5;
-  --color-indigo-700: #4338ca;
+  /* Brand */
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
 
-  /* Brand - Purple / Blue */
-  --color-purple-700: #7e22ce;
-  --color-purple-800: #6b21a8;
-  --color-blue-100: #dbeafe;
-  --color-blue-400: #60a5fa;
-  --color-blue-600: #2563eb;
+  /* Brand - deep accent */
+  --color-brand-deep-700: #115e46;
+  --color-brand-deep-800: #0b3d2e;
+  --color-accent-100: #d1fae5;
+  --color-accent-400: #34d399;
+  --color-accent-600: #0d9488;
 
   /* Success */
   --color-green-100: #dcfce7;

@@ -1,5 +1,5 @@
 ---
-{{THEME_IMPORT}}
+import "./_components/theme.css";
 import FormLayout from "@/layouts/FormLayout.astro";
 import ConfirmList from "./_components/confirm-list";
 ---

@@ -1,5 +1,5 @@
 ---
-import "@/styles/themes/forest.css";
+import "./_components/theme.css";
 import FormLayout from "@/layouts/FormLayout.astro";
 import ConfirmList from "./_components/confirm-list";
 ---
@@ -33,7 +33,7 @@ import ConfirmList from "./_components/confirm-list";
 
 <style>
 	:global(body) {
-		background-color: var(--color-purple-800);
+		background-color: var(--color-brand-deep-800);
 	}
 
 	.page {
@@ -46,9 +46,9 @@ import ConfirmList from "./_components/confirm-list";
 		position: relative;
 		background: linear-gradient(
 			to bottom right,
-			var(--color-purple-800),
-			var(--color-indigo-700),
-			var(--color-indigo-600)
+			var(--color-brand-deep-800),
+			var(--color-brand-700),
+			var(--color-brand-600)
 		);
 		color: white;
 	}
@@ -95,10 +95,10 @@ import ConfirmList from "./_components/confirm-list";
 	.page-footer {
 		background: linear-gradient(
 			to right,
-			var(--color-purple-800),
-			var(--color-indigo-700)
+			var(--color-brand-deep-800),
+			var(--color-brand-700)
 		);
-		color: var(--color-blue-100);
+		color: var(--color-accent-100);
 	}
 
 	.page-footer-inner {

@@ -18,7 +18,7 @@ const MODE_CONFIG: Record<
   },
   real: {
     label: "API",
-    bg: "var(--color-blue-600)",
+    bg: "var(--color-accent-600)",
     title: "本番API - クリックでモック(正常)に切替",
   },
 };

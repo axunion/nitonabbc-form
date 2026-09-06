@@ -11,7 +11,7 @@ Creates an applicant confirmation list page for an event.
 ## Prerequisites
 
 - An `apply.astro` must already exist in the target `YYYY/MM` directory
-- Event name, form type ID, theme CSS, and page styles are automatically retrieved from the application form
+- Event name, form type ID, and page styles are automatically retrieved from the application form; the theme (`_components/theme.css`) already sits in the same directory and is reused directly, not extracted
 
 ## Usage
 
@@ -37,8 +37,11 @@ Error if `src/pages/$ARGUMENTS/apply.astro` does not exist. Read from it:
 
 - Event name
 - Form type ID
-- Theme CSS import line (extract the `import "@/styles/themes/...css"` line as-is)
 - The entire `<style>...</style>` block as-is
+
+(No theme extraction needed: `_components/theme.css` is already colocated in this
+directory and apply-confirm.astro imports it directly with the same fixed literal
+line apply.astro uses.)
 
 Also detect the page layout: new pages keep components in `_components/`; older pages use flat `_`-prefixed files next to `apply.astro`.
 
@@ -100,7 +103,6 @@ Replace placeholders with the information confirmed in Step 2.
 
 - `{{EVENT_NAME}}` — event name (retrieved from apply.astro)
 - `{{FORM_TYPE}}` — form type ID (YYYYMMa format)
-- `{{THEME_IMPORT}}` — theme CSS import line (extracted from apply.astro as-is)
 - `{{PAGE_STYLES}}` — the entire `<style>...</style>` block (extracted from apply.astro and inserted as-is)
 
 ## Notes

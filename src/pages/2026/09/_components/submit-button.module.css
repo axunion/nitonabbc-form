@@ -3,8 +3,8 @@
   padding: var(--space-3) var(--space-4);
   background: linear-gradient(
     to right,
-    var(--color-indigo-600),
-    var(--color-blue-600)
+    var(--color-brand-600),
+    var(--color-accent-600)
   );
   color: white;
   font-size: var(--text-base);

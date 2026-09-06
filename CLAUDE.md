@@ -33,8 +33,14 @@ Default to the user's language for everything interactive — chat replies, plan
   - `src/components/forms/` — form orchestration. `FormContainer` checks expiry and renders loading → connection error → expired → form → success/failure.
   - `src/hooks/` — `useForm`, `useExpirationStatus`, `useDataFetch`, `useScrollLock`.
   - `src/services/api.ts` — all GAS calls; every response is `{ result: "done" | "error", ...data }`, dispatched by a `type` parameter over a small set of shared endpoints.
-  - `src/styles/themes/` — design tokens, one CSS file per page theme, imported in each page's frontmatter. Token contract: shared form components rely on `--color-*` / `--space-*` / `--text-*` / `--radius-*` / `--shadow-*`; a new theme must define the full token set of `indigo.css` (`global.css` is reset-only; `src/styles/refs/` is reference-only, do not import).
   - `src/layouts/FormLayout.astro` — HTML shell with noindex; in dev it mounts `DevApiToggle` to switch between mock and real GAS.
+
+Design tokens are page-private, not shared: each page defines its own
+`_components/theme.css` (`global.css` is reset-only). Shared form components have no
+visual opinions of their own — they read `--color-*` / `--space-*` / `--text-*` /
+`--radius-*` / `--shadow-*` from whatever the page provides, so every page's
+`theme.css` must define the full canonical token set (see the contract in
+`create-apply/SKILL.md`).
 
 ## Conventions
 

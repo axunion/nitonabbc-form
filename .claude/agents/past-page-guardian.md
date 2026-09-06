@@ -17,7 +17,8 @@ Use this when the user requests something like "expire the YYYY/MM page" or "cle
 
 New-layout pages keep page-private code in `_components/` (and images in `_assets/`); legacy pages use flat `_`-prefixed files next to the `.astro` pages. Delete the form-specific files for whichever layout the page uses:
 
-- New layout: everything in `_components/` **except** `confirm-list.*` (see Files to Preserve), plus `_assets/` files that were only used by the form
+- New layout: everything in `_components/` **except** `confirm-list.*` and `theme.css`
+  (see Files to Preserve), plus `_assets/` files that were only used by the form
 - Legacy layout:
   - `_apply-form.tsx` / `_apply-form.module.css`
   - `_survey-form.tsx` / `_survey-form.module.css`
@@ -36,7 +37,7 @@ Preserve the original page's theme CSS, title, date, and styles:
 
 ```astro
 ---
-import "@/styles/themes/indigo.css";  // preserve the original theme
+import "./_components/theme.css";  // preserve the original theme, do not delete it
 import FormLayout from "@/layouts/FormLayout.astro";
 import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 ---
@@ -65,6 +66,9 @@ import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 
 - `apply-confirm.astro` — the applicant confirmation list should remain viewable after the event ends; do not convert
 - The confirm-list component it imports (`_components/confirm-list.*` or legacy `_confirm-list.*`) — deleting it breaks `apply-confirm.astro`
+- `_components/theme.css` — every page in the directory
+  imports it, including the rewritten `apply.astro`/`survey.astro` and (if present)
+  `apply-confirm.astro`; deleting it breaks all of them
 - `*.test.ts(x)` — keep test files as references
 
 ## Steps

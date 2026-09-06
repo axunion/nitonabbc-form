@@ -105,10 +105,10 @@ PUBLIC_FETCH_FROM_SHEET_URL=your_fetch_endpoint
 - `src/components/forms/` — フォームの状態管理・UX 機能（`FormContainer`・`FormField`・`ExpiredMessage` など）
 - `src/services/` / `src/hooks/` / `src/utils/` / `src/config/` — GAS 通信とロジック
 - `src/styles/global.css` — CSS リセットとベーススタイルのみ（デザイントークンは含まない）
-- `src/styles/themes/` — デザイントークン（CSS 変数）。各ページのフロントマターで個別に import する。テーマを使わず値をハードコードすることも許容（`404.astro` がこの方式）
-- `src/styles/refs/` — デザイン原稿由来の参照ファイル。直接 import しない（新テーマ作成時のコピー元）
 
-**トークン契約**: `src/components/forms/` の `.module.css` は `--color-*` / `--space-*` / `--text-*` / `--radius-*` / `--shadow-*` トークンを前提とします。共有フォームコンポーネントを使うページは必ずいずれかのテーマを import し、新規テーマを作る際は既存テーマ（`indigo.css`）が定義するトークン一式をすべて定義してください。
+**デザイントークンはページ専有です**（`src/styles/themes/` のような共有ディレクトリは持ちません）。各ページが自分の `_components/theme.css` を定義し、`.astro` のフロントマターから import します。値をハードコードすることも許容（`404.astro` がこの方式）。
+
+**トークン契約**: `src/components/forms/` の `.module.css` は `--color-*` / `--space-*` / `--text-*` / `--radius-*` / `--shadow-*` トークンを前提とします。共有フォームコンポーネントを使うページは、自分の `theme.css` にこの契約が定義する全トークンを揃える必要があります（契約の一覧は `create-apply/SKILL.md` を参照）。
 
 ### ページレイヤー（各イベント固有）
 
