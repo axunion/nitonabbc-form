@@ -1,23 +1,32 @@
 # CLAUDE.md
 
-Guidance for AI coding agents in this repository. Bias toward caution over speed; on trivial tasks, use judgment.
-
 ## Project
 
 Event signup and post-event survey forms, deployed as a static Astro site on Cloudflare Pages. All server-side logic lives in Google Apps Script (GAS) + Google Spreadsheet; small scale, no DB or queue.
 
-Stack: Astro 7 (Vite 8 / Rolldown) + SolidJS, LightningCSS + CSS Modules, Biome 2, Vitest 4, pnpm. Run `pnpm` to list all scripts.
-
 ## Approach
 
-- **Think before coding.** State assumptions. Make routine judgment calls yourself and note them; ask only when different interpretations would lead to materially different work. If a simpler path exists, say so and push back when warranted.
-- **Simplest thing that works.** If 200 lines could be 50, rewrite it.
-- **Surgical changes.** Every changed line should trace to the request. Don't refactor, reformat, or "improve" adjacent code that isn't broken; match the surrounding style. Remove only the imports and symbols your change orphaned; leave unrelated dead code alone and mention it.
-- **Goal-driven.** Turn each task into a verifiable outcome ("fix the bug" → "write a failing test that reproduces it, then make it pass"). For multi-step work, state a brief plan before starting.
+- **Change scope.** Change only what was requested. Don't "improve" adjacent code,
+  comments, or formatting; match the existing style. Delete code your own change makes
+  unused, never leave it commented out. Point out pre-existing dead code only; don't
+  delete, split, or refactor it unless asked.
+- **Implementation size.** Don't add unrequested features, abstractions, or
+  configurability. Extract a helper only when it's used in 3+ places; otherwise inline
+  it. Don't write error handling for cases that can't happen.
+- **Uncertainty.** When more than one interpretation is possible, present the options
+  instead of silently picking one.
 
 ## Language
 
-Default to the user's language for everything interactive — chat replies, plan proposals, clarifying questions. Switch to English for durable artifacts other people or tools will read afterward: in-code comments, console/log/error output, and AI-readable instruction files like this one. Exception: user-facing UI text and README stay Japanese — the product's audience is Japanese event participants, so those two are carved out of the durable-artifact default.
+Default to the user's language for everything interactive — chat replies, plan-mode
+proposals, clarifying questions, and any other back-and-forth during the session.
+
+Switch to English only for durable artifacts: things other people or tools will read
+after the session ends — in-code comments, console/log/error output, AI-readable
+instruction files, and reader-facing docs (README and the like). Scratch notes and other
+throwaway dev artifacts stay in the user's language. Exception: user-facing UI text and
+README stay Japanese — the product's audience is Japanese event participants, so those
+two are carved out of the durable-artifact default.
 
 ## Invariants (do not break)
 
@@ -47,7 +56,9 @@ Default to the user's language for everything interactive — chat replies, plan
 
 ## Testing
 
-- Write tests before or alongside implementation — they are your success criteria. Test observable outcomes and edge cases, not implementation details. Each test is self-contained; no shared mutable state.
+- Write tests before or alongside implementation — they are your success criteria.
+- Test observable outcomes and edge cases, not implementation details.
+- Each test is fully self-contained; no shared mutable state between tests.
 - In scope: `src/services/`, `src/hooks/`, `src/utils/`, and `calc-*.ts` (legacy `_calc-*.ts`). Out of scope: display-only stubs, `.astro` pages, CSS Modules.
 - Extract any `if` / `switch` / `reduce` logic from JSX into a `_components/calc-<feature>.ts` export so it can be unit-tested.
 - Shared-layer coverage: lines/functions/statements ≥ 80%, branches ≥ 70% (`pnpm test --coverage`).
@@ -92,21 +103,19 @@ written, and each subagent invocation starts fresh with no memory of it.
 
 ## Commits
 
-Format — plain prose, no prefixes or labels (`feat:`, `fix:`, etc.):
+Format — plain prose, no prefixes or labels (`feat:`, `fix:`, and the like):
 
 ```
-<one-line summary>
+<summary: imperative mood, ≤70 chars, no trailing period>
 
-<Why: one sentence — motivation or problem>
+<motivation: one sentence, only when not evident from the diff>
 
-- <change 1>
-- <change 2>
+- <change bullets: only for 2+ distinct changes>
 ```
 
-- Summary: imperative mood, ≤70 chars, no trailing period.
-- Why line: only when the motivation is not evident from the diff alone. Bullets: only for 2+ distinct changes.
 - Never commit secrets (`*.key`, `*.pem`, `credentials*`).
-- Never use `--no-verify`. Use `--amend` only when explicitly asked; default to a new commit.
+- Never use `--no-verify`. Use `--amend` only when explicitly asked; default to a new
+  commit.
 
 ## Scaffolding
 
