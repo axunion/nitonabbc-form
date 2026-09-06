@@ -11,11 +11,6 @@ import SurveyForm from "./_components/survey-form";
 				<h1 class="title">{{EVENT_NAME}} アンケート</h1>
 				<p class="description">{{EVENT_DATE}}</p>
 			</div>
-			<div class="wave">
-				<svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-					<path d="M0,60 C300,30 900,90 1200,60 L1200,120 L0,120 Z"></path>
-				</svg>
-			</div>
 		</header>
 
 		<main class="page-main">

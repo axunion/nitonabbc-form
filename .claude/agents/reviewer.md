@@ -38,8 +38,25 @@ conversation, which made the change, to address.
 7. **Correctness**: read the actual logic, especially anything touching this project's
    risk areas — `_components/calc-*.ts` (legacy `_calc-*.ts`), `src/hooks/`, and
    `src/services/api.ts` — these are easy to get subtly wrong.
-8. **Comments**: flag comments that explain *what* the code does (redundant with good
-   naming) — only comments explaining non-obvious *why* should survive.
+8. **Theme token contract**: if the diff adds or edits a `src/styles/themes/*.css`
+   file, diff its custom-property *names* against `indigo.css`
+   (`grep -oE -- '--[a-zA-Z0-9-]+' <file> | sort -u`). Any name missing or extra is a
+   real bug — shared components (`FormContainer`, form fields, etc.) reference the
+   canonical token names directly and silently lose their styling if a theme doesn't
+   define them. Beyond names, check *values* for the groups shared components read for
+   a fixed meaning: `--color-green-*` (success), `--color-red-*` (error),
+   `--color-orange-*` (warning/expired), `--color-emerald-*` (dev-only indicator) must
+   keep the same literal color as `indigo.css` — only `--color-indigo-*`/
+   `--color-purple-*`/`--color-blue-*` (brand) and the gray/slate/white neutrals are
+   free to vary per theme. `forest.css` is the reference example of a compliant theme.
+9. **Design repetition**: distinct from #5 (which permits duplicated *code/structure*
+   between pages) — if the diff adds a new event page, compare its theme file and
+   `_components/*.module.css` against the immediately preceding 1–2 event pages.
+   Near-identical *visual* values (colors, layout choices — not the shared logic
+   patterns #5 already allows to repeat) without a stated reason (e.g. a themed
+   series) contradicts the "each page should look distinct" design intent — flag it.
+10. **Comments**: flag comments that explain *what* the code does (redundant with good
+    naming) — only comments explaining non-obvious *why* should survive.
 
 ## Output
 
