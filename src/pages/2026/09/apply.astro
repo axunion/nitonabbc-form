@@ -1,5 +1,5 @@
 ---
-import "@/styles/themes/forest.css";
+import "./_components/theme.css";
 import FormLayout from "@/layouts/FormLayout.astro";
 import ApplyForm from "./_components/apply-form";
 ---
@@ -36,7 +36,7 @@ import ApplyForm from "./_components/apply-form";
 
 <style>
 	:global(body) {
-		background-color: var(--color-purple-800);
+		background-color: var(--color-brand-deep-800);
 	}
 
 	.page {
@@ -49,9 +49,9 @@ import ApplyForm from "./_components/apply-form";
 		position: relative;
 		background: linear-gradient(
 			to bottom right,
-			var(--color-purple-800),
-			var(--color-indigo-700),
-			var(--color-indigo-600)
+			var(--color-brand-deep-800),
+			var(--color-brand-700),
+			var(--color-brand-600)
 		);
 		color: white;
 	}
@@ -107,10 +107,10 @@ import ApplyForm from "./_components/apply-form";
 	.page-footer {
 		background: linear-gradient(
 			to right,
-			var(--color-purple-800),
-			var(--color-indigo-700)
+			var(--color-brand-deep-800),
+			var(--color-brand-700)
 		);
-		color: var(--color-blue-100);
+		color: var(--color-accent-100);
 	}
 
 	.page-footer-inner {
@@ -136,7 +136,7 @@ import ApplyForm from "./_components/apply-form";
 
 	.description {
 		font-size: var(--text-sm);
-		color: var(--color-blue-100);
+		color: var(--color-accent-100);
 
 		@media (min-width: 768px) {
 			font-size: var(--text-base);

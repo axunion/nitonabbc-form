@@ -27,9 +27,9 @@ conversation, which made the change, to address.
    edited in place for any other reason. Past event pages must never be deleted.
 5. **Independent-pages policy**: flag any new UI component, style, or logic shared
    *across* pages outside the sanctioned shared layer (`src/components/forms/`,
-   `src/hooks/`, `src/services/`, `src/styles/themes/`). Page-private code belongs in
-   that page's `_components/` (or, on legacy pages, flat `_`-prefixed files) —
-   duplication between pages is expected and fine.
+   `src/hooks/`, `src/services/`). Page-private code — including each page's own
+   `_components/theme.css` — belongs in that page's `_components/` (or, on legacy
+   pages, flat `_`-prefixed files) — duplication between pages is expected and fine.
 6. **GAS type ID mapping**: if the diff touches a page's `FormContainer`/
    `useDataFetch` invocation, verify the `type` prop matches the directory
    (`YYYY/MM/apply` or `apply-confirm` → `YYYYMMa`, `YYYY/MM/survey` → `YYYYMMs`). A
@@ -38,8 +38,22 @@ conversation, which made the change, to address.
 7. **Correctness**: read the actual logic, especially anything touching this project's
    risk areas — `_components/calc-*.ts` (legacy `_calc-*.ts`), `src/hooks/`, and
    `src/services/api.ts` — these are easy to get subtly wrong.
-8. **Comments**: flag comments that explain *what* the code does (redundant with good
-   naming) — only comments explaining non-obvious *why* should survive.
+8. **Theme token contract**: if the diff adds or edits a page's `_components/theme.css`,
+   check it defines the full contract documented in `create-apply/SKILL.md`'s Step 5.1
+   (brand names free to reinterpret; status/neutral and scale names required with
+   their documented literal values). Don't re-derive the list here — that SKILL.md
+   section is the single canonical copy; check against it directly so the two never
+   drift apart. Missing a required name is a real bug, not a style nit — shared
+   components reference these directly and silently lose their styling if one is
+   absent.
+9. **Design repetition**: distinct from #5 (which permits duplicated *code/structure*
+   between pages) — if the diff adds a new event page, compare its `theme.css` and
+   `_components/*.module.css` against the immediately preceding 1–2 event pages.
+   Near-identical *visual* values (colors, layout choices — not the shared logic
+   patterns #5 already allows to repeat) without a stated reason (e.g. a themed
+   series) contradicts the "each page should look distinct" design intent — flag it.
+10. **Comments**: flag comments that explain *what* the code does (redundant with good
+    naming) — only comments explaining non-obvious *why* should survive.
 
 ## Output
 

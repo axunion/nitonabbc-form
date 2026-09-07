@@ -11,7 +11,7 @@ Creates a post-event survey form.
 ## Prerequisites
 
 - An `apply.astro` must already exist in the target `YYYY/MM` directory
-- Event name, event date, theme CSS, and page styles are automatically retrieved from the application form
+- Event name, event date, and page styles are automatically retrieved from the application form; the theme (`_components/theme.css`) already sits in the same directory and is reused directly, not extracted
 
 ## Usage
 
@@ -37,8 +37,11 @@ Error if `src/pages/$ARGUMENTS/apply.astro` does not exist. Read from it:
 
 - Event name (from `<h1>` tag etc.)
 - Event date
-- Theme CSS import line (extract the `import "@/styles/themes/...css"` line as-is)
 - The entire `<style>...</style>` block as-is
+
+(No theme extraction needed: `_components/theme.css` is already colocated in this
+directory and survey.astro imports it directly with the same fixed literal line
+apply.astro uses.)
 
 Also detect the page layout: new pages keep components in `_components/`; older pages use flat `_`-prefixed files (`_apply-form.tsx`) next to `apply.astro`.
 
@@ -64,15 +67,27 @@ Place components in `_components/` inside the page directory (the leading unders
 |---|---|
 | `templates/survey.astro.template` | `survey.astro` |
 | `templates/survey-form.tsx.template` | `_components/survey-form.tsx` |
-| `templates/survey-form.module.css.template` | `_components/survey-form.module.css` |
 | `../create-apply/templates/radio-group.tsx.template` | `_components/radio-group.tsx` (**skip if already exists**) |
-| `../create-apply/templates/radio-group.module.css.template` | `_components/radio-group.module.css` (**skip if already exists**) |
 | `../create-apply/templates/submit-button.tsx.template` | `_components/submit-button.tsx` (**skip if already exists**) |
-| `../create-apply/templates/submit-button.module.css.template` | `_components/submit-button.module.css` (**skip if already exists**) |
 | `../create-apply/templates/textarea.tsx.template` | `_components/textarea.tsx` (**skip if already exists**) |
-| `../create-apply/templates/textarea.module.css.template` | `_components/textarea.module.css` (**skip if already exists**) |
 
 For the skip check on a legacy-layout page, look for the `_`-prefixed equivalents (`_radio-group.tsx` etc.) instead.
+
+`create-apply` no longer ships `.module.css` templates for `radio-group`/`submit-button`/`textarea` (see its SKILL.md — their visual design is authored fresh per event). In the normal flow (`create-apply` ran first) these `.module.css` files already exist alongside the `.tsx` files and are skipped like the `.tsx` files above. In the rare case an apply page never needed one of these components (so its `.module.css` doesn't exist either), author it fresh to match the visual language already established in this event's other `_components/*.module.css` files, satisfying the required class names listed in `create-apply/SKILL.md`'s CSS Modules contract table.
+
+There is likewise no `.module.css` template for `survey-form.tsx` — see "CSS Modules contract" below.
+
+#### CSS Modules contract
+
+`survey-form.tsx` imports a `styles` object from `survey-form.module.css` and only
+ever references `styles.form`. That name must exist; there's no fixed constraint
+beyond it.
+
+Unlike `create-apply` (which authors component CSS fresh per a design brief), the
+survey belongs to the same event as its apply page and should look like it. Read
+`_components/apply-form.module.css`'s `.form` rule from this event's apply page (or
+`_apply-form.module.css` on a legacy-layout page) and adapt it for `survey-form`'s
+`.form` — same layout/animation approach, not a fresh, independent design decision.
 
 ### 5. Replace placeholders
 
@@ -86,12 +101,12 @@ Replace placeholders with the information confirmed in Step 2.
 - `{{EVENT_NAME}}` — event name (retrieved from apply.astro)
 - `{{EVENT_DATE}}` — event date (retrieved from apply.astro)
 - `{{FORM_TYPE}}` — form type ID (YYYYMMs format)
-- `{{THEME_IMPORT}}` — theme CSS import line (extracted from apply.astro as-is)
 - `{{PAGE_STYLES}}` — the entire `<style>...</style>` block (extracted from apply.astro and inserted as-is)
 
 ## Notes
 
 - The `<style>` in `survey.astro` is inherited as-is via `{{PAGE_STYLES}}` from apply.astro — the survey belongs to the same event, so it intentionally keeps the apply page's design. Make minimal adjustments only where HTML structure differs (e.g. added/removed class names).
+- `survey-form.module.css` is authored per event (see "CSS Modules contract" above), not templated — never ship it with unrelated leftover styling from a different event.
 - UI components such as `radio-group.tsx` / `submit-button.tsx` are page-specific. Do not share them across pages.
 - If `create-apply` was run first, `radio-group`, `submit-button`, and `textarea` files may already exist. In that case, skip them — do not overwrite.
 - Customize survey questions as needed after generation.

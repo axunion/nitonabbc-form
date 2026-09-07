@@ -1,5 +1,5 @@
 ---
-import "@/styles/themes/indigo.css";
+import "./_components/theme.css";
 import ExpiredMessage from "@/components/forms/ExpiredMessage.tsx";
 import FormLayout from "@/layouts/FormLayout.astro";
 ---
@@ -42,7 +42,7 @@ import FormLayout from "@/layouts/FormLayout.astro";
 
 <style>
 	:global(body) {
-		background-color: var(--color-indigo-600);
+		background-color: var(--color-brand-600);
 	}
 
 	.page {
@@ -58,9 +58,9 @@ import FormLayout from "@/layouts/FormLayout.astro";
 		position: relative;
 		background: linear-gradient(
 			to bottom right,
-			var(--color-indigo-600),
-			var(--color-blue-600),
-			var(--color-purple-700)
+			var(--color-brand-600),
+			var(--color-accent-600),
+			var(--color-brand-deep-700)
 		);
 		color: white;
 	}
@@ -116,10 +116,10 @@ import FormLayout from "@/layouts/FormLayout.astro";
 	.page-footer {
 		background: linear-gradient(
 			to right,
-			var(--color-indigo-700),
-			var(--color-purple-800)
+			var(--color-brand-700),
+			var(--color-brand-deep-800)
 		);
-		color: var(--color-blue-100);
+		color: var(--color-accent-100);
 	}
 
 	.page-footer-inner {
@@ -144,7 +144,7 @@ import FormLayout from "@/layouts/FormLayout.astro";
 	.description {
 		margin-top: var(--space-12);
 		font-size: var(--text-lg);
-		color: var(--color-blue-100);
+		color: var(--color-accent-100);
 	}
 
 	.notice {

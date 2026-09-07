@@ -40,17 +40,31 @@ Derive the following from the arguments and present them to the user for explici
 
 Why this matters: the form type ID is sent to GAS as the `type` parameter and maps 1-to-1 to a Google Spreadsheet target. GAS uses it both to decide whether the form is still open (expiry check in `FormContainer`) and to route submissions. A wrong ID means the production form silently fails, so never skip this confirmation. Also remind the user that the corresponding GAS/spreadsheet entry must exist before the form goes live (the dev mock works without it).
 
-Ask with `AskUserQuestion`; combine with the design questions from Step 2 in a single call when possible.
+### 2. Generate a design brief (required, before generating files)
 
-### 2. Decide the design direction (required, before generating files)
+Each page is an independent site (see README →「設計方針」) and must look and feel
+distinct from recent event pages — not just a different accent color on the same
+layout. This step is never skipped and never defaults silently to a previous page's
+look.
 
-Each page is an independent site and should look intentionally different from previous events (see README →「設計方針」). Decide the following **before** writing any file:
+1. Look up the last 1–2 event pages under `src/pages/`: read their
+   `_components/theme.css` (the brand color values) and their `apply.astro`
+   `<style>` block (the layout/decoration). This is context for the next step, not
+   something to copy — there's no shared theme file to grep for anymore, every page
+   already has its own.
+2. Invoke the `frontend-design` skill (an installed plugin skill, not part of this
+   repo — if it's unavailable in the current environment, tell the user before
+   falling back to writing the brief yourself) to produce a design brief for this event —
+   color/token direction, mood, and a layout concept (its own process already screens
+   out generic "AI template" defaults). Give it the event name, event date/month, and
+   the note from step 1 with an explicit instruction: reusing the same brand palette
+   or the same decorative layout pattern as the last 1–2 events is not allowed unless
+   there's a concrete reason (e.g. a themed series), and that reason must be stated.
+3. Summarize the resulting brief (palette, mood, layout concept) and confirm it with
+   the user via `AskUserQuestion` — combine with Step 1's confirmation in a single
+   call when possible.
 
-- **Color / theme**: check `src/styles/themes/` for existing themes; creating a new theme file is equally valid. Token contract: shared form components rely on `--color-*` / `--space-*` / `--text-*` / `--radius-*` / `--shadow-*`, so a new theme must define the full token set of an existing theme (`indigo.css`).
-- **Mood**: seasonal, festive, formal, calm, etc. — draw on the event name and the event month.
-- **Differentiation**: at least one visual/layout element that distinguishes this page from the last 1–2 event pages (compare recent directories under `src/pages/`).
-
-If the event context does not clearly imply a direction, ask the user with `AskUserQuestion` (offer concrete color/mood options). Never fall back silently to the template's default look.
+The brief drives Step 5. Nothing in Step 4's file generation depends on it yet.
 
 ### 3. Create the branch
 
@@ -60,24 +74,110 @@ If the event context does not clearly imply a direction, ask the user with `AskU
 
 Page-private code is colocated in the `_components/` directory inside the page directory. The leading underscore excludes it from Astro routing, so only `apply.astro` becomes a route.
 
+These templates are structural — logic and markup that must exist for the form to
+work, independent of visual design — and are copied as-is (placeholders replaced):
+
 | Template | Destination in `src/pages/YYYY/MM/` |
 |---|---|
 | `templates/apply.astro.template` | `apply.astro` |
 | `templates/apply-form.tsx.template` | `_components/apply-form.tsx` |
-| `templates/apply-form.module.css.template` | `_components/apply-form.module.css` |
 | `templates/church-names.ts.template` | `_components/church-names.ts` |
 | `templates/input.tsx.template` | `_components/input.tsx` |
-| `templates/input.module.css.template` | `_components/input.module.css` |
 | `templates/radio-group.tsx.template` | `_components/radio-group.tsx` |
-| `templates/radio-group.module.css.template` | `_components/radio-group.module.css` |
 | `templates/submit-button.tsx.template` | `_components/submit-button.tsx` |
-| `templates/submit-button.module.css.template` | `_components/submit-button.module.css` |
 | `templates/textarea.tsx.template` | `_components/textarea.tsx` |
-| `templates/textarea.module.css.template` | `_components/textarea.module.css` |
+
+There are deliberately no `.module.css` templates, no `theme.css` template, and
+`apply.astro.template` has no `<style>` block — the visual layer (including
+`_components/theme.css`) is authored fresh in Step 5 from the design brief, not
+copied from boilerplate or from any other page. See "CSS Modules contract" below for
+what that fresh CSS must satisfy structurally.
 
 Images and other static assets go in `_assets/` inside the page directory, imported from `.astro` / `.tsx` files. Create `_assets/` only when an asset actually exists — never preemptively.
 
-### 5. Replace placeholders
+#### CSS Modules contract
+
+Each `_components/*.tsx` file above imports a `styles` object from a same-named
+`.module.css` file and references specific properties on it. Those property names are
+a hard contract — `.tsx` code breaks silently (an `undefined` class, not a crash) if
+the CSS module doesn't define them. Values, layout, colors, and any state styling
+beyond what's listed are entirely free.
+
+| CSS Module | Required class names | Must visually distinguish |
+|---|---|---|
+| `apply-form.module.css` | `.form` | — |
+| `input.module.css` | `.wrapper`, `.input` | `:focus` (visible), `:disabled` |
+| `textarea.module.css` | `.textarea` | `:focus` (visible), `:disabled` |
+| `radio-group.module.css` | `.horizontal`, `.vertical`, `.label`, `.radio` | disabled option (e.g. via `:has(:disabled)` on `.label`) |
+| `submit-button.module.css` | `.button` | `:disabled` (and typically `:hover`) |
+
+CSS Modules scope `@keyframes` names locally, so an animation referenced here can't
+resolve to one defined in `global.css` — redefine any keyframe you use inside the
+same module.
+
+`apply.astro`'s own class names (`.page`, `.page-header`, etc.) are **not** a
+contract — nothing outside that file references them, so they can be renamed or
+restructured freely along with the `<style>` block itself.
+
+### 5. Author the visual design from the brief
+
+Using the brief confirmed in Step 2, write the visual layer fresh — do not reuse a
+previous event's CSS values as a starting point beyond what the brief calls for:
+
+1. **Theme file** (`_components/theme.css`): there is no shared theme directory to
+   pick from — always author this fresh for the event (pages never share a theme file;
+   see README →「設計方針」). It must define exactly these custom-property names
+   (values are yours to choose for the brand group; see the split below):
+   - **Brand — reinterpret freely per event, this is where the event's identity
+     lives**: `--color-brand-200/300/400/500/600/700`, `--color-brand-deep-700/800`,
+     `--color-accent-100/400/600`
+   - **Status/neutral — keep these exact literal values on every page** (shared
+     components read them for a fixed meaning, e.g. `ErrorMessage`/`ExpiredMessage`,
+     and recoloring them — an error message in gold — breaks that meaning site-wide,
+     not just for this page):
+     ```
+     --color-green-100: #dcfce7;   --color-green-600: #16a34a;
+     --color-green-700: #15803d;   --color-green-800: #166534;
+     --color-red-100: #fee2e2;     --color-red-400: #f87171;
+     --color-red-500: #ef4444;     --color-red-600: #dc2626;
+     --color-red-700: #b91c1c;     --color-red-800: #991b1b;
+     --color-orange-500: #f97316;
+     --color-gray-50: #f9fafb;     --color-gray-300: #d1d5db;
+     --color-gray-400: #9ca3af;    --color-gray-700: #374151;
+     --color-slate-100: #f1f5f9;   --color-white: #ffffff;
+     --color-emerald-500: #10b981;
+     ```
+   - **Scale — names required, values normally reused as-is** so shared components
+     render at a predictable size (deviate only if the brief specifically calls for a
+     different rhythm):
+     ```
+     --space-1: 0.25rem;  --space-2: 0.5rem;   --space-3: 0.75rem;
+     --space-4: 1rem;     --space-6: 1.5rem;   --space-8: 2rem;
+     --space-10: 2.5rem;  --space-12: 3rem;    --space-20: 5rem;
+     --text-xs: 0.75rem;  --text-sm: 0.875rem; --text-base: 1rem;
+     --text-lg: 1.125rem; --text-xl: 1.25rem;  --text-2xl: 1.5rem;
+     --text-3xl: 1.875rem; --text-8xl: 6rem;   --text-9xl: 8rem;
+     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+     --radius-sm: 0.125rem; --radius-md: 0.375rem;
+     --radius-lg: 0.5rem;   --radius-full: 9999px;
+     ```
+
+   Missing a required name is a real bug, not a style nit — `.tsx`/`.module.css` code
+   elsewhere references these directly and silently loses its styling if one is absent.
+2. **Component CSS**: write `_components/*.module.css` for each file listed in the
+   contract table above, satisfying the required class names, reflecting the chosen
+   direction (not the shape of any previous event's CSS).
+3. **Page shell**: write `apply.astro`'s `<style>` block and any decorative markup
+   (a header treatment, a background motif, etc.) from scratch per the brief. A wave
+   divider and gradient header are one option, not the default — the brief may call
+   for something else entirely.
+4. **Quality floor** (self-check before calling this done): responsive down to
+   mobile width, visible keyboard focus on all interactive elements, `prefers-reduced-motion`
+   respected for any animation, and readable color contrast. No current agent checks
+   these, so verify them yourself.
+
+### 6. Replace placeholders
 
 Based on the confirmed values from Step 1:
 
@@ -85,14 +185,6 @@ Based on the confirmed values from Step 1:
 - Event date
 - Form type ID (e.g. `202603a`)
 - Copyright year
-
-### 6. Apply the decided design
-
-The templates are a functional wireframe, not a finished design. Using the direction decided in Step 2:
-
-- Replace the theme import (`apply.astro.template` defaults to `indigo.css` — do not keep it unless Step 2 chose it).
-- Redesign the `<style>` block in `apply.astro` from scratch — do not ship the template styles as-is.
-- Adjust `_components/*.module.css` so form parts (inputs, buttons, radio groups) reflect the chosen direction instead of the template defaults.
 
 ## Template placeholders
 
@@ -106,7 +198,7 @@ The templates are a functional wireframe, not a finished design. Using the direc
 ## Notes
 
 - UI components such as `input.tsx` / `submit-button.tsx` are page-specific. Do not share them across pages.
-- The templates for `radio-group`, `submit-button`, and `textarea` are also used by the `create-survey` skill (referenced from this skill's `templates/` directory) — keep them generic enough for both apply and survey pages.
+- The `.tsx` templates for `radio-group`, `submit-button`, and `textarea` are also used by the `create-survey` skill (referenced from this skill's `templates/` directory) — keep them generic enough for both apply and survey pages. Their `.module.css` is authored per-page, not templated (see Step 5), so `create-survey` reuses whichever one already exists for that event rather than a shared boilerplate file.
 - Survey forms should be created separately with `/create-survey` after the application period ends.
 - Customize the form fields as needed after generation.
 - Any logic containing `if` / `switch` / `reduce` should be exported to `_components/calc-<feature>.ts` and called from JSX as a function (this makes it a target for test generation by the `tester` agent).
@@ -115,3 +207,6 @@ The templates are a functional wireframe, not a finished design. Using the direc
 
 - If the form includes calculation logic (fee calculation, participant count conditions, etc.), generate tests with the `tester` agent.
 - Review the finished page with the `reviewer` agent.
+- Run the `inspector` agent. Per CLAUDE.md's visual-verification criteria, a freshly
+  authored theme plus several component stylesheets is exactly the "change spanning
+  multiple components sharing styles" case that calls for it, not a quick glance.
