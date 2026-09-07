@@ -29,7 +29,7 @@ them:
 3. If the change touches this project's risk areas — `_components/calc-*.ts` (legacy
    `_calc-*.ts`), `src/hooks/`, `src/services/`, or `src/utils/` — without a
    corresponding unit test update, write one following the existing test-file
-   conventions in that directory (colocated `*.test.ts(x)`, Vitest + jsdom, `@solidjs/
+   conventions in that directory (colocated `*.test.ts(x)`, Vitest + happy-dom, `@solidjs/
    testing-library` for component-level tests) before reporting the change as verified.
 
 ## Output
